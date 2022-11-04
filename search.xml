@@ -17,8 +17,20 @@
           
           <category> 二级分类 </category>
           
+          <category> 三级分类 </category>
+          
       </categories>
       
+      
+        <tags>
+            
+            <tag> tag1 </tag>
+            
+            <tag> tag2 </tag>
+            
+            <tag> tags3 </tag>
+            
+        </tags>
       
     </entry>
     
