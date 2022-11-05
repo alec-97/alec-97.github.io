@@ -1,0 +1,1081 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="APlayer🍭 Wow, such a beautiful HTML5 music player 特别赞助商               安装使用 npm: npm install aplayer --save  使用 Yarn: yarn add aplayer  入门     点击加载播放器   &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;APlayer.min.css">
+<meta property="og:type" content="website">
+<meta property="og:title" content="page.title">
+<meta property="og:url" content="http://example.com/js/APlayer/docs/zh-Hans/README.html">
+<meta property="og:site_name" content="以平静对待生活">
+<meta property="og:description" content="APlayer🍭 Wow, such a beautiful HTML5 music player 特别赞助商               安装使用 npm: npm install aplayer --save  使用 Yarn: yarn add aplayer  入门     点击加载播放器   &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;APlayer.min.css">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.imgur.com/BBKXPAp.png">
+<meta property="og:image" content="https://imgur.com/apG1uKf.png">
+<meta property="article:published_time" content="2022-11-05T14:35:51.688Z">
+<meta property="article:modified_time" content="2022-11-05T13:42:23.322Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://i.imgur.com/BBKXPAp.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>page.title - 以平静对待生活</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/js/APlayer/dist/APlayer.min.css">
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.4);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+
+  <header>
+    
+
+<div class="header-inner" style="height: 60vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                音乐
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://101.43.39.125/HexoFiles/new/bg-trans.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="page.title"></span>
+          
+        </div>
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-x-md">
+        <div id="board"
+          >
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+<article class="page-content">
+  <h1 id="APlayer"><a href="#APlayer" class="headerlink" title="APlayer"></a>APlayer</h1><p>🍭 Wow, such a beautiful HTML5 music player</p>
+<h2 id="特别赞助商"><a href="#特别赞助商" class="headerlink" title="特别赞助商"></a>特别赞助商</h2><a href="https://www.dogecloud.com/?ref=dplayer" target="_blank">
+    <img width="222px" src="https://i.imgur.com/BBKXPAp.png" srcset="/img/loading.gif" lazyload>
+</a>
+<a href="https://console.upyun.com/register/?invite=BkLZ2Xqob" target="_blank">
+    <img width="222px" src="https://imgur.com/apG1uKf.png" srcset="/img/loading.gif" lazyload>
+</a>
+
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>使用 npm:</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">npm install aplayer --save<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p>使用 Yarn:</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">yarn add aplayer<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<h2 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h2><div class="aplayer-wrap">
+    <div id="aplayer2"><button class="docute-button load">点击加载播放器</div>
+</div>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>APlayer.min.css<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>aplayer<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>APlayer.min.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> ap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">APlayer</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">container</span><span class="token operator">:</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'aplayer'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">audio</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">&#123;</span>
+        <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">'name'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">artist</span><span class="token operator">:</span> <span class="token string">'artist'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">url</span><span class="token operator">:</span> <span class="token string">'url.mp3'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">cover</span><span class="token operator">:</span> <span class="token string">'cover.jpg'</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>使用模块管理器:</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">import</span> <span class="token string">'APlayer/dist/APlayer.min.css'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> APlayer <span class="token keyword">from</span> <span class="token string">'APlayer'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> ap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">APlayer</span><span class="token punctuation">(</span>options<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>默认值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>container</td>
+<td>document.querySelector(‘.aplayer’)</td>
+<td>播放器容器元素</td>
+</tr>
+<tr>
+<td>fixed</td>
+<td>false</td>
+<td>开启吸底模式, <a target="_blank" rel="noopener" href="https://aplayer.js.org/#/home?id=fixed-mode">详情</a></td>
+</tr>
+<tr>
+<td>mini</td>
+<td>false</td>
+<td>开启迷你模式, <a target="_blank" rel="noopener" href="https://aplayer.js.org/#/home?id=mini-mode">详情</a></td>
+</tr>
+<tr>
+<td>autoplay</td>
+<td>false</td>
+<td>音频自动播放</td>
+</tr>
+<tr>
+<td>theme</td>
+<td>‘#b7daff’</td>
+<td>主题色</td>
+</tr>
+<tr>
+<td>loop</td>
+<td>‘all’</td>
+<td>音频循环播放, 可选值: ‘all’, ‘one’, ‘none’</td>
+</tr>
+<tr>
+<td>order</td>
+<td>‘list’</td>
+<td>音频循环顺序, 可选值: ‘list’, ‘random’</td>
+</tr>
+<tr>
+<td>preload</td>
+<td>‘auto’</td>
+<td>预加载，可选值: ‘none’, ‘metadata’, ‘auto’</td>
+</tr>
+<tr>
+<td>volume</td>
+<td>0.7</td>
+<td>默认音量，请注意播放器会记忆用户设置，用户手动设置音量后默认音量即失效</td>
+</tr>
+<tr>
+<td>audio</td>
+<td>-</td>
+<td>音频信息, 应该是一个对象或对象数组</td>
+</tr>
+<tr>
+<td>audio.name</td>
+<td>-</td>
+<td>音频名称</td>
+</tr>
+<tr>
+<td>audio.artist</td>
+<td>-</td>
+<td>音频艺术家</td>
+</tr>
+<tr>
+<td>audio.url</td>
+<td>-</td>
+<td>音频链接</td>
+</tr>
+<tr>
+<td>audio.cover</td>
+<td>-</td>
+<td>音频封面</td>
+</tr>
+<tr>
+<td>audio.lrc</td>
+<td>-</td>
+<td><a target="_blank" rel="noopener" href="https://aplayer.js.org/#/home?id=lrc">详情</a></td>
+</tr>
+<tr>
+<td>audio.theme</td>
+<td>-</td>
+<td>切换到此音频时的主题色，比上面的 theme 优先级高</td>
+</tr>
+<tr>
+<td>audio.type</td>
+<td>‘auto’</td>
+<td>可选值: ‘auto’, ‘hls’, ‘normal’ 或其他自定义类型, <a target="_blank" rel="noopener" href="https://aplayer.js.org/#/home?id=mse-support">详情</a></td>
+</tr>
+<tr>
+<td>customAudioType</td>
+<td>-</td>
+<td>自定义类型，<a target="_blank" rel="noopener" href="https://aplayer.js.org/#/home?id=mse-support">详情</a></td>
+</tr>
+<tr>
+<td>mutex</td>
+<td>true</td>
+<td>互斥，阻止多个播放器同时播放，当前播放器播放时暂停其他播放器</td>
+</tr>
+<tr>
+<td>lrcType</td>
+<td>0</td>
+<td><a target="_blank" rel="noopener" href="https://aplayer.js.org/#/home?id=lrc">详情</a></td>
+</tr>
+<tr>
+<td>listFolded</td>
+<td>false</td>
+<td>列表默认折叠</td>
+</tr>
+<tr>
+<td>listMaxHeight</td>
+<td>-</td>
+<td>列表最大高度</td>
+</tr>
+<tr>
+<td>storageName</td>
+<td>‘aplayer-setting’</td>
+<td>存储播放器设置的 localStorage key</td>
+</tr>
+</tbody></table>
+<p>例如:</p>
+<div class="aplayer-wrap">
+    <div id="aplayer3"><button class="docute-button load">点击加载播放器</div>
+</div>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> ap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">APlayer</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">container</span><span class="token operator">:</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'player'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">mini</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">autoplay</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">theme</span><span class="token operator">:</span> <span class="token string">'#FADFA3'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">loop</span><span class="token operator">:</span> <span class="token string">'all'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">order</span><span class="token operator">:</span> <span class="token string">'random'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">preload</span><span class="token operator">:</span> <span class="token string">'auto'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">volume</span><span class="token operator">:</span> <span class="token number">0.7</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">mutex</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">listFolded</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">listMaxHeight</span><span class="token operator">:</span> <span class="token number">90</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">lrcType</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">audio</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">'name1'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">artist</span><span class="token operator">:</span> <span class="token string">'artist1'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">url</span><span class="token operator">:</span> <span class="token string">'url1.mp3'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">cover</span><span class="token operator">:</span> <span class="token string">'cover1.jpg'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">lrc</span><span class="token operator">:</span> <span class="token string">'lrc1.lrc'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">theme</span><span class="token operator">:</span> <span class="token string">'#ebd0c2'</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">'name2'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">artist</span><span class="token operator">:</span> <span class="token string">'artist2'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">url</span><span class="token operator">:</span> <span class="token string">'url2.mp3'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">cover</span><span class="token operator">:</span> <span class="token string">'cover2.jpg'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">lrc</span><span class="token operator">:</span> <span class="token string">'lrc2.lrc'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">theme</span><span class="token operator">:</span> <span class="token string">'#46718b'</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><ul>
+<li><p><code>APlayer.version</code>: 静态属性, 返回 APlayer 的版本号</p>
+</li>
+<li><p><code>ap.play()</code>: 播放音频</p>
+</li>
+<li><p><code>ap.pause()</code>: 暂停音频</p>
+</li>
+<li><p><code>ap.seek(time: number)</code>: 跳转到特定时间，时间的单位为秒</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">ap<span class="token punctuation">.</span><span class="token function">seek</span><span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure></li>
+<li><p><code>ap.toggle()</code>: 切换播放和暂停</p>
+</li>
+<li><p><code>ap.on(event: string, handler: function)</code>: 绑定音频和播放器事件，<a target="_blank" rel="noopener" href="https://aplayer.js.org/#/home?id=event-binding">详情</a></p>
+</li>
+<li><p><code>ap.volume(percentage: number, nostorage: boolean)</code>: 设置音频音量</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">ap<span class="token punctuation">.</span><span class="token function">volume</span><span class="token punctuation">(</span><span class="token number">0.1</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure></li>
+<li><p><code>ap.theme(color: string, index: number)</code>: 设置播放器主题色, index 默认为当前音频的 index</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">ap<span class="token punctuation">.</span><span class="token function">theme</span><span class="token punctuation">(</span><span class="token string">'#000'</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure></li>
+<li><p><code>ap.setMode(mode: string)</code>: 设置播放器模式，mode 取值应为 ‘mini’ 或 ‘normal’</p>
+</li>
+<li><p><code>ap.mode</code>: 返回播放器当前模式，’mini’ 或 ‘normal’</p>
+</li>
+<li><p><code>ap.notice(text: string, time: number, opacity: number)</code>: 显示通知，时间的单位为毫秒，默认时间 2000 毫秒，默认透明度 0.8，设置时间为 0 可以取消通知自动隐藏</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">ap<span class="token punctuation">.</span><span class="token function">notice</span><span class="token punctuation">(</span><span class="token string">'Amazing player'</span><span class="token punctuation">,</span> <span class="token number">2000</span><span class="token punctuation">,</span> <span class="token number">0.8</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure></li>
+<li><p><code>ap.skipBack()</code>: 切换到上一首音频</p>
+</li>
+<li><p><code>ap.skipForward()</code>: 切换到下一首音频</p>
+</li>
+<li><p><code>ap.destroy()</code>: 销毁播放器</p>
+</li>
+<li><p><code>ap.lrc</code></p>
+<ul>
+<li><p><code>ap.lrc.show()</code>: 显示歌词</p>
+</li>
+<li><p><code>ap.lrc.hide()</code>: 隐藏歌词</p>
+</li>
+<li><p><code>ap.lrc.toggle()</code>: 显示/隐藏歌词</p>
+</li>
+</ul>
+</li>
+<li><p><code>ap.list</code></p>
+<ul>
+<li><p><code>ap.list.show()</code>: 显示播放列表</p>
+</li>
+<li><p><code>ap.list.hide()</code>: 隐藏播放列表</p>
+</li>
+<li><p><code>ap.list.toggle()</code>: 显示/隐藏播放列表</p>
+</li>
+<li><p><code>ap.list.add(audios: array | object)</code>: 添加一个或几个新音频到播放列表</p>
+</li>
+</ul>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">ap<span class="token punctuation">.</span>list<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">'name'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">artist</span><span class="token operator">:</span> <span class="token string">'artist'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">url</span><span class="token operator">:</span> <span class="token string">'url.mp3'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">cover</span><span class="token operator">:</span> <span class="token string">'cover.jpg'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">lrc</span><span class="token operator">:</span> <span class="token string">'lrc.lrc'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">theme</span><span class="token operator">:</span> <span class="token string">'#ebd0c2'</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<ul>
+<li><code>ap.list.remove(index: number)</code>: 移除播放列表中的一个音频</li>
+</ul>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">ap<span class="token punctuation">.</span>list<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<ul>
+<li><code>ap.list.switch()</code>: 切换到播放列表里的其他音频</li>
+</ul>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">ap<span class="token punctuation">.</span>list<span class="token punctuation">.</span><span class="token function">switch</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<ul>
+<li><code>ap.list.clear()</code>: 清空播放列表</li>
+</ul>
+</li>
+<li><p><code>ap.audio</code>: 原生 audio</p>
+</li>
+<li><p><code>ap.audio.currentTime</code>: 返回音频当前播放时间</p>
+</li>
+<li><p><code>ap.audio.duration</code>: 返回音频总时间</p>
+</li>
+<li><p><code>ap.audio.paused</code>: 返回音频是否暂停</p>
+</li>
+<li><p>支持大多数<a target="_blank" rel="noopener" href="http://www.w3schools.com/tags/ref_av_dom.asp">原生audio接口</a></p>
+</li>
+</ul>
+<h2 id="事件绑定"><a href="#事件绑定" class="headerlink" title="事件绑定"></a>事件绑定</h2><p><code>ap.on(event, handler)</code></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript">ap<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'ended'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'player ended'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>音频事件</p>
+<ul>
+<li>abort</li>
+<li>canplay</li>
+<li>canplaythrough</li>
+<li>durationchange</li>
+<li>emptied</li>
+<li>ended</li>
+<li>error</li>
+<li>loadeddata</li>
+<li>loadedmetadata</li>
+<li>loadstart</li>
+<li>mozaudioavailable</li>
+<li>pause</li>
+<li>play</li>
+<li>playing</li>
+<li>progress</li>
+<li>ratechange</li>
+<li>seeked</li>
+<li>seeking</li>
+<li>stalled</li>
+<li>suspend</li>
+<li>timeupdate</li>
+<li>volumechange</li>
+<li>waiting</li>
+</ul>
+<p>播放器事件</p>
+<ul>
+<li>listshow</li>
+<li>listhide</li>
+<li>listadd</li>
+<li>listremove</li>
+<li>listswitch</li>
+<li>listclear</li>
+<li>noticeshow</li>
+<li>noticehide</li>
+<li>destroy</li>
+<li>lrcshow</li>
+<li>lrchide</li>
+</ul>
+<h2 id="歌词"><a href="#歌词" class="headerlink" title="歌词"></a>歌词</h2><p>我们有三种方式来给 APlayer 传递歌词，使用 <code>lrcType</code> 参数指明使用哪种方式，然后把歌词放到 <code>audio.lrc</code> 参数或者 HTML 里。</p>
+<div class="aplayer-wrap">
+    <div id="aplayer4"><button class="docute-button load">点击加载播放器</div>
+</div>
+
+<h3 id="LRC-文件方式"><a href="#LRC-文件方式" class="headerlink" title="LRC 文件方式"></a>LRC 文件方式</h3><p>第一种方式，把歌词放到 LRC 文件里，音频播放时会加载对应的 LRC 文件。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> ap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">APlayer</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">container</span><span class="token operator">:</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'aplayer'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">lrcType</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">audio</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">'name'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">artist</span><span class="token operator">:</span> <span class="token string">'artist'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">url</span><span class="token operator">:</span> <span class="token string">'demo.mp3'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">cover</span><span class="token operator">:</span> <span class="token string">'demo.jpg'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">lrc</span><span class="token operator">:</span> <span class="token string">'lrc.lrc'</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="JS-字符串方式"><a href="#JS-字符串方式" class="headerlink" title="JS 字符串方式"></a>JS 字符串方式</h3><p>第二种方式，把歌词放到 JS 字符串里面。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> ap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">APlayer</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">container</span><span class="token operator">:</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'aplayer'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">lrcType</span><span class="token operator">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">audio</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">'name'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">artist</span><span class="token operator">:</span> <span class="token string">'artist'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">url</span><span class="token operator">:</span> <span class="token string">'demo.mp3'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">cover</span><span class="token operator">:</span> <span class="token string">'demo.jpg'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">lrc</span><span class="token operator">:</span> <span class="token string">'[00:00.00]APlayer\n[00:04.01]is\n[00:08.02]amazing'</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="HTML-方式"><a href="#HTML-方式" class="headerlink" title="HTML 方式"></a>HTML 方式</h3><p>第三种方式，把歌词放到 HTML 里面。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>APlayer.min.css<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>player<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>pre</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>aplayer-lrc-content<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        [00:00.00]APlayer audio1
+        [00:04.01]is
+        [00:08.02]amazing
+        <span class="token comment">&lt;!-- ... --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>pre</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>pre</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>aplayer-lrc-content<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        [00:00.00]APlayer audio2
+        [00:04.01]is
+        [00:08.02]amazing
+        <span class="token comment">&lt;!-- ... --></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>pre</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>APlayer.min.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> ap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">APlayer</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">container</span><span class="token operator">:</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'aplayer'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">lrcType</span><span class="token operator">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">audio</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">[</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">'name1'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">artist</span><span class="token operator">:</span> <span class="token string">'artist1'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">url</span><span class="token operator">:</span> <span class="token string">'url1.mp3'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">cover</span><span class="token operator">:</span> <span class="token string">'cover1.jpg'</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">'name2'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">artist</span><span class="token operator">:</span> <span class="token string">'artist2'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">url</span><span class="token operator">:</span> <span class="token string">'url2.mp3'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">cover</span><span class="token operator">:</span> <span class="token string">'cover2.jpg'</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">]</span><span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h3 id="歌词格式"><a href="#歌词格式" class="headerlink" title="歌词格式"></a>歌词格式</h3><p>支持下面格式的歌词：</p>
+<p><code>[mm:ss]APlayer</code></p>
+<p><code>[mm:ss.xx]is</code></p>
+<p><code>[mm:ss.xxx]amazing</code></p>
+<p><code>[mm:ss.xx][mm:ss.xx]APlayer</code></p>
+<p><code>[mm:ss.xx]&lt;mm:ss.xx&gt;is</code></p>
+<p><code>[mm:ss.xx]amazing[mm:ss.xx]APlayer</code></p>
+<h2 id="播放列表"><a href="#播放列表" class="headerlink" title="播放列表"></a>播放列表</h2><p>当有多个音频时会 APlayer 会展示一个播放列表，<code>listFolded</code> 参数指明列表是否默认折叠，<code>listMaxHeight</code> 参数指明列表最大高度。</p>
+<div class="aplayer-wrap">
+    <div id="aplayer5"><button class="docute-button load">点击加载播放器</div>
+</div>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> ap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">APlayer</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">container</span><span class="token operator">:</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'player'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">listFolded</span><span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">listMaxHeight</span><span class="token operator">:</span> <span class="token number">90</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">lrcType</span><span class="token operator">:</span> <span class="token number">3</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">audio</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">'name1'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">artist</span><span class="token operator">:</span> <span class="token string">'artist1'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">url</span><span class="token operator">:</span> <span class="token string">'url1.mp3'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">cover</span><span class="token operator">:</span> <span class="token string">'cover1.jpg'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">lrc</span><span class="token operator">:</span> <span class="token string">'lrc1.lrc'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">theme</span><span class="token operator">:</span> <span class="token string">'#ebd0c2'</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">'name2'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">artist</span><span class="token operator">:</span> <span class="token string">'artist2'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">url</span><span class="token operator">:</span> <span class="token string">'url2.mp3'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">cover</span><span class="token operator">:</span> <span class="token string">'cover2.jpg'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">lrc</span><span class="token operator">:</span> <span class="token string">'lrc2.lrc'</span><span class="token punctuation">,</span>
+            <span class="token literal-property property">theme</span><span class="token operator">:</span> <span class="token string">'#46718b'</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<h2 id="吸底模式"><a href="#吸底模式" class="headerlink" title="吸底模式"></a>吸底模式</h2><p>APlayer 可以通过吸底模式固定在页面底部，这种模式跟普通模式有很大不同。</p>
+<div class="aplayer-wrap">
+    <div id="aplayer9"><button class="docute-button load">点击加载播放器</div>
+</div>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> ap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">APlayer</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">container</span><span class="token operator">:</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'player'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">fixed</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">audio</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">&#123;</span>
+        <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">'name'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">artist</span><span class="token operator">:</span> <span class="token string">'artist'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">url</span><span class="token operator">:</span> <span class="token string">'url.mp3'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">cover</span><span class="token operator">:</span> <span class="token string">'cover.jpg'</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h2 id="迷你模式"><a href="#迷你模式" class="headerlink" title="迷你模式"></a>迷你模式</h2><p>如果你没有足够空间来放置正常模式的播放器，那么你可以考虑使用迷你模式。</p>
+<p>请注意迷你模式与吸底模式冲突。</p>
+<div class="aplayer-wrap">
+    <div id="aplayer6"><button class="docute-button load">点击加载播放器</div>
+</div>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> ap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">APlayer</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">container</span><span class="token operator">:</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'player'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">mini</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">audio</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">&#123;</span>
+        <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">'name'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">artist</span><span class="token operator">:</span> <span class="token string">'artist'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">url</span><span class="token operator">:</span> <span class="token string">'url.mp3'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">cover</span><span class="token operator">:</span> <span class="token string">'cover.jpg'</span><span class="token punctuation">,</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h2 id="MSE-支持"><a href="#MSE-支持" class="headerlink" title="MSE 支持"></a>MSE 支持</h2><h3 id="HLS"><a href="#HLS" class="headerlink" title="HLS"></a>HLS</h3><p>需要在 <code>APlayer.min.js</code> 前面加载 <a target="_blank" rel="noopener" href="https://github.com/video-dev/hls.js">hls.js</a>。</p>
+<div class="aplayer-wrap">
+    <div id="aplayer7"><button class="docute-button load">点击加载播放器</div>
+</div>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>APlayer.min.css<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>aplayer<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>hls.min.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>APlayer.min.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> ap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">APlayer</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">container</span><span class="token operator">:</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'aplayer'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">audio</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">&#123;</span>
+        <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">'HLS'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">artist</span><span class="token operator">:</span> <span class="token string">'artist'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">url</span><span class="token operator">:</span> <span class="token string">'url.m3u8'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">cover</span><span class="token operator">:</span> <span class="token string">'cover.jpg'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">type</span><span class="token operator">:</span> <span class="token string">'hls'</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 另一种方式，使用 customAudioType</span>
+<span class="token keyword">const</span> ap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">APlayer</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">container</span><span class="token operator">:</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'aplayer'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">audio</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">&#123;</span>
+        <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">'HLS'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">artist</span><span class="token operator">:</span> <span class="token string">'artist'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">url</span><span class="token operator">:</span> <span class="token string">'url.m3u8'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">cover</span><span class="token operator">:</span> <span class="token string">'cover.jpg'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">type</span><span class="token operator">:</span> <span class="token string">'customHls'</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">customAudioType</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+        <span class="token string-property property">'customHls'</span><span class="token operator">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">audioElement<span class="token punctuation">,</span> audio<span class="token punctuation">,</span> player</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>Hls<span class="token punctuation">.</span><span class="token function">isSupported</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">const</span> hls <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Hls</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                hls<span class="token punctuation">.</span><span class="token function">loadSource</span><span class="token punctuation">(</span>audio<span class="token punctuation">.</span>url<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                hls<span class="token punctuation">.</span><span class="token function">attachMedia</span><span class="token punctuation">(</span>audioElement<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>audioElement<span class="token punctuation">.</span><span class="token function">canPlayType</span><span class="token punctuation">(</span><span class="token string">'application/x-mpegURL'</span><span class="token punctuation">)</span> <span class="token operator">||</span> audioElement<span class="token punctuation">.</span><span class="token function">canPlayType</span><span class="token punctuation">(</span><span class="token string">'application/vnd.apple.mpegURL'</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                audioElement<span class="token punctuation">.</span>src <span class="token operator">=</span> audio<span class="token punctuation">.</span>url<span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+                player<span class="token punctuation">.</span><span class="token function">notice</span><span class="token punctuation">(</span><span class="token string">'Error: HLS is not supported.'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h2 id="根据封面自适应主题色"><a href="#根据封面自适应主题色" class="headerlink" title="根据封面自适应主题色"></a>根据封面自适应主题色</h2><p>需要额外加载 <a target="_blank" rel="noopener" href="https://github.com/lokesh/color-thief/blob/master/src/color-thief.js">color-thief.js</a></p>
+<div class="aplayer-wrap">
+    <div id="aplayer8"><button class="docute-button load">点击加载播放器</div>
+</div>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>APlayer.min.css<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>aplayer<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>APlayer.min.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>color-thief.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token script"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">const</span> ap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">APlayer</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">container</span><span class="token operator">:</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'aplayer'</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">theme</span><span class="token operator">:</span> <span class="token string">'#e9e9e9'</span><span class="token punctuation">,</span>
+    <span class="token literal-property property">audio</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token punctuation">&#123;</span>
+        <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">'name1'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">artist</span><span class="token operator">:</span> <span class="token string">'artist1'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">url</span><span class="token operator">:</span> <span class="token string">'url1.mp3'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">cover</span><span class="token operator">:</span> <span class="token string">'cover1.jpg'</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token punctuation">&#123;</span>
+        <span class="token literal-property property">name</span><span class="token operator">:</span> <span class="token string">'name2'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">artist</span><span class="token operator">:</span> <span class="token string">'artist2'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">url</span><span class="token operator">:</span> <span class="token string">'url2.mp3'</span><span class="token punctuation">,</span>
+        <span class="token literal-property property">cover</span><span class="token operator">:</span> <span class="token string">'cover2.jpg'</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">]</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> colorThief <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ColorThief</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> image <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Image</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> xhr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">XMLHttpRequest</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token function-variable function">setTheme</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">index</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>ap<span class="token punctuation">.</span>list<span class="token punctuation">.</span>audios<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">.</span>theme<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        xhr<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token keyword">let</span> coverUrl <span class="token operator">=</span> <span class="token constant">URL</span><span class="token punctuation">.</span><span class="token function">createObjectURL</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>response<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            image<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                <span class="token keyword">let</span> color <span class="token operator">=</span> colorThief<span class="token punctuation">.</span><span class="token function">getColor</span><span class="token punctuation">(</span>image<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                ap<span class="token punctuation">.</span><span class="token function">theme</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">rgb(</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>color<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">, </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>color<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">, </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">$&#123;</span>color<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token interpolation-punctuation punctuation">&#125;</span></span><span class="token string">)</span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span> index<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token constant">URL</span><span class="token punctuation">.</span><span class="token function">revokeObjectURL</span><span class="token punctuation">(</span>coverUrl<span class="token punctuation">)</span>
+            <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+            image<span class="token punctuation">.</span>src <span class="token operator">=</span> coverUrl<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        xhr<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">'GET'</span><span class="token punctuation">,</span> ap<span class="token punctuation">.</span>list<span class="token punctuation">.</span>audios<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">.</span>cover<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        xhr<span class="token punctuation">.</span>responseType <span class="token operator">=</span> <span class="token string">'blob'</span><span class="token punctuation">;</span>
+        xhr<span class="token punctuation">.</span><span class="token function">send</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token function">setTheme</span><span class="token punctuation">(</span>ap<span class="token punctuation">.</span>list<span class="token punctuation">.</span>index<span class="token punctuation">)</span><span class="token punctuation">;</span>
+ap<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'listswitch'</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">index</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+    <span class="token function">setTheme</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h2 id="CDN"><a href="#CDN" class="headerlink" title="CDN"></a>CDN</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.jsdelivr.com/package/npm/aplayer">jsDelivr</a></li>
+<li><a target="_blank" rel="noopener" href="https://cdnjs.com/libraries/aplayer">cdnjs</a></li>
+<li><a target="_blank" rel="noopener" href="https://unpkg.com/aplayer/">unpkg</a></li>
+</ul>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><h3 id="为什么播放器不能在手机上自动播放？"><a href="#为什么播放器不能在手机上自动播放？" class="headerlink" title="为什么播放器不能在手机上自动播放？"></a>为什么播放器不能在手机上自动播放？</h3><p>大多数移动端浏览器禁止了音频自动播放。</p>
+
+
+  
+
+</article>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <!-- MetingJS start --> <div class="aplayer" data-id="7729098320" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-volume="0.7"></div> <!-- MetingJS end --> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <footer class="text-center mt-5 py-3" style="color: #DDD;font-size: 13.6px">
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/alec-97" target="_blank" rel="nofollow noopener"><span>Alec</span></a> <div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div> 
+      </div>
+  
+  
+  
+  
+    <div class="statistics">
+  
+  
+  
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none;font-size:13.6px">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none;font-size:13.6px">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+
+</div>
+
+<div class="statistics" style="font-size: 13.6px;">
+  <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #DDD;font-size:13.6px"  id="hitokoto"></span></a>
+  <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
+</div>
+
+  
+  
+  
+  
+  
+
+
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/js/dianjichuzi.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/yinghua.js"></script>
+<script src="/js/APlayer/dist/APlayer.min.js"></script>
+<script src="/js/Meting.min.js"></script>
+
+
+
+<!-- alec:监控页面焦点变换标题 -->
+
+  <script type="text/javascript">
+    /*窗口监视*/
+    var originalTitle = document.title;
+    window.onblur = function(){document.title = "给时间一点时间"};
+    window.onfocus = function(){document.title = originalTitle};
+  </script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+</body>
+</html>
