@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>解决一直困扰的坚果云在资源管理器中左边栏显示问题</title>
+    <link href="/2022/11/08/%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8/%E5%9D%9A%E6%9E%9C%E4%BA%91/%E8%A7%A3%E5%86%B3%E4%B8%80%E7%9B%B4%E5%9B%B0%E6%89%B0%E7%9A%84%E5%9D%9A%E6%9E%9C%E4%BA%91%E5%9C%A8%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E5%99%A8%E4%B8%AD%E5%B7%A6%E8%BE%B9%E6%A0%8F%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/"/>
+    <url>/2022/11/08/%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8/%E5%9D%9A%E6%9E%9C%E4%BA%91/%E8%A7%A3%E5%86%B3%E4%B8%80%E7%9B%B4%E5%9B%B0%E6%89%B0%E7%9A%84%E5%9D%9A%E6%9E%9C%E4%BA%91%E5%9C%A8%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E5%99%A8%E4%B8%AD%E5%B7%A6%E8%BE%B9%E6%A0%8F%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>  参考：<a href="https://loesspie.com/2021/01/19/win10-remove-jianguoyun/">https://loesspie.com/2021/01/19/win10-remove-jianguoyun/</a></p><p>  日期：2022年11月8日alec实测有效</p></blockquote><p>其实一直在用坚果云，但仅仅是自动同步一些文件和文件夹，并不需要在我的资源管理器里有那么强的存在感<br>同时现在用 库 功能比较多，汇总各类相同属性/用途的文件或文件夹不要太方便。所以它在那儿占着位置看着碍眼了<br>但网上一堆方法都无效，只能自己上，搞定之后记录下</p><p>首先是通过全局搜索坚果云，找到了N个条目，然后尝试修改其名称（默认项），如改为坚果云云</p><p>当找到正确的条目之后，打开资源管理器，会发现左边栏会变成坚果云云，然后将此项的ispinned从1改成0，会发现资源管理器左栏的图标已经消失</p><p>消失之后，再全局搜索坚果云云，将其改成坚果云</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>软件使用</category>
+      
+      <category>坚果云</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>坚果云、资源管理器</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>【转载】读《人类简史》--智人的虚构现实</title>
     <link href="/2022/11/05/%E6%96%B0%E5%BB%BA%20Markdown/"/>
     <url>/2022/11/05/%E6%96%B0%E5%BB%BA%20Markdown/</url>
@@ -64,7 +91,7 @@
   
   
   <entry>
-    <title>Hello World</title>
+    <title>Hello World123</title>
     <link href="/2022/11/04/hello-world/"/>
     <url>/2022/11/04/hello-world/</url>
     
