@@ -24,8 +24,9 @@
 <meta property="og:description" content="复盘面试内容，差缺补漏">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202211101430487.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202211101613719.png">
 <meta property="article:published_time" content="2022-11-10T05:29:36.341Z">
-<meta property="article:modified_time" content="2022-11-10T07:52:42.196Z">
+<meta property="article:modified_time" content="2022-11-10T12:54:41.453Z">
 <meta property="article:author" content="Shuai Zhao">
 <meta property="article:tag" content="面试">
 <meta property="article:tag" content="复盘">
@@ -258,7 +259,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          2.1k 字
+          5.2k 字
         
       </span>
     
@@ -270,7 +271,7 @@
         
         
           <!-- compatible with older versions-->
-          18 分钟
+          43 分钟
         
       </span>
     
@@ -386,7 +387,12 @@
             
               <div class="markdown-body">
                 
-                <h1 id="title-农行广研面试复盘"><a href="#title-农行广研面试复盘" class="headerlink" title="title: 农行广研面试复盘"></a>title: 农行广研面试复盘</h1><h3 id="001-一个类具体是怎么加载的？"><a href="#001-一个类具体是怎么加载的？" class="headerlink" title="001 - 一个类具体是怎么加载的？"></a>001 - 一个类具体是怎么加载的？</h3><blockquote>
+                <h1 id="title-农行广研面试复盘"><a href="#title-农行广研面试复盘" class="headerlink" title="title: 农行广研面试复盘"></a>title: 农行广研面试复盘</h1><blockquote>
+<ul>
+<li>  [ ] 整理到笔记</li>
+</ul>
+</blockquote>
+<h3 id="001-一个类具体是怎么加载的？"><a href="#001-一个类具体是怎么加载的？" class="headerlink" title="001 - 一个类具体是怎么加载的？"></a>001 - 一个类具体是怎么加载的？</h3><blockquote>
 <p>  参考：</p>
 <ul>
 <li><p>  <a target="_blank" rel="noopener" href="https://blog.csdn.net/qweqwruio/article/details/81359906">类加载过程是怎样的？ - CSDN - wiseph</a></p>
@@ -465,9 +471,95 @@
 <ul>
 <li>  <a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/177931">优化系列 | 实例解析MySQL性能瓶颈排查定位 - 阿里云开发者社区 - 晚来风急</a></li>
 </ul>
+<p>  【大纲】</p>
+<ul>
+<li>OS层面的检查<ul>
+<li>  检查总体的负载情况</li>
+<li>  检查哪个进程的负载高</li>
+</ul>
+</li>
+<li>MySQL层面的检查<ul>
+<li>  查看查看慢查询日志，来找到效率低的SQL语句，想办法对这个语句进行优化。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>1.OS层面的检查</p>
+<p>OS层面的检查的目的是需要检查服务器上哪些进程的负载高。<strong>通常服务器上容易成为性能瓶颈的是磁盘的IO动作。</strong></p>
+<p>第一步：查看整体的负载。</p>
+<p>整体负载高的话，那么每个进程都慢。可以通过执行指令<code>w</code>或者<code>sar -q 1</code>来查看负载。</p>
+<p>执行上述命令之后，得到结果中，字段<code>load average</code>表示当前的CPU有多少任务在排队等待。load 数值超过 5 的话，负载就挺高了。</p>
+<blockquote>
+<p>  子问题1：引起 CPU 负载高的可能的原因？</p>
+<ul>
+<li>  某些进程消耗更多的 CPU 资源，比如需要响应大量的请求（进程的事）</li>
+<li>  物理内存不足，需要频繁的进行 swap（内存的事）</li>
+<li>  磁盘的 IO 比较慢，导致 CPU 一直等待IO（磁盘的事）</li>
+<li>  发生严重的中断，比如因为网络原因。（其它的事）</li>
+</ul>
+</blockquote>
+<p>第二步：查看具体是哪个进程的负载高。</p>
+<p>使用<code>top</code>命令可以查看每个进程的资源占用情况。</p>
+<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202211101613719.png" srcset="/img/loading.gif" lazyload alt="image-20221110161326648" style="zoom:67%;" />
+
+<p>如上图，</p>
+<p>整体来看，通过 us 和 wa 的数值过高，可以推测当前的性能瓶颈可能是用户进行消耗 CPU 以及磁盘 IO等待 消耗CPU。</p>
+<p>分开来看，看到下面每行中，第一、二行的进程， 字段 CPU 的数值很高，可以推出这两个进程是性能瓶颈。</p>
+<p>查看到上面的 wa 数值高，推测是 IO 消耗大，因此这时可以执行 iotop 命令，查看哪些进程的磁盘 IO 消耗最大。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>yejr@imysql.com:~ <span class="token punctuation">]</span><span class="token comment"># iotop</span>
+Total DISK READ: <span class="token number">60.38</span> M/s <span class="token operator">|</span> Total DISK WRITE: <span class="token number">640.34</span> K/s
+  TID  PRIO  <span class="token environment constant">USER</span>     DISK READ  DISK WRITE  SWAPIN     IO<span class="token operator">></span>    COMMAND
+<span class="token number">16397</span> be/4 mysql       <span class="token number">8.92</span> M/s    <span class="token number">0.00</span> B/s  <span class="token number">0.00</span> % <span class="token number">94.77</span> % mysqld <span class="token parameter variable">--basedir</span><span class="token operator">=</span>/usr/local/m~og_3320/mysql.sock <span class="token parameter variable">--port</span><span class="token operator">=</span><span class="token number">3320</span>
+ <span class="token number">7295</span> be/4 mysql      <span class="token number">10.98</span> M/s    <span class="token number">0.00</span> B/s  <span class="token number">0.00</span> % <span class="token number">93.59</span> % mysqld <span class="token parameter variable">--basedir</span><span class="token operator">=</span>/usr/local/m~og_3320/mysql.sock <span class="token parameter variable">--port</span><span class="token operator">=</span><span class="token number">3320</span>
+<span class="token number">14295</span> be/4 mysql      <span class="token number">10.50</span> M/s    <span class="token number">0.00</span> B/s  <span class="token number">0.00</span> % <span class="token number">93.57</span> % mysqld <span class="token parameter variable">--basedir</span><span class="token operator">=</span>/usr/local/m~og_3320/mysql.sock <span class="token parameter variable">--port</span><span class="token operator">=</span><span class="token number">3320</span>
+<span class="token number">14288</span> be/4 mysql      <span class="token number">14.30</span> M/s    <span class="token number">0.00</span> B/s  <span class="token number">0.00</span> % <span class="token number">91.86</span> % mysqld <span class="token parameter variable">--basedir</span><span class="token operator">=</span>/usr/local/m~og_3320/mysql.sock <span class="token parameter variable">--port</span><span class="token operator">=</span><span class="token number">3320</span>
+<span class="token number">14292</span> be/4 mysql      <span class="token number">14.37</span> M/s    <span class="token number">0.00</span> B/s  <span class="token number">0.00</span> % <span class="token number">91.23</span> % mysqld <span class="token parameter variable">--basedir</span><span class="token operator">=</span>/usr/local/m~og_3320/mysql.sock <span class="token parameter variable">--port</span><span class="token operator">=</span><span class="token number">3320</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>可以看到，端口号是3320的实例消耗的磁盘I/O资源比较多，那就看看这个实例里都有什么查询在跑吧。</p>
+<p>2.MySQL层面的检查</p>
+<p>首先看下当前都有哪些查询在运行（横版查看）：<code>mysqladmin pr|grep -v Sleep</code></p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>yejr@imysql.com<span class="token punctuation">(</span>db<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token operator">></span> mysqladmin <span class="token function">pr</span><span class="token operator">|</span><span class="token function">grep</span> <span class="token parameter variable">-v</span> Sleep
++----+----+----------+----+-------+-----+--------------+-----------------------------------------------------------------------------------------------+
+<span class="token operator">|</span> Id <span class="token operator">|</span>User<span class="token operator">|</span> Host     <span class="token operator">|</span> db <span class="token operator">|</span>Command<span class="token operator">|</span>Time <span class="token operator">|</span> State        <span class="token operator">|</span> Info                                                                                          <span class="token operator">|</span>
++----+----+----------+----+-------+-----+--------------+-----------------------------------------------------------------------------------------------+
+<span class="token operator">|</span> <span class="token number">25</span> <span class="token operator">|</span> x <span class="token operator">|</span> <span class="token number">10</span>.x:8519 <span class="token operator">|</span> db <span class="token operator">|</span> Query <span class="token operator">|</span> <span class="token number">68</span>  <span class="token operator">|</span> Sending data <span class="token operator">|</span> <span class="token keyword">select</span> max<span class="token punctuation">(</span>Fvideoid<span class="token punctuation">)</span> from <span class="token punctuation">(</span>select Fvideoid from t where Fvideoid<span class="token operator">></span><span class="token number">404612</span> order by Fvideoid<span class="token punctuation">)</span> t1 <span class="token operator">|</span>
+<span class="token operator">|</span> <span class="token number">26</span> <span class="token operator">|</span> x <span class="token operator">|</span> <span class="token number">10</span>.x:8520 <span class="token operator">|</span> db <span class="token operator">|</span> Query <span class="token operator">|</span> <span class="token number">65</span>  <span class="token operator">|</span> Sending data <span class="token operator">|</span> <span class="token keyword">select</span> max<span class="token punctuation">(</span>Fvideoid<span class="token punctuation">)</span> from <span class="token punctuation">(</span>select Fvideoid from t where Fvideoid<span class="token operator">></span><span class="token number">484915</span> order by Fvideoid<span class="token punctuation">)</span> t1 <span class="token operator">|</span>
+<span class="token operator">|</span> <span class="token number">28</span> <span class="token operator">|</span> x <span class="token operator">|</span> <span class="token number">10</span>.x:8522 <span class="token operator">|</span> db <span class="token operator">|</span> Query <span class="token operator">|</span> <span class="token number">130</span> <span class="token operator">|</span> Sending data <span class="token operator">|</span> <span class="token keyword">select</span> max<span class="token punctuation">(</span>Fvideoid<span class="token punctuation">)</span> from <span class="token punctuation">(</span>select Fvideoid from t where Fvideoid<span class="token operator">></span><span class="token number">404641</span> order by Fvideoid<span class="token punctuation">)</span> t1 <span class="token operator">|</span>
+<span class="token operator">|</span> <span class="token number">27</span> <span class="token operator">|</span> x <span class="token operator">|</span> <span class="token number">10</span>.x:8521 <span class="token operator">|</span> db <span class="token operator">|</span> Query <span class="token operator">|</span> <span class="token number">167</span> <span class="token operator">|</span> Sending data <span class="token operator">|</span> <span class="token keyword">select</span> max<span class="token punctuation">(</span>Fvideoid<span class="token punctuation">)</span> from <span class="token punctuation">(</span>select Fvideoid from t where Fvideoid<span class="token operator">></span><span class="token number">324157</span> order by Fvideoid<span class="token punctuation">)</span> t1 <span class="token operator">|</span>
+<span class="token operator">|</span> <span class="token number">36</span> <span class="token operator">|</span> x <span class="token operator">|</span> <span class="token number">10</span>.x:8727 <span class="token operator">|</span> db <span class="token operator">|</span> Query <span class="token operator">|</span> <span class="token number">174</span> <span class="token operator">|</span> Sending data <span class="token operator">|</span> <span class="token keyword">select</span> max<span class="token punctuation">(</span>Fvideoid<span class="token punctuation">)</span> from <span class="token punctuation">(</span>select Fvideoid from t where Fvideoid<span class="token operator">></span><span class="token number">324346</span> order by Fvideoid<span class="token punctuation">)</span> t1 <span class="token operator">|</span>
++----+----+----------+----+-------+-----+--------------+-----------------------------------------------------------------------------------------------+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>通过上面的结果可以看到还有不少的慢查询在进行。通过 slow query log 也能发现慢的 SQL 语句。</p>
+<p>慢查询语句为：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">select max(Fvideoid) from (select Fvideoid from t where Fvideoid&gt;404612 order by Fvideoid) t1<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p>这种方式先正排序，然后查询最大。查询效率非常低，因为只需要求最大值，却需要全表扫描。</p>
+<p>优化方式为：查询之后倒排，然后取第一条。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-mysql" data-language="mysql"><code class="language-mysql">select Fvideoid from t where Fvideoid&gt;404612 order by Fvideoid desc limit 1;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p>3.小结</p>
+<p>在实际的生产环境中，可能导致产生性能瓶颈的原因通常有：</p>
+<p><strong>（1）IO瓶颈：</strong></p>
+<ul>
+<li>  一次请求读写的数据量太大，比如一条SQL可能要读取几万行数据，这种情况最好减少一次读写的量</li>
+</ul>
+<p><strong>（2）没有合适的索引：</strong></p>
+<ul>
+<li>  没有建立合适的索引帮助进行过滤、排序、分组等。这个时候可以添加索引或者SQL改写</li>
+</ul>
+<p><strong>（3）并发量压垮服务器：</strong></p>
+<ul>
+<li>  瞬间请求量太大，导致服务器雪崩</li>
+</ul>
+<p><strong>（4）服务器自适应节能策略导致反应不及时</strong></p>
+<p>服务器自身的节能策略发现负载较低时会让CPU降频，当发现负载升高时再自动升频，但通常不是那么及时，结果导致CPU性能不足，抗不过突发的请求；</p>
+<h3 id="004-http常见的状态码"><a href="#004-http常见的状态码" class="headerlink" title="004 - http常见的状态码"></a>004 - http常见的状态码</h3><blockquote>
+<ul>
+<li>  http常见的状态码要背一下，不要只知道大概。比如每类记3个</li>
+<li>  (方法)尝试不要根据数字记状态，否则容易记混，根据状态记数字。</li>
+</ul>
 </blockquote>
 <hr>
-<p>http常见的状态码要背一下，不要只知道大概</p>
 <p>Java是值传递还是引用传递</p>
 
                 
@@ -562,6 +654,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2022/11/10/%E9%80%81%E4%B8%9C%E9%98%B3%E9%A9%AC%E7%94%9F%E5%BA%8F%20-%20%E5%AE%8B%E6%BF%82/" title="送东阳马生序 - 明 - 宋濂">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">送东阳马生序 - 明 - 宋濂</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
