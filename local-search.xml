@@ -4,6 +4,86 @@
   
   
   <entry>
+    <title></title>
+    <link href="/2022/11/15/%E6%96%B0%E5%BB%BA%20Markdown/"/>
+    <url>/2022/11/15/%E6%96%B0%E5%BB%BA%20Markdown/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>缓冲流如何提高读写性能</title>
+    <link href="/2022/11/15/%EF%BC%88%EF%BC%89%E7%BC%93%E5%86%B2%E6%B5%81%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E8%AF%BB%E5%86%99%E6%80%A7%E8%83%BD/"/>
+    <url>/2022/11/15/%EF%BC%88%EF%BC%89%E7%BC%93%E5%86%B2%E6%B5%81%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E8%AF%BB%E5%86%99%E6%80%A7%E8%83%BD/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Java使用FileWriter类向文件写入内容</title>
+    <link href="/2022/11/14/%EF%BC%88%E2%88%9A%EF%BC%892022%E5%B9%B411%E6%9C%8814%E6%97%A5%20-%20Java%E4%BD%BF%E7%94%A8FileWriter%E7%B1%BB%E5%90%91%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E5%86%85%E5%AE%B9/"/>
+    <url>/2022/11/14/%EF%BC%88%E2%88%9A%EF%BC%892022%E5%B9%B411%E6%9C%8814%E6%97%A5%20-%20Java%E4%BD%BF%E7%94%A8FileWriter%E7%B1%BB%E5%90%91%E6%96%87%E4%BB%B6%E5%86%99%E5%85%A5%E5%86%85%E5%AE%B9/</url>
+    
+    <content type="html"><![CDATA[<figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>io<span class="token punctuation">.</span></span><span class="token class-name">File</span></span><span class="token punctuation">;</span><span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>io<span class="token punctuation">.</span></span><span class="token class-name">FileWriter</span></span><span class="token punctuation">;</span><span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>io<span class="token punctuation">.</span></span><span class="token class-name">IOException</span></span><span class="token punctuation">;</span><span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>io<span class="token punctuation">.</span></span><span class="token class-name">Writer</span></span><span class="token punctuation">;</span><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Main</span> <span class="token punctuation">&#123;</span>    <span class="token comment">//使用FileWriter向文本文件中写信息</span>    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>        <span class="token class-name">String</span> str <span class="token operator">=</span> <span class="token string">"Hello World"</span><span class="token punctuation">;</span>        <span class="token comment">//1.创建流</span>        <span class="token class-name">Writer</span> fw <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>        <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>            <span class="token comment">/*创建txt文件*/</span>            <span class="token class-name">File</span> file <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span><span class="token string">"D:\\hello.txt"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>file<span class="token punctuation">.</span><span class="token function">exists</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>                file<span class="token punctuation">.</span><span class="token function">createNewFile</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token punctuation">&#125;</span>            fw <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileWriter</span><span class="token punctuation">(</span><span class="token string">"D:\\hello.txt"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//1</span>            <span class="token comment">//2.写入信息</span>            fw<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token comment">// 3.刷新缓冲区，即写入内容</span>            fw<span class="token punctuation">.</span><span class="token function">flush</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token keyword">if</span> <span class="token punctuation">(</span>fw <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>                <span class="token comment">// 4.关闭流,关闭缓冲流时，也会刷新一次缓冲区</span>                fw<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>            <span class="token punctuation">&#125;</span>        <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>        <span class="token punctuation">&#125;</span>    <span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure><p>结果：</p><p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202211141442388.png" alt="image-20221114144244343"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Java技术栈</category>
+      
+      <category>JavaIO</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>JavaIO</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>java中Class.getMethods()和Class.getDeclaredMethods()的区别</title>
+    <link href="/2022/11/14/Java%E4%B8%ADClass.getMethods()%E5%92%8CClass.getDeclaredMethods()%E7%9A%84%E5%8C%BA%E5%88%AB/"/>
+    <url>/2022/11/14/Java%E4%B8%ADClass.getMethods()%E5%92%8CClass.getDeclaredMethods()%E7%9A%84%E5%8C%BA%E5%88%AB/</url>
+    
+    <content type="html"><![CDATA[<h2 id="区别："><a href="#区别：" class="headerlink" title="区别："></a>区别：</h2><p>两个方法的区别主要在于：getMethods()返回的是该类以及超类的公共方法。getDeclaredMethods()返回该类本身自己声明的包括公共、保护、默认（包）访问和私有方法，但并不包括超类中的方法。</p><h2 id="例子："><a href="#例子：" class="headerlink" title="例子："></a>例子：</h2><figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">/*定义要被反射获取信息的类*/</span><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">TargetClass</span> <span class="token punctuation">&#123;</span>    <span class="token keyword">public</span> <span class="token class-name">TargetClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>    <span class="token punctuation">&#125;</span>    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">publicMethod_1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>    <span class="token punctuation">&#125;</span>    <span class="token keyword">protected</span> <span class="token keyword">void</span> <span class="token function">protectedMethod_2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>    <span class="token punctuation">&#125;</span>    <span class="token keyword">void</span> <span class="token function">defaultMethod_3</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>    <span class="token punctuation">&#125;</span>    <span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">privateMethod_4</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>    <span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure><figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">/*方法测试*/</span><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">TargetObject</span> <span class="token punctuation">&#123;</span>    <span class="token keyword">private</span> <span class="token class-name">String</span> value<span class="token punctuation">;</span>    <span class="token keyword">public</span> <span class="token class-name">TargetObject</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>        <span class="token keyword">this</span><span class="token punctuation">.</span>value <span class="token operator">=</span> <span class="token string">"alec"</span><span class="token punctuation">;</span>    <span class="token punctuation">&#125;</span>    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">publicMethod</span><span class="token punctuation">(</span><span class="token class-name">String</span> s<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"I am "</span> <span class="token operator">+</span> s<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token punctuation">&#125;</span>    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">privateMethod</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"value is "</span> <span class="token operator">+</span> value<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure><figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">/*结果*/</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">=</span>getMethods<span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span>publicMethod_1waitwaitwaitequalstoStringhashCodegetClassnotifynotifyAll<span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">=</span>getDeclaredMethods<span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">=</span>protectedMethod_2privateMethod_4defaultMethod_3publicMethod_1<span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span class="token operator">==</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>Java技术栈</category>
+      
+      <category>JavaSE</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>JavaSE知识点</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>2022年11月11日新华三一面复盘</title>
     <link href="/2022/11/13/%EF%BC%88%E2%88%9A%EF%BC%892022%E5%B9%B411%E6%9C%8811%E6%97%A5%E6%96%B0%E5%8D%8E%E4%B8%89%E4%B8%80%E9%9D%A2%E5%A4%8D%E7%9B%98/"/>
     <url>/2022/11/13/%EF%BC%88%E2%88%9A%EF%BC%892022%E5%B9%B411%E6%9C%8811%E6%97%A5%E6%96%B0%E5%8D%8E%E4%B8%89%E4%B8%80%E9%9D%A2%E5%A4%8D%E7%9B%98/</url>
