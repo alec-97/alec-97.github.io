@@ -18,13 +18,13 @@
   
     <meta name="description" content="本文只在用户层面讲了缓冲流对性能的提升，而忽略了系统空间的内容，实际上应该从用户空间和系统空间两部分来进行分析。后续抽时间进行完善。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="以平静对待生活">
+<meta property="og:title" content="Java缓冲流如何提高读写性能">
 <meta property="og:url" content="http://example.com/2022/11/15/10%20-%20%EF%BC%88%E2%88%9A%EF%BC%8C%E2%88%9A%EF%BC%89%E7%BC%93%E5%86%B2%E6%B5%81%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E8%AF%BB%E5%86%99%E6%80%A7%E8%83%BD/index.html">
 <meta property="og:site_name" content="以平静对待生活">
 <meta property="og:description" content="本文只在用户层面讲了缓冲流对性能的提升，而忽略了系统空间的内容，实际上应该从用户空间和系统空间两部分来进行分析。后续抽时间进行完善。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-11-15T08:10:54.390Z">
-<meta property="article:modified_time" content="2022-11-15T09:03:27.413Z">
+<meta property="article:modified_time" content="2022-11-17T02:43:57.052Z">
 <meta property="article:author" content="Shuai Zhao">
 <meta property="article:tag" content="JavaIO">
 <meta name="twitter:card" content="summary_large_image">
@@ -33,7 +33,7 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>以平静对待生活</title>
+  <title>Java缓冲流如何提高读写性能 - 以平静对待生活</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -85,12 +85,14 @@
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
+
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
   
 
-
   
+  
+
 <meta name="generator" content="Hexo 5.4.2"></head>
 
 
@@ -230,7 +232,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text=""></span>
+            <span id="subtitle" data-typed-text="Java缓冲流如何提高读写性能"></span>
           
         </div>
 
@@ -377,7 +379,7 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none"></h1>
+            <h1 style="display: none">Java缓冲流如何提高读写性能</h1>
             
             
               <div class="markdown-body">
@@ -450,7 +452,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div></div>
+      <div>Java缓冲流如何提高读写性能</div>
       <div>http://example.com/2022/11/15/10 - （√，√）缓冲流如何提高读写性能/</div>
     </div>
     <div class="license-meta">
@@ -602,7 +604,7 @@
     
       <div class="col-lg-7 mx-auto nopadding-x-md">
         <div class="container custom mx-auto">
-           <!-- MetingJS start --> <div class="aplayer" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-fixed="true" data-autoplay="true" data-volume="0.7"></div> <!-- MetingJS end --> 
+           <!-- MetingJS start --> <div class="aplayer" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-fixed="true" data-autoplay="false" data-volume="0.7"></div> <!-- MetingJS end --> 
         </div>
       </div>
     
@@ -808,11 +810,15 @@
 
 
 
+
+
+
   
 <script src="/js/dianjichuzi.js"></script>
 <script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/yinghua.js"></script>
 <script src="/js/APlayer/dist/APlayer.min.js"></script>
 <script src="/js/Meting.min.js"></script>
+
 
 
 
@@ -824,6 +830,9 @@
     window.onblur = function(){document.title = "给时间一点时间"};
     window.onfocus = function(){document.title = originalTitle};
   </script>
+
+
+
 
 
 
