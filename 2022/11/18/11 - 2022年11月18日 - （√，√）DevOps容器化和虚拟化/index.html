@@ -16,26 +16,26 @@
   <meta name="author" content="Shuai Zhao">
   <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
   
-    <meta name="description" content="使用hexo发布文章的时候，每次需要在hexo根目录打开git，然后依次执行hexo clean, hexo g, hexo d,不太方便。 后来将此过程简化为直接输入hexo clean&amp;&amp;hexo g&amp;&amp;hexo d 再后来，实现编写bat脚本，一键运行。 @echo off hexo clean&amp;&amp;hexo g&amp;&amp;gulp&amp;am">
+    <meta name="description" content="2019 DevOps 必备面试题——容器化和虚拟化 - 腾讯云 - CODING（√）  1 - 容器化和虚拟化 - Docker1.1 - 什么是容器？ 容器提供了从开发人员的笔记本电脑到测试环境、从类生产环境到生产环境一致的运行环境。 接下来给出容器的定义，容器由一个完整的运行环境组成：将一个应用程序，以及它所有的依赖项、库和其他二进制文件，以及运行它所需的配置文件打包到一起。将应用平">
 <meta property="og:type" content="article">
-<meta property="og:title" content="编写.bat脚本实现Hexo一键部署">
-<meta property="og:url" content="http://example.com/2022/11/15/3%20-%20%EF%BC%88%E2%88%9A%EF%BC%8C%E2%88%9A%EF%BC%89%E7%BC%96%E5%86%99.bat%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0Hexo%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2/index.html">
+<meta property="og:title" content="DevOps - 容器化和虚拟化 - Docker">
+<meta property="og:url" content="http://example.com/2022/11/18/11%20-%202022%E5%B9%B411%E6%9C%8818%E6%97%A5%20-%20%EF%BC%88%E2%88%9A%EF%BC%8C%E2%88%9A%EF%BC%89DevOps%E5%AE%B9%E5%99%A8%E5%8C%96%E5%92%8C%E8%99%9A%E6%8B%9F%E5%8C%96/index.html">
 <meta property="og:site_name" content="以平静对待生活">
-<meta property="og:description" content="使用hexo发布文章的时候，每次需要在hexo根目录打开git，然后依次执行hexo clean, hexo g, hexo d,不太方便。 后来将此过程简化为直接输入hexo clean&amp;&amp;hexo g&amp;&amp;hexo d 再后来，实现编写bat脚本，一键运行。 @echo off hexo clean&amp;&amp;hexo g&amp;&amp;gulp&amp;am">
+<meta property="og:description" content="2019 DevOps 必备面试题——容器化和虚拟化 - 腾讯云 - CODING（√）  1 - 容器化和虚拟化 - Docker1.1 - 什么是容器？ 容器提供了从开发人员的笔记本电脑到测试环境、从类生产环境到生产环境一致的运行环境。 接下来给出容器的定义，容器由一个完整的运行环境组成：将一个应用程序，以及它所有的依赖项、库和其他二进制文件，以及运行它所需的配置文件打包到一起。将应用平">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-11-15T08:14:23.060Z">
-<meta property="article:modified_time" content="2022-11-15T08:38:29.486Z">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202211181617804.png">
+<meta property="article:published_time" content="2022-11-18T07:52:20.282Z">
+<meta property="article:modified_time" content="2022-11-18T08:36:15.648Z">
 <meta property="article:author" content="Shuai Zhao">
-<meta property="article:tag" content="软件使用技巧">
-<meta property="article:tag" content="hexo">
-<meta property="article:tag" content="效率">
+<meta property="article:tag" content="DevOps">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202211181617804.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>编写.bat脚本实现Hexo一键部署 - 以平静对待生活</title>
+  <title>DevOps - 容器化和虚拟化 - Docker - 以平静对待生活</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -234,7 +234,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="编写.bat脚本实现Hexo一键部署"></span>
+            <span id="subtitle" data-typed-text="DevOps - 容器化和虚拟化 - Docker"></span>
           
         </div>
 
@@ -245,8 +245,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-11-15 16:14" pubdate>
-          2022年11月15日 下午
+        <time datetime="2022-11-18 15:52" pubdate>
+          2022年11月18日 下午
         </time>
       </span>
     
@@ -258,7 +258,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          259 字
+          2.3k 字
         
       </span>
     
@@ -270,7 +270,7 @@
         
         
           <!-- compatible with older versions-->
-          3 分钟
+          20 分钟
         
       </span>
     
@@ -381,19 +381,76 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">编写.bat脚本实现Hexo一键部署</h1>
+            <h1 style="display: none">DevOps - 容器化和虚拟化 - Docker</h1>
             
             
               <div class="markdown-body">
                 
-                <p>使用hexo发布文章的时候，每次需要在hexo根目录打开git，然后依次执行<code>hexo clean, hexo g, hexo d</code>,不太方便。</p>
-<p>后来将此过程简化为直接输入<code>hexo clean&amp;&amp;hexo g&amp;&amp;hexo d</code></p>
-<p>再后来，实现编写bat脚本，一键运行。</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">@echo off
-hexo clean<span class="token operator">&amp;&amp;</span>hexo g<span class="token operator">&amp;&amp;</span>gulp<span class="token operator">&amp;&amp;</span>hexo d
-explorer “http://alec-97.github.io”<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
-
-<p>其中，@echo off表示不显示后续命令行及当前命令行。</p>
+                <blockquote>
+<p>  <a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1510975">2019 DevOps 必备面试题——容器化和虚拟化 - 腾讯云 - CODING（√）</a></p>
+</blockquote>
+<h2 id="1-容器化和虚拟化-Docker"><a href="#1-容器化和虚拟化-Docker" class="headerlink" title="1 - 容器化和虚拟化 - Docker"></a>1 - 容器化和虚拟化 - Docker</h2><h3 id="1-1-什么是容器？"><a href="#1-1-什么是容器？" class="headerlink" title="1.1 - 什么是容器？"></a>1.1 - 什么是容器？</h3><hr>
+<p>容器提供了从开发人员的笔记本电脑到测试环境、从类生产环境到生产环境一致的运行环境。</p>
+<p>接下来给出容器的定义，容器由一个完整的运行环境组成：将一个应用程序，以及它所有的依赖项、库和其他二进制文件，以及运行它所需的配置文件打包到一起。将应用平台及其依赖项容器化，可以消除操作系统版本和底层基础架构间的差异。</p>
+<h3 id="1-2-容器化相比虚拟化有哪些优势？"><a href="#1-2-容器化相比虚拟化有哪些优势？" class="headerlink" title="1.2 - 容器化相比虚拟化有哪些优势？"></a>1.2 - 容器化相比虚拟化有哪些优势？</h3><hr>
+<p>以下是容器化相对于虚拟化的优势：</p>
+<ul>
+<li>  容器提供实时资源调配和可拓展性，虚拟机提供的资源调配速度较慢（虚拟机的速度慢）</li>
+<li>  与虚拟机相比，容器是轻量级的（容器更轻量，不需要虚拟机）</li>
+<li>  与容器相比，虚拟机的性能有限（虚拟机配置受限）</li>
+<li>  与虚拟机相比，容器具有更好的资源利用率（虚拟机受固定的资源分配限制）</li>
+</ul>
+<h3 id="1-3-容器（在我们的例子中指-Docker）与管理程序虚拟化（vSphere）有何不同？有哪些好处？"><a href="#1-3-容器（在我们的例子中指-Docker）与管理程序虚拟化（vSphere）有何不同？有哪些好处？" class="headerlink" title="1.3 - 容器（在我们的例子中指 Docker）与管理程序虚拟化（vSphere）有何不同？有哪些好处？"></a>1.3 - 容器（在我们的例子中指 Docker）与管理程序虚拟化（vSphere）有何不同？有哪些好处？</h3><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202211181617804.png" srcset="/img/loading.gif" lazyload alt="image-20221118161726717"></p>
+<h3 id="1-4-什么是-Docker-镜像？"><a href="#1-4-什么是-Docker-镜像？" class="headerlink" title="1.4 - 什么是 Docker 镜像？"></a>1.4 - 什么是 Docker 镜像？</h3><hr>
+<p>Docker 镜像是 Docker 容器的来源，换句话说，Docker 镜像用于创建容器。使用 build 命令创建镜像，当开始运行时，它们将生成一个容器。镜像存储在 Docker 注册表中，如 registry.hub.docker.com，因为它们可能变得非常大，镜像被设计成由其他镜像层组成，允许在通过网络传输镜像时发送最小的数据量。</p>
+<h3 id="1-5-什么是Docker容器？"><a href="#1-5-什么是Docker容器？" class="headerlink" title="1.5 - 什么是Docker容器？"></a>1.5 - 什么是Docker容器？</h3><hr>
+<p>这是一个非常重要的问题，所以请确保回答不偏离主题，我建议你遵循以下格式：</p>
+<p>Docker 容器包括应用程序及其所有依赖项，但与其他容器共享内核，在主机操作系统的用户空间中作为独立进程运行。Docker 容器不绑定于任何特定的基础架构：它们可以在任何计算机、任何基础架构和任何云上运行。</p>
+<p>现在解释如何创建 Docker 容器：可以通过创建 Docker 镜像然后运行它来创建 Docker 容器，也可以使用 Dockerhub 上已存在的 Docker 镜像。</p>
+<p>Docker 容器基本上是 Docker 镜像的运行时实例。</p>
+<h3 id="1-6-什么是-Docker-Hub？"><a href="#1-6-什么是-Docker-Hub？" class="headerlink" title="1.6 - 什么是 Docker Hub？"></a>1.6 - 什么是 Docker Hub？</h3><hr>
+<p>Docker Hub 是一个基于云的注册表服务，允许你链接到代码仓库，构建并测试你的镜像，存储手动推送的镜像以及指向 Docker 云的链接，以便你可以将镜像部署到主机。它为整个开发流程中的容器镜像发现、分发和变更管理、用户和团队协作以及工作流自动化提供了集中的资源管理。</p>
+<h3 id="1-7-Docker-与其他容器技术有何不同？"><a href="#1-7-Docker-与其他容器技术有何不同？" class="headerlink" title="1.7 - Docker 与其他容器技术有何不同？"></a>1.7 - Docker 与其他容器技术有何不同？</h3><hr>
+<p>据我所知，你的答案应该包括以下几点：</p>
+<p>Docker 容器易于在云上部署。与其他技术相比，它可以在相同硬件上运行更多应用程序，使开发人员可以轻松地快速创建可立即运行的容器化应用程序，并使管理和部署应用程序变得更加容易。你甚至可以与你的应用程序共享容器。</p>
+<p>你也可以补充更多要点，但要确保上述内容在你的回答中。</p>
+<h3 id="1-8-什么是-Docker-Swarm？"><a href="#1-8-什么是-Docker-Swarm？" class="headerlink" title="1.8 - 什么是 Docker Swarm？"></a>1.8 - 什么是 Docker Swarm？</h3><hr>
+<p>它是 Docker 的本地集群，它将 Docker 主机池转换为单个虚拟 Docker 主机。Docker Swarm 提供标准的 Docker API，任何已经与 Docker 守护进程通信的工具都可以使用 Swarm 透明地扩展到多个主机。</p>
+<p>我还建议你提及一些支持的工具：</p>
+<p>Dokku<br>Docker Compose<br>Docker Machine<br>Jenkins</p>
+<h3 id="1-9-Dockerfile-的用途是什么？"><a href="#1-9-Dockerfile-的用途是什么？" class="headerlink" title="1.9 - Dockerfile 的用途是什么？"></a>1.9 - Dockerfile 的用途是什么？</h3><hr>
+<p>Docker 可以通过从 Dockerfile 中读取指令来自动构建镜像。</p>
+<p>Dockerfile 是一个配置文件，其中包含用户可以在命令行上调用以组合镜像的所有命令。使用 Docker 构建用户可以创建一个连续执行多个命令行指令的自动构建。</p>
+<h3 id="1-10-你在过去的职位中是如何使用-Docker-的？"><a href="#1-10-你在过去的职位中是如何使用-Docker-的？" class="headerlink" title="1.10 - 你在过去的职位中是如何使用 Docker 的？"></a>1.10 - 你在过去的职位中是如何使用 Docker 的？</h3><hr>
+<p>这里需要解释你如何使用 Docker 来帮助进行快速部署，以及如何编写 Docker 脚本，并配合其他工具如 Puppet、Chef 或 Jenkins 等来使用 Docker。如果你在 Docker 方面缺乏以往的实践经验，但是在类似的领域中有过使用其他工具的经验，请诚实地告知并解释相同的内容。在这种情况下，如果您可以将其他工具与 Docker 在功能方面进行比较，这是有意义的。</p>
+<h3 id="1-11-如何创建-Docker-容器？"><a href="#1-11-如何创建-Docker-容器？" class="headerlink" title="1.11 - 如何创建 Docker 容器？"></a>1.11 - 如何创建 Docker 容器？</h3><hr>
+<p>关于这个我建议你给出一个直观的回答——可以使用以下命令使用 Docker 镜像创建 Docker 容器：  </p>
+<p><strong>docker run -t -i <image name> <command name></strong>  </p>
+<p>此命令将创建并启动容器。</p>
+<p>你还应该提到，如果要检查主机上所有状态为正在运行的容器的列表，需要使用以下命令：  </p>
+<p><strong>docker ps -a</strong></p>
+<h3 id="1-12-如何停止并重新启动-Docker-容器？"><a href="#1-12-如何停止并重新启动-Docker-容器？" class="headerlink" title="1.12 - 如何停止并重新启动 Docker 容器？"></a>1.12 - 如何停止并重新启动 Docker 容器？</h3><hr>
+<p>要停止 Docker 容器，可以使用以下命令：  </p>
+<p>docker stop <container ID></p>
+<p>现在重新启动 Docker 容器，可以使用以下命令：  </p>
+<p>docker restart <container ID></p>
+<h3 id="1-13-Docker-容器可以扩展到什么程度？"><a href="#1-13-Docker-容器可以扩展到什么程度？" class="headerlink" title="1.13 - Docker 容器可以扩展到什么程度？"></a>1.13 - Docker 容器可以扩展到什么程度？</h3><hr>
+<p>像 Google 和 Twitter 这样的大型网络部署，以及像 Heroku 和 DotCloud 这样的平台供应商都运行在容器技术上，规模达到几十万甚至数百万个容器并行运行。</p>
+<h3 id="1-14-Docker-在什么平台上运行？"><a href="#1-14-Docker-在什么平台上运行？" class="headerlink" title="1.14 - Docker 在什么平台上运行？"></a>1.14 - Docker 在什么平台上运行？</h3><hr>
+<p>首先，我会说 Docker 通常在 Linux 和云平台上运行，然后我会提到以下 Linux 供应商：</p>
+<ul>
+<li>  Ubuntu 12.04、13.04 等</li>
+<li>  Fedora 19/20+</li>
+<li>  RHEL 6.5+</li>
+<li>  CentOS 6+</li>
+<li>  Gentoo</li>
+<li>  ArchLinux</li>
+<li>  openSUSE 12.3+</li>
+<li>  CRUX 3.0+</li>
+</ul>
+<h3 id="1-15-当-Docker-容器退出时，我会丢失数据吗？"><a href="#1-15-当-Docker-容器退出时，我会丢失数据吗？" class="headerlink" title="1.15 - 当 Docker 容器退出时，我会丢失数据吗？"></a>1.15 - 当 Docker 容器退出时，我会丢失数据吗？</h3><hr>
+<p>你可以这样回答：当 Docker 容器退出时，我不会丢失我的数据。在你明确删除容器前，应用程序写入磁盘的任何数据都将保留在其容器中。即使在容器停止后，容器的文件系统仍然存在。</p>
 
                 
               </div>
@@ -412,12 +469,12 @@ explorer “http://alec-97.github.io”<span aria-hidden="true" class="line-numb
     
       <span class="category-chain">
         
-  <a href="/categories/%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8/" class="category-chain-item">软件使用</a>
+  <a href="/categories/%E6%96%B9%E6%B3%95%E8%AE%BA/" class="category-chain-item">方法论</a>
   
   
     <span>></span>
     
-  <a href="/categories/%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8/Hexo%E5%8D%9A%E5%AE%A2/" class="category-chain-item">Hexo博客</a>
+  <a href="/categories/%E6%96%B9%E6%B3%95%E8%AE%BA/%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B/" class="category-chain-item">开发流程</a>
   
   
 
@@ -434,11 +491,7 @@ explorer “http://alec-97.github.io”<span aria-hidden="true" class="line-numb
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/">#软件使用技巧</a>
-      
-        <a href="/tags/hexo/">#hexo</a>
-      
-        <a href="/tags/%E6%95%88%E7%8E%87/">#效率</a>
+        <a href="/tags/DevOps/">#DevOps</a>
       
     </div>
   
@@ -450,8 +503,8 @@ explorer “http://alec-97.github.io”<span aria-hidden="true" class="line-numb
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>编写.bat脚本实现Hexo一键部署</div>
-      <div>http://example.com/2022/11/15/3 - （√，√）编写.bat脚本实现Hexo一键部署/</div>
+      <div>DevOps - 容器化和虚拟化 - Docker</div>
+      <div>http://example.com/2022/11/18/11 - 2022年11月18日 - （√，√）DevOps容器化和虚拟化/</div>
     </div>
     <div class="license-meta">
       
@@ -463,7 +516,7 @@ explorer “http://alec-97.github.io”<span aria-hidden="true" class="line-numb
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年11月15日</div>
+          <div>2022年11月18日</div>
         </div>
       
       
@@ -495,9 +548,9 @@ explorer “http://alec-97.github.io”<span aria-hidden="true" class="line-numb
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/11/15/0%20-%20%E6%97%A5%E6%9C%9F%20-%20%EF%BC%88%EF%BC%89%E6%A8%A1%E6%9D%BF/" title="">
+                      <a href="/2022/11/18/12%20-%202022%E5%B9%B411%E6%9C%8818%E6%97%A5%20-%20%EF%BC%88%EF%BC%89%E5%B8%B8%E8%A7%81%E7%9A%84%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%9C%89%E5%93%AA%E4%BA%9B/" title="常见的消息队列有哪些">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile"></span>
+                        <span class="hidden-mobile">常见的消息队列有哪些</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -505,8 +558,8 @@ explorer “http://alec-97.github.io”<span aria-hidden="true" class="line-numb
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/11/15/10%20-%20%EF%BC%88%E2%88%9A%EF%BC%8C%E2%88%9A%EF%BC%89%E7%BC%93%E5%86%B2%E6%B5%81%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E8%AF%BB%E5%86%99%E6%80%A7%E8%83%BD/" title="Java缓冲流如何提高读写性能">
-                        <span class="hidden-mobile">Java缓冲流如何提高读写性能</span>
+                      <a href="/2022/11/15/0%20-%20%E6%97%A5%E6%9C%9F%20-%20%EF%BC%88%EF%BC%89%E6%A8%A1%E6%9D%BF/" title="">
+                        <span class="hidden-mobile"></span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

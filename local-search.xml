@@ -4,9 +4,65 @@
   
   
   <entry>
+    <title>常见的消息队列有哪些</title>
+    <link href="/2022/11/18/12%20-%202022%E5%B9%B411%E6%9C%8818%E6%97%A5%20-%20%EF%BC%88%EF%BC%89%E5%B8%B8%E8%A7%81%E7%9A%84%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%9C%89%E5%93%AA%E4%BA%9B/"/>
+    <url>/2022/11/18/12%20-%202022%E5%B9%B411%E6%9C%8818%E6%97%A5%20-%20%EF%BC%88%EF%BC%89%E5%B8%B8%E8%A7%81%E7%9A%84%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%9C%89%E5%93%AA%E4%BA%9B/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>  参考：</p><p>  <a href="https://javaguide.cn/high-performance/message-queue/message-queue.html#%E5%B8%B8%E8%A7%81%E7%9A%84%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E6%9C%89%E5%93%AA%E4%BA%9B">常见的消息队列有哪些？ - JavaGuide（）</a></p></blockquote><h2 id="Kafka"><a href="#Kafka" class="headerlink" title="Kafka"></a>Kafka</h2><h2 id="RocketMQ"><a href="#RocketMQ" class="headerlink" title="RocketMQ"></a>RocketMQ</h2><h2 id="RabbitMQ"><a href="#RabbitMQ" class="headerlink" title="RabbitMQ"></a>RabbitMQ</h2><h2 id="Pulsar"><a href="#Pulsar" class="headerlink" title="Pulsar"></a>Pulsar</h2><h2 id="ActiveMQ"><a href="#ActiveMQ" class="headerlink" title="ActiveMQ"></a>ActiveMQ</h2>]]></content>
+    
+    
+    <categories>
+      
+      <category>架构</category>
+      
+      <category>消息队列</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>消息队列</tag>
+      
+      <tag>架构</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>DevOps - 容器化和虚拟化 - Docker</title>
+    <link href="/2022/11/18/11%20-%202022%E5%B9%B411%E6%9C%8818%E6%97%A5%20-%20%EF%BC%88%E2%88%9A%EF%BC%8C%E2%88%9A%EF%BC%89DevOps%E5%AE%B9%E5%99%A8%E5%8C%96%E5%92%8C%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
+    <url>/2022/11/18/11%20-%202022%E5%B9%B411%E6%9C%8818%E6%97%A5%20-%20%EF%BC%88%E2%88%9A%EF%BC%8C%E2%88%9A%EF%BC%89DevOps%E5%AE%B9%E5%99%A8%E5%8C%96%E5%92%8C%E8%99%9A%E6%8B%9F%E5%8C%96/</url>
+    
+    <content type="html"><![CDATA[<blockquote><p>  <a href="https://cloud.tencent.com/developer/article/1510975">2019 DevOps 必备面试题——容器化和虚拟化 - 腾讯云 - CODING（√）</a></p></blockquote><h2 id="1-容器化和虚拟化-Docker"><a href="#1-容器化和虚拟化-Docker" class="headerlink" title="1 - 容器化和虚拟化 - Docker"></a>1 - 容器化和虚拟化 - Docker</h2><h3 id="1-1-什么是容器？"><a href="#1-1-什么是容器？" class="headerlink" title="1.1 - 什么是容器？"></a>1.1 - 什么是容器？</h3><hr><p>容器提供了从开发人员的笔记本电脑到测试环境、从类生产环境到生产环境一致的运行环境。</p><p>接下来给出容器的定义，容器由一个完整的运行环境组成：将一个应用程序，以及它所有的依赖项、库和其他二进制文件，以及运行它所需的配置文件打包到一起。将应用平台及其依赖项容器化，可以消除操作系统版本和底层基础架构间的差异。</p><h3 id="1-2-容器化相比虚拟化有哪些优势？"><a href="#1-2-容器化相比虚拟化有哪些优势？" class="headerlink" title="1.2 - 容器化相比虚拟化有哪些优势？"></a>1.2 - 容器化相比虚拟化有哪些优势？</h3><hr><p>以下是容器化相对于虚拟化的优势：</p><ul><li>  容器提供实时资源调配和可拓展性，虚拟机提供的资源调配速度较慢（虚拟机的速度慢）</li><li>  与虚拟机相比，容器是轻量级的（容器更轻量，不需要虚拟机）</li><li>  与容器相比，虚拟机的性能有限（虚拟机配置受限）</li><li>  与虚拟机相比，容器具有更好的资源利用率（虚拟机受固定的资源分配限制）</li></ul><h3 id="1-3-容器（在我们的例子中指-Docker）与管理程序虚拟化（vSphere）有何不同？有哪些好处？"><a href="#1-3-容器（在我们的例子中指-Docker）与管理程序虚拟化（vSphere）有何不同？有哪些好处？" class="headerlink" title="1.3 - 容器（在我们的例子中指 Docker）与管理程序虚拟化（vSphere）有何不同？有哪些好处？"></a>1.3 - 容器（在我们的例子中指 Docker）与管理程序虚拟化（vSphere）有何不同？有哪些好处？</h3><hr><p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202211181617804.png" alt="image-20221118161726717"></p><h3 id="1-4-什么是-Docker-镜像？"><a href="#1-4-什么是-Docker-镜像？" class="headerlink" title="1.4 - 什么是 Docker 镜像？"></a>1.4 - 什么是 Docker 镜像？</h3><hr><p>Docker 镜像是 Docker 容器的来源，换句话说，Docker 镜像用于创建容器。使用 build 命令创建镜像，当开始运行时，它们将生成一个容器。镜像存储在 Docker 注册表中，如 registry.hub.docker.com，因为它们可能变得非常大，镜像被设计成由其他镜像层组成，允许在通过网络传输镜像时发送最小的数据量。</p><h3 id="1-5-什么是Docker容器？"><a href="#1-5-什么是Docker容器？" class="headerlink" title="1.5 - 什么是Docker容器？"></a>1.5 - 什么是Docker容器？</h3><hr><p>这是一个非常重要的问题，所以请确保回答不偏离主题，我建议你遵循以下格式：</p><p>Docker 容器包括应用程序及其所有依赖项，但与其他容器共享内核，在主机操作系统的用户空间中作为独立进程运行。Docker 容器不绑定于任何特定的基础架构：它们可以在任何计算机、任何基础架构和任何云上运行。</p><p>现在解释如何创建 Docker 容器：可以通过创建 Docker 镜像然后运行它来创建 Docker 容器，也可以使用 Dockerhub 上已存在的 Docker 镜像。</p><p>Docker 容器基本上是 Docker 镜像的运行时实例。</p><h3 id="1-6-什么是-Docker-Hub？"><a href="#1-6-什么是-Docker-Hub？" class="headerlink" title="1.6 - 什么是 Docker Hub？"></a>1.6 - 什么是 Docker Hub？</h3><hr><p>Docker Hub 是一个基于云的注册表服务，允许你链接到代码仓库，构建并测试你的镜像，存储手动推送的镜像以及指向 Docker 云的链接，以便你可以将镜像部署到主机。它为整个开发流程中的容器镜像发现、分发和变更管理、用户和团队协作以及工作流自动化提供了集中的资源管理。</p><h3 id="1-7-Docker-与其他容器技术有何不同？"><a href="#1-7-Docker-与其他容器技术有何不同？" class="headerlink" title="1.7 - Docker 与其他容器技术有何不同？"></a>1.7 - Docker 与其他容器技术有何不同？</h3><hr><p>据我所知，你的答案应该包括以下几点：</p><p>Docker 容器易于在云上部署。与其他技术相比，它可以在相同硬件上运行更多应用程序，使开发人员可以轻松地快速创建可立即运行的容器化应用程序，并使管理和部署应用程序变得更加容易。你甚至可以与你的应用程序共享容器。</p><p>你也可以补充更多要点，但要确保上述内容在你的回答中。</p><h3 id="1-8-什么是-Docker-Swarm？"><a href="#1-8-什么是-Docker-Swarm？" class="headerlink" title="1.8 - 什么是 Docker Swarm？"></a>1.8 - 什么是 Docker Swarm？</h3><hr><p>它是 Docker 的本地集群，它将 Docker 主机池转换为单个虚拟 Docker 主机。Docker Swarm 提供标准的 Docker API，任何已经与 Docker 守护进程通信的工具都可以使用 Swarm 透明地扩展到多个主机。</p><p>我还建议你提及一些支持的工具：</p><p>Dokku<br>Docker Compose<br>Docker Machine<br>Jenkins</p><h3 id="1-9-Dockerfile-的用途是什么？"><a href="#1-9-Dockerfile-的用途是什么？" class="headerlink" title="1.9 - Dockerfile 的用途是什么？"></a>1.9 - Dockerfile 的用途是什么？</h3><hr><p>Docker 可以通过从 Dockerfile 中读取指令来自动构建镜像。</p><p>Dockerfile 是一个配置文件，其中包含用户可以在命令行上调用以组合镜像的所有命令。使用 Docker 构建用户可以创建一个连续执行多个命令行指令的自动构建。</p><h3 id="1-10-你在过去的职位中是如何使用-Docker-的？"><a href="#1-10-你在过去的职位中是如何使用-Docker-的？" class="headerlink" title="1.10 - 你在过去的职位中是如何使用 Docker 的？"></a>1.10 - 你在过去的职位中是如何使用 Docker 的？</h3><hr><p>这里需要解释你如何使用 Docker 来帮助进行快速部署，以及如何编写 Docker 脚本，并配合其他工具如 Puppet、Chef 或 Jenkins 等来使用 Docker。如果你在 Docker 方面缺乏以往的实践经验，但是在类似的领域中有过使用其他工具的经验，请诚实地告知并解释相同的内容。在这种情况下，如果您可以将其他工具与 Docker 在功能方面进行比较，这是有意义的。</p><h3 id="1-11-如何创建-Docker-容器？"><a href="#1-11-如何创建-Docker-容器？" class="headerlink" title="1.11 - 如何创建 Docker 容器？"></a>1.11 - 如何创建 Docker 容器？</h3><hr><p>关于这个我建议你给出一个直观的回答——可以使用以下命令使用 Docker 镜像创建 Docker 容器：  </p><p><strong>docker run -t -i <image name> <command name></strong>  </p><p>此命令将创建并启动容器。</p><p>你还应该提到，如果要检查主机上所有状态为正在运行的容器的列表，需要使用以下命令：  </p><p><strong>docker ps -a</strong></p><h3 id="1-12-如何停止并重新启动-Docker-容器？"><a href="#1-12-如何停止并重新启动-Docker-容器？" class="headerlink" title="1.12 - 如何停止并重新启动 Docker 容器？"></a>1.12 - 如何停止并重新启动 Docker 容器？</h3><hr><p>要停止 Docker 容器，可以使用以下命令：  </p><p>docker stop <container ID></p><p>现在重新启动 Docker 容器，可以使用以下命令：  </p><p>docker restart <container ID></p><h3 id="1-13-Docker-容器可以扩展到什么程度？"><a href="#1-13-Docker-容器可以扩展到什么程度？" class="headerlink" title="1.13 - Docker 容器可以扩展到什么程度？"></a>1.13 - Docker 容器可以扩展到什么程度？</h3><hr><p>像 Google 和 Twitter 这样的大型网络部署，以及像 Heroku 和 DotCloud 这样的平台供应商都运行在容器技术上，规模达到几十万甚至数百万个容器并行运行。</p><h3 id="1-14-Docker-在什么平台上运行？"><a href="#1-14-Docker-在什么平台上运行？" class="headerlink" title="1.14 - Docker 在什么平台上运行？"></a>1.14 - Docker 在什么平台上运行？</h3><hr><p>首先，我会说 Docker 通常在 Linux 和云平台上运行，然后我会提到以下 Linux 供应商：</p><ul><li>  Ubuntu 12.04、13.04 等</li><li>  Fedora 19/20+</li><li>  RHEL 6.5+</li><li>  CentOS 6+</li><li>  Gentoo</li><li>  ArchLinux</li><li>  openSUSE 12.3+</li><li>  CRUX 3.0+</li></ul><h3 id="1-15-当-Docker-容器退出时，我会丢失数据吗？"><a href="#1-15-当-Docker-容器退出时，我会丢失数据吗？" class="headerlink" title="1.15 - 当 Docker 容器退出时，我会丢失数据吗？"></a>1.15 - 当 Docker 容器退出时，我会丢失数据吗？</h3><hr><p>你可以这样回答：当 Docker 容器退出时，我不会丢失我的数据。在你明确删除容器前，应用程序写入磁盘的任何数据都将保留在其容器中。即使在容器停止后，容器的文件系统仍然存在。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>方法论</category>
+      
+      <category>开发流程</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>DevOps</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title></title>
-    <link href="/2022/11/15/0%20-%20%EF%BC%88%EF%BC%89%E6%A8%A1%E6%9D%BF/"/>
-    <url>/2022/11/15/0%20-%20%EF%BC%88%EF%BC%89%E6%A8%A1%E6%9D%BF/</url>
+    <link href="/2022/11/15/0%20-%20%E6%97%A5%E6%9C%9F%20-%20%EF%BC%88%EF%BC%89%E6%A8%A1%E6%9D%BF/"/>
+    <url>/2022/11/15/0%20-%20%E6%97%A5%E6%9C%9F%20-%20%EF%BC%88%EF%BC%89%E6%A8%A1%E6%9D%BF/</url>
     
     <content type="html"><![CDATA[]]></content>
     
