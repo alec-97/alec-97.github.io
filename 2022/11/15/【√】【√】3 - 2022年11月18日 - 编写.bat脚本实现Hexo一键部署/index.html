@@ -16,25 +16,26 @@
   <meta name="author" content="Shuai Zhao">
   <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
   
-    <meta name="description" content="天有不测风云，人有旦夕祸福。蜈蚣百足，行不及蛇；雄鸡两翼，飞不过鸦。马有千里之程，无骑不能自往；人有冲天之志，非运不能自通。 盖闻：人生在世，富贵不能淫，贫贱不能移。文章盖世，孔子厄于陈邦；武略超群，太公钓于渭水。颜渊命短，殊非凶恶之徒；盗跖年长，岂是善良之辈。尧帝明圣，却生不肖之儿；瞽叟愚顽，反生大孝之子。张良原是布衣，萧何曾为县吏。晏子身无五尺，封作齐国宰相；孔明卧居草庐，能作蜀汉军师。楚霸虽">
+    <meta name="description" content="使用hexo发布文章的时候，每次需要在hexo根目录打开git，然后依次执行hexo clean, hexo g, hexo d,不太方便。 后来将此过程简化为直接输入hexo clean&amp;&amp;hexo g&amp;&amp;hexo d 再后来，实现编写bat脚本，一键运行。 @echo off hexo clean&amp;&amp;hexo g&amp;&amp;gulp&amp;am">
 <meta property="og:type" content="article">
-<meta property="og:title" content="寒窑赋（劝世章） - 北宋 - 吕蒙正">
-<meta property="og:url" content="http://example.com/2022/11/11/4%20-%20%EF%BC%88%E2%88%9A%EF%BC%8C%E2%88%9A%EF%BC%89%E5%AF%92%E7%AA%91%E8%B5%8B%EF%BC%88%E5%8A%9D%E4%B8%96%E7%AB%A0%EF%BC%89%20-%20%E5%8C%97%E5%AE%8B%20-%20%E5%90%95%E8%92%99%E6%AD%A3/index.html">
+<meta property="og:title" content="编写.bat脚本实现Hexo一键部署">
+<meta property="og:url" content="http://example.com/2022/11/15/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%913%20-%202022%E5%B9%B411%E6%9C%8818%E6%97%A5%20-%20%E7%BC%96%E5%86%99.bat%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0Hexo%E4%B8%80%E9%94%AE%E9%83%A8%E7%BD%B2/index.html">
 <meta property="og:site_name" content="以平静对待生活">
-<meta property="og:description" content="天有不测风云，人有旦夕祸福。蜈蚣百足，行不及蛇；雄鸡两翼，飞不过鸦。马有千里之程，无骑不能自往；人有冲天之志，非运不能自通。 盖闻：人生在世，富贵不能淫，贫贱不能移。文章盖世，孔子厄于陈邦；武略超群，太公钓于渭水。颜渊命短，殊非凶恶之徒；盗跖年长，岂是善良之辈。尧帝明圣，却生不肖之儿；瞽叟愚顽，反生大孝之子。张良原是布衣，萧何曾为县吏。晏子身无五尺，封作齐国宰相；孔明卧居草庐，能作蜀汉军师。楚霸虽">
+<meta property="og:description" content="使用hexo发布文章的时候，每次需要在hexo根目录打开git，然后依次执行hexo clean, hexo g, hexo d,不太方便。 后来将此过程简化为直接输入hexo clean&amp;&amp;hexo g&amp;&amp;hexo d 再后来，实现编写bat脚本，一键运行。 @echo off hexo clean&amp;&amp;hexo g&amp;&amp;gulp&amp;am">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-11-11T04:03:08.840Z">
-<meta property="article:modified_time" content="2022-11-11T04:02:38.162Z">
+<meta property="article:published_time" content="2022-11-15T08:14:23.060Z">
+<meta property="article:modified_time" content="2022-11-15T08:38:29.486Z">
 <meta property="article:author" content="Shuai Zhao">
-<meta property="article:tag" content="诗词">
-<meta property="article:tag" content="品读">
+<meta property="article:tag" content="软件使用技巧">
+<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="效率">
 <meta name="twitter:card" content="summary_large_image">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>寒窑赋（劝世章） - 北宋 - 吕蒙正 - 以平静对待生活</title>
+  <title>编写.bat脚本实现Hexo一键部署 - 以平静对待生活</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -233,7 +234,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="寒窑赋（劝世章） - 北宋 - 吕蒙正"></span>
+            <span id="subtitle" data-typed-text="编写.bat脚本实现Hexo一键部署"></span>
           
         </div>
 
@@ -244,8 +245,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-11-11 12:03" pubdate>
-          2022年11月11日 中午
+        <time datetime="2022-11-15 16:14" pubdate>
+          2022年11月15日 下午
         </time>
       </span>
     
@@ -257,7 +258,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          739 字
+          259 字
         
       </span>
     
@@ -269,7 +270,7 @@
         
         
           <!-- compatible with older versions-->
-          7 分钟
+          3 分钟
         
       </span>
     
@@ -380,18 +381,19 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">寒窑赋（劝世章） - 北宋 - 吕蒙正</h1>
+            <h1 style="display: none">编写.bat脚本实现Hexo一键部署</h1>
             
             
               <div class="markdown-body">
                 
-                <p>天有不测风云，人有旦夕祸福。蜈蚣百足，行不及蛇；雄鸡两翼，飞不过鸦。马有千里之程，无骑不能自往；人有冲天之志，非运不能自通。</p>
-<p>盖闻：人生在世，富贵不能淫，贫贱不能移。文章盖世，孔子厄于陈邦；武略超群，太公钓于渭水。颜渊命短，殊非凶恶之徒；盗跖年长，岂是善良之辈。尧帝明圣，却生不肖之儿；瞽叟愚顽，反生大孝之子。张良原是布衣，萧何曾为县吏。晏子身无五尺，封作齐国宰相；孔明卧居草庐，能作蜀汉军师。楚霸虽雄，败于乌江自刎；汉王虽弱，竟有万里江山。李广有射虎之威，到老无封；冯唐有乘龙之才，一生不遇。韩信未遇之时，无一日三餐，及至遇行，腰悬三尺玉印，一旦时衰，死于阴人之手。</p>
-<p>有先贫而后富，有老壮而少衰。满腹文章，白发竟然不中；才疏学浅，少年及第登科。深院宫娥，运退反为妓妾；风流妓女，时来配作夫人。</p>
-<p>青春美女，却招愚蠢之夫；俊秀郎君，反配粗丑之妇。蛟龙未遇，潜水于鱼鳖之间；君子失时，拱手于小人之下。衣服虽破，常存仪礼之容；面带忧愁，每抱怀安之量。时遭不遇，只宜安贫守份；心若不欺，必然扬眉吐气。初贫君子，天然骨骼生成；乍富小人，不脱贫寒肌体。</p>
-<p>天不得时，日月无光；地不得时，草木不生；水不得时，风浪不平；人不得时，利运不通。注福注禄，命里已安排定，富贵谁不欲？人若不依根基八字，岂能为卿为相？</p>
-<p>吾昔寓居洛阳，朝求僧餐，暮宿破窖，思衣不可遮其体，思食不可济其饥，上人憎，下人厌，人道我贱，非我不弃也。今居朝堂，官至极品，位置三公，身虽鞠躬于一人之下，而列职于千万人之上，有挞百僚之杖，有斩鄙吝之剑，思衣而有罗锦千箱，思食而有珍馐百味，出则壮士执鞭，入则佳人捧觞，上人宠，下人拥。人道我贵，非我之能也，此乃时也、运也、命也。</p>
-<p>嗟呼！人生在世，富贵不可尽用，贫贱不可自欺，听由天地循环，周而复始焉。</p>
+                <p>使用hexo发布文章的时候，每次需要在hexo根目录打开git，然后依次执行<code>hexo clean, hexo g, hexo d</code>,不太方便。</p>
+<p>后来将此过程简化为直接输入<code>hexo clean&amp;&amp;hexo g&amp;&amp;hexo d</code></p>
+<p>再后来，实现编写bat脚本，一键运行。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">@echo off
+hexo clean<span class="token operator">&amp;&amp;</span>hexo g<span class="token operator">&amp;&amp;</span>gulp<span class="token operator">&amp;&amp;</span>hexo d
+explorer “http://alec-97.github.io”<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>其中，@echo off表示不显示后续命令行及当前命令行。</p>
 
                 
               </div>
@@ -410,12 +412,12 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E7%94%9F%E6%B4%BB%E4%B9%90%E8%B6%A3/" class="category-chain-item">生活乐趣</a>
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8/" class="category-chain-item">软件使用</a>
   
   
     <span>></span>
     
-  <a href="/categories/%E7%94%9F%E6%B4%BB%E4%B9%90%E8%B6%A3/%E8%AF%97%E6%AD%8C%E5%93%81%E8%AF%BB/" class="category-chain-item">诗歌品读</a>
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8/Hexo%E5%8D%9A%E5%AE%A2/" class="category-chain-item">Hexo博客</a>
   
   
 
@@ -432,9 +434,11 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E8%AF%97%E8%AF%8D/">#诗词</a>
+        <a href="/tags/%E8%BD%AF%E4%BB%B6%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/">#软件使用技巧</a>
       
-        <a href="/tags/%E5%93%81%E8%AF%BB/">#品读</a>
+        <a href="/tags/hexo/">#hexo</a>
+      
+        <a href="/tags/%E6%95%88%E7%8E%87/">#效率</a>
       
     </div>
   
@@ -446,8 +450,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>寒窑赋（劝世章） - 北宋 - 吕蒙正</div>
-      <div>http://example.com/2022/11/11/4 - （√，√）寒窑赋（劝世章） - 北宋 - 吕蒙正/</div>
+      <div>编写.bat脚本实现Hexo一键部署</div>
+      <div>http://example.com/2022/11/15/【√】【√】3 - 2022年11月18日 - 编写.bat脚本实现Hexo一键部署/</div>
     </div>
     <div class="license-meta">
       
@@ -459,7 +463,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年11月11日</div>
+          <div>2022年11月15日</div>
         </div>
       
       
@@ -491,9 +495,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/11/11/6%20-%20%EF%BC%88%E2%88%9A%EF%BC%8C%E2%88%9A%EF%BC%89%E6%BB%95%E7%8E%8B%E9%98%81%E5%BA%8F%20-%20%E5%94%90%20-%20%E7%8E%8B%E5%8B%83/" title="滕王阁序 - 唐 - 王勃">
+                      <a href="/2022/11/15/%E3%80%90%E3%80%91%E3%80%90%E3%80%910%20-%20%E6%97%A5%E6%9C%9F%20-%20%E6%A8%A1%E6%9D%BF/" title="">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">滕王阁序 - 唐 - 王勃</span>
+                        <span class="hidden-mobile"></span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -501,8 +505,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/11/10/7%20-%20%EF%BC%88%E2%88%9A%EF%BC%8C%E2%88%9A%EF%BC%89%E9%80%81%E4%B8%9C%E9%98%B3%E9%A9%AC%E7%94%9F%E5%BA%8F%20-%20%E5%AE%8B%E6%BF%82/" title="送东阳马生序 - 明 - 宋濂">
-                        <span class="hidden-mobile">送东阳马生序 - 明 - 宋濂</span>
+                      <a href="/2022/11/15/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%9110%20-%202022%E5%B9%B411%E6%9C%8818%E6%97%A5%20-%20%E7%BC%93%E5%86%B2%E6%B5%81%E5%A6%82%E4%BD%95%E6%8F%90%E9%AB%98%E8%AF%BB%E5%86%99%E6%80%A7%E8%83%BD/" title="Java缓冲流如何提高读写性能">
+                        <span class="hidden-mobile">Java缓冲流如何提高读写性能</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
