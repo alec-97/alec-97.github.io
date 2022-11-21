@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>OS中的阻塞与非阻塞IO、同步与异步IO</title>
+      <link href="/2022/11/21/%E3%80%90%E3%80%91%E3%80%90%E3%80%9115%20-%202022%E5%B9%B411%E6%9C%8821%E6%97%A5%20-%20OS%E4%B8%AD%E7%9A%84%E9%98%BB%E5%A1%9E%E4%B8%8E%E9%9D%9E%E9%98%BB%E5%A1%9EIO%E3%80%81%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5IO/"/>
+      <url>/2022/11/21/%E3%80%90%E3%80%91%E3%80%90%E3%80%9115%20-%202022%E5%B9%B411%E6%9C%8821%E6%97%A5%20-%20OS%E4%B8%AD%E7%9A%84%E9%98%BB%E5%A1%9E%E4%B8%8E%E9%9D%9E%E9%98%BB%E5%A1%9EIO%E3%80%81%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5IO/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>  前言</p></blockquote><p>IO 指的是用户态的进程，需要操作系统帮助其进行数据的读入和写出。</p><p>以 IN 为例，可以分为两个步骤：从磁盘、网络等地方将数据放到内核空间（准备内核数据）、数据从内核空间拷贝到用户空间（内核空间的数据拷贝到用户空间）。</p><blockquote><p>  阻塞 I/O</p></blockquote><p>用户进程需要数据的时候，调用 read() 函数，然后用户进程阻塞，直到数据拷贝到用户空间。</p><p>阻塞 I/O 阻塞等待的是<code>两个过程</code>：准备内核数据 和 内核数据拷贝到用户空间。</p><img src="D:\坚果云\Alec - backup files\typora pictures\image-20221121152445935.png" alt="image-20221121152445935" style="zoom:50%;" /> <blockquote><h3 id="非阻塞-I-O"><a href="#非阻塞-I-O" class="headerlink" title="非阻塞 I/O"></a>非阻塞 I/O</h3></blockquote>]]></content>
+      
+      
+      <categories>
+          
+          <category> 计算机基础 </category>
+          
+          <category> 操作系统 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 操作系统基础知识 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>OS中的零拷贝</title>
       <link href="/2022/11/21/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%9114%20-%202022%E5%B9%B411%E6%9C%8821%E6%97%A5%20-%20OS%E4%B8%AD%E7%9A%84%E9%9B%B6%E6%8B%B7%E8%B4%9D/"/>
       <url>/2022/11/21/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%9114%20-%202022%E5%B9%B411%E6%9C%8821%E6%97%A5%20-%20OS%E4%B8%AD%E7%9A%84%E9%9B%B6%E6%8B%B7%E8%B4%9D/</url>
