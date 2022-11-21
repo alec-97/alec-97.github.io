@@ -5,10 +5,10 @@
   
   <entry>
     <title>OS中的零拷贝</title>
-    <link href="/2022/11/21/%E3%80%90%E3%80%91%E3%80%90%E3%80%9114%20-%202022%E5%B9%B411%E6%9C%8821%E6%97%A5%20-%20OS%E4%B8%AD%E7%9A%84%E9%9B%B6%E6%8B%B7%E8%B4%9D/"/>
-    <url>/2022/11/21/%E3%80%90%E3%80%91%E3%80%90%E3%80%9114%20-%202022%E5%B9%B411%E6%9C%8821%E6%97%A5%20-%20OS%E4%B8%AD%E7%9A%84%E9%9B%B6%E6%8B%B7%E8%B4%9D/</url>
+    <link href="/2022/11/21/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%9114%20-%202022%E5%B9%B411%E6%9C%8821%E6%97%A5%20-%20OS%E4%B8%AD%E7%9A%84%E9%9B%B6%E6%8B%B7%E8%B4%9D/"/>
+    <url>/2022/11/21/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%9114%20-%202022%E5%B9%B411%E6%9C%8821%E6%97%A5%20-%20OS%E4%B8%AD%E7%9A%84%E9%9B%B6%E6%8B%B7%E8%B4%9D/</url>
     
-    <content type="html"><![CDATA[<p>==传统的I/O的方式：==</p><p>数据的读取和写入需要从内核空间和用户空间之间来回的复制，而内核空间的数据则是通过操作系统的I/O从磁盘读取。这个过程需要发生多次的上下文切换和数据拷贝。</p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202211211449759.png" alt="image-20221121144602045" style="zoom:50%;" /> <p>==传统I/O方式的弊端：==</p><p>发生多次的上下文切换和内存拷贝，导致IO性能低。</p><p>==解决方案：零拷贝技术==</p><p>零拷贝主要有两种实现方案，分别是：</p><ul><li>  mmap + write</li><li>  sendfile</li></ul>]]></content>
+    <content type="html"><![CDATA[<p>==传统的I/O的方式：==</p><p>数据的读取和写入需要从内核空间和用户空间之间来回的复制，而内核空间的数据则是通过操作系统的I/O从磁盘读取。这个过程需要发生多次的上下文切换和数据拷贝。<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202211211449759.png" alt="image-20221121144602045" style="zoom:50%;" /> </p><hr><p>==传统I/O方式的弊端：==</p><p>发生多次的上下文切换和内存拷贝，导致IO性能低。</p><p>4次上下文切换和4次数据拷贝</p><hr><p>==解决方案：零拷贝技术==</p><p>零拷贝主要有两种实现方案，分别是：</p><ul><li>  mmap + write</li><li>  sendfile</li></ul><hr><p>==零拷贝的方式1：mmap + write：==</p><p>mmap()系统调用函数，会直接将内核空间中数据的映射到用户空间，二者通过相同的内存地址访问同一份数据，因此也就不需要数据拷贝。（类似于共享内存）</p><p>4次上下文切换和3次数据拷贝</p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202211211455511.png" alt="image-20221121145454211" style="zoom:50%;" /> <hr><p>==零拷贝的方式2：sendfile：==</p><p>Linux 内核版本 2.1 中，提供了一个专门发送文件的系统调用，为 sendfile() ，这个系统调用可以直接将从硬盘 IO 进来的数据在内核空间直接发送到 socket 缓冲区，省去了先拷贝到用户空间这一步。</p><p>因此这一个命令替代了原来的 read() 和 write() 这两个命令。</p><p>因此就只有 2 次上下⽂切换，和 3 次数据拷⻉。</p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202211211502097.png" alt="image-20221121150146299" style="zoom:50%;" /> <hr><p>==该技术的应用：==</p><p>很多开源项目如Kafka、RocketMQ都采用了零拷贝技术来提升IO效率。</p>]]></content>
     
     
     <categories>
