@@ -16,24 +16,26 @@
   <meta name="author" content="Shuai Zhao">
   <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
   
-    <meta name="description" content="参考：   以下哪个不能有效减少从库延迟时间（√）   mysql如何减少主从复制延迟？（√）   MySQL 主从延迟问题思路（√）  一、题目：以下哪个不能有效减小从库延迟时间A.主库进行update操作时where后条件没有索引，添加索引。（添加索引，减轻主库的压力，因此能够及时的将数据传给从库） B.主库有大事物，增加缓存，异步写入数据库，减少直接对db的大量写入（主库添加缓存，缓解">
+    <meta name="description" content="参考文章：   sleep、yield、wait、join的区别(阿里) - 博客园 - 柴飞飞（√）  零碎点只有runnable到running时才会占用cpu时间片，其他都会出让cpu时间片。  线程状态转换图   sleep 和 wait 的辨析区别线程的资源有不少，但应该包含CPU资源和锁资源这两类。    sleep(long mills)：让出CPU资源，但是不会释放锁资源">
 <meta property="og:type" content="article">
-<meta property="og:title" content="如何减小主从复制从库的延迟时间">
-<meta property="og:url" content="http://example.com/2022/11/21/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%9116%20-%202022%E5%B9%B411%E6%9C%8821%E6%97%A5%20-%20%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%8F%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E4%BB%8E%E5%BA%93%E7%9A%84%E5%BB%B6%E8%BF%9F%E6%97%B6%E9%97%B4/index.html">
+<meta property="og:title" content="sleep、yield、wait、join的区别">
+<meta property="og:url" content="http://example.com/2022/11/22/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%9118%20-%202022%E5%B9%B411%E6%9C%8822%E6%97%A5%20-%20sleep%E3%80%81yield%E3%80%81wait%E3%80%81join%E7%9A%84%E5%8C%BA%E5%88%AB/index.html">
 <meta property="og:site_name" content="以平静对待生活">
-<meta property="og:description" content="参考：   以下哪个不能有效减少从库延迟时间（√）   mysql如何减少主从复制延迟？（√）   MySQL 主从延迟问题思路（√）  一、题目：以下哪个不能有效减小从库延迟时间A.主库进行update操作时where后条件没有索引，添加索引。（添加索引，减轻主库的压力，因此能够及时的将数据传给从库） B.主库有大事物，增加缓存，异步写入数据库，减少直接对db的大量写入（主库添加缓存，缓解">
+<meta property="og:description" content="参考文章：   sleep、yield、wait、join的区别(阿里) - 博客园 - 柴飞飞（√）  零碎点只有runnable到running时才会占用cpu时间片，其他都会出让cpu时间片。  线程状态转换图   sleep 和 wait 的辨析区别线程的资源有不少，但应该包含CPU资源和锁资源这两类。    sleep(long mills)：让出CPU资源，但是不会释放锁资源">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-11-21T14:51:28.537Z">
-<meta property="article:modified_time" content="2022-11-22T06:34:40.747Z">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202211221729611.png">
+<meta property="article:published_time" content="2022-11-22T09:04:53.421Z">
+<meta property="article:modified_time" content="2022-11-22T09:49:18.564Z">
 <meta property="article:author" content="Shuai Zhao">
-<meta property="article:tag" content="主从复制">
+<meta property="article:tag" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202211221729611.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>如何减小主从复制从库的延迟时间 - 以平静对待生活</title>
+  <title>sleep、yield、wait、join的区别 - 以平静对待生活</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
@@ -232,7 +234,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="如何减小主从复制从库的延迟时间"></span>
+            <span id="subtitle" data-typed-text="sleep、yield、wait、join的区别"></span>
           
         </div>
 
@@ -243,8 +245,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-11-21 22:51" pubdate>
-          2022年11月21日 晚上
+        <time datetime="2022-11-22 17:04" pubdate>
+          2022年11月22日 下午
         </time>
       </span>
     
@@ -256,7 +258,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          2.7k 字
+          2.3k 字
         
       </span>
     
@@ -268,7 +270,7 @@
         
         
           <!-- compatible with older versions-->
-          23 分钟
+          20 分钟
         
       </span>
     
@@ -379,114 +381,91 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">如何减小主从复制从库的延迟时间</h1>
+            <h1 style="display: none">sleep、yield、wait、join的区别</h1>
             
             
               <div class="markdown-body">
                 
                 <blockquote>
-<p>  参考：</p>
-<p>  <a target="_blank" rel="noopener" href="https://www.csdn.net/tags/MtTaMg4sMjc5ODIwLWJsb2cO0O0O.html">以下哪个不能有效减少从库延迟时间（√）</a></p>
-<p>  <a target="_blank" rel="noopener" href="https://blog.csdn.net/a13568hki/article/details/104003596">mysql如何减少主从复制延迟？（√）</a></p>
-<p>  <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/04c8c4f62cd5">MySQL 主从延迟问题思路（√）</a></p>
+<p>  参考文章：</p>
+<p>  <a href="">sleep、yield、wait、join的区别(阿里) - 博客园 - 柴飞飞（√）</a></p>
 </blockquote>
-<h3 id="一、题目：以下哪个不能有效减小从库延迟时间"><a href="#一、题目：以下哪个不能有效减小从库延迟时间" class="headerlink" title="一、题目：以下哪个不能有效减小从库延迟时间"></a>一、题目：以下哪个不能有效减小从库延迟时间</h3><p>A.主库进行update操作时where后条件没有索引，添加索引。（添加索引，减轻主库的压力，因此能够及时的将数据传给从库）</p>
-<p>B.主库有大事物，增加缓存，异步写入数据库，减少直接对db的大量写入（主库添加缓存，缓解直接写入DB的压力）</p>
-<p>C.主库并发更新写入频繁，从库设置innodb_flush_log_at_trx_commit=1及sync_binlog=1</p>
-<p>D.数据库中存在大量myisam表，修改表结构为innodb存储引擎的表（myisam不支持行级锁，并发会锁住整个表，效率低）</p>
-<p>正确答案:C</p>
+<h2 id="零碎点"><a href="#零碎点" class="headerlink" title="零碎点"></a>零碎点</h2><p>只有runnable到running时才会<code>占用cpu时间片</code>，其他都会<code>出让cpu时间片</code>。</p>
 <hr>
-<h3 id="二、MySQL主从复制延迟较大，主要从以下几个方面来考虑"><a href="#二、MySQL主从复制延迟较大，主要从以下几个方面来考虑" class="headerlink" title="二、MySQL主从复制延迟较大，主要从以下几个方面来考虑"></a>二、MySQL主从复制延迟较大，主要从以下几个方面来考虑</h3><p><strong>1 - 从库的问题</strong></p>
-<p>1.1 - 从库硬件比主库差，导致复制延迟。主库写binlog日志到文件的时候，是顺序写入到磁盘，顺序写入速度是很快，避免了磁盘随机寻址。从库的同步线程(Slave_IO_Running)，将binlog在slave上执行的时候，实际上是随机的，速度肯定要慢点。</p>
-<p>解决方案是：从库配置比主库更好的配置。</p>
+<p><strong>线程状态转换图</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202211221729611.png" srcset="/img/loading.gif" lazyload alt="image-20221122172926319"> </p>
+<h2 id="sleep-和-wait-的辨析"><a href="#sleep-和-wait-的辨析" class="headerlink" title="sleep 和 wait 的辨析"></a>sleep 和 wait 的辨析</h2><h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><p>线程的资源有不少，但应该包含<code>CPU资源</code>和<code>锁资源</code>这两类。</p>
 <ul>
-<li>  从库使用高性能主机。包括cpu强悍、内存加大。避免使用虚拟云主机，使用物理主机，这样提升了i/o方面性。</li>
-<li>  从库使用SSD磁盘。机械硬盘是靠磁头旋转到指定位置来读数据、写数据。转来转去的，我们叫做i/o。磁盘i/o存在速度瓶颈。固态硬盘是一个电子设备，电子设备不需要机械旋转，读写固态硬盘上任意位置的数据，速度都是一样的。</li>
-</ul>
-<p>1.2 - 从库的负载大，从库的读请求太频繁，来不及复制主库的数据。</p>
-<p>解决方案是：使用多台slave来分摊读请求，再从这些slave中取一台专用的服务器。只作为备份用，不进行其他任何操作。</p>
-<p><strong>2 - 主从之间的问题</strong></p>
-<p>2.1 - 传输的条件差主从复制单线程，如果主库写并发太大，来不及传送到从库就会导致延迟。</p>
-<p>解决方案是：更高版本的mysql可以支持多线程复制</p>
-<p>2.2 - 网络延迟原因</p>
-<p>解决方案是：通常配置以上2个参数可以减少网络问题导致的主从数据同步延迟</p>
-<p><code>–slave-net-timeout=seconds</code> 单位为秒 默认设置为 3600秒，参数含义是：当slave从主数据库读取log数据失败后，等待多久重新建立连接并获取数据</p>
-<p><code>–master-connect-retry=seconds</code> 单位为秒 默认设置为 60秒，参数含义是：当重新建立主从连接时，如果连接建立失败，间隔多久后重试</p>
-<p><strong>3 - 主库的问题</strong></p>
-<p>3.1 - 主库的负载大：主库读写压力大，导致复制延迟。当主库的TPS并发较高时，产生的DDL(修改类的sql语句)数量，超过了slave机器sql线程所能承受的能力，那么延时就会产生了。</p>
-<p>解决方案1是：架构的前端要加buffer及缓存层，通过缓存层来缓解直接进行磁盘IO的压力</p>
-<p>解决方案2是：</p>
-<p>主库是写，对数据安全性较高，因此刷盘策略可以设置为sync_binlog=1，innodb_flush_log_at_trx_commit = 1</p>
-<p>而从库是读，则不需要这么高的数据安全，完全可以将 sync_binlog 设置为 0 或者关闭binlog</p>
-<p>innodb_flushlog也可以设置为0来提高sql的执行效率</p>
-<p>3.2 - 主库的负载大：慢SQL语句过多（慢SQL导致主库的压力过大，来不及传送到从库，就会导致延迟）</p>
-<p>解决方案是：优化慢SQL</p>
-<hr>
-<blockquote>
-<p>  参考：</p>
-<p>  <a target="_blank" rel="noopener" href="https://support.huaweicloud.com/bestpractice-rds/rds_02_0010.html">innodb_flush_log_at_trx_commit和sync_binlog参数详解（√）</a></p>
-</blockquote>
-<h3 id="三、innodb-flush-log-at-trx-commit-和-sync-binlog-参数解析"><a href="#三、innodb-flush-log-at-trx-commit-和-sync-binlog-参数解析" class="headerlink" title="三、innodb_flush_log_at_trx_commit 和 sync_binlog 参数解析"></a>三、innodb_flush_log_at_trx_commit 和 sync_binlog 参数解析</h3><p>“innodb_flush_log_at_trx_commit”和“sync_binlog”两个参数是控制RDS for MySQL磁盘写入策略以及数据安全性的关键参数。当两个参数为不同值时，在性能，安全角度下会产生不同的影响。</p>
-<hr>
-<p><strong>innodb_flush_log_at_trx_commit 参数解析：</strong></p>
-<ul>
-<li>  0：每一秒，（1）将日志缓冲区的数据写入到日志文件，（2）将日志文件刷到磁盘；该模式不受事务提交的影响</li>
-<li>  1：每次事务提交，（1）将日志缓冲区的数据写入到日志文件，（2）将日志文件刷到磁盘；该模式不受时间的影响</li>
-<li>  2：每次事务提交，（1）将日志缓冲区的数据写入到日志文件，每一秒，将日志文件刷到磁盘；</li>
-</ul>
-<p>注：</p>
-<ul>
-<li>  日志缓冲区在mysql进程的用户空间，日志文件在内核空间的缓冲区，刷盘则是将内核中的缓冲区数据持久化到磁盘中。</li>
-<li>  MySQL宕机，不影响内核空间和磁盘中的数据</li>
-<li>  操作系统宕机，不影响磁盘中的数据</li>
-</ul>
-<p>说明：</p>
-<ul>
-<li>  刷盘这一步最消耗时间，因此刷盘越频繁，越慢。一个事务的时间一般远小于 1 秒。</li>
-<li>  当设置为0，该模式速度最快，因为将数据写入内核和刷盘是定时的，不受频繁事务提交的影响。但不太安全，mysqld进程的崩溃会导致上一秒钟所有事务数据的丢失。</li>
-<li>  当设置为1，该模式是最安全的，但也是最慢的一种方式。在mysqld服务崩溃或者服务器主机宕机的情况下，日志缓存区只有可能丢失最多一个语句或者一个事务；</li>
-<li>  当设置为2，该模式速度较快，较取值为0情况下更安全，只有在操作系统崩溃或者系统断电的情况下，上一秒钟所有事务数据才可能丢失；</li>
-</ul>
-<p>说明：</p>
-<ul>
-<li>  在主从复制的场景下，主机负责写入，因此对数据安全的保证要求较高，因此一般将主机的 innodb_flush_log_at_trx_commit 参数设置为1，而不会将从机的该参数设置为1。</li>
+<li>  sleep(long mills)：让出CPU资源，但是不会释放锁资源</li>
+<li>  wait()：让出CPU资源和锁资源</li>
 </ul>
 <hr>
-<p><strong>sync_binlog=1 or N 参数解析：</strong></p>
-<p>默认情况下，并不是每次写入时都将binlog日志文件与磁盘同步。因此如果操作系统或服务器崩溃，有可能binlog中最后的语句丢失。</p>
-<p>为了防止这种情况，你可以使用<strong>“sync_binlog”</strong>全局变量（1是最安全的值，但也是最慢的），使binlog在每N次binlog日志文件写入后与磁盘同步。</p>
+<p>wait用于锁机制，sleep不是，这就是为啥sleep不释放锁，wait释放锁的原因，sleep是线程的方法，跟锁没半毛钱关系，wait，notify,notifyall 都是Object对象的方法，是一起使用的，用于锁机制</p>
+<h2 id="sleep-和-yield-的辨析"><a href="#sleep-和-yield-的辨析" class="headerlink" title="sleep 和 yield 的辨析"></a>sleep 和 yield 的辨析</h2><h3 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h3><p>Thread.sleep(long) 和 Thread.yield() 都是 Thread 类的静态方法，在调用的时候都是 Thread.sleep(long) / Thread.yield() 的方式进行调用</p>
+<p>而 join() 是由线程对象来调用</p>
+<h2 id="wait"><a href="#wait" class="headerlink" title="wait"></a>wait</h2><p>Object类的方法(notify()、notifyAll()  也是Object对象)，必须放在循环体和同步代码块中，执行该方法的线程会释放CPU资源和锁资源。然后该线程进入线程等待池中等待被再次唤醒(notify随机唤醒，notifyAll全部唤醒，线程结束自动唤醒)。线程在等待池中被唤醒之后，进入锁池，重新竞争获取同步锁。</p>
 <hr>
-<p><strong>推荐配置组合：</strong></p>
-<table>
-<thead>
-<tr>
-<th align="center">innodb_flush_log_at_trx_commit</th>
-<th align="center">sync_binlog</th>
-<th align="center">描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">1</td>
-<td align="center">1</td>
-<td align="center">适合数据安全性要求非常高，而且磁盘写入能力足够支持业务。</td>
-</tr>
-<tr>
-<td align="center">1</td>
-<td align="center">0</td>
-<td align="center">适合数据安全性要求高，磁盘写入能力支持业务不足，允许备库落后或无复制。</td>
-</tr>
-<tr>
-<td align="center">2</td>
-<td align="center">0/N(0&lt;N&lt;100)</td>
-<td align="center">适合数据安全性要求低，允许丢失一点事务日志，允许复制延迟。</td>
-</tr>
-<tr>
-<td align="center">0</td>
-<td align="center">0</td>
-<td align="center">磁盘写能力有限，无复制或允许复制延迟较长。</td>
-</tr>
-</tbody></table>
-<p>“innodb_flush_log_at_trx_commit”和“sync_binlog”两个参数设置为1的时候，安全性最高，写入性能最差。在mysqld服务崩溃或者服务器主机宕机的情况下，日志缓存区只有可能丢失最多一个语句或者一个事务。但是会导致频繁的磁盘写入操作，因此该模式也是最慢的一种方式。</p>
+<p>wait() 和 notify()、notifyAll() 这三个方法都是 java.lang.Object 的方法。</p>
+<hr>
+<p>都必须在 Synchronized 语句块内调用：它们都是用于协调多个线程对共享数据的存取，所以必须在Synchronized语句块内使用这三个方法。</p>
+<hr>
+<p>前面说过Synchronized这个关键字用于保护共享数据，阻止其他线程对共享数据的存取。但是这样程序的流程就很不灵活了，如何才能在当前线程还没退出Synchronized数据块时让其他线程也有机会访问共享数据呢？此时就用这三个方法来灵活控制。 </p>
+<ul>
+<li>  （1）wait()方法使当前线程暂停执行并释放对象锁标志，让其他线程可以进入Synchronized数据块，当前线程被放入对象等待池中。</li>
+<li>  （2）当调用 notify()方法后，将从对象的等待池中移走一个任意的线程并放到锁标志等待池中，只有锁标志等待池中的线程能够获取锁标志；如果锁标志等待池中没有线程，则notify()不起作用。 </li>
+<li>  （3）notifyAll()则从对象等待池中移走所有等待那个对象的线程并放到锁标志等待池中。 </li>
+</ul>
+<hr>
+<p>在java中，Thread类线程执行完run()方法后，一定会自动执行notifyAll()方法</p>
+<h2 id="sleep"><a href="#sleep" class="headerlink" title="sleep"></a>sleep</h2><p>Thread类的方法，必须带一个时间参数。会让当前线程休眠进入阻塞状态并释放CPU资源，但是不会释放锁资源。</p>
+<p>提供其他线程运行的机会且不考虑优先级</p>
+<p>如果有同步锁则sleep不会释放锁即其他线程无法获得同步锁</p>
+<p>可通过调用interrupt()方法来唤醒休眠线程。</p>
+<p>阿里面试题 Sleep释放CPU，wait 也会释放cpu，因为cpu资源太宝贵了，只有在线程running的时候，才会获取cpu片段。</p>
+<h2 id="yield"><a href="#yield" class="headerlink" title="yield"></a>yield</h2><p>让出CPU调度，Thread类的方法，类似sleep只是不能由用户指定暂停多长时间 </p>
+<p>并且yield()方法只能让同优先级的线程有执行的机会，优先级不同的线程，无法获得运行机会。</p>
+<p>yield()只是使当前线程重新回到可执行状态，所以执行yield()的线程有可能在进入到可执行状态后马上又被执行。</p>
+<p>调用yield方法只是一个建议，告诉线程调度器我的工作已经做的差不多了，可以让别的相同优先级的线程使用CPU了，没有任何机制保证采纳。</p>
+<h2 id="join"><a href="#join" class="headerlink" title="join"></a>join</h2><p>一种特殊的wait，当前运行线程 A 调用另一个线程 B 的 join 方法，然后当前线程 A 进入阻塞状态直到另一个线程 B 运行结束，然后 A 再继续运行。 注意该方法也需要捕捉异常。</p>
+<p>join()方法就是通过wait()方法实现的。</p>
+<p>形象的讲，就是在线程 A 运行的过程中，执行了 <code>B.join()</code>，那么 A 就知道 B 加入进来了，那么 A 就让 B 先执行，B 执行完之后，A 再继续执行。相当于 A 在运行过程中，让 B 插了个队，</p>
+<p>代码示例：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">Runnable</span> runnable <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Runnable</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token annotation punctuation">@Override</span>
+            <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+                    <span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+                <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"子线程执行"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+        <span class="token class-name">Thread</span> thread1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span>runnable<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Thread</span> thread2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span>runnable<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        thread1<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        thread2<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+            <span class="token comment">//主线程开始等待子线程thread1，thread2</span>
+            thread1<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            thread2<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token comment">//等待两个线程都执行完（不活动）了，才执行下行打印</span>
+        <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"执行完毕"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+<span class="token punctuation">&#125;</span>
+<span class="token comment">/*
+子线程执行
+子线程执行
+执行完毕
+*/</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>该示例中，就是主线程让 thread1 和 thread2 这两个线程插队。</p>
 
                 
               </div>
@@ -505,20 +484,13 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-chain-item">数据库</a>
+  <a href="/categories/Java%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">Java技术栈</a>
   
   
     <span>></span>
     
-  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/" class="category-chain-item">MySQL</a>
+  <a href="/categories/Java%E6%8A%80%E6%9C%AF%E6%A0%88/Java%E5%A4%9A%E7%BA%BF%E7%A8%8B/" class="category-chain-item">Java多线程</a>
   
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/MySQL/%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/" class="category-chain-item">主从复制</a>
-  
-  
-
   
 
   
@@ -531,13 +503,6 @@
     </div>
   
   
-    <div class="post-meta">
-      <i class="iconfont icon-tags"></i>
-      
-        <a href="/tags/%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6/">#主从复制</a>
-      
-    </div>
-  
 </div>
 
 
@@ -546,8 +511,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>如何减小主从复制从库的延迟时间</div>
-      <div>http://example.com/2022/11/21/【√】【√】16 - 2022年11月21日 - 如何减小主从复制从库的延迟时间/</div>
+      <div>sleep、yield、wait、join的区别</div>
+      <div>http://example.com/2022/11/22/【√】【√】18 - 2022年11月22日 - sleep、yield、wait、join的区别/</div>
     </div>
     <div class="license-meta">
       
@@ -559,7 +524,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年11月21日</div>
+          <div>2022年11月22日</div>
         </div>
       
       
@@ -591,9 +556,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/11/22/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%9117%20-%202022%E5%B9%B411%E6%9C%8822%E6%97%A5%20-%20SQL%E4%B8%ADDQL%EF%BC%8CDML%EF%BC%8CDDL%EF%BC%8CDCL%EF%BC%8CTCL%E7%9A%84%E5%8C%BA%E5%88%AB/" title="SQL中DQL，DML，DDL，DCL，TCL的区别">
+                      <a href="/2022/11/22/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%9119%20-%202022%E5%B9%B411%E6%9C%8822%E6%97%A5%20-%20JVM%E9%A2%98%E7%9B%AE%E6%95%B4%E7%90%86/" title="JVM题目整理">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">SQL中DQL，DML，DDL，DCL，TCL的区别</span>
+                        <span class="hidden-mobile">JVM题目整理</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -601,8 +566,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/11/21/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%9115%20-%202022%E5%B9%B411%E6%9C%8821%E6%97%A5%20-%20OS%E4%B8%AD%E7%9A%84%E9%98%BB%E5%A1%9E%E4%B8%8E%E9%9D%9E%E9%98%BB%E5%A1%9EIO%E3%80%81%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5IO/" title="OS中的阻塞与非阻塞IO、同步与异步IO">
-                        <span class="hidden-mobile">OS中的阻塞与非阻塞IO、同步与异步IO</span>
+                      <a href="/2022/11/22/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%9117%20-%202022%E5%B9%B411%E6%9C%8822%E6%97%A5%20-%20SQL%E4%B8%ADDQL%EF%BC%8CDML%EF%BC%8CDDL%EF%BC%8CDCL%EF%BC%8CTCL%E7%9A%84%E5%8C%BA%E5%88%AB/" title="SQL中DQL，DML，DDL，DCL，TCL的区别">
+                        <span class="hidden-mobile">SQL中DQL，DML，DDL，DCL，TCL的区别</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

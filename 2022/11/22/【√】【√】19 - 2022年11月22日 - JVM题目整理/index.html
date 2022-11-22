@@ -16,40 +16,36 @@
   <meta name="author" content="Shuai Zhao">
   <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
   
-    <meta name="description" content="APlayer   Wow, such a lovely HTML5 music player   Introduction APlayer is a lovely HTML5 music player. APlayer supports:    Media formats - MP4 H.264 (AAC or MP3) - WAVE PCM - Ogg Theora Vorbis   F">
-<meta property="og:type" content="website">
-<meta property="og:title" content="page.title">
-<meta property="og:url" content="http://example.com/js/APlayer/README.html">
+    <meta name="description" content="001 - 关于垃圾收集的哪些叙述是正确的(√)。 &#96;&#96;&#96;  程序开发者必须自己创建一个线程进行内存释放的工作    +   &#96;&#96;&#96;     垃圾收集允许程序开发者明确指定并立即释放该内存 &#96;&#96;&#96;  垃圾收集将检查并释放不再使用的内存    +   &#96;&#96;&#96;     垃圾收集能够在期望的时间释放被java对象使用的内存  自己选择：C 答案：C  A选">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM题目整理">
+<meta property="og:url" content="http://example.com/2022/11/22/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%9119%20-%202022%E5%B9%B411%E6%9C%8822%E6%97%A5%20-%20JVM%E9%A2%98%E7%9B%AE%E6%95%B4%E7%90%86/index.html">
 <meta property="og:site_name" content="以平静对待生活">
-<meta property="og:description" content="APlayer   Wow, such a lovely HTML5 music player   Introduction APlayer is a lovely HTML5 music player. APlayer supports:    Media formats - MP4 H.264 (AAC or MP3) - WAVE PCM - Ogg Theora Vorbis   F">
+<meta property="og:description" content="001 - 关于垃圾收集的哪些叙述是正确的(√)。 &#96;&#96;&#96;  程序开发者必须自己创建一个线程进行内存释放的工作    +   &#96;&#96;&#96;     垃圾收集允许程序开发者明确指定并立即释放该内存 &#96;&#96;&#96;  垃圾收集将检查并释放不再使用的内存    +   &#96;&#96;&#96;     垃圾收集能够在期望的时间释放被java对象使用的内存  自己选择：C 答案：C  A选">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tKfTcgy1fhu01y9uy7j305k04s3yc.jpg">
-<meta property="og:image" content="https://img.shields.io/npm/v/aplayer.svg?style=flat-square">
-<meta property="og:image" content="https://img.shields.io/npm/l/aplayer.svg?style=flat-square">
-<meta property="og:image" content="https://img.shields.io/npm/dt/aplayer.svg?style=flat-square">
-<meta property="og:image" content="https://badge-size.herokuapp.com/MoePlayer/APlayer/master/dist/APlayer.min.js?compression=gzip&style=flat-square">
-<meta property="og:image" content="https://img.shields.io/travis/MoePlayer/APlayer.svg?style=flat-square">
-<meta property="og:image" content="https://img.shields.io/david/dev/MoePlayer/aplayer.svg?style=flat-square">
-<meta property="og:image" content="https://img.shields.io/badge/$-donate-ff69b4.svg?style=flat-square">
-<meta property="og:image" content="https://i.imgur.com/JDrJXCr.png">
-<meta property="og:image" content="https://i.imgur.com/BBKXPAp.png">
-<meta property="og:image" content="https://opencollective.com/APlayer/contributors.svg?width=890">
-<meta property="article:published_time" content="2022-11-05T14:35:51.690Z">
-<meta property="article:modified_time" content="2022-11-05T13:42:23.309Z">
+<meta property="article:published_time" content="2022-11-22T13:44:27.657Z">
+<meta property="article:modified_time" content="2022-11-22T13:51:17.365Z">
 <meta property="article:author" content="Shuai Zhao">
-<meta property="article:tag" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+<meta property="article:tag" content="题目整理">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://ws4.sinaimg.cn/large/006tKfTcgy1fhu01y9uy7j305k04s3yc.jpg">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>page.title - 以平静对待生活</title>
+  <title>JVM题目整理 - 以平静对待生活</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
 
 
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
 
 
 
@@ -119,7 +115,7 @@
   <header>
     
 
-<div class="header-inner" style="height: 60vh;">
+<div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
@@ -236,9 +232,59 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="page.title"></span>
+            <span id="subtitle" data-typed-text="JVM题目整理"></span>
           
         </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-11-22 21:44" pubdate>
+          2022年11月22日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          244 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          3 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
 
         
       </div>
@@ -319,108 +365,210 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">JVM题目整理</h1>
+            
+            
+              <div class="markdown-body">
                 
+                <h3 id="001-关于垃圾收集的哪些叙述是正确的-√-。"><a href="#001-关于垃圾收集的哪些叙述是正确的-√-。" class="headerlink" title="001 - 关于垃圾收集的哪些叙述是正确的(√)。"></a>001 - 关于垃圾收集的哪些叙述是正确的(√)。</h3><ul>
+<li><p>```<br>  程序开发者必须自己创建一个线程进行内存释放的工作</p>
+  <figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">
++   &#96;&#96;&#96;
+    垃圾收集允许程序开发者明确指定并立即释放该内存<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure></li>
+<li><p>```<br>  垃圾收集将检查并释放不再使用的内存</p>
+  <figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">
++   &#96;&#96;&#96;
+    垃圾收集能够在期望的时间释放被java对象使用的内存<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure></li>
+</ul>
+<p>自己选择：C</p>
+<p>答案：C</p>
+<hr>
+<p>A选项，开发者无需自己创建线程来进行垃圾回收。</p>
+<p>B选项，开发者可以指定进行垃圾回收，但是只是建议，不一定是立即执行。</p>
+<p>D选项，不能明确的说一定可以在期望的时间内释放内存。</p>
 
-<article class="page-content">
-  <p align="center">
-<img src="https://ws4.sinaimg.cn/large/006tKfTcgy1fhu01y9uy7j305k04s3yc.jpg" srcset="/img/loading.gif" lazyload alt="ADPlayer" width="100">
-</p>
-<h1 align="center">APlayer</h1>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
 
-<blockquote>
-<p>Wow, such a lovely HTML5 music player</p>
-</blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/aplayer"><img src="https://img.shields.io/npm/v/aplayer.svg?style=flat-square" srcset="/img/loading.gif" lazyload alt="npm"></a><br><a target="_blank" rel="noopener" href="https://github.com/MoePlayer/APlayer/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/aplayer.svg?style=flat-square" srcset="/img/loading.gif" lazyload alt="npm"></a><br><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/aplayer"><img src="https://img.shields.io/npm/dt/aplayer.svg?style=flat-square" srcset="/img/loading.gif" lazyload alt="npm"></a><br><a target="_blank" rel="noopener" href="https://github.com/MoePlayer/APlayer/tree/master/dist"><img src="https://badge-size.herokuapp.com/MoePlayer/APlayer/master/dist/APlayer.min.js?compression=gzip&style=flat-square" srcset="/img/loading.gif" lazyload alt="size"></a><br><a target="_blank" rel="noopener" href="https://travis-ci.org/MoePlayer/APlayer"><img src="https://img.shields.io/travis/MoePlayer/APlayer.svg?style=flat-square" srcset="/img/loading.gif" lazyload alt="Travis"></a><br><a target="_blank" rel="noopener" href="https://david-dm.org/MoePlayer/APlayer#info=devDependencies"><img src="https://img.shields.io/david/dev/MoePlayer/aplayer.svg?style=flat-square" srcset="/img/loading.gif" lazyload alt="devDependency Status"></a><br><a target="_blank" rel="noopener" href="https://github.com/MoePlayer/APlayer#donate"><img src="https://img.shields.io/badge/$-donate-ff69b4.svg?style=flat-square" srcset="/img/loading.gif" lazyload alt="donate"></a></p>
-<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p><img src="https://i.imgur.com/JDrJXCr.png" srcset="/img/loading.gif" lazyload alt="image"></p>
-<p>APlayer is a lovely HTML5 music player.</p>
-<p><strong>APlayer supports:</strong></p>
-<ul>
-<li>  Media formats - MP4 H.264 (AAC or MP3) - WAVE PCM - Ogg Theora Vorbis</li>
-<li>  Features - Playlist - Lyrics</li>
-</ul>
-<p>Using APlayer on your project? <a target="_blank" rel="noopener" href="https://github.com/MoePlayer/APlayer/issues/79">Let me know!</a></p>
-<p><strong><a target="_blank" rel="noopener" href="https://aplayer.js.org/">Docs</a></strong></p>
-<p><strong><a target="_blank" rel="noopener" href="https://aplayer.js.org/#/zh-Hans/">中文文档</a></strong></p>
-<h2 id="Join-the-Discussion"><a href="#Join-the-Discussion" class="headerlink" title="Join the Discussion"></a>Join the Discussion</h2><ul>
-<li>  <a target="_blank" rel="noopener" href="https://t.me/adplayer">Telegram Group</a></li>
-<li>  <a target="_blank" rel="noopener" href="https://shang.qq.com/wpa/qunwpa?idkey=bf22213ae0028a82e5adf3f286dfd4f01e0997dc9f1dcd8e831a0a85e799be17">QQ Group</a>: 415835947</li>
-</ul>
-<h2 id="Related-Projects"><a href="#Related-Projects" class="headerlink" title="Related Projects"></a>Related Projects</h2><h3 id="Plugins"><a href="#Plugins" class="headerlink" title="Plugins"></a>Plugins</h3><ul>
-<li>  <a target="_blank" rel="noopener" href="https://github.com/zgq354/APlayer-Typecho-Plugin">APlayer-Typecho-Plugin</a>: Typecho</li>
-<li>  <a target="_blank" rel="noopener" href="https://github.com/grzhan/hexo-tag-aplayer">hexo-tag-aplayer</a>: Hexo</li>
-<li>  <a target="_blank" rel="noopener" href="https://github.com/liwanglin12/Hermit-X">Hermit-X(APlayer for WordPress)</a>: WordPress</li>
-<li>  <a target="_blank" rel="noopener" href="https://github.com/kn007/APlayerHandle">APlayerHandle</a>: WordPress</li>
-<li>  <a target="_blank" rel="noopener" href="https://github.com/fghrsh/APlayer_for_Z-BlogPHP">APlayer_for_Z-BlogPHP</a>: Z-BlogPHP</li>
-<li>  <a target="_blank" rel="noopener" href="https://github.com/sabrinaluo/react-aplayer">react-aplayer</a>: React</li>
-<li>  <a target="_blank" rel="noopener" href="https://github.com/SevenOutman/vue-aplayer">Vue-APlayer</a>: Vue</li>
-<li>  <a target="_blank" rel="noopener" href="https://github.com/MoeFE/vue-aplayer">vue-aplayer</a>: Vue</li>
-<li>  <a target="_blank" rel="noopener" href="https://github.com/Daryl-L/php-aplayer">php-aplayer</a>: PHP</li>
-<li>  <a target="_blank" rel="noopener" href="https://github.com/Runzelee/aplayer-hugo-module">aplayer-hugo-module</a>: Hugo</li>
-</ul>
-<h3 id="Tooling"><a href="#Tooling" class="headerlink" title="Tooling"></a>Tooling</h3><ul>
-<li>  <a target="_blank" rel="noopener" href="https://github.com/Mashiro-Sorata/APlayer-Controler">APlayer-Controler</a>: controling tool</li>
-<li>  <a target="_blank" rel="noopener" href="https://github.com/metowolf/MetingJS">MetingJS</a>: work with Meting music API</li>
-<li>  Feel free to submit yours in <a target="_blank" rel="noopener" href="https://github.com/MoePlayer/APlayer/issues/79"><code>Let me know!</code></a></li>
-</ul>
-<h2 id="Who-use-APlayer"><a href="#Who-use-APlayer" class="headerlink" title="Who use APlayer?"></a>Who use APlayer?</h2><ul>
-<li>  <a target="_blank" rel="noopener" href="https://www.bilibili.com/">bilibili</a>: 国内知名的视频弹幕网站</li>
-<li>  <a target="_blank" rel="noopener" href="https://hacpai.com/">黑客派</a>: 程序员和设计师的聚集地，一个活跃的小众社区</li>
-<li>  <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/CC98%E8%AE%BA%E5%9D%9B">浙江大学 CC98 论坛</a>: 浙江大学校网内规模最大的论坛，中国各大学中较活跃的 BBS 之一</li>
-<li>  <a target="_blank" rel="noopener" href="http://jellyrue.com/">Jelly Rue</a>: Jelly Rue, an indie pop-rock band from Tartu.</li>
-<li>  <a target="_blank" rel="noopener" href="http://www.opusopus.co/">Opus</a>: An artist-exploration data visualization application</li>
-<li>  <a target="_blank" rel="noopener" href="http://www.chinaz.com/15year/index.html">站长之家</a>: 针对中文站点提供资讯、技术、资源、服务</li>
-<li>  <a target="_blank" rel="noopener" href="https://www.lovelivesupport.com/">LLSupport</a>: This site provides a lot of information about LoveLive</li>
-<li>  <a target="_blank" rel="noopener" href="https://www.lrcgc.com/diy">歌词千寻</a>: 每日更新的 LRC 歌词网站</li>
-<li>  <a target="_blank" rel="noopener" href="http://i.oppsu.cn/">iSearch</a>: 一个提供 iTunes 搜索,试听,高清专辑封面获取,查看最新音乐动态等综合性平台</li>
-<li>  <a target="_blank" rel="noopener" href="https://github.com/MoeFE/Lyric">LRC 歌词编辑器</a>: 一款非常实用的在线 LRC 歌词编辑器</li>
-<li>  <a target="_blank" rel="noopener" href="https://aerostatica.ru/">Аэростатика</a></li>
-<li>  <a target="_blank" rel="noopener" href="https://healthdig.co/">HealthDig</a>: 每天只需两分钟的重点新闻资讯</li>
-<li>  Feel free to submit yours in <a target="_blank" rel="noopener" href="https://github.com/MoePlayer/APlayer/issues/79"><code>Let me know!</code></a></li>
-</ul>
-<h2 id="Current-Premium-Sponsors"><a href="#Current-Premium-Sponsors" class="headerlink" title="Current Premium Sponsors"></a>Current Premium Sponsors</h2><h3 id="Special-Sponsors"><a href="#Special-Sponsors" class="headerlink" title="Special Sponsors"></a>Special Sponsors</h3><a href="https://www.dogecloud.com/?ref=dplayer" target="_blank">
-    <img width="222px" src="https://i.imgur.com/BBKXPAp.png" srcset="/img/loading.gif" lazyload>
-</a>
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/Java%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">Java技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/Java%E6%8A%80%E6%9C%AF%E6%A0%88/JVM/" class="category-chain-item">JVM</a>
+  
+  
 
-<h2 id="Contributors"><a href="#Contributors" class="headerlink" title="Contributors"></a>Contributors</h2><p>This project exists thanks to all the people who contribute.</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/MoePlayer/APlayer/graphs/contributors"><img src="https://opencollective.com/APlayer/contributors.svg?width=890" srcset="/img/loading.gif" lazyload /></a></p>
-<h2 id="Donate"><a href="#Donate" class="headerlink" title="Donate"></a>Donate</h2><p>APlayer is an MIT licensed open source project and completely free to use. However, the amount of effort needed to maintain and develop new features for the project is not sustainable without proper financial backing.</p>
-<p>You can support APlayer via donations.</p>
-<h3 id="Recurring-Donation"><a href="#Recurring-Donation" class="headerlink" title="Recurring Donation"></a>Recurring Donation</h3><ul>
-<li>  Become a Sponser on <a target="_blank" rel="noopener" href="https://github.com/sponsors/DIYgod">GitHub</a></li>
-<li>  Become a Sponser on <a target="_blank" rel="noopener" href="https://www.patreon.com/DIYgod">Patreon</a></li>
-<li>  Become a Sponser on <a target="_blank" rel="noopener" href="https://afdian.net/@diygod">爱发电</a></li>
-<li>  Contact us directly: <a href="mailto:&#x69;&#x40;&#100;&#x69;&#x79;&#103;&#111;&#100;&#46;&#109;&#101;">&#x69;&#x40;&#100;&#x69;&#x79;&#103;&#111;&#100;&#46;&#109;&#101;</a></li>
-</ul>
-<h3 id="One-time-Donation"><a href="#One-time-Donation" class="headerlink" title="One-time Donation"></a>One-time Donation</h3><p>We accept donations via the following ways:</p>
-<ul>
-<li>  <a target="_blank" rel="noopener" href="https://diygod.me/images/wx.jpg">WeChat Pay</a></li>
-<li>  <a target="_blank" rel="noopener" href="https://diygod.me/images/zfb.jpg">Alipay</a></li>
-<li>  <a target="_blank" rel="noopener" href="https://www.paypal.me/DIYgod">Paypal</a></li>
-</ul>
-<h2 id="Author"><a href="#Author" class="headerlink" title="Author"></a>Author</h2><p><strong>APlayer</strong> © <a target="_blank" rel="noopener" href="https://github.com/DIYgod">DIYgod</a>, Released under the <a href="./LICENSE">MIT</a> License.<br><br>Authored and maintained by DIYgod with help from contributors (<a target="_blank" rel="noopener" href="https://github.com/DIYgod/APlayer/contributors">list</a>).</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://diygod.me/">Blog</a> · GitHub <a target="_blank" rel="noopener" href="https://github.com/DIYgod">@DIYgod</a> · Twitter <a target="_blank" rel="noopener" href="https://twitter.com/DIYgod">@DIYgod</a> · Telegram Channel <a target="_blank" rel="noopener" href="https://t.me/awesomeDIYgod">@awesomeDIYgod</a></p>
-</blockquote>
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%A2%98%E7%9B%AE%E6%95%B4%E7%90%86/">#题目整理</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>JVM题目整理</div>
+      <div>http://example.com/2022/11/22/【√】【√】19 - 2022年11月22日 - JVM题目整理/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年11月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/11/22/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%9120%20-%202022%E5%B9%B411%E6%9C%8822%E6%97%A5%20-%20%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E9%A2%98%E7%9B%AE%E6%95%B4%E7%90%86/" title="设计模式题目整理">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">设计模式题目整理</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/22/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%9118%20-%202022%E5%B9%B411%E6%9C%8822%E6%97%A5%20-%20sleep%E3%80%81yield%E3%80%81wait%E3%80%81join%E7%9A%84%E5%8C%BA%E5%88%AB/" title="sleep、yield、wait、join的区别">
+                        <span class="hidden-mobile">sleep、yield、wait、join的区别</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
 
 
   
 
-</article>
+
+
+  
 
 
 
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
     
 
     
@@ -559,6 +707,101 @@
 
 
 
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/prismjs@1/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
 
   <script  src="/js/local-search.js" ></script>
 
