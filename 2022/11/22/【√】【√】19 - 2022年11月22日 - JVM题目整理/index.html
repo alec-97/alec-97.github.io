@@ -16,15 +16,15 @@
   <meta name="author" content="Shuai Zhao">
   <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
   
-    <meta name="description" content="001 - 关于垃圾收集的哪些叙述是正确的(√)。 &#96;&#96;&#96;  程序开发者必须自己创建一个线程进行内存释放的工作    +   &#96;&#96;&#96;     垃圾收集允许程序开发者明确指定并立即释放该内存 &#96;&#96;&#96;  垃圾收集将检查并释放不再使用的内存    +   &#96;&#96;&#96;     垃圾收集能够在期望的时间释放被java对象使用的内存  自己选择：C 答案：C  A选">
+    <meta name="description" content="001 - 关于垃圾收集的哪些叙述是正确的(√)。程序开发者必须自己创建一个线程进行内存释放的工作 垃圾收集允许程序开发者明确指定并立即释放该内存 垃圾收集将检查并释放不再使用的内存 垃圾收集能够在期望的时间释放被java对象使用的内存 自己选择：C 答案：C  A选项，开发者无需自己创建线程来进行垃圾回收。 B选项，开发者可以指定进行垃圾回收，但是只是建议，不一定是立即执行。 D选项，不能明确的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JVM题目整理">
 <meta property="og:url" content="http://example.com/2022/11/22/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%9119%20-%202022%E5%B9%B411%E6%9C%8822%E6%97%A5%20-%20JVM%E9%A2%98%E7%9B%AE%E6%95%B4%E7%90%86/index.html">
 <meta property="og:site_name" content="以平静对待生活">
-<meta property="og:description" content="001 - 关于垃圾收集的哪些叙述是正确的(√)。 &#96;&#96;&#96;  程序开发者必须自己创建一个线程进行内存释放的工作    +   &#96;&#96;&#96;     垃圾收集允许程序开发者明确指定并立即释放该内存 &#96;&#96;&#96;  垃圾收集将检查并释放不再使用的内存    +   &#96;&#96;&#96;     垃圾收集能够在期望的时间释放被java对象使用的内存  自己选择：C 答案：C  A选">
+<meta property="og:description" content="001 - 关于垃圾收集的哪些叙述是正确的(√)。程序开发者必须自己创建一个线程进行内存释放的工作 垃圾收集允许程序开发者明确指定并立即释放该内存 垃圾收集将检查并释放不再使用的内存 垃圾收集能够在期望的时间释放被java对象使用的内存 自己选择：C 答案：C  A选项，开发者无需自己创建线程来进行垃圾回收。 B选项，开发者可以指定进行垃圾回收，但是只是建议，不一定是立即执行。 D选项，不能明确的">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-11-22T13:44:27.657Z">
-<meta property="article:modified_time" content="2022-11-22T13:51:17.365Z">
+<meta property="article:modified_time" content="2022-11-22T15:00:19.210Z">
 <meta property="article:author" content="Shuai Zhao">
 <meta property="article:tag" content="题目整理">
 <meta name="twitter:card" content="summary_large_image">
@@ -256,7 +256,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          244 字
+          206 字
         
       </span>
     
@@ -268,7 +268,7 @@
         
         
           <!-- compatible with older versions-->
-          3 分钟
+          2 分钟
         
       </span>
     
@@ -384,16 +384,10 @@
             
               <div class="markdown-body">
                 
-                <h3 id="001-关于垃圾收集的哪些叙述是正确的-√-。"><a href="#001-关于垃圾收集的哪些叙述是正确的-√-。" class="headerlink" title="001 - 关于垃圾收集的哪些叙述是正确的(√)。"></a>001 - 关于垃圾收集的哪些叙述是正确的(√)。</h3><ul>
-<li><p>```<br>  程序开发者必须自己创建一个线程进行内存释放的工作</p>
-  <figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">
-+   &#96;&#96;&#96;
-    垃圾收集允许程序开发者明确指定并立即释放该内存<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure></li>
-<li><p>```<br>  垃圾收集将检查并释放不再使用的内存</p>
-  <figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">
-+   &#96;&#96;&#96;
-    垃圾收集能够在期望的时间释放被java对象使用的内存<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure></li>
-</ul>
+                <h3 id="001-关于垃圾收集的哪些叙述是正确的-√-。"><a href="#001-关于垃圾收集的哪些叙述是正确的-√-。" class="headerlink" title="001 - 关于垃圾收集的哪些叙述是正确的(√)。"></a>001 - 关于垃圾收集的哪些叙述是正确的(√)。</h3><p>程序开发者必须自己创建一个线程进行内存释放的工作</p>
+<p>垃圾收集允许程序开发者明确指定并立即释放该内存</p>
+<p>垃圾收集将检查并释放不再使用的内存</p>
+<p>垃圾收集能够在期望的时间释放被java对象使用的内存</p>
 <p>自己选择：C</p>
 <p>答案：C</p>
 <hr>

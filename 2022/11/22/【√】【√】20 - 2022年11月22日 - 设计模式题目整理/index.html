@@ -16,15 +16,15 @@
   <meta name="author" content="Shuai Zhao">
   <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
   
-    <meta name="description" content="001 - 对象间存在一对多关系，当一个对象被修改时，则会自动通知它的依赖对象，采用以下哪种设计模式最好？ &#96;&#96;&#96;  建造者模式    +   &#96;&#96;&#96;     观察者模式 &#96;&#96;&#96;  策略模式    +   &#96;&#96;&#96;     代理模式  正确答案：B，观察者模式  观察者模式：对象间存在一对多关系，如果一个对象被修改时，会自动通知它的依赖对象。 一个目标">
+    <meta name="description" content="001 - 对象间存在一对多关系，当一个对象被修改时，则会自动通知它的依赖对象，采用以下哪种设计模式最好？建造者模式 观察者模式 策略模式 代理模式 正确答案：B，观察者模式  观察者模式：对象间存在一对多关系，如果一个对象被修改时，会自动通知它的依赖对象。 一个目标物件管理所有相依于它的观察者物件，并且在它本身的状态改变时主动发出通知。这通常透过呼叫各观察者所提供的方法来实现。 此种模式通常被用">
 <meta property="og:type" content="article">
 <meta property="og:title" content="设计模式题目整理">
 <meta property="og:url" content="http://example.com/2022/11/22/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%9120%20-%202022%E5%B9%B411%E6%9C%8822%E6%97%A5%20-%20%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E9%A2%98%E7%9B%AE%E6%95%B4%E7%90%86/index.html">
 <meta property="og:site_name" content="以平静对待生活">
-<meta property="og:description" content="001 - 对象间存在一对多关系，当一个对象被修改时，则会自动通知它的依赖对象，采用以下哪种设计模式最好？ &#96;&#96;&#96;  建造者模式    +   &#96;&#96;&#96;     观察者模式 &#96;&#96;&#96;  策略模式    +   &#96;&#96;&#96;     代理模式  正确答案：B，观察者模式  观察者模式：对象间存在一对多关系，如果一个对象被修改时，会自动通知它的依赖对象。 一个目标">
+<meta property="og:description" content="001 - 对象间存在一对多关系，当一个对象被修改时，则会自动通知它的依赖对象，采用以下哪种设计模式最好？建造者模式 观察者模式 策略模式 代理模式 正确答案：B，观察者模式  观察者模式：对象间存在一对多关系，如果一个对象被修改时，会自动通知它的依赖对象。 一个目标物件管理所有相依于它的观察者物件，并且在它本身的状态改变时主动发出通知。这通常透过呼叫各观察者所提供的方法来实现。 此种模式通常被用">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-11-22T14:33:10.771Z">
-<meta property="article:modified_time" content="2022-11-22T14:37:34.828Z">
+<meta property="article:modified_time" content="2022-11-22T15:00:30.003Z">
 <meta property="article:author" content="Shuai Zhao">
 <meta property="article:tag" content="题目整理">
 <meta name="twitter:card" content="summary_large_image">
@@ -256,7 +256,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          545 字
+          507 字
         
       </span>
     
@@ -384,16 +384,10 @@
             
               <div class="markdown-body">
                 
-                <h3 id="001-对象间存在一对多关系，当一个对象被修改时，则会自动通知它的依赖对象，采用以下哪种设计模式最好？"><a href="#001-对象间存在一对多关系，当一个对象被修改时，则会自动通知它的依赖对象，采用以下哪种设计模式最好？" class="headerlink" title="001 - 对象间存在一对多关系，当一个对象被修改时，则会自动通知它的依赖对象，采用以下哪种设计模式最好？"></a>001 - 对象间存在一对多关系，当一个对象被修改时，则会自动通知它的依赖对象，采用以下哪种设计模式最好？</h3><ul>
-<li><p>```<br>  建造者模式</p>
-  <figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">
-+   &#96;&#96;&#96;
-    观察者模式<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure></li>
-<li><p>```<br>  策略模式</p>
-  <figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">
-+   &#96;&#96;&#96;
-    代理模式<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure></li>
-</ul>
+                <h3 id="001-对象间存在一对多关系，当一个对象被修改时，则会自动通知它的依赖对象，采用以下哪种设计模式最好？"><a href="#001-对象间存在一对多关系，当一个对象被修改时，则会自动通知它的依赖对象，采用以下哪种设计模式最好？" class="headerlink" title="001 - 对象间存在一对多关系，当一个对象被修改时，则会自动通知它的依赖对象，采用以下哪种设计模式最好？"></a>001 - 对象间存在一对多关系，当一个对象被修改时，则会自动通知它的依赖对象，采用以下哪种设计模式最好？</h3><p>建造者模式</p>
+<p>观察者模式</p>
+<p>策略模式</p>
+<p>代理模式</p>
 <p>正确答案：B，观察者模式</p>
 <hr>
 <p>观察者模式：对象间存在一对多关系，如果一个对象被修改时，会自动通知它的依赖对象。</p>
