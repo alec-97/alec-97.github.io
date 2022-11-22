@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>如何减小主从复制从库的延迟时间</title>
+      <link href="/2022/11/21/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%9116%20-%202022%E5%B9%B411%E6%9C%8821%E6%97%A5%20-%20%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%8F%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E4%BB%8E%E5%BA%93%E7%9A%84%E5%BB%B6%E8%BF%9F%E6%97%B6%E9%97%B4/"/>
+      <url>/2022/11/21/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%9116%20-%202022%E5%B9%B411%E6%9C%8821%E6%97%A5%20-%20%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%8F%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E4%BB%8E%E5%BA%93%E7%9A%84%E5%BB%B6%E8%BF%9F%E6%97%B6%E9%97%B4/</url>
+      
+        <content type="html"><![CDATA[<blockquote><p>  参考：</p><p>  <a href="https://www.csdn.net/tags/MtTaMg4sMjc5ODIwLWJsb2cO0O0O.html">以下哪个不能有效减少从库延迟时间（√）</a></p><p>  <a href="https://blog.csdn.net/a13568hki/article/details/104003596">mysql如何减少主从复制延迟？（√）</a></p><p>  <a href="https://www.jianshu.com/p/04c8c4f62cd5">MySQL 主从延迟问题思路（√）</a></p></blockquote><h3 id="一、题目：以下哪个不能有效减小从库延迟时间"><a href="#一、题目：以下哪个不能有效减小从库延迟时间" class="headerlink" title="一、题目：以下哪个不能有效减小从库延迟时间"></a>一、题目：以下哪个不能有效减小从库延迟时间</h3><p>A.主库进行update操作时where后条件没有索引，添加索引。（添加索引，减轻主库的压力，因此能够及时的将数据传给从库）</p><p>B.主库有大事物，增加缓存，异步写入数据库，减少直接对db的大量写入（主库添加缓存，缓解直接写入DB的压力）</p><p>C.主库并发更新写入频繁，从库设置innodb_flush_log_at_trx_commit=1及sync_binlog=1</p><p>D.数据库中存在大量myisam表，修改表结构为innodb存储引擎的表（myisam不支持行级锁，并发会锁住整个表，效率低）</p><p>正确答案:C</p><hr><h3 id="二、MySQL主从复制延迟较大，主要从以下几个方面来考虑"><a href="#二、MySQL主从复制延迟较大，主要从以下几个方面来考虑" class="headerlink" title="二、MySQL主从复制延迟较大，主要从以下几个方面来考虑"></a>二、MySQL主从复制延迟较大，主要从以下几个方面来考虑</h3><p><strong>1 - 从库的问题</strong></p><p>1.1 - 从库硬件比主库差，导致复制延迟。主库写binlog日志到文件的时候，是顺序写入到磁盘，顺序写入速度是很快，避免了磁盘随机寻址。从库的同步线程(Slave_IO_Running)，将binlog在slave上执行的时候，实际上是随机的，速度肯定要慢点。</p><p>解决方案是：从库配置比主库更好的配置。</p><ul><li>  从库使用高性能主机。包括cpu强悍、内存加大。避免使用虚拟云主机，使用物理主机，这样提升了i/o方面性。</li><li>  从库使用SSD磁盘。机械硬盘是靠磁头旋转到指定位置来读数据、写数据。转来转去的，我们叫做i/o。磁盘i/o存在速度瓶颈。固态硬盘是一个电子设备，电子设备不需要机械旋转，读写固态硬盘上任意位置的数据，速度都是一样的。</li></ul><p>1.2 - 从库的负载大，从库的读请求太频繁，来不及复制主库的数据。</p><p>解决方案是：使用多台slave来分摊读请求，再从这些slave中取一台专用的服务器。只作为备份用，不进行其他任何操作。</p><p><strong>2 - 主从之间的问题</strong></p><p>2.1 - 传输的条件差主从复制单线程，如果主库写并发太大，来不及传送到从库就会导致延迟。</p><p>解决方案是：更高版本的mysql可以支持多线程复制</p><p>2.2 - 网络延迟原因</p><p>解决方案是：通常配置以上2个参数可以减少网络问题导致的主从数据同步延迟</p><p><code>–slave-net-timeout=seconds</code> 单位为秒 默认设置为 3600秒，参数含义是：当slave从主数据库读取log数据失败后，等待多久重新建立连接并获取数据</p><p><code>–master-connect-retry=seconds</code> 单位为秒 默认设置为 60秒，参数含义是：当重新建立主从连接时，如果连接建立失败，间隔多久后重试</p><p><strong>3 - 主库的问题</strong></p><p>3.1 - 主库的负载大：主库读写压力大，导致复制延迟。当主库的TPS并发较高时，产生的DDL(修改类的sql语句)数量，超过了slave机器sql线程所能承受的能力，那么延时就会产生了。</p><p>解决方案1是：架构的前端要加buffer及缓存层，通过缓存层来缓解直接进行磁盘IO的压力</p><p>解决方案2是：</p><p>主库是写，对数据安全性较高，因此刷盘策略可以设置为sync_binlog=1，innodb_flush_log_at_trx_commit = 1</p><p>而从库是读，则不需要这么高的数据安全，完全可以将 sync_binlog 设置为 0 或者关闭binlog</p><p>innodb_flushlog也可以设置为0来提高sql的执行效率</p><p>3.2 - 主库的负载大：慢SQL语句过多（慢SQL导致主库的压力过大，来不及传送到从库，就会导致延迟）</p><p>解决方案是：优化慢SQL</p><hr><blockquote><p>  参考：</p><p>  <a href="https://support.huaweicloud.com/bestpractice-rds/rds_02_0010.html">innodb_flush_log_at_trx_commit和sync_binlog参数详解（√）</a></p></blockquote><h3 id="三、innodb-flush-log-at-trx-commit-和-sync-binlog-参数解析"><a href="#三、innodb-flush-log-at-trx-commit-和-sync-binlog-参数解析" class="headerlink" title="三、innodb_flush_log_at_trx_commit 和 sync_binlog 参数解析"></a>三、innodb_flush_log_at_trx_commit 和 sync_binlog 参数解析</h3><p>“innodb_flush_log_at_trx_commit”和“sync_binlog”两个参数是控制RDS for MySQL磁盘写入策略以及数据安全性的关键参数。当两个参数为不同值时，在性能，安全角度下会产生不同的影响。</p><hr><p><strong>innodb_flush_log_at_trx_commit 参数解析：</strong></p><ul><li>  0：每一秒，（1）将日志缓冲区的数据写入到日志文件，（2）将日志文件刷到磁盘；该模式不受事务提交的影响</li><li>  1：每次事务提交，（1）将日志缓冲区的数据写入到日志文件，（2）将日志文件刷到磁盘；该模式不受时间的影响</li><li>  2：每次事务提交，（1）将日志缓冲区的数据写入到日志文件，每一秒，将日志文件刷到磁盘；</li></ul><p>注：</p><ul><li>  日志缓冲区在mysql进程的用户空间，日志文件在内核空间的缓冲区，刷盘则是将内核中的缓冲区数据持久化到磁盘中。</li><li>  MySQL宕机，不影响内核空间和磁盘中的数据</li><li>  操作系统宕机，不影响磁盘中的数据</li></ul><p>说明：</p><ul><li>  刷盘这一步最消耗时间，因此刷盘越频繁，越慢。一个事务的时间一般远小于 1 秒。</li><li>  当设置为0，该模式速度最快，因为将数据写入内核和刷盘是定时的，不受频繁事务提交的影响。但不太安全，mysqld进程的崩溃会导致上一秒钟所有事务数据的丢失。</li><li>  当设置为1，该模式是最安全的，但也是最慢的一种方式。在mysqld服务崩溃或者服务器主机宕机的情况下，日志缓存区只有可能丢失最多一个语句或者一个事务；</li><li>  当设置为2，该模式速度较快，较取值为0情况下更安全，只有在操作系统崩溃或者系统断电的情况下，上一秒钟所有事务数据才可能丢失；</li></ul><p>说明：</p><ul><li>  在主从复制的场景下，主机负责写入，因此对数据安全的保证要求较高，因此一般将主机的 innodb_flush_log_at_trx_commit 参数设置为1，而不会将从机的该参数设置为1。</li></ul><hr><p><strong>sync_binlog=1 or N 参数解析：</strong></p><p>默认情况下，并不是每次写入时都将binlog日志文件与磁盘同步。因此如果操作系统或服务器崩溃，有可能binlog中最后的语句丢失。</p><p>为了防止这种情况，你可以使用<strong>“sync_binlog”</strong>全局变量（1是最安全的值，但也是最慢的），使binlog在每N次binlog日志文件写入后与磁盘同步。</p><hr><p><strong>推荐配置组合：</strong></p><table><thead><tr><th align="center">innodb_flush_log_at_trx_commit</th><th align="center">sync_binlog</th><th align="center">描述</th></tr></thead><tbody><tr><td align="center">1</td><td align="center">1</td><td align="center">适合数据安全性要求非常高，而且磁盘写入能力足够支持业务。</td></tr><tr><td align="center">1</td><td align="center">0</td><td align="center">适合数据安全性要求高，磁盘写入能力支持业务不足，允许备库落后或无复制。</td></tr><tr><td align="center">2</td><td align="center">0/N(0&lt;N&lt;100)</td><td align="center">适合数据安全性要求低，允许丢失一点事务日志，允许复制延迟。</td></tr><tr><td align="center">0</td><td align="center">0</td><td align="center">磁盘写能力有限，无复制或允许复制延迟较长。</td></tr></tbody></table><p>“innodb_flush_log_at_trx_commit”和“sync_binlog”两个参数设置为1的时候，安全性最高，写入性能最差。在mysqld服务崩溃或者服务器主机宕机的情况下，日志缓存区只有可能丢失最多一个语句或者一个事务。但是会导致频繁的磁盘写入操作，因此该模式也是最慢的一种方式。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 笔面复盘 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 复盘 </tag>
+            
+            <tag> 计算机基础知识 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>OS中的阻塞与非阻塞IO、同步与异步IO</title>
       <link href="/2022/11/21/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%9115%20-%202022%E5%B9%B411%E6%9C%8821%E6%97%A5%20-%20OS%E4%B8%AD%E7%9A%84%E9%98%BB%E5%A1%9E%E4%B8%8E%E9%9D%9E%E9%98%BB%E5%A1%9EIO%E3%80%81%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5IO/"/>
       <url>/2022/11/21/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%9115%20-%202022%E5%B9%B411%E6%9C%8821%E6%97%A5%20-%20OS%E4%B8%AD%E7%9A%84%E9%98%BB%E5%A1%9E%E4%B8%8E%E9%9D%9E%E9%98%BB%E5%A1%9EIO%E3%80%81%E5%90%8C%E6%AD%A5%E4%B8%8E%E5%BC%82%E6%AD%A5IO/</url>
@@ -58,7 +85,7 @@
     
     
     <entry>
-      <title>牛客刷题测试题目整理</title>
+      <title>牛客测试题题目整理</title>
       <link href="/2022/11/18/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%914%20-%202022%E5%B9%B411%E6%9C%8818%E6%97%A5%20-%20%E6%B5%8B%E8%AF%95%E9%A2%98%E7%9B%AE%E6%95%B4%E7%90%86/"/>
       <url>/2022/11/18/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%914%20-%202022%E5%B9%B411%E6%9C%8818%E6%97%A5%20-%20%E6%B5%8B%E8%AF%95%E9%A2%98%E7%9B%AE%E6%95%B4%E7%90%86/</url>
       
@@ -293,7 +320,7 @@
     
     
     <entry>
-      <title>2022年11月11日新华三一面复盘</title>
+      <title>牛客测试题题目整理</title>
       <link href="/2022/11/13/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%911%20-%202022%E5%B9%B411%E6%9C%8811%E6%97%A5%20-%20%E9%9D%A2%E8%AF%95%E5%A4%8D%E7%9B%98/"/>
       <url>/2022/11/13/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%911%20-%202022%E5%B9%B411%E6%9C%8811%E6%97%A5%20-%20%E9%9D%A2%E8%AF%95%E5%A4%8D%E7%9B%98/</url>
       
@@ -378,7 +405,7 @@
     
     
     <entry>
-      <title>测试复盘</title>
+      <title>牛客测试题题目整理</title>
       <link href="/2022/11/10/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%915%20-%202022%E5%B9%B411%E6%9C%8818%E6%97%A5%20-%20%E6%B5%8B%E8%AF%95%E9%A2%98%E7%9B%AE%E6%95%B4%E7%90%86/"/>
       <url>/2022/11/10/%E3%80%90%E2%88%9A%E3%80%91%E3%80%90%E2%88%9A%E3%80%915%20-%202022%E5%B9%B411%E6%9C%8818%E6%97%A5%20-%20%E6%B5%8B%E8%AF%95%E9%A2%98%E7%9B%AE%E6%95%B4%E7%90%86/</url>
       
