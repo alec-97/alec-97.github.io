@@ -74,6 +74,13 @@ highlight:
   tab_replace: ''
   wrap: true
   hljs: false
+# Generate categories from directory-tree
+# Dependencies: https://github.com/xu-song/hexo-auto-category
+# depth: the depth of directory-tree you want to generate, should > 0
+auto_category:
+ enable: true
+ depth:
+
 prismjs:
   enable: false
   preprocess: true
