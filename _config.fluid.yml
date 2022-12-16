@@ -230,7 +230,7 @@ custom_head: ''
 # Customize the HTML content at the bottom (located above the footer), be careful not to conflict with `post: custom`
 custom_html: '
     <!-- MetingJS start -->
-    <div class="aplayer" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-fixed="true" data-autoplay="false"
+    <div class="aplayer" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-fixed="true" data-autoplay="true"
         data-volume="0.7"></div>
     <!-- MetingJS end -->
 '
