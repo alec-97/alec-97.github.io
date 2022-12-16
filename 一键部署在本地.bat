@@ -1,4 +1,2 @@
 @echo off
-git add .
-git commit -m "hexo"
-git push
+hexo clean&&hexo g&&hexo s
