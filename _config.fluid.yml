@@ -10,6 +10,10 @@
 # You can get more detailed help from the guide
 #---------------------------
 
+# alec insert start
+live2d:
+  enable: true
+# alec insert end
 
 #---------------------------
 # 全局
@@ -128,6 +132,7 @@ dark_mode:
   # 默认的选项（当用户手动切换后则不再按照默认模式），选择 `auto` 会优先遵循 prefers-color-scheme，其次按用户本地时间 18 点到次日 6 点之间进入暗色模式
   # Default option (when the visitor switches manually, the default mode is no longer followed), choosing `auto` will give priority to prefers-color-scheme, and then enter the dark mode from 18:00 to 6:00 in the visitor’s local time
   # Options: auto | light | dark
+  Options: auto
   default: auto
 
 # 主题颜色配置，其他不生效的地方请使用自定义 css 解决，配色可以在下方链接中获得启发
@@ -211,9 +216,9 @@ font:
 custom_js:
   #- /js/star.js#鼠标星星特效
   #鼠标点击爱心特效
-  #- /js/love.js
+  - /js/love.js
   #鼠标点击文字特效
-  - /js/dianjichuzi.js # 鼠标点击出字
+  #- /js/dianjichuzi.js # 鼠标点击出字
   - //cdn.jsdelivr.net/gh/bynotes/texiao/source/js/yinghua.js
   - /js/APlayer/dist/APlayer.min.js
   - /js/Meting.min.js  #/APlayer依赖
@@ -224,13 +229,15 @@ custom_css:
   - /css/custom.css
 # 自定义 <head> 节点中的 HTML 内容
 # Customize <head> HTML content
-custom_head: ''
+custom_head: '<script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+'
 
 # 自定义底部 HTML 内容（位于 footer 上方），注意不要和 `post: custom` 配置冲突
 # Customize the HTML content at the bottom (located above the footer), be careful not to conflict with `post: custom`
 custom_html: '
     <!-- MetingJS start -->
-    <div class="aplayer" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-fixed="true" data-autoplay="true"
+    <div class="aplayer" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-fixed="true" data-autoplay="false"
         data-volume="0.7"></div>
     <!-- MetingJS end -->
 '

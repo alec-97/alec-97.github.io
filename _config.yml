@@ -10,7 +10,8 @@
 
 # Site
 #title: Alec's Blog
-title: 以平静对待生活
+#title: 以平静对待生活
+title: 要走起来，你才知道方向。
 subtitle: alec-97.github.io/
 description: 要走起来，你才知道方向。
 keywords: '人工智能, 深度学习, 软件开发, 个人博客, 所思所想'
@@ -32,7 +33,6 @@ symbols_count_time:
 aplayer:  
   meting: true  
   asset_inject: false
-
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
 url: http://example.com
