@@ -7,6 +7,7 @@ categories:
   - 计算机基础
   - 操作系统
   - inbox
+abbrlink: 2169254623
 ---
 
 >   前言

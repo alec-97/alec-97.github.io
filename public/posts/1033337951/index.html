@@ -1,0 +1,1198 @@
+
+
+
+<!--alec insert start-->
+<script src="/live2d-widget/autoload.js"></script>
+<!--alec insert end-->
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="[√] 5.1 - 卷积 [√] 目录    [√] 卷积 [√] 用卷积替代全连接   [√] 卷积算子   [√] 二维卷积算子     [√] 二维卷积算子的参数量   alec： L层得到30×30个神经元， 使用全连接的话则需要30×30×32×32≈900000&#x3D;90万个参数 使用卷积的话，则需要的参数量为9个（不同的神经元参数共享、单个神经元局部连接，通过这两个来节省参数）   [">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第5章 - 卷积神经网络 - 视频">
+<meta property="og:url" content="http://example.com/posts/1033337951/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="[√] 5.1 - 卷积 [√] 目录    [√] 卷积 [√] 用卷积替代全连接   [√] 卷积算子   [√] 二维卷积算子     [√] 二维卷积算子的参数量   alec： L层得到30×30个神经元， 使用全连接的话则需要30×30×32×32≈900000&#x3D;90万个参数 使用卷积的话，则需要的参数量为9个（不同的神经元参数共享、单个神经元局部连接，通过这两个来节省参数）   [">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219143242822.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219142645749.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219130508758.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219143422307.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219144446993.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219143509534.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219144809626.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219144634395.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219144943348.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219145246003.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219150120256.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219145759222.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219150239521.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219151258835.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219150542776.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219150735517.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219145722897.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219161403997.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219161536118.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219162856215.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219162715734.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219150423360.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219162318771.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219162922050.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219164333869.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219162822345.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219163725636.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219162741543.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219163205537.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219164238798.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219164621216.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219172424150.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219164529451.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219172519358.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219173720075.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219173345892.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219174919075.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219172458036.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219175218043.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219180020784.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219180509425.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219173844842.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219180824283.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219180556815.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219143721941.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219145412085.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219164430763.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219144138294.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219164634943.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219172306611.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219175400105.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219174743636.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219180648994.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219180902611.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219181000117.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219181022501.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219180356578.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219175423093.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219175122875.png">
+<meta property="article:published_time" content="2022-12-19T13:11:46.352Z">
+<meta property="article:modified_time" content="2022-12-21T13:43:10.715Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219143242822.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"> 
+  
+  <title>第5章 - 卷积神经网络 - 视频 - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/js/APlayer/dist/APlayer.min.css">
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":5,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.4);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+
+  <header>
+    
+
+<div class="header-inner" style="height: 85vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                音乐
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://101.43.39.125/HexoFiles/new/bg-trans.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="第5章 - 卷积神经网络 - 视频"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-12-19 21:11" pubdate>
+          2022年12月19日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          17 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			
+			</div>
+		</div>
+
+
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">第5章 - 卷积神经网络 - 视频</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <hr>
+<h2 id="√-5-1-卷积"><a href="#√-5-1-卷积" class="headerlink" title="[√] 5.1 - 卷积"></a>[√] 5.1 - 卷积</h2><hr>
+<h4 id="√-目录"><a href="#√-目录" class="headerlink" title="[√] 目录"></a>[√] 目录</h4><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219143242822.png" srcset="/img/loading.gif" lazyload alt="image-20221219130508758"> </p>
+<hr>
+<h4 id="√-卷积"><a href="#√-卷积" class="headerlink" title="[√] 卷积"></a>[√] 卷积</h4><hr>
+<h6 id="√-用卷积替代全连接"><a href="#√-用卷积替代全连接" class="headerlink" title="[√] 用卷积替代全连接"></a>[√] 用卷积替代全连接</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219142645749.png" srcset="/img/loading.gif" lazyload alt="image-20221219142645749"></p>
+<hr>
+<h6 id="√-卷积算子"><a href="#√-卷积算子" class="headerlink" title="[√] 卷积算子"></a>[√] 卷积算子</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219130508758.png" srcset="/img/loading.gif" lazyload alt="image-20221219143242822"></p>
+<hr>
+<h6 id="√-二维卷积算子"><a href="#√-二维卷积算子" class="headerlink" title="[√] 二维卷积算子"></a>[√] 二维卷积算子</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219143422307.png" srcset="/img/loading.gif" lazyload alt="image-20221219143422307"></p>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219144446993.png" srcset="/img/loading.gif" lazyload alt="image-20221219143509534"></p>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219143509534.png" srcset="/img/loading.gif" lazyload alt="image-20221219143721941"></p>
+<hr>
+<h6 id="√-二维卷积算子的参数量"><a href="#√-二维卷积算子的参数量" class="headerlink" title="[√] 二维卷积算子的参数量"></a>[√] 二维卷积算子的参数量</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219144809626.png" srcset="/img/loading.gif" lazyload alt="image-20221219144138294"></p>
+<blockquote>
+<p>alec：</p>
+<p>L层得到30×30个神经元，</p>
+<p>使用全连接的话则需要30×30×32×32≈900000=90万个参数</p>
+<p>使用卷积的话，则需要的参数量为9个（不同的神经元参数共享、单个神经元局部连接，通过这两个来节省参数）</p>
+</blockquote>
+<hr>
+<h6 id="√-二维卷积算子的计算量"><a href="#√-二维卷积算子的计算量" class="headerlink" title="[√] 二维卷积算子的计算量"></a>[√] 二维卷积算子的计算量</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219144634395.png" srcset="/img/loading.gif" lazyload alt="image-20221219144446993"></p>
+<hr>
+<h6 id="√-感受野"><a href="#√-感受野" class="headerlink" title="[√] 感受野"></a>[√] 感受野</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219144943348.png" srcset="/img/loading.gif" lazyload alt="image-20221219144634395"></p>
+<hr>
+<h6 id="√-步长"><a href="#√-步长" class="headerlink" title="[√] 步长"></a>[√] 步长</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219145246003.png" srcset="/img/loading.gif" lazyload alt="image-20221219144809626"></p>
+<hr>
+<h6 id="√-零填充"><a href="#√-零填充" class="headerlink" title="[√] 零填充"></a>[√] 零填充</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219150120256.png" srcset="/img/loading.gif" lazyload alt="image-20221219144943348"></p>
+<hr>
+<h4 id="√-卷积的变种"><a href="#√-卷积的变种" class="headerlink" title="[√] 卷积的变种"></a>[√] 卷积的变种</h4><hr>
+<h6 id="√-常用的等宽卷积"><a href="#√-常用的等宽卷积" class="headerlink" title="[√] 常用的等宽卷积"></a>[√] 常用的等宽卷积</h6><hr>
+<blockquote>
+<p>alec：</p>
+<p>等宽卷积：P = （U - 1）/ 2</p>
+<p>常用等宽卷积的有：resnet、vgg</p>
+<p>等宽卷积举例：卷积核大小3×3，填充P = （3-1）/ 2 = 1</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219145759222.png" srcset="/img/loading.gif" lazyload alt="image-20221219145246003"></p>
+<hr>
+<h6 id="√-带步长和零填充的二维卷积算子"><a href="#√-带步长和零填充的二维卷积算子" class="headerlink" title="[√] 带步长和零填充的二维卷积算子"></a>[√] 带步长和零填充的二维卷积算子</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219150239521.png" srcset="/img/loading.gif" lazyload alt="image-20221219145412085"></p>
+<hr>
+<h4 id="√-使用卷积完成图像边缘检测任务"><a href="#√-使用卷积完成图像边缘检测任务" class="headerlink" title="[√] 使用卷积完成图像边缘检测任务"></a>[√] 使用卷积完成图像边缘检测任务</h4><hr>
+<blockquote>
+<p>alec：</p>
+<p>拉布拉斯算子是一个二维微分算子，能够对边缘进行提取</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219151258835.png" srcset="/img/loading.gif" lazyload alt="image-20221219145722897"></p>
+<hr>
+<h6 id="√-拉普拉斯算子"><a href="#√-拉普拉斯算子" class="headerlink" title="[√] 拉普拉斯算子"></a>[√] 拉普拉斯算子</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219150542776.png" srcset="/img/loading.gif" lazyload alt="image-20221219145759222"></p>
+<hr>
+<h2 id="√-5-2-卷积神经网络的基础算子"><a href="#√-5-2-卷积神经网络的基础算子" class="headerlink" title="[√] 5.2 - 卷积神经网络的基础算子"></a>[√] 5.2 - 卷积神经网络的基础算子</h2><hr>
+<h4 id="√-卷积神经网络的基础算子"><a href="#√-卷积神经网络的基础算子" class="headerlink" title="[√] 卷积神经网络的基础算子"></a>[√] 卷积神经网络的基础算子</h4><hr>
+<h6 id="√-卷积神经网络"><a href="#√-卷积神经网络" class="headerlink" title="[√] 卷积神经网络"></a>[√] 卷积神经网络</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219150735517.png" srcset="/img/loading.gif" lazyload alt="image-20221219150120256"></p>
+<hr>
+<h6 id="√-卷积层算子"><a href="#√-卷积层算子" class="headerlink" title="[√] 卷积层算子"></a>[√] 卷积层算子</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219145722897.png" srcset="/img/loading.gif" lazyload alt="image-20221219150239521"></p>
+<hr>
+<h6 id="√-一张输出特征图的计算"><a href="#√-一张输出特征图的计算" class="headerlink" title="[√] 一张输出特征图的计算"></a>[√] 一张输出特征图的计算</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219161403997.png" srcset="/img/loading.gif" lazyload alt="image-20221219150423360"></p>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219161536118.png" srcset="/img/loading.gif" lazyload alt="image-20221219150542776"></p>
+<blockquote>
+<p>alec：</p>
+<p>输出通道数，等于卷积核的个数，也等于输出特征图的深度</p>
+<p>输入特征图的深度一般定义为D，输出特征图的深度一般定义为P</p>
+</blockquote>
+<hr>
+<h4 id="√-卷积层算子-1"><a href="#√-卷积层算子-1" class="headerlink" title="[√] 卷积层算子"></a>[√] 卷积层算子</h4><hr>
+<h6 id="√-多张输出特征图的计算"><a href="#√-多张输出特征图的计算" class="headerlink" title="[√] 多张输出特征图的计算"></a>[√] 多张输出特征图的计算</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219162856215.png" srcset="/img/loading.gif" lazyload alt="image-20221219150735517"></p>
+<blockquote>
+<p>alec：</p>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219162715734.png" srcset="/img/loading.gif" lazyload alt="image-20221219151258835"></p>
+<p>上面这个一层的卷子算子，out_channels为3，表示本层防止了3组卷积核，in_channels为2，表示上一层数据有2层，因此本层的每组卷积核要设置2层，每个卷积核的长宽为kernel_size的平方</p>
+</blockquote>
+<hr>
+<h6 id="√-多通道卷积层算子的参数量"><a href="#√-多通道卷积层算子的参数量" class="headerlink" title="[√] 多通道卷积层算子的参数量"></a>[√] 多通道卷积层算子的参数量</h6><hr>
+<blockquote>
+<p>alec：</p>
+<p>参数量：P×D×U×V + P</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219150423360.png" srcset="/img/loading.gif" lazyload alt="image-20221219161403997"></p>
+<hr>
+<h6 id="√-多通道卷积层算子计算量"><a href="#√-多通道卷积层算子计算量" class="headerlink" title="[√] 多通道卷积层算子计算量"></a>[√] 多通道卷积层算子计算量</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219162318771.png" srcset="/img/loading.gif" lazyload alt="image-20221219161536118"></p>
+<blockquote>
+<p>alec：</p>
+<p>一组卷积核对应一个偏置参数</p>
+</blockquote>
+<hr>
+<h4 id="√-汇聚层算子"><a href="#√-汇聚层算子" class="headerlink" title="[√] 汇聚层算子"></a>[√] 汇聚层算子</h4><hr>
+<h6 id="√-汇聚层算子-1"><a href="#√-汇聚层算子-1" class="headerlink" title="[√] 汇聚层算子"></a>[√] 汇聚层算子</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219162922050.png" srcset="/img/loading.gif" lazyload alt="image-20221219162318771"></p>
+<blockquote>
+<p>alec：</p>
+<p>汇聚层的参数量都是0，没有需要学习的参数。</p>
+<p>汇聚层的计算量，最大汇聚为0，平均汇聚为M‘×N’×P，即一个输出像素对应1计算量，因为输出有P层特征图，每个特征图为M’×N‘，因此平均汇聚的计算量为如上</p>
+<p>汇聚层帮助减少计算量，但是不会帮助减少参数量</p>
+</blockquote>
+<hr>
+<h2 id="√-5-3-基于LeNet实现手写数字识别"><a href="#√-5-3-基于LeNet实现手写数字识别" class="headerlink" title="[√] 5.3 - 基于LeNet实现手写数字识别"></a>[√] 5.3 - 基于LeNet实现手写数字识别</h2><hr>
+<h4 id="√-机器学习时间5要素"><a href="#√-机器学习时间5要素" class="headerlink" title="[√] 机器学习时间5要素"></a>[√] 机器学习时间5要素</h4><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219164333869.png" srcset="/img/loading.gif" lazyload alt="image-20221219162715734"></p>
+<hr>
+<h4 id="√-数据"><a href="#√-数据" class="headerlink" title="[√] 数据"></a>[√] 数据</h4><hr>
+<h6 id="√-数据集介绍"><a href="#√-数据集介绍" class="headerlink" title="[√] 数据集介绍"></a>[√] 数据集介绍</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219162822345.png" srcset="/img/loading.gif" lazyload alt="image-20221219162741543"></p>
+<hr>
+<h6 id="√-数据集分布"><a href="#√-数据集分布" class="headerlink" title="[√] 数据集分布"></a>[√] 数据集分布</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219163725636.png" srcset="/img/loading.gif" lazyload alt="image-20221219162822345"></p>
+<hr>
+<h6 id="√-数据形状"><a href="#√-数据形状" class="headerlink" title="[√] 数据形状"></a>[√] 数据形状</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219162741543.png" srcset="/img/loading.gif" lazyload alt="image-20221219162856215"></p>
+<hr>
+<h6 id="√-数据可视化"><a href="#√-数据可视化" class="headerlink" title="[√] 数据可视化"></a>[√] 数据可视化</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219163205537.png" srcset="/img/loading.gif" lazyload alt="image-20221219162922050"></p>
+<hr>
+<h6 id="√-数据预处理"><a href="#√-数据预处理" class="headerlink" title="[√] 数据预处理"></a>[√] 数据预处理</h6><hr>
+<p>resize + normalize</p>
+<hr>
+<h6 id="√-数据集封装"><a href="#√-数据集封装" class="headerlink" title="[√] 数据集封装"></a>[√] 数据集封装</h6><hr>
+<blockquote>
+<p>alec：</p>
+<p>数据集类继承Dataset类，类中有__getitem__方法和--len--方法，其中getitem方法，根据索引获取数据，然后对数据预处理，然后返回处理后的数据和标签</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219164238798.png" srcset="/img/loading.gif" lazyload alt="image-20221219163205537"></p>
+<hr>
+<h4 id="√-模型构建"><a href="#√-模型构建" class="headerlink" title="[√] 模型构建"></a>[√] 模型构建</h4><hr>
+<h6 id="√-LeNet-5"><a href="#√-LeNet-5" class="headerlink" title="[√] LeNet-5"></a>[√] LeNet-5</h6><hr>
+<blockquote>
+<p>alec：</p>
+<p>随着网络的加深，虽然特征图长度越来越小，甚至变成1×1的，但是因为高层的一个像素（神经元）对应的输入图像的感受野非常大，所以 即使一个像素，也包含了大的特征。同时随着深度加深，通常特征通道数即特征图像个数会增加。最后通过全连接层将这些多个高级特征全连接用于分类等任务。</p>
+<p>一开始，输入图像的三个通道，只是单纯的三个通道，但是在卷积网络中，每一层的多个通道都是对应的多种特征图。、</p>
+<hr>
+<blockquote>
+<p>全连接层对比卷积层的不足在于，全连接无法提取图像的局部不变性特征</p>
+</blockquote>
+<hr>
+<p>卷积之后，先激活，然后再汇聚</p>
+<hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219164621216.png" srcset="/img/loading.gif" lazyload alt="image-20221219164333869"></p>
+<p>卷积层进入全连接之前，需要做一个reshape操作，因为卷积得到的是[B,C,H,W]形状的特征图，全连接需要输入一维列向量，因此需要将[B,C,H,W]转为[B,C×H×W]。</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219172424150.png" srcset="/img/loading.gif" lazyload alt="image-20221219163725636"></p>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219164529451.png" srcset="/img/loading.gif" lazyload alt="image-20221219164238798"></p>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219172519358.png" srcset="/img/loading.gif" lazyload alt="image-20221219164430763"></p>
+<hr>
+<h6 id="√-LeNet-5的参数量"><a href="#√-LeNet-5的参数量" class="headerlink" title="[√] LeNet-5的参数量"></a>[√] LeNet-5的参数量</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219173720075.png" srcset="/img/loading.gif" lazyload alt="image-20221219164529451"></p>
+<hr>
+<h6 id="√-LeNet-5的计算量"><a href="#√-LeNet-5的计算量" class="headerlink" title="[√] LeNet-5的计算量"></a>[√] LeNet-5的计算量</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219173345892.png" srcset="/img/loading.gif" lazyload alt="image-20221219164621216"></p>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219174919075.png" srcset="/img/loading.gif" lazyload alt="image-20221219164634943"></p>
+<blockquote>
+<p>alec：</p>
+<p>flops方法可以计算模型的计算量，就不用自己手动算了</p>
+</blockquote>
+<hr>
+<h6 id="√-模型运算速度对比"><a href="#√-模型运算速度对比" class="headerlink" title="[√] 模型运算速度对比"></a>[√] 模型运算速度对比</h6><hr>
+<h4 id="√-模型训练"><a href="#√-模型训练" class="headerlink" title="[√] 模型训练"></a>[√] 模型训练</h4><hr>
+<h6 id="√-模型训练-1"><a href="#√-模型训练-1" class="headerlink" title="[√] 模型训练"></a>[√] 模型训练</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219172458036.png" srcset="/img/loading.gif" lazyload alt="image-20221219172306611"></p>
+<hr>
+<h4 id="√-模型训练与评价"><a href="#√-模型训练与评价" class="headerlink" title="[√] 模型训练与评价"></a>[√] 模型训练与评价</h4><hr>
+<h6 id="√-训练过程可视化-amp-amp-模型评价"><a href="#√-训练过程可视化-amp-amp-模型评价" class="headerlink" title="[√] 训练过程可视化 &amp;&amp; 模型评价"></a>[√] 训练过程可视化 &amp;&amp; 模型评价</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219175218043.png" srcset="/img/loading.gif" lazyload alt="image-20221219172424150"></p>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219180020784.png" srcset="/img/loading.gif" lazyload alt="image-20221219172458036"></p>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219180509425.png" srcset="/img/loading.gif" lazyload alt="image-20221219172519358"></p>
+<hr>
+<h2 id="√-5-4-基于残差网络实现手写数字识别"><a href="#√-5-4-基于残差网络实现手写数字识别" class="headerlink" title="[√] 5.4 - 基于残差网络实现手写数字识别"></a>[√] 5.4 - 基于残差网络实现手写数字识别</h2><hr>
+<h4 id="√-残差网络"><a href="#√-残差网络" class="headerlink" title="[√] 残差网络"></a>[√] 残差网络</h4><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219173844842.png" srcset="/img/loading.gif" lazyload alt="image-20221219173345892"></p>
+<blockquote>
+<p>alec：</p>
+<p>残差网络中，将目标函数分为了两部分：恒等函数 + 残差函数</p>
+<p>残差的思想在Gradient Boosting也有</p>
+</blockquote>
+<hr>
+<h6 id="√-残差单元"><a href="#√-残差单元" class="headerlink" title="[√] 残差单元"></a>[√] 残差单元</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219180824283.png" srcset="/img/loading.gif" lazyload alt="image-20221219173720075"></p>
+<blockquote>
+<p>alec：</p>
+<p>较深的网络中，残差单元的结构变成了中间细、两头粗的沙漏结构</p>
+</blockquote>
+<hr>
+<h6 id="√-1×1卷积"><a href="#√-1×1卷积" class="headerlink" title="[√] 1×1卷积"></a>[√] 1×1卷积</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219180556815.png" srcset="/img/loading.gif" lazyload alt="image-20221219173844842"></p>
+<hr>
+<h6 id="√-ResNet18"><a href="#√-ResNet18" class="headerlink" title="[√] ResNet18"></a>[√] ResNet18</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219143721941.png" srcset="/img/loading.gif" lazyload alt="image-20221219174743636"></p>
+<blockquote>
+<p>alec：</p>
+<p>第一种残差单元：通道数不变</p>
+<p>第二种残差单元：通道数翻倍（在直连边通过1×1卷积调整通道数）</p>
+<p>即特征图的数量不变或者翻倍</p>
+<hr>
+<p>残差单元的结构：</p>
+<p>卷积+BN+ReLU</p>
+<p>卷积+BN</p>
+<p>(残差边 + 直连边)-&gt;ReLU</p>
+<hr>
+<p>直连边 和 残差变 相加之后，再通过非线性激活函数</p>
+<hr>
+<p>BN，BatchNorm2D：</p>
+<ul>
+<li>根据当前批次数据按通道计算的均值和方差进行归一化</li>
+</ul>
+</blockquote>
+<hr>
+<h6 id="√-ResNet18各模块"><a href="#√-ResNet18各模块" class="headerlink" title="[√] ResNet18各模块"></a>[√] ResNet18各模块</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219145412085.png" srcset="/img/loading.gif" lazyload alt="image-20221219174919075"></p>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219164430763.png" srcset="/img/loading.gif" lazyload alt="image-20221219175122875"></p>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219144138294.png" srcset="/img/loading.gif" lazyload alt="image-20221219175218043"></p>
+<hr>
+<h6 id="√-ResNet18的参数量和计算量"><a href="#√-ResNet18的参数量和计算量" class="headerlink" title="[√] ResNet18的参数量和计算量"></a>[√] ResNet18的参数量和计算量</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219164634943.png" srcset="/img/loading.gif" lazyload alt="image-20221219175400105"></p>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219172306611.png" srcset="/img/loading.gif" lazyload alt="image-20221219175423093"></p>
+<hr>
+<h4 id="√-模型训练-2"><a href="#√-模型训练-2" class="headerlink" title="[√] 模型训练"></a>[√] 模型训练</h4><hr>
+<h6 id="√-没有残差连接的ResNet18"><a href="#√-没有残差连接的ResNet18" class="headerlink" title="[√] 没有残差连接的ResNet18"></a>[√] 没有残差连接的ResNet18</h6><hr>
+<blockquote>
+<p>alec：</p>
+<p>self.short表示的是直连边</p>
+<p>paddle.sumary()方法用来计算参数量</p>
+</blockquote>
+<hr>
+<h4 id="√-模型评价"><a href="#√-模型评价" class="headerlink" title="[√] 模型评价"></a>[√] 模型评价</h4><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219175400105.png" srcset="/img/loading.gif" lazyload alt="image-20221219180020784"></p>
+<hr>
+<h2 id="√-5-5-ResNet18完成图像分类任务"><a href="#√-5-5-ResNet18完成图像分类任务" class="headerlink" title="[√] 5.5 - ResNet18完成图像分类任务"></a>[√] 5.5 - ResNet18完成图像分类任务</h2><hr>
+<h4 id="√-数据处理"><a href="#√-数据处理" class="headerlink" title="[√] 数据处理"></a>[√] 数据处理</h4><hr>
+<h6 id="√-数据集介绍-1"><a href="#√-数据集介绍-1" class="headerlink" title="[√] 数据集介绍"></a>[√] 数据集介绍</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219174743636.png" srcset="/img/loading.gif" lazyload alt="image-20221219180356578"></p>
+<hr>
+<h6 id="√-数据读取"><a href="#√-数据读取" class="headerlink" title="[√] 数据读取"></a>[√] 数据读取</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219180648994.png" srcset="/img/loading.gif" lazyload alt="image-20221219180509425"></p>
+<hr>
+<h6 id="√-数据可视化-1"><a href="#√-数据可视化-1" class="headerlink" title="[√] 数据可视化"></a>[√] 数据可视化</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219180902611.png" srcset="/img/loading.gif" lazyload alt="image-20221219180556815"></p>
+<hr>
+<h6 id="√-构建Dataset类"><a href="#√-构建Dataset类" class="headerlink" title="[√] 构建Dataset类"></a>[√] 构建Dataset类</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219181000117.png" srcset="/img/loading.gif" lazyload alt="image-20221219180648994"></p>
+<hr>
+<h4 id="√-模型构建与训练"><a href="#√-模型构建与训练" class="headerlink" title="[√] 模型构建与训练"></a>[√] 模型构建与训练</h4><hr>
+<h6 id="√-模型构建-1"><a href="#√-模型构建-1" class="headerlink" title="[√] 模型构建"></a>[√] 模型构建</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219181022501.png" srcset="/img/loading.gif" lazyload alt="image-20221219180824283"></p>
+<hr>
+<h6 id="√-模型训练-3"><a href="#√-模型训练-3" class="headerlink" title="[√] 模型训练"></a>[√] 模型训练</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219180356578.png" srcset="/img/loading.gif" lazyload alt="image-20221219180902611"></p>
+<hr>
+<h4 id="√-训练结果"><a href="#√-训练结果" class="headerlink" title="[√] 训练结果"></a>[√] 训练结果</h4><hr>
+<h6 id="√-结果可视化-amp-amp-评价-amp-amp-预测"><a href="#√-结果可视化-amp-amp-评价-amp-amp-预测" class="headerlink" title="[√] 结果可视化 &amp;&amp; 评价 &amp;&amp; 预测"></a>[√] 结果可视化 &amp;&amp; 评价 &amp;&amp; 预测</h6><hr>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219175423093.png" srcset="/img/loading.gif" lazyload alt="image-20221219181000117"></p>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221219175122875.png" srcset="/img/loading.gif" lazyload alt="image-20221219181022501"></p>
+<blockquote>
+<p>alec：</p>
+<p>weight_decay用来L2正则化</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/" class="category-chain-item">分支导航</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E5%AE%9E%E8%B7%B5%E5%AD%A6%E4%B9%A0/" class="category-chain-item">实践学习</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E5%AE%9E%E8%B7%B5%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%EF%BC%9A%E6%A1%88%E4%BE%8B%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E9%A3%9E%E6%A1%A8-%E9%82%B1%E9%94%A1%E9%B9%8F/" class="category-chain-item">神经网络与深度学习：案例与实践 - 飞桨 - 邱锡鹏</a>
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>第5章 - 卷积神经网络 - 视频</div>
+      <div>http://example.com/posts/1033337951/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年12月19日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/1254558254/" title="第5章 - 卷积神经网络 - 书籍">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">第5章 - 卷积神经网络 - 书籍</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/3952900717/" title="第5章 - 卷积神经网络实践：ResNet18图像分类">
+                        <span class="hidden-mobile">第5章 - 卷积神经网络实践：ResNet18图像分类</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <!-- MetingJS start --> <div class="aplayer" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-fixed="true" data-autoplay="false" data-volume="0.7"></div> <!-- MetingJS end --> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <footer class="text-center mt-5 py-3" style="color: #DDD;font-size: 13.6px;">
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener" style="color:#D8D9DA"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener" style="color:#D8D9DA"><span>Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/alec-97" target="_blank" rel="nofollow noopener" style="color:#D8D9DA"><span>Alec</span></a> <div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div> 
+      </div>
+  
+  
+  
+  
+    <div class="statistics">
+  
+  
+  
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none;font-size:13.6px">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none;font-size:13.6px">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+
+</div>
+
+<div class="statistics" style="font-size: 13.6px;">
+  <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #DDD;font-size:13.6px"  id="hitokoto"></span></a>
+  <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
+</div>
+
+  
+  
+  
+  
+  
+
+
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/prismjs@1/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+
+
+  
+<script src="/js/love.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/yinghua.js"></script>
+<script src="/js/APlayer/dist/APlayer.min.js"></script>
+<script src="/js/Meting.min.js"></script>
+
+
+
+
+<!-- alec:监控页面焦点变换标题 -->
+
+  <script type="text/javascript">
+    /*窗口监视*/
+    var originalTitle = document.title;
+    window.onblur = function(){document.title = "给时间一点时间"};
+    window.onfocus = function(){document.title = originalTitle};
+  </script>
+
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+</body>
+</html>

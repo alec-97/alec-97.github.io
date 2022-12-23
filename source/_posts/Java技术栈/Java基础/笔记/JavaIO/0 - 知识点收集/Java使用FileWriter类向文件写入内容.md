@@ -9,6 +9,7 @@ categories:
   - 笔记
   - JavaIO
   - 0 - 知识点收集
+abbrlink: 975683122
 ---
 
 ```java

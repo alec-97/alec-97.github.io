@@ -8,6 +8,7 @@ tags:
 categories:
   - 工具笔记
   - hexo
+abbrlink: 545180737
 ---
 
 使用hexo发布文章的时候，每次需要在hexo根目录打开git，然后依次执行`hexo clean, hexo g, hexo d`,不太方便。

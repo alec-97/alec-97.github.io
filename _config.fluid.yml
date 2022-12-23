@@ -34,7 +34,7 @@ tab_title_separator: " - "
 
 # 强制所有链接升级为 HTTPS（适用于图片等资源出现 HTTP 混入报错）
 # Force all links to be HTTPS (applicable to HTTP mixed error)
-force_https: false
+force_https: true
 
 
 # 代码块的增强配置
@@ -83,11 +83,14 @@ code:
 # 一些好玩的功能
 # Some fun features
 fun_features:
+
   # 页面焦点丢失，变化标签页标题
   monitortext:
     enable: true
     #text: 
     text: 给时间一点时间
+
+    
   # 为 subtitle 添加打字机效果
   # Typing animation for subtitle
   typing:
@@ -95,7 +98,7 @@ fun_features:
 
     # 打印速度，数字越大越慢
     # Typing speed, the larger the number, the slower
-    typeSpeed: 70
+    typeSpeed: 60
 
     # 游标字符
     # Cursor character
@@ -120,7 +123,7 @@ fun_features:
   # Progress bar when loading
   progressbar:
     enable: true
-    height_px: 3
+    height_px: 5
     color: "#29d"
     # See: https://github.com/rstacruz/nprogress
     options: { showSpinner: false, trickleSpeed: 100 }
@@ -552,12 +555,18 @@ index:
 post:
   #banner_img: /img/default.png
   banner_img: https://101.43.39.125/HexoFiles/new/bg-trans.png
-  banner_img_height: 70
+  banner_img_height: 85
   banner_mask_alpha: 0
 
   # 文章在首页的默认封面图，当没有指定 index_img 时会使用该图片，若两者都为空则不显示任何图片
   # Path of the default post cover when `index_img` is not set. If both are empty, no image will be displayed
-  default_index_img:
+  default_index_img: 
+  - https://img.xjh.me/random_img.php?type=bg&ctype=nature&return=302
+  # https://tuapi.eees.cc/api.php?category=meinv
+  # https://img.xjh.me/random_img.php?type=bg&ctype=nature&return=302
+  # https://img.xjh.me/random_img.php
+  # https://img.xjh.me/random_img.php?type=bg
+  
 
   # 文章标题下方的元信息
   # Meta information below title
@@ -565,7 +574,7 @@ post:
     # 作者，优先根据 front-matter 里 author 字段，其次是 hexo 配置中 author 值
     # Author, based on `author` field in front-matter, if not set, based on `author` value in hexo config
     author:
-      enable: false
+      enable: true
 
     # 文章日期，优先根据 front-matter 里 date 字段，其次是 md 文件日期
     # Post date, based on `date` field in front-matter, if not set, based on create date of .md file
@@ -645,7 +654,8 @@ post:
   # Custom content at the bottom of the post page (located above the footer)
   custom:
     enable: false
-    content: '<img src="https://octodex.github.com/images/jetpacktocat.png" class="rounded mx-auto d-block mt-5" style="width:150px; height:150px;">'
+    #content: '<img src="https://octodex.github.com/images/jetpacktocat.png" class="rounded mx-auto d-block mt-5" style="width:150px; height:150px;">'
+    content: '<img src="https://imgapi.cn/ip.php">'
 
   # 文章图片可点击放大
   # Zoom feature of images
@@ -668,11 +678,11 @@ post:
   math:
     # 开启后文章默认可用，自定义页面如需使用，需在 Front-matter 中指定 `math: true`
     # If you want to use math on the custom page, you need to set `math: true` in Front-matter
-    enable: false
+    enable: true
 
     # 开启后，只有在文章 Front-matter 里指定 `math: true` 才会在文章页启动公式转换，以便在页面不包含公式时提高加载速度
     # If true, only set `math: true` in Front-matter will enable math, to load faster when the page does not contain math
-    specific: false
+    specific: true
 
     # Options: mathjax | katex
     engine: mathjax
@@ -847,7 +857,7 @@ cusdis:
 archive:
   #banner_img: /img/default.png
   banner_img: https://101.43.39.125/HexoFiles/new/bg-trans.png
-  banner_img_height: 60
+  banner_img_height: 80
   banner_mask_alpha: 0
   subtitle:
 
@@ -860,7 +870,7 @@ category:
   enable: true
   #banner_img: /img/default.png
   banner_img: https://101.43.39.125/HexoFiles/new/bg-trans.png
-  banner_img_height: 60
+  banner_img_height: 80
   banner_mask_alpha: 0
   subtitle:
 
@@ -910,7 +920,7 @@ about:
   enable: true
   #banner_img: /img/default.png
   banner_img: https://101.43.39.125/HexoFiles/new/bg-trans.png
-  banner_img_height: 60
+  banner_img_height: 80
   banner_mask_alpha: 0
   subtitle:
   avatar: /img/avatar.png
@@ -934,7 +944,7 @@ about:
 page:
   #banner_img: /img/default.png
   banner_img: https://101.43.39.125/HexoFiles/new/bg-trans.png
-  banner_img_height: 60
+  banner_img_height: 80
   banner_mask_alpha: 0
 
 
@@ -946,7 +956,7 @@ page404:
   enable: true
   #banner_img: /img/default.png
   banner_img: https://101.43.39.125/HexoFiles/new/bg-trans.png
-  banner_img_height: 85
+  banner_img_height: 80
   banner_mask_alpha: 0
   subtitle: "Page not found"
 
@@ -958,7 +968,7 @@ page404:
 links:
   enable: true
   banner_img: /img/default.png
-  banner_img_height: 60
+  banner_img_height: 80
   banner_mask_alpha: 0
   subtitle:
   # 友链的成员项

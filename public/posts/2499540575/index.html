@@ -1,0 +1,1821 @@
+
+
+
+<!--alec insert start-->
+<script src="/live2d-widget/autoload.js"></script>
+<!--alec insert end-->
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="[√] 第二章 机器学习概述机器学习（Machine Learning，ML）就是让计算机从数据中进行自动学习，得到某种知识（或规律）。作为一门学科，机器学习通常指一类问题以及解决这类问题的方法，即如何从观测数据（样本）中寻找规律，并利用学习到的规律（模型）对未知或无法观测的数据进行预测。 在学习本章内容前，建议您先阅读《神经网络与深度学习》第 2 章：机器学习概述的相关内容，关键知识点如图2.1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第2章 - 机器学习概述">
+<meta property="og:url" content="http://example.com/posts/2499540575/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="[√] 第二章 机器学习概述机器学习（Machine Learning，ML）就是让计算机从数据中进行自动学习，得到某种知识（或规律）。作为一门学科，机器学习通常指一类问题以及解决这类问题的方法，即如何从观测数据（样本）中寻找规律，并利用学习到的规律（模型）对未知或无法观测的数据进行预测。 在学习本章内容前，建议您先阅读《神经网络与深度学习》第 2 章：机器学习概述的相关内容，关键知识点如图2.1">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221211220940535.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221211210937929.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212164136707.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212165459211.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212165722946.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221211213007230.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212173347233.png">
+<meta property="og:image" content="https://ai-studio-static-online.cdn.bcebos.com/fdb656daadb349a78560fa464b0de5fa5d63423fc2234adfac48e6ff020a6d60">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212173220360.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212173523825.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212165145316.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212173925680.png">
+<meta property="article:published_time" content="2022-12-19T13:08:42.631Z">
+<meta property="article:modified_time" content="2022-12-21T13:43:10.705Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221211220940535.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"> 
+  
+  <title>第2章 - 机器学习概述 - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/js/APlayer/dist/APlayer.min.css">
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":5,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+  
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.4);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+
+  <header>
+    
+
+<div class="header-inner" style="height: 85vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                音乐
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+<div id="banner" class="banner" parallax=true
+     style="background: url('https://101.43.39.125/HexoFiles/new/bg-trans.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="第2章 - 机器学习概述"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-12-19 21:08" pubdate>
+          2022年12月19日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          28k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          235 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			
+			</div>
+		</div>
+
+
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">第2章 - 机器学习概述</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="√-第二章-机器学习概述"><a href="#√-第二章-机器学习概述" class="headerlink" title="[√] 第二章 机器学习概述"></a>[√] 第二章 机器学习概述</h2><p><strong>机器学习</strong>（Machine Learning，ML）就是让计算机从数据中进行自动学习，得到某种知识（或规律）。作为一门学科，机器学习通常指一类问题以及解决这类问题的方法，即如何从观测数据（样本）中寻找规律，并利用学习到的规律（模型）对未知或无法观测的数据进行预测。</p>
+<p>在学习本章内容前，建议您先阅读《神经网络与深度学习》第 2 章：机器学习概述的相关内容，关键知识点如<strong>图2.1</strong>所示，以便更好的理解和掌握相应的理论知识，及其在实践中的应用方法。</p>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221211220940535.png" srcset="/img/loading.gif" lazyload alt="image-20221211210937929"></p>
+<p>本章内容基于《神经网络与深度学习》第 2 章：机器学习概述 相关内容进行设计，主要包含两部分：</p>
+<ul>
+<li><strong>模型解读</strong>：介绍机器学习实践五要素（数据、模型、学习准则、优化算法、评估指标）的原理剖析和相应的代码实现。通过理论和代码的结合，加深对机器学习的理解；</li>
+<li><strong>案例实践</strong>：基于机器学习线性回归方法，通过数据处理、模型构建、训练配置、组装训练框架Runner、模型训练和模型预测等过程完成波士顿房价预测任务。</li>
+</ul>
+<h3 id="√-2-1-机器学习实践五要素"><a href="#√-2-1-机器学习实践五要素" class="headerlink" title="[√] 2.1 - 机器学习实践五要素"></a>[√] 2.1 - 机器学习实践五要素</h3><p>要通过机器学习来解决一个特定的任务时，我们需要准备5个方面的要素：</p>
+<ol>
+<li>数据集：收集任务相关的数据集用来进行模型训练和测试，可分为训练集、验证集和测试集；</li>
+<li>模型：实现输入到输出的映射，通常为可学习的函数；</li>
+<li>学习准则：模型优化的目标，通常为损失函数和正则化项的加权组合；</li>
+<li>优化算法：根据学习准则优化机器学习模型的参数；</li>
+<li>评价指标：用来评价学习到的机器学习模型的性能．</li>
+</ol>
+<p><strong>图2.2</strong>给出实现一个完整的机器学习系统的主要环节和要素。从流程角度看，实现机器学习系统可以分为两个阶段：训练阶段和评价阶段。训练阶段需要用到训练集、验证集、待学习的模型、损失函数、优化算法，输出学习到的模型；评价阶段也称为测试阶段，需要用到测试集、学习到的模型、评价指标体系，得到模型的性能评价。<strong>图2.2</strong>给出实现一个完整的机器学习系统的主要环节和要素。从流程角度看，实现机器学习系统可以分为两个阶段：训练阶段和评价阶段。训练阶段需要用到训练集、验证集、待学习的模型、损失函数、优化算法，输出学习到的模型；评价阶段也称为测试阶段，需要用到测试集、学习到的模型、评价指标体系，得到模型的性能评价。</p>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221211210937929.png" srcset="/img/loading.gif" lazyload alt="image-20221211213007230"></p>
+<p>在本节中，我们分别对这五个要素进行简单的介绍。</p>
+<hr>
+<p>《神经网络与深度学习》第 2.2 节详细介绍了机器学习的三个基本要素：“模型”、“学习准则”和“优化算法”．在机器学习实践中，“数据”和“评价指标”也非常重要．因此，本书将机器学习在实践中的主要元素归结为五要素．</p>
+<h4 id="√-2-1-1-数据"><a href="#√-2-1-1-数据" class="headerlink" title="[√] 2.1.1 - 数据"></a>[√] 2.1.1 - 数据</h4><p>在实践中，数据的质量会很大程度上影响模型最终的性能，通常数据预处理是完成机器学习实践的第一步，噪音越少、规模越大、覆盖范围越广的数据集往往能够训练出性能更好的模型。数据预处理可分为两个环节：先对收集到的数据进行基本的预处理，如基本的统计、特征归一化和异常值处理等；再将数据划分为训练集、验证集（开发集）和测试集。</p>
+<ul>
+<li><strong>训练集</strong>：用于模型训练时调整模型的参数，在这份数据集上的误差被称为训练误差；</li>
+<li><strong>验证集（开发集）</strong>：对于复杂的模型，常常有一些超参数需要调节，因此需要尝试多种超参数的组合来分别训练多个模型，然后对比它们在验证集上的表现，选择一组相对最好的超参数，最后才使用这组参数下训练的模型在测试集上评估测试误差。</li>
+<li><strong>测试集</strong>：模型在这份数据集上的误差被称为测试误差。训练模型的目的是为了通过从训练数据中找到规律来预测未知数据，因此测试误差是更能反映出模型表现的指标。</li>
+</ul>
+<p>数据划分时要考虑到两个因素：更多的训练数据会降低参数估计的方差，从而得到更可信的模型；而更多的测试数据会降低测试误差的方差，从而得到更可信的测试误差。如果给定的数据集没有做任何划分，我们一般可以大致按照7:3或者8:2的比例划分训练集和测试集，再根据7:3或者8:2的比例从训练集中再次划分出训练集和验证集。</p>
+<p>需要强调的是，测试集只能用来评测模型最终的性能，在整个模型训练过程中不能有测试集的参与。</p>
+<hr>
+<h4 id="√-2-1-2-模型"><a href="#√-2-1-2-模型" class="headerlink" title="[√] 2.1.2 模型"></a>[√] 2.1.2 模型</h4><p>有了数据后，我们可以用数据来训练模型。我们希望能让计算机从一个函数集合 $\mathcal{F} = {f_1(\boldsymbol{x}), f_2(\boldsymbol{x}), \cdots }$中<br>自动寻找一个“最优”的函数$f^∗(\boldsymbol{x})$ 来近似每个样本的特征向量 $\boldsymbol{x}$ 和标签 $y$ 之间<br>的真实映射关系，实际上这个函数集合也被称为<strong>假设空间</strong>，在实际问题中，假设空间$\mathcal{F}$通常为一个参数化的函数族<br>$$<br>\mathcal{F}=\left{f(\boldsymbol{x} ; \theta) \mid \theta \in \mathbb{R}^{D}\right}, (2.1)<br>$$<br>其中$f(\boldsymbol{x} ; \theta)$是参数为$\theta$的函数，也称为模型，𝐷 为参数的数量。</p>
+<p>常见的假设空间可以分为线性和非线性两种，对应的模型 $f$ 也分别称为线性模型和非线性模型。<strong>线性模型</strong>的假设空间为一个参数化的线性函数族，即：<br>$$<br>f(\boldsymbol{x} ; \theta)=\boldsymbol{w}^{\top} \boldsymbol{x}+b, (2.2)<br>$$<br>其中参数$\theta$ 包含了权重向量$\boldsymbol{w}$和偏置$b$。</p>
+<p>线性模型可以由<strong>非线性基函数</strong>$\phi(\boldsymbol{x})$变为<strong>非线性模型</strong>，从而增强模型能力:</p>
+<p>$$<br>f(\boldsymbol{x} ; \theta)=\boldsymbol{w}^{\top} \phi(\boldsymbol{x})+b, (2.3)<br>$$<br>其中$\phi(\boldsymbol{x})=\left[\phi_{1}(\boldsymbol{x}), \phi_{2}(\boldsymbol{x}), \cdots, \phi_{K}(\boldsymbol{x})\right]^{\top}$为𝐾 个非线性基函数组成的向量，参数 $\theta$ 包含了权重向量$\boldsymbol{w}$和偏置$b$。</p>
+<hr>
+<h4 id="√-2-1-3-学习准则"><a href="#√-2-1-3-学习准则" class="headerlink" title="[√] 2.1.3 学习准则"></a>[√] 2.1.3 学习准则</h4><p>为了衡量一个模型的好坏，我们需要定义一个损失函数$\mathcal{L}(\boldsymbol{y},f(\boldsymbol{x};\theta))$。损失函数是一个非负实数函数，用来量化模型预测标签和真实标签之间的差异。常见的损失函数有 0-1 损失、平方损失函数、交叉熵损失函数等。</p>
+<p>机器学习的目标就是找到最优的模型$𝑓(𝒙;\theta^∗)$在真实数据分布上损失函数的期望最小。然而在实际中，我们无法获得真实数据分布，通常会用在训练集上的平均损失替代。</p>
+<p>一个模型在训练集$\mathcal{D}={(\boldsymbol{x}^{(n)},y^{(n)})}_{n=1}^N$上的平均损失称为<strong>经验风险</strong>{Empirical Risk}，即:</p>
+<p>$$<br>\mathcal{R}^{emp}<em>\mathcal{D}(\theta)=\frac{1}{N}\sum</em>{n=1}^{N}\mathcal{L}(y^{(n)},f({x}^{(n)};\theta))。 (2.4)<br>$$</p>
+<p>$\mathcal{L}(\boldsymbol{y},f(\boldsymbol{x};\theta))$为损失函数。损失函数是一个非负实数函数，用来量化模型预测和真实标签之间的差异。常见的损失函数有0-1损失、平方损失函数、交叉熵损失函数等。</p>
+<p>在通常情况下，我们可以通过使得<strong>经验风险最小化</strong>来获得具有预测能力的模型。然而，当模型比较复杂或训练数据量比较少时，经验风险最小化获得的模型在测试集上的效果比较差。而模型在测试集上的性能才是我们真正关心的指标．当一个模型在训练集错误率很低，而在测试集上错误率较高时，通常意味着发生了<strong>过拟合</strong>（Overfitting）现象。为了缓解模型的过拟合问题，我们通常会在经验损失上加上一定的正则化项来限制模型能力。</p>
+<p>过拟合通常是由于模型复杂度比较高引起的。在实践中，最常用的正则化方式有对模型的参数进行约束，比如$\ell_1$或者$\ell_2$范数约束。这样，我们就得到了结构风险（Structure Risk）。<br>$$<br>\mathcal{R}^{struct}<em>{\mathcal{D}}(\theta)=\mathcal{R}^{emp}</em>{\mathcal{D}}(\theta)+\lambda \ell_p(\theta), (2.5)<br>$$</p>
+<p>其中$\lambda$为正则化系数，$p=1$或$2$表示$\ell_1$或者$\ell_2$范数。</p>
+<hr>
+<h4 id="√-2-1-4-优化算法"><a href="#√-2-1-4-优化算法" class="headerlink" title="[√] 2.1.4 优化算法"></a>[√] 2.1.4 优化算法</h4><p>在有了优化目标之后，机器学习问题就转化为优化问题，我们可以利用已知的优化算法来学习最优的参数。当优化函数为凸函数时，我们可以令参数的偏导数等于0来计算最优参数的解析解。当优化函数为非凸函数时，我们可以用一阶的优化算法来进行优化。</p>
+<p>目前机器学习中最常用的优化算法是<strong>梯度下降法</strong>(Gradient Descent Method)。<br>当使用梯度下降法进行参数优化时，还可以利用验证集来<strong>早停法</strong>(Early-Stop)来中止模型的优化过程，避免模型在训练集上过拟合。早停法也是一种常用并且十分有效的正则化方法。</p>
+<hr>
+<h4 id="√-2-1-5-评估指标"><a href="#√-2-1-5-评估指标" class="headerlink" title="[√] 2.1.5 评估指标"></a>[√] 2.1.5 评估指标</h4><p><strong>评估指标</strong>(Metric)用于评价模型效果，即给定一个测试集，用模型对测试集中的每个样本进行预测，并根据预测结果计算评价分数。回归任务的评估指标一般有预测值与真实值的均方差，分类任务的评估指标一般有准确率、召回率、F1值等。</p>
+<p>对于一个机器学习任务，一般会先确定任务类型，再确定任务的评价指标，再根据评价指标来建立模型，选择学习准则。由于评价指标不可微等问题有时候学习准则并不能完全和评价指标一致，我们往往会选择一定的损失函数使得两者尽可能一致。</p>
+<hr>
+<h3 id="√-2-2-实现一个简单的线性回归模型"><a href="#√-2-2-实现一个简单的线性回归模型" class="headerlink" title="[√] 2.2 - 实现一个简单的线性回归模型"></a>[√] 2.2 - 实现一个简单的线性回归模型</h3><p><strong>回归任务</strong>是一类典型的监督机器学习任务，对自变量和因变量之间关系进行建模分析，其预测值通常为一个连续值，比如房屋价格预测、电源票房预测等。<strong>线性回归</strong>(Linear Regression)是指一类利用线性函数来对自变量和因变量之间关系进行建模的回归任务，是机器学习和统计学中最基础和最广泛应用的模型。</p>
+<p>在本节中，我们动手实现一个简单的线性回归模型，并使用最小二乘法来求解参数，以对机器学习任务有更直观的认识。</p>
+<hr>
+<h4 id="√-2-2-1-数据集构建"><a href="#√-2-2-1-数据集构建" class="headerlink" title="[√] 2.2.1 - 数据集构建"></a>[√] 2.2.1 - 数据集构建</h4><p>首先，我们构造一个小的回归数据集。假设输入特征和输出标签的维度都为 1，需要被拟合的函数定义为：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 真实函数的参数缺省值为 w=1.2，b=0.5</span>
+<span class="token keyword">def</span> <span class="token function">linear_func</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span>w<span class="token operator">=</span><span class="token number">1.2</span><span class="token punctuation">,</span>b<span class="token operator">=</span><span class="token number">0.5</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    y <span class="token operator">=</span> w<span class="token operator">*</span>x <span class="token operator">+</span> b
+    <span class="token keyword">return</span> y<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>然后，使用<code>paddle.rand()</code>函数来进行随机采样输入特征xx<em>x</em>，并代入上面函数得到输出标签𝑦𝑦<em>y</em>。为了模拟真实环境中样本通常包含噪声的问题，我们采样过程中加入高斯噪声和异常点。</p>
+<p>生成样本数据的函数<code>create_toy_data</code>实现如下：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> paddle
+
+<span class="token keyword">def</span> <span class="token function">create_toy_data</span><span class="token punctuation">(</span>func<span class="token punctuation">,</span> interval<span class="token punctuation">,</span> sample_num<span class="token punctuation">,</span> noise <span class="token operator">=</span> <span class="token number">0.0</span><span class="token punctuation">,</span> add_outlier <span class="token operator">=</span> <span class="token boolean">False</span><span class="token punctuation">,</span> outlier_ratio <span class="token operator">=</span> <span class="token number">0.001</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""
+    根据给定的函数，生成样本
+    输入：
+       - func：函数
+       - interval： x的取值范围
+       - sample_num： 样本数目
+       - noise： 噪声均方差
+       - add_outlier：是否生成异常值
+       - outlier_ratio：异常值占比
+    输出：
+       - X: 特征数据，shape=[n_samples,1]
+       - y: 标签数据，shape=[n_samples,1]
+    """</span>
+
+    <span class="token comment"># 均匀采样</span>
+    <span class="token comment"># 使用paddle.rand在生成sample_num个随机数</span>
+    X <span class="token operator">=</span> paddle<span class="token punctuation">.</span>rand<span class="token punctuation">(</span>shape <span class="token operator">=</span> <span class="token punctuation">[</span>sample_num<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token punctuation">(</span>interval<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token operator">-</span>interval<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">+</span> interval<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+    y <span class="token operator">=</span> func<span class="token punctuation">(</span>X<span class="token punctuation">)</span>
+
+    <span class="token comment"># 生成高斯分布的标签噪声</span>
+    <span class="token comment"># 使用paddle.normal生成0均值，noise标准差的数据</span>
+    epsilon <span class="token operator">=</span> paddle<span class="token punctuation">.</span>normal<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>noise<span class="token punctuation">,</span>paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span>y<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    y <span class="token operator">=</span> y <span class="token operator">+</span> epsilon
+    <span class="token keyword">if</span> add_outlier<span class="token punctuation">:</span>     <span class="token comment"># 生成额外的异常点</span>
+        outlier_num <span class="token operator">=</span> <span class="token builtin">int</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token operator">*</span>outlier_ratio<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> outlier_num <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">:</span>
+            <span class="token comment"># 使用paddle.randint生成服从均匀分布的、范围在[0, len(y))的随机Tensor</span>
+            outlier_idx <span class="token operator">=</span> paddle<span class="token punctuation">.</span>randint<span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">,</span>shape <span class="token operator">=</span> <span class="token punctuation">[</span>outlier_num<span class="token punctuation">]</span><span class="token punctuation">)</span>
+            y<span class="token punctuation">[</span>outlier_idx<span class="token punctuation">]</span> <span class="token operator">=</span> y<span class="token punctuation">[</span>outlier_idx<span class="token punctuation">]</span> <span class="token operator">*</span> <span class="token number">5</span>
+    <span class="token keyword">return</span> X<span class="token punctuation">,</span> y<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>利用上面的生成样本函数，生成 150 个带噪音的样本，其中 100 个训练样本，50 个测试样本，并打印出训练数据的可视化分布。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> matplotlib <span class="token keyword">import</span> pyplot <span class="token keyword">as</span> plt <span class="token comment"># matplotlib 是 Python 的绘图库</span>
+
+func <span class="token operator">=</span> linear_func
+interval <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">10</span><span class="token punctuation">,</span><span class="token number">10</span><span class="token punctuation">)</span>
+train_num <span class="token operator">=</span> <span class="token number">100</span> <span class="token comment"># 训练样本数目</span>
+test_num <span class="token operator">=</span> <span class="token number">50</span> <span class="token comment"># 测试样本数目</span>
+noise <span class="token operator">=</span> <span class="token number">2</span>
+X_train<span class="token punctuation">,</span> y_train <span class="token operator">=</span> create_toy_data<span class="token punctuation">(</span>func<span class="token operator">=</span>func<span class="token punctuation">,</span> interval<span class="token operator">=</span>interval<span class="token punctuation">,</span> sample_num<span class="token operator">=</span>train_num<span class="token punctuation">,</span> noise <span class="token operator">=</span> noise<span class="token punctuation">,</span> add_outlier <span class="token operator">=</span> <span class="token boolean">False</span><span class="token punctuation">)</span>
+X_test<span class="token punctuation">,</span> y_test <span class="token operator">=</span> create_toy_data<span class="token punctuation">(</span>func<span class="token operator">=</span>func<span class="token punctuation">,</span> interval<span class="token operator">=</span>interval<span class="token punctuation">,</span> sample_num<span class="token operator">=</span>test_num<span class="token punctuation">,</span> noise <span class="token operator">=</span> noise<span class="token punctuation">,</span> add_outlier <span class="token operator">=</span> <span class="token boolean">False</span><span class="token punctuation">)</span>
+
+X_train_large<span class="token punctuation">,</span> y_train_large <span class="token operator">=</span> create_toy_data<span class="token punctuation">(</span>func<span class="token operator">=</span>func<span class="token punctuation">,</span> interval<span class="token operator">=</span>interval<span class="token punctuation">,</span> sample_num<span class="token operator">=</span><span class="token number">5000</span><span class="token punctuation">,</span> noise <span class="token operator">=</span> noise<span class="token punctuation">,</span> add_outlier <span class="token operator">=</span> <span class="token boolean">False</span><span class="token punctuation">)</span>
+
+<span class="token comment"># paddle.linspace返回一个Tensor，Tensor的值为在区间start和stop上均匀间隔的num个值，输出Tensor的长度为num</span>
+X_underlying <span class="token operator">=</span> paddle<span class="token punctuation">.</span>linspace<span class="token punctuation">(</span>interval<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>interval<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>train_num<span class="token punctuation">)</span> 
+y_underlying <span class="token operator">=</span> linear_func<span class="token punctuation">(</span>X_underlying<span class="token punctuation">)</span>
+
+<span class="token comment"># 绘制数据</span>
+plt<span class="token punctuation">.</span>scatter<span class="token punctuation">(</span>X_train<span class="token punctuation">,</span> y_train<span class="token punctuation">,</span> marker<span class="token operator">=</span><span class="token string">'*'</span><span class="token punctuation">,</span> facecolor<span class="token operator">=</span><span class="token string">"none"</span><span class="token punctuation">,</span> edgecolor<span class="token operator">=</span><span class="token string">'#e4007f'</span><span class="token punctuation">,</span> s<span class="token operator">=</span><span class="token number">50</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">"train data"</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>scatter<span class="token punctuation">(</span>X_test<span class="token punctuation">,</span> y_test<span class="token punctuation">,</span> facecolor<span class="token operator">=</span><span class="token string">"none"</span><span class="token punctuation">,</span> edgecolor<span class="token operator">=</span><span class="token string">'#f19ec2'</span><span class="token punctuation">,</span> s<span class="token operator">=</span><span class="token number">50</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">"test data"</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>X_underlying<span class="token punctuation">,</span> y_underlying<span class="token punctuation">,</span> c<span class="token operator">=</span><span class="token string">'#000000'</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">r"underlying distribution"</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>legend<span class="token punctuation">(</span>fontsize<span class="token operator">=</span><span class="token string">'x-large'</span><span class="token punctuation">)</span> <span class="token comment"># 给图像加图例</span>
+plt<span class="token punctuation">.</span>savefig<span class="token punctuation">(</span><span class="token string">'ml-vis.pdf'</span><span class="token punctuation">)</span> <span class="token comment"># 保存图像到PDF文件中</span>
+plt<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212164136707.png" srcset="/img/loading.gif" lazyload alt="image-20221211220940535" style="zoom: 50%;" />
+
+
+
+
+
+
+
+<hr>
+<h4 id="√-2-2-2-模型构建"><a href="#√-2-2-2-模型构建" class="headerlink" title="[√] 2.2.2 - 模型构建"></a>[√] 2.2.2 - 模型构建</h4><p>在线性回归中，自变量为样本的特征向量$\boldsymbol{x}\in \mathbb{R}^D$(每一维对应一个自变量)，因变量是连续值的标签$y\in R$。</p>
+<p>线性模型定义为：<br>$$<br>f(\boldsymbol{x};\boldsymbol{w},b)=\boldsymbol{w}^T\boldsymbol{x}+b。 (2.6)<br>$$</p>
+<p>其中权重向量$\boldsymbol{w}\in \mathbb{R}^D$和偏置$b\in \mathbb{R}$都是可学习的参数。</p>
+<hr>
+<p>注意：《神经网络与深度学习》中为了表示的简洁性，使用<strong>增广权重向量</strong>来定义模型。而在本书中，为了和代码实现保持一致，我们使用非增广向量的形式来定义模型。</p>
+<hr>
+<p>在实践中，为了提高预测样本的效率，我们通常会将$N$样本归为一组进行成批地预测，这样可以更好地利用GPU设备的并行计算能力。</p>
+<p>$$<br>\boldsymbol{y} =\boldsymbol{X} \boldsymbol{w} + b, (2.7)<br>$$</p>
+<p>其中$\boldsymbol{X}\in \mathbb{R}^{N\times D}$为$N$个样本的特征矩阵，$\boldsymbol{y}\in \mathbb{R}^N$为$N$个预测值组成的列向量。</p>
+<hr>
+<p>注意：在实践中，样本的矩阵$\boldsymbol{X}$是由$N$个$\boldsymbol{x}$的<strong>行向量</strong>组成。而原教材中$\boldsymbol{x}$为列向量，其特征矩阵与本书中的特征矩阵刚好为转置关系。</p>
+<hr>
+<h5 id="√-2-2-2-1-线性算子"><a href="#√-2-2-2-1-线性算子" class="headerlink" title="[√] 2.2.2.1 - 线性算子"></a>[√] 2.2.2.1 - 线性算子</h5><p>实现公式(2.7)中的线性函数非常简单，我们直接利用如下张量运算来实现。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># X: tensor, shape=[N,D]</span>
+<span class="token comment"># y_pred: tensor, shape=[N]</span>
+<span class="token comment"># w: shape=[D,1]</span>
+<span class="token comment"># b: shape=[1]</span>
+y_pred <span class="token operator">=</span> paddle<span class="token punctuation">.</span>matmul<span class="token punctuation">(</span>X<span class="token punctuation">,</span>w<span class="token punctuation">)</span><span class="token operator">+</span>b<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>使用飞桨构建一个线性回归模型，代码如下：</p>
+<p><strong>说明</strong></p>
+<p>在飞桨框架中，可以直接调用模型的<code>forward()</code>方法进行前向执行，也可以调用<code>__call__()</code>，从而执行在 <code>forward()</code> 当中定义的前向计算逻辑。</p>
+<p>在飞桨框架中，模型一般继承<a target="_blank" rel="noopener" href="https://www.paddlepaddle.org.cn/documentation/docs/en/api/paddle/nn/Layer_en.html">nn.Layer</a>，在成员函数<code>forward()</code>中执行模型的前向运算。由于本案例较简单，所以没有继承<code>nn.Layer</code>，但是保留了在<code>forward()</code>函数中执行模型的前向运算的过程。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> paddle
+<span class="token keyword">from</span> nndl<span class="token punctuation">.</span>op <span class="token keyword">import</span> Op
+
+paddle<span class="token punctuation">.</span>seed<span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span> <span class="token comment">#设置随机种子</span>
+
+<span class="token comment"># 线性算子</span>
+<span class="token keyword">class</span> <span class="token class-name">Linear</span><span class="token punctuation">(</span>Op<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> input_size<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        输入：
+           - input_size:模型要处理的数据特征向量长度
+        """</span>
+
+        self<span class="token punctuation">.</span>input_size <span class="token operator">=</span> input_size
+
+        <span class="token comment"># 模型参数</span>
+        self<span class="token punctuation">.</span>params <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span>
+        self<span class="token punctuation">.</span>params<span class="token punctuation">[</span><span class="token string">'w'</span><span class="token punctuation">]</span> <span class="token operator">=</span> paddle<span class="token punctuation">.</span>randn<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span>self<span class="token punctuation">.</span>input_size<span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>dtype<span class="token operator">=</span><span class="token string">'float32'</span><span class="token punctuation">)</span> 
+        self<span class="token punctuation">.</span>params<span class="token punctuation">[</span><span class="token string">'b'</span><span class="token punctuation">]</span> <span class="token operator">=</span> paddle<span class="token punctuation">.</span>zeros<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>dtype<span class="token operator">=</span><span class="token string">'float32'</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">__call__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> X<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>forward<span class="token punctuation">(</span>X<span class="token punctuation">)</span>
+
+    <span class="token comment"># 前向函数</span>
+    <span class="token keyword">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> X<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""
+        输入：
+           - X: tensor, shape=[N,D]
+           注意这里的X矩阵是由N个x向量的转置拼接成的，与原教材行向量表示方式不一致
+        输出：
+           - y_pred： tensor, shape=[N]
+        """</span>
+
+        N<span class="token punctuation">,</span>D <span class="token operator">=</span> X<span class="token punctuation">.</span>shape
+
+        <span class="token keyword">if</span> self<span class="token punctuation">.</span>input_size<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> paddle<span class="token punctuation">.</span>full<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span>N<span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> fill_value<span class="token operator">=</span>self<span class="token punctuation">.</span>params<span class="token punctuation">[</span><span class="token string">'b'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+        
+        <span class="token keyword">assert</span> D<span class="token operator">==</span>self<span class="token punctuation">.</span>input_size <span class="token comment"># 输入数据维度合法性验证</span>
+
+        <span class="token comment"># 使用paddle.matmul计算两个tensor的乘积</span>
+        y_pred <span class="token operator">=</span> paddle<span class="token punctuation">.</span>matmul<span class="token punctuation">(</span>X<span class="token punctuation">,</span>self<span class="token punctuation">.</span>params<span class="token punctuation">[</span><span class="token string">'w'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">+</span>self<span class="token punctuation">.</span>params<span class="token punctuation">[</span><span class="token string">'b'</span><span class="token punctuation">]</span>
+        
+        <span class="token keyword">return</span> y_pred
+
+<span class="token comment"># 注意这里我们为了和后面章节统一，这里的X矩阵是由N个x向量的转置拼接成的，与原教材行向量表示方式不一致</span>
+input_size <span class="token operator">=</span> <span class="token number">3</span>
+N <span class="token operator">=</span> <span class="token number">2</span>
+X <span class="token operator">=</span> paddle<span class="token punctuation">.</span>randn<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span>N<span class="token punctuation">,</span> input_size<span class="token punctuation">]</span><span class="token punctuation">,</span>dtype<span class="token operator">=</span><span class="token string">'float32'</span><span class="token punctuation">)</span> <span class="token comment"># 生成2个维度为3的数据</span>
+model <span class="token operator">=</span> Linear<span class="token punctuation">(</span>input_size<span class="token punctuation">)</span>
+y_pred <span class="token operator">=</span> model<span class="token punctuation">(</span>X<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"y_pred:"</span><span class="token punctuation">,</span>y_pred<span class="token punctuation">)</span> <span class="token comment">#输出结果的个数也是2个</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">y_pred: Tensor(shape&#x3D;[2, 1], dtype&#x3D;float32, place&#x3D;CPUPlace, stop_gradient&#x3D;True,
+       [[0.54838145],
+        [2.03063798]])<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<h4 id="√-2-2-3-损失函数"><a href="#√-2-2-3-损失函数" class="headerlink" title="[√] 2.2.3 - 损失函数"></a>[√] 2.2.3 - 损失函数</h4><p>回归任务是对<strong>连续值</strong>的预测，希望模型能根据数据的特征输出一个连续值作为预测值。因此回归任务中常用的评估指标是<strong>均方误差</strong>。</p>
+<p>令$\boldsymbol{y}\in \mathbb{R}^N$，$\hat{\boldsymbol{y}}\in \mathbb{R}^N$分别为$N$个样本的真实标签和预测标签，均方误差的定义为：</p>
+<p>$$<br>\mathcal{L}(\boldsymbol{y},\hat{\boldsymbol{y}})=\frac{1}{2N}|\boldsymbol{y}-\hat{\boldsymbol{y}}|^2=\frac{1}{2N}|\boldsymbol{X}\boldsymbol{w}+\boldsymbol{b}-\boldsymbol{y}|^2, (2.8)<br>$$<br>其中$\boldsymbol{b}$为$N$维向量，所有元素取值都为$b$。</p>
+<p>均方误差的代码实现如下:</p>
+<blockquote>
+<p>注意：代码实现中没有除2。</p>
+</blockquote>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> paddle
+
+<span class="token keyword">def</span> <span class="token function">mean_squared_error</span><span class="token punctuation">(</span>y_true<span class="token punctuation">,</span> y_pred<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""
+    输入：
+       - y_true: tensor，样本真实标签
+       - y_pred: tensor, 样本预测标签
+    输出：
+       - error: float，误差值
+    """</span>
+
+    <span class="token keyword">assert</span> y_true<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">==</span> y_pred<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+    
+    <span class="token comment"># paddle.square计算输入的平方值</span>
+    <span class="token comment"># paddle.mean沿 axis 计算 x 的平均值，默认axis是None，则对输入的全部元素计算平均值。</span>
+    error <span class="token operator">=</span> paddle<span class="token punctuation">.</span>mean<span class="token punctuation">(</span>paddle<span class="token punctuation">.</span>square<span class="token punctuation">(</span>y_true <span class="token operator">-</span> y_pred<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">return</span> error
+
+
+<span class="token comment"># 构造一个简单的样例进行测试:[N,1], N=2</span>
+y_true<span class="token operator">=</span> paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">0.2</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token punctuation">[</span><span class="token number">4.9</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">,</span>dtype<span class="token operator">=</span><span class="token string">'float32'</span><span class="token punctuation">)</span>
+y_pred <span class="token operator">=</span> paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1.3</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token punctuation">[</span><span class="token number">2.5</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">,</span>dtype<span class="token operator">=</span><span class="token string">'float32'</span><span class="token punctuation">)</span>
+
+error <span class="token operator">=</span> mean_squared_error<span class="token punctuation">(</span>y_true<span class="token operator">=</span>y_true<span class="token punctuation">,</span> y_pred<span class="token operator">=</span>y_pred<span class="token punctuation">)</span><span class="token punctuation">.</span>item<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"error:"</span><span class="token punctuation">,</span>error<span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">error<span class="token punctuation">:</span> <span class="token number">4.005000114440918</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<hr>
+<h4 id="√-2-2-4-模型优化"><a href="#√-2-2-4-模型优化" class="headerlink" title="[√] 2.2.4 - 模型优化"></a>[√] 2.2.4 - 模型优化</h4><p>采用<strong>经验风险最小化</strong>，线性回归可以通过最小二乘法求出参数$\boldsymbol{w}$和$b$的解析解。计算公式(2.8)中均方误差对参数$b$的偏导数，得到<br>$$<br>\frac{\partial \mathcal{L}(\boldsymbol{y},\hat{\boldsymbol{y}})}{\partial b} = \mathbf{1}^T (\boldsymbol{X}\boldsymbol{w}+\boldsymbol{b}-\boldsymbol{y}), (2.9)<br>$$</p>
+<p>其中$\mathbf{1}$为$N$维的全1向量。<strong>这里为了简单起见省略了均方误差的系数$\frac{1}{N}$，并不影响最后的结果</strong>。</p>
+<p>令上式等于0，得到<br>$$<br>b^* =\bar{y}-\bar{\boldsymbol{x}}^T \boldsymbol{w},(2.10)<br>$$</p>
+<p>其中$\bar{y} = \frac{1}{N}\mathbf{1}^T\boldsymbol{y}$为所有标签的平均值，$\bar{\boldsymbol{x}} = \frac{1}{N}(\mathbf{1}^T \boldsymbol{X})^T$ 为所有特征向量的平均值。将$b^*$代入公式(2.8)中均方误差对参数$\boldsymbol{w}$的偏导数，得到<br>$$<br>\frac{\partial \mathcal{L}(\boldsymbol{y},\hat{\boldsymbol{y}})}{\partial \boldsymbol{w}} = (\boldsymbol{X}-\bar{\boldsymbol{x}}^T)^T \Big((\boldsymbol{X}-\bar{\boldsymbol{x}}^T)\boldsymbol{w}-(\boldsymbol{y}-\bar{y})\Big).(2.11)<br>$$<br>令上式等于0，得到最优的参数为<br>$$<br>\boldsymbol{w}^*=\Big((\boldsymbol{X}-\bar{\boldsymbol{x}}^T)^T(\boldsymbol{X}-\bar{\boldsymbol{x}}^T)\Big)^{\mathrm{-}1}(\boldsymbol{X}-\bar{\boldsymbol{x}}^T)^T (\boldsymbol{y}-\bar{y}),(2.12)<br>$$</p>
+<p>$$<br>b^* =  \bar{y}-\bar{\boldsymbol{x}}^T \boldsymbol{w}^*.(2.13)<br>$$</p>
+<p>若对参数$\boldsymbol{w}$加上$\ell_2$正则化，则最优的$\boldsymbol{w}^*$变为<br>$$<br>\boldsymbol{w}^*=\Big((\boldsymbol{X}-\bar{\boldsymbol{x}}^T)^T(\boldsymbol{X}-\bar{\boldsymbol{x}}^T)+\lambda \boldsymbol{I}\Big)^{\mathrm{-}1}(\boldsymbol{X}-\bar{\boldsymbol{x}}^T)^T (\boldsymbol{y}-\bar{y}),(2.14)<br>$$</p>
+<p>其中$\lambda&gt;0$为预先设置的正则化系数，$\boldsymbol{I}\in \mathbb{R}^{D\times D}$为单位矩阵。</p>
+<p>尝试验证公式(2.14)。</p>
+<p>==通过最小二乘法优化参数==</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">optimizer_lsm</span><span class="token punctuation">(</span>model<span class="token punctuation">,</span> X<span class="token punctuation">,</span> y<span class="token punctuation">,</span> reg_lambda<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+  <span class="token triple-quoted-string string">'''
+    输入：
+       - model: 模型
+       - X: tensor, 特征数据，shape=[N,D]
+       - y: tensor,标签数据，shape=[N]
+       - reg_lambda: float, 正则化系数，默认为0
+    输出：
+       - model: 优化好的模型
+   '''</span>
+
+  N<span class="token punctuation">,</span> D <span class="token operator">=</span> X<span class="token punctuation">.</span>shape
+
+  <span class="token comment"># 对输入特征数据所有特征向量求平均</span>
+  x_bar_tran <span class="token operator">=</span> paddle<span class="token punctuation">.</span>mean<span class="token punctuation">(</span>X<span class="token punctuation">,</span>axis<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span>T 
+  
+  <span class="token comment"># 求标签的均值,shape=[1]</span>
+  y_bar <span class="token operator">=</span> paddle<span class="token punctuation">.</span>mean<span class="token punctuation">(</span>y<span class="token punctuation">)</span>
+  
+  <span class="token comment"># paddle.subtract通过广播的方式实现矩阵减向量</span>
+  x_sub <span class="token operator">=</span> paddle<span class="token punctuation">.</span>subtract<span class="token punctuation">(</span>X<span class="token punctuation">,</span>x_bar_tran<span class="token punctuation">)</span>
+
+  <span class="token comment"># 使用paddle.all判断输入tensor是否全0</span>
+  <span class="token keyword">if</span> paddle<span class="token punctuation">.</span><span class="token builtin">all</span><span class="token punctuation">(</span>x_sub<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    model<span class="token punctuation">.</span>params<span class="token punctuation">[</span><span class="token string">'b'</span><span class="token punctuation">]</span> <span class="token operator">=</span> y_bar
+    model<span class="token punctuation">.</span>params<span class="token punctuation">[</span><span class="token string">'w'</span><span class="token punctuation">]</span> <span class="token operator">=</span> paddle<span class="token punctuation">.</span>zeros<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span>D<span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> model
+  
+  <span class="token comment"># paddle.inverse求方阵的逆</span>
+  tmp <span class="token operator">=</span> paddle<span class="token punctuation">.</span>inverse<span class="token punctuation">(</span>paddle<span class="token punctuation">.</span>matmul<span class="token punctuation">(</span>x_sub<span class="token punctuation">.</span>T<span class="token punctuation">,</span>x_sub<span class="token punctuation">)</span><span class="token operator">+</span>
+          reg_lambda<span class="token operator">*</span>paddle<span class="token punctuation">.</span>eye<span class="token punctuation">(</span>num_rows <span class="token operator">=</span> <span class="token punctuation">(</span>D<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+  w <span class="token operator">=</span> paddle<span class="token punctuation">.</span>matmul<span class="token punctuation">(</span>paddle<span class="token punctuation">.</span>matmul<span class="token punctuation">(</span>tmp<span class="token punctuation">,</span>x_sub<span class="token punctuation">.</span>T<span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token punctuation">(</span>y<span class="token operator">-</span>y_bar<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  
+  b <span class="token operator">=</span> y_bar<span class="token operator">-</span>paddle<span class="token punctuation">.</span>matmul<span class="token punctuation">(</span>x_bar_tran<span class="token punctuation">,</span>w<span class="token punctuation">)</span>
+  
+  model<span class="token punctuation">.</span>params<span class="token punctuation">[</span><span class="token string">'b'</span><span class="token punctuation">]</span> <span class="token operator">=</span> b
+  model<span class="token punctuation">.</span>params<span class="token punctuation">[</span><span class="token string">'w'</span><span class="token punctuation">]</span> <span class="token operator">=</span> paddle<span class="token punctuation">.</span>squeeze<span class="token punctuation">(</span>w<span class="token punctuation">,</span>axis<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+
+  <span class="token keyword">return</span> model
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+
+
+
+
+<hr>
+<h4 id="√-2-2-5-模型训练"><a href="#√-2-2-5-模型训练" class="headerlink" title="[√] 2.2.5 - 模型训练"></a>[√] 2.2.5 - 模型训练</h4><p>在准备了数据、模型、损失函数和参数学习的实现之后，我们开始模型的训练。</p>
+<p>在回归任务中，模型的评价指标和损失函数一致，都为均方误差。</p>
+<p>通过上文实现的线性回归类来拟合训练数据，并输出模型在训练集上的损失。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">input_size <span class="token operator">=</span> <span class="token number">1</span>
+model <span class="token operator">=</span> Linear<span class="token punctuation">(</span>input_size<span class="token punctuation">)</span>
+model <span class="token operator">=</span> optimizer_lsm<span class="token punctuation">(</span>model<span class="token punctuation">,</span>X_train<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span>y_train<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"w_pred:"</span><span class="token punctuation">,</span>model<span class="token punctuation">.</span>params<span class="token punctuation">[</span><span class="token string">'w'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>item<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"b_pred: "</span><span class="token punctuation">,</span> model<span class="token punctuation">.</span>params<span class="token punctuation">[</span><span class="token string">'b'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>item<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+y_train_pred <span class="token operator">=</span> model<span class="token punctuation">(</span>X_train<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>squeeze<span class="token punctuation">(</span><span class="token punctuation">)</span>
+train_error <span class="token operator">=</span> mean_squared_error<span class="token punctuation">(</span>y_true<span class="token operator">=</span>y_train<span class="token punctuation">,</span> y_pred<span class="token operator">=</span>y_train_pred<span class="token punctuation">)</span><span class="token punctuation">.</span>item<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"train error: "</span><span class="token punctuation">,</span>train_error<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p># 真实函数的参数缺省值为 w=1.2，b=0.5</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">w_pred<span class="token punctuation">:</span> <span class="token number">1.200244426727295</span> b_pred<span class="token punctuation">:</span>  <span class="token number">0.41967445611953735</span>
+train error<span class="token punctuation">:</span>  <span class="token number">3.8776581287384033</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">model_large <span class="token operator">=</span> Linear<span class="token punctuation">(</span>input_size<span class="token punctuation">)</span>
+model_large <span class="token operator">=</span> optimizer_lsm<span class="token punctuation">(</span>model_large<span class="token punctuation">,</span>X_train_large<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span>y_train_large<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"w_pred large:"</span><span class="token punctuation">,</span>model_large<span class="token punctuation">.</span>params<span class="token punctuation">[</span><span class="token string">'w'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>item<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"b_pred large: "</span><span class="token punctuation">,</span> model_large<span class="token punctuation">.</span>params<span class="token punctuation">[</span><span class="token string">'b'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>item<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+y_train_pred_large <span class="token operator">=</span> model_large<span class="token punctuation">(</span>X_train_large<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>squeeze<span class="token punctuation">(</span><span class="token punctuation">)</span>
+train_error_large <span class="token operator">=</span> mean_squared_error<span class="token punctuation">(</span>y_true<span class="token operator">=</span>y_train_large<span class="token punctuation">,</span> y_pred<span class="token operator">=</span>y_train_pred_large<span class="token punctuation">)</span><span class="token punctuation">.</span>item<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"train error large: "</span><span class="token punctuation">,</span>train_error_large<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">w_pred large<span class="token punctuation">:</span> <span class="token number">1.1942962408065796</span> b_pred large<span class="token punctuation">:</span>  <span class="token number">0.5079830884933472</span>
+train error large<span class="token punctuation">:</span>  <span class="token number">4.086254119873047</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<p>从输出结果看，预测结果与真实值$\boldsymbol{w}=1.2$，$b=0.5$有一定的差距。</p>
+<hr>
+<h4 id="√-2-2-6-模型评估"><a href="#√-2-2-6-模型评估" class="headerlink" title="[√] 2.2.6 - 模型评估"></a>[√] 2.2.6 - 模型评估</h4><p>下面用训练好的模型预测一下测试集的标签，并计算在测试集上的损失。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">y_test_pred <span class="token operator">=</span> model<span class="token punctuation">(</span>X_test<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>squeeze<span class="token punctuation">(</span><span class="token punctuation">)</span>
+test_error <span class="token operator">=</span> mean_squared_error<span class="token punctuation">(</span>y_true<span class="token operator">=</span>y_test<span class="token punctuation">,</span> y_pred<span class="token operator">=</span>y_test_pred<span class="token punctuation">)</span><span class="token punctuation">.</span>item<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"test error: "</span><span class="token punctuation">,</span>test_error<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">test error<span class="token punctuation">:</span>  <span class="token number">4.075982570648193</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">y_test_pred_large <span class="token operator">=</span> model_large<span class="token punctuation">(</span>X_test<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>squeeze<span class="token punctuation">(</span><span class="token punctuation">)</span>
+test_error_large <span class="token operator">=</span> mean_squared_error<span class="token punctuation">(</span>y_true<span class="token operator">=</span>y_test<span class="token punctuation">,</span> y_pred<span class="token operator">=</span>y_test_pred_large<span class="token punctuation">)</span><span class="token punctuation">.</span>item<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"test error large: "</span><span class="token punctuation">,</span>test_error_large<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">test error large<span class="token punctuation">:</span>  <span class="token number">4.081584453582764</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p>动手练习:</p>
+<p>为了加深对机器学习模型的理解，请自己动手完成以下实验：</p>
+<p>（1） 调整训练数据的样本数量，由 100 调整到 5000，观察对模型性能的影响。</p>
+<p>（2） 调整正则化系数，观察对模型性能的影响。</p>
+<p>（1）训练集数量5000，测试集数量1000</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">w_pred<span class="token punctuation">:</span> <span class="token number">1.2003157138824463</span> b_pred<span class="token punctuation">:</span>  <span class="token number">0.5225465893745422</span>
+train error<span class="token punctuation">:</span>  <span class="token number">4.16726541519165</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">test error<span class="token punctuation">:</span>  <span class="token number">3.9572794437408447</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">test error large<span class="token punctuation">:</span>  <span class="token number">3.96787428855896</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+<p>模型的错误率有所下降</p>
+<hr>
+<h3 id="√-2-3-多项式回归"><a href="#√-2-3-多项式回归" class="headerlink" title="[√] 2.3 - 多项式回归"></a>[√] 2.3 - 多项式回归</h3><p>多项式回归是回归任务的一种形式，其中自变量和因变量之间的关系是$M$次多项式的一种线性回归形式，即：<br>$$<br>f(\boldsymbol{x};\boldsymbol{w})=w_1x+w_2x^2+…+w_Mx^M+b=\boldsymbol{w}^T\phi(x)+b, （2.10）<br>$$<br>其中$M$为多项式的阶数，$\boldsymbol{w}=[w_1,…,w_M]^T$为多项式的系数，$\phi(x)=[x,x^2,\cdots,x^M]^T$为多项式基函数，将原始特征$x$映射为$M$维的向量。当$M=0$时，$f(\boldsymbol{x};\boldsymbol{w})=b$。</p>
+<p>公式（2.10）展示的是特征维度为1的多项式表达，当特征维度大于1时，存在不同特征之间交互的情况，这是线性回归无法实现。公式（2.11）展示的是当特征维度为2，多项式阶数为2时的多项式回归：</p>
+<p>$$<br>f(\boldsymbol{x};\boldsymbol{w})=w_1x_1+w_2x_2+w_3x_1^2+w_4x_1x_2+w_5x_2^2+b, （2.11）<br>$$</p>
+<p>当自变量和因变量之间并不是线性关系时，我们可以定义非线性基函数对特征进行变换，从而可以使得线性回归算法实现非线性的曲线拟合。</p>
+<p>接下来我们基于特征维度为1的自变量介绍多项式回归实验。</p>
+<hr>
+<h4 id="√-2-3-1-数据集构建"><a href="#√-2-3-1-数据集构建" class="headerlink" title="[√] 2.3.1 - 数据集构建"></a>[√] 2.3.1 - 数据集构建</h4><p>假设我们要拟合的非线性函数为一个缩放后的sin函数。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> math
+
+<span class="token comment"># sin函数: sin(2 * pi * x)</span>
+<span class="token keyword">def</span> <span class="token function">sin</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    y <span class="token operator">=</span> paddle<span class="token punctuation">.</span>sin<span class="token punctuation">(</span><span class="token number">2</span> <span class="token operator">*</span> math<span class="token punctuation">.</span>pi <span class="token operator">*</span> x<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> y<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>这里仍然使用前面定义的<code>create_toy_data</code>函数来构建训练和测试数据，其中训练数样本 15 个，测试样本 10 个，高斯噪声标准差为 0.1，自变量范围为 (0,1)。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 生成数据</span>
+func <span class="token operator">=</span> sin
+interval <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span>
+train_num <span class="token operator">=</span> <span class="token number">15</span>
+test_num <span class="token operator">=</span> <span class="token number">10</span>
+noise <span class="token operator">=</span> <span class="token number">0.1</span> <span class="token comment">#0.5 </span>
+X_train<span class="token punctuation">,</span> y_train <span class="token operator">=</span> create_toy_data<span class="token punctuation">(</span>func<span class="token operator">=</span>func<span class="token punctuation">,</span> interval<span class="token operator">=</span>interval<span class="token punctuation">,</span> sample_num<span class="token operator">=</span>train_num<span class="token punctuation">,</span> noise <span class="token operator">=</span> noise<span class="token punctuation">)</span>
+X_test<span class="token punctuation">,</span> y_test <span class="token operator">=</span> create_toy_data<span class="token punctuation">(</span>func<span class="token operator">=</span>func<span class="token punctuation">,</span> interval<span class="token operator">=</span>interval<span class="token punctuation">,</span> sample_num<span class="token operator">=</span>test_num<span class="token punctuation">,</span> noise <span class="token operator">=</span> noise<span class="token punctuation">)</span>
+
+X_underlying <span class="token operator">=</span> paddle<span class="token punctuation">.</span>linspace<span class="token punctuation">(</span>interval<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>interval<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span>num<span class="token operator">=</span><span class="token number">100</span><span class="token punctuation">)</span>
+y_underlying <span class="token operator">=</span> sin<span class="token punctuation">(</span>X_underlying<span class="token punctuation">)</span>
+
+<span class="token comment"># 绘制图像</span>
+plt<span class="token punctuation">.</span>rcParams<span class="token punctuation">[</span><span class="token string">'figure.figsize'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">8.0</span><span class="token punctuation">,</span> <span class="token number">6.0</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>scatter<span class="token punctuation">(</span>X_train<span class="token punctuation">,</span> y_train<span class="token punctuation">,</span> facecolor<span class="token operator">=</span><span class="token string">"none"</span><span class="token punctuation">,</span> edgecolor<span class="token operator">=</span><span class="token string">'#e4007f'</span><span class="token punctuation">,</span> s<span class="token operator">=</span><span class="token number">50</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">"train data"</span><span class="token punctuation">)</span>
+<span class="token comment">#plt.scatter(X_test, y_test, facecolor="none", edgecolor="r", s=50, label="test data")</span>
+plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>X_underlying<span class="token punctuation">,</span> y_underlying<span class="token punctuation">,</span> c<span class="token operator">=</span><span class="token string">'#000000'</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">r"$\sin(2\pi x)$"</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>legend<span class="token punctuation">(</span>fontsize<span class="token operator">=</span><span class="token string">'x-large'</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>savefig<span class="token punctuation">(</span><span class="token string">'ml-vis2.pdf'</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212165459211.png" srcset="/img/loading.gif" lazyload alt="image-20221212164136707" style="zoom:33%;" />
+
+
+
+
+
+<hr>
+<h4 id="√-2-3-2-模型构建"><a href="#√-2-3-2-模型构建" class="headerlink" title="[√] 2.3.2 - 模型构建"></a>[√] 2.3.2 - 模型构建</h4><p>通过多项式的定义可以看出，多项式回归和线性回归一样，同样学习参数$\boldsymbol{w}$，只不过需要对输入特征$\phi(x)$根据多项式阶数进行变换。因此，我们可以套用求解线性回归参数的方法来求解多项式回归参数。</p>
+<p>首先，我们实现<strong>多项式基函数</strong><code>polynomial_basis_function</code>对原始特征$x$进行转换。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 多项式转换</span>
+<span class="token keyword">def</span> <span class="token function">polynomial_basis_function</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> degree <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token triple-quoted-string string">"""
+    输入：
+       - x: tensor, 输入的数据，shape=[N,1]
+       - degree: int, 多项式的阶数
+       example Input: [[2], [3], [4]], degree=2
+       example Output: [[2^1, 2^2], [3^1, 3^2], [4^1, 4^2]]
+       注意：本案例中,在degree>=1时不生成全为1的一列数据；degree为0时生成形状与输入相同，全1的Tensor
+    输出：
+       - x_result： tensor
+    """</span>
+    
+    <span class="token keyword">if</span> degree<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> paddle<span class="token punctuation">.</span>ones<span class="token punctuation">(</span>shape <span class="token operator">=</span> x<span class="token punctuation">.</span>shape<span class="token punctuation">,</span>dtype<span class="token operator">=</span><span class="token string">'float32'</span><span class="token punctuation">)</span> 
+
+    x_tmp <span class="token operator">=</span> x
+    x_result <span class="token operator">=</span> x_tmp
+
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> degree<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        x_tmp <span class="token operator">=</span> paddle<span class="token punctuation">.</span>multiply<span class="token punctuation">(</span>x_tmp<span class="token punctuation">,</span>x<span class="token punctuation">)</span> <span class="token comment"># 逐元素相乘</span>
+        x_result <span class="token operator">=</span> paddle<span class="token punctuation">.</span>concat<span class="token punctuation">(</span><span class="token punctuation">(</span>x_result<span class="token punctuation">,</span>x_tmp<span class="token punctuation">)</span><span class="token punctuation">,</span>axis<span class="token operator">=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">return</span> x_result
+
+<span class="token comment"># 简单测试</span>
+data <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+X <span class="token operator">=</span> paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span>data <span class="token operator">=</span> data<span class="token punctuation">,</span>dtype<span class="token operator">=</span><span class="token string">'float32'</span><span class="token punctuation">)</span>
+degree <span class="token operator">=</span> <span class="token number">3</span>
+transformed_X <span class="token operator">=</span> polynomial_basis_function<span class="token punctuation">(</span>X<span class="token punctuation">,</span>degree<span class="token operator">=</span>degree<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"转换前："</span><span class="token punctuation">,</span>X<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"阶数为"</span><span class="token punctuation">,</span>degree<span class="token punctuation">,</span><span class="token string">"转换后："</span><span class="token punctuation">,</span>transformed_X<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">转换前： Tensor<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>float32<span class="token punctuation">,</span> place<span class="token operator">=</span>CPUPlace<span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">2.</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token punctuation">[</span><span class="token number">3.</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token punctuation">[</span><span class="token number">4.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+阶数为 <span class="token number">3</span> 转换后： Tensor<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>float32<span class="token punctuation">,</span> place<span class="token operator">=</span>CPUPlace<span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">2.</span> <span class="token punctuation">,</span> <span class="token number">4.</span> <span class="token punctuation">,</span> <span class="token number">8.</span> <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token punctuation">[</span><span class="token number">3.</span> <span class="token punctuation">,</span> <span class="token number">9.</span> <span class="token punctuation">,</span> <span class="token number">27.</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token punctuation">[</span><span class="token number">4.</span> <span class="token punctuation">,</span> <span class="token number">16.</span><span class="token punctuation">,</span> <span class="token number">64.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h4 id="√-2-3-3-模型训练"><a href="#√-2-3-3-模型训练" class="headerlink" title="[√] 2.3.3 - 模型训练"></a>[√] 2.3.3 - 模型训练</h4><p>对于多项式回归，我们可以同样使用前面线性回归中定义的<code>LinearRegression</code>算子、训练函数<code>train</code>、均方误差函数<code>mean_squared_error</code>。拟合训练数据的目标是最小化损失函数，同线性回归一样，也可以通过矩阵运算直接求出$\boldsymbol{w}$的值。</p>
+<p>我们设定不同的多项式阶，$M$的取值分别为0、1、3、8，之前构造的训练集上进行训练，观察样本数据对$\sin$曲线的拟合结果。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">plt<span class="token punctuation">.</span>rcParams<span class="token punctuation">[</span><span class="token string">'figure.figsize'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">12.0</span><span class="token punctuation">,</span> <span class="token number">8.0</span><span class="token punctuation">)</span>
+
+<span class="token keyword">for</span> i<span class="token punctuation">,</span> degree <span class="token keyword">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token comment"># []中为多项式的阶数</span>
+    model <span class="token operator">=</span> Linear<span class="token punctuation">(</span>degree<span class="token punctuation">)</span>
+    X_train_transformed <span class="token operator">=</span> polynomial_basis_function<span class="token punctuation">(</span>X_train<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> degree<span class="token punctuation">)</span>
+    X_underlying_transformed <span class="token operator">=</span> polynomial_basis_function<span class="token punctuation">(</span>X_underlying<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> degree<span class="token punctuation">)</span>
+    
+    model <span class="token operator">=</span> optimizer_lsm<span class="token punctuation">(</span>model<span class="token punctuation">,</span>X_train_transformed<span class="token punctuation">,</span>y_train<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">#拟合得到参数</span>
+
+    y_underlying_pred <span class="token operator">=</span> model<span class="token punctuation">(</span>X_underlying_transformed<span class="token punctuation">)</span><span class="token punctuation">.</span>squeeze<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">print</span><span class="token punctuation">(</span>model<span class="token punctuation">.</span>params<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 绘制图像</span>
+    plt<span class="token punctuation">.</span>subplot<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span>
+    plt<span class="token punctuation">.</span>scatter<span class="token punctuation">(</span>X_train<span class="token punctuation">,</span> y_train<span class="token punctuation">,</span> facecolor<span class="token operator">=</span><span class="token string">"none"</span><span class="token punctuation">,</span> edgecolor<span class="token operator">=</span><span class="token string">'#e4007f'</span><span class="token punctuation">,</span> s<span class="token operator">=</span><span class="token number">50</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">"train data"</span><span class="token punctuation">)</span>
+    plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>X_underlying<span class="token punctuation">,</span> y_underlying<span class="token punctuation">,</span> c<span class="token operator">=</span><span class="token string">'#000000'</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">r"$\sin(2\pi x)$"</span><span class="token punctuation">)</span>
+    plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>X_underlying<span class="token punctuation">,</span> y_underlying_pred<span class="token punctuation">,</span> c<span class="token operator">=</span><span class="token string">'#f19ec2'</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">"predicted function"</span><span class="token punctuation">)</span>
+    plt<span class="token punctuation">.</span>ylim<span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">1.5</span><span class="token punctuation">)</span>
+    plt<span class="token punctuation">.</span>annotate<span class="token punctuation">(</span><span class="token string">"M=&#123;&#125;"</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>degree<span class="token punctuation">)</span><span class="token punctuation">,</span> xy<span class="token operator">=</span><span class="token punctuation">(</span><span class="token number">0.95</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1.4</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment">#plt.legend(bbox_to_anchor=(1.05, 0.64), loc=2, borderaxespad=0.)</span>
+plt<span class="token punctuation">.</span>legend<span class="token punctuation">(</span>loc<span class="token operator">=</span><span class="token string">'lower left'</span><span class="token punctuation">,</span> fontsize<span class="token operator">=</span><span class="token string">'x-large'</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>savefig<span class="token punctuation">(</span><span class="token string">'ml-vis3.pdf'</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">&#123;</span><span class="token string">'w'</span><span class="token punctuation">:</span> Tensor<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>float32<span class="token punctuation">,</span> place<span class="token operator">=</span>CPUPlace<span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token number">0.</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'b'</span><span class="token punctuation">:</span> Tensor<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>float32<span class="token punctuation">,</span> place<span class="token operator">=</span>CPUPlace<span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token number">0.06668118</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#123;</span><span class="token string">'w'</span><span class="token punctuation">:</span> Tensor<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>float32<span class="token punctuation">,</span> place<span class="token operator">=</span>CPUPlace<span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1.34165502</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'b'</span><span class="token punctuation">:</span> Tensor<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>float32<span class="token punctuation">,</span> place<span class="token operator">=</span>CPUPlace<span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token number">0.74084926</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#123;</span><span class="token string">'w'</span><span class="token punctuation">:</span> Tensor<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>float32<span class="token punctuation">,</span> place<span class="token operator">=</span>CPUPlace<span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span> <span class="token number">11.50885582</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">33.70772171</span><span class="token punctuation">,</span>  <span class="token number">22.45395279</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'b'</span><span class="token punctuation">:</span> Tensor<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>float32<span class="token punctuation">,</span> place<span class="token operator">=</span>CPUPlace<span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">0.17524421</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#123;</span><span class="token string">'w'</span><span class="token punctuation">:</span> Tensor<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">8</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>float32<span class="token punctuation">,</span> place<span class="token operator">=</span>CPUPlace<span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span> <span class="token number">6.39199781</span>  <span class="token punctuation">,</span>  <span class="token number">38.72201538</span> <span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">377.10943604</span><span class="token punctuation">,</span>  <span class="token number">912.26202393</span><span class="token punctuation">,</span>
+        <span class="token operator">-</span><span class="token number">1013.89459229</span><span class="token punctuation">,</span>  <span class="token number">374.96646118</span><span class="token punctuation">,</span>  <span class="token number">198.60220337</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">150.03273010</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'b'</span><span class="token punctuation">:</span> Tensor<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>float32<span class="token punctuation">,</span> place<span class="token operator">=</span>CPUPlace<span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
+       <span class="token punctuation">[</span><span class="token number">3.29901624</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212165722946.png" srcset="/img/loading.gif" lazyload alt="image-20221212165145316"></p>
+<p>观察可视化结果，红色的曲线表示不同阶多项式分布拟合数据的结果：</p>
+<ul>
+<li>当 $M=0$ 或 $M=1$ 时，拟合曲线较简单，模型欠拟合；</li>
+<li>当 $M=8$ 时，拟合曲线较复杂，模型过拟合；</li>
+<li>当 $M=3$ 时，模型拟合最为合理。</li>
+</ul>
+<hr>
+<h4 id="√-2-3-4-模型评估"><a href="#√-2-3-4-模型评估" class="headerlink" title="[√] 2.3.4 - 模型评估"></a>[√] 2.3.4 - 模型评估</h4><p>下面通过均方误差来衡量训练误差、测试误差以及在没有噪音的加入下<code>sin</code>函数值与多项式回归值之间的误差，更加真实地反映拟合结果。多项式分布阶数从0到8进行遍历。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 训练误差和测试误差</span>
+training_errors <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+test_errors <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+distribution_errors <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+<span class="token comment"># 遍历多项式阶数</span>
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">9</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    model <span class="token operator">=</span> Linear<span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+
+    X_train_transformed <span class="token operator">=</span> polynomial_basis_function<span class="token punctuation">(</span>X_train<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> i<span class="token punctuation">)</span> 
+    X_test_transformed <span class="token operator">=</span> polynomial_basis_function<span class="token punctuation">(</span>X_test<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> i<span class="token punctuation">)</span> 
+    X_underlying_transformed <span class="token operator">=</span> polynomial_basis_function<span class="token punctuation">(</span>X_underlying<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> i<span class="token punctuation">)</span>
+    
+    optimizer_lsm<span class="token punctuation">(</span>model<span class="token punctuation">,</span>X_train_transformed<span class="token punctuation">,</span>y_train<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    
+    y_train_pred <span class="token operator">=</span> model<span class="token punctuation">(</span>X_train_transformed<span class="token punctuation">)</span><span class="token punctuation">.</span>squeeze<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    y_test_pred <span class="token operator">=</span> model<span class="token punctuation">(</span>X_test_transformed<span class="token punctuation">)</span><span class="token punctuation">.</span>squeeze<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    y_underlying_pred <span class="token operator">=</span> model<span class="token punctuation">(</span>X_underlying_transformed<span class="token punctuation">)</span><span class="token punctuation">.</span>squeeze<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    train_mse <span class="token operator">=</span> mean_squared_error<span class="token punctuation">(</span>y_true<span class="token operator">=</span>y_train<span class="token punctuation">,</span> y_pred<span class="token operator">=</span>y_train_pred<span class="token punctuation">)</span><span class="token punctuation">.</span>item<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    training_errors<span class="token punctuation">.</span>append<span class="token punctuation">(</span>train_mse<span class="token punctuation">)</span>
+
+    test_mse <span class="token operator">=</span> mean_squared_error<span class="token punctuation">(</span>y_true<span class="token operator">=</span>y_test<span class="token punctuation">,</span> y_pred<span class="token operator">=</span>y_test_pred<span class="token punctuation">)</span><span class="token punctuation">.</span>item<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    test_errors<span class="token punctuation">.</span>append<span class="token punctuation">(</span>test_mse<span class="token punctuation">)</span>
+
+    <span class="token comment">#distribution_mse = mean_squared_error(y_true=y_underlying, y_pred=y_underlying_pred).item()</span>
+    <span class="token comment">#distribution_errors.append(distribution_mse)</span>
+
+<span class="token keyword">print</span> <span class="token punctuation">(</span><span class="token string">"train errors: \n"</span><span class="token punctuation">,</span>training_errors<span class="token punctuation">)</span>
+<span class="token keyword">print</span> <span class="token punctuation">(</span><span class="token string">"test errors: \n"</span><span class="token punctuation">,</span>test_errors<span class="token punctuation">)</span>
+<span class="token comment">#print ("distribution errors: \n", distribution_errors)</span>
+
+<span class="token comment"># 绘制图片</span>
+plt<span class="token punctuation">.</span>rcParams<span class="token punctuation">[</span><span class="token string">'figure.figsize'</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token number">8.0</span><span class="token punctuation">,</span> <span class="token number">6.0</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>training_errors<span class="token punctuation">,</span> <span class="token string">'-.'</span><span class="token punctuation">,</span> mfc<span class="token operator">=</span><span class="token string">"none"</span><span class="token punctuation">,</span> mec<span class="token operator">=</span><span class="token string">'#e4007f'</span><span class="token punctuation">,</span> ms<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">,</span> c<span class="token operator">=</span><span class="token string">'#e4007f'</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">"Training"</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>test_errors<span class="token punctuation">,</span> <span class="token string">'--'</span><span class="token punctuation">,</span> mfc<span class="token operator">=</span><span class="token string">"none"</span><span class="token punctuation">,</span> mec<span class="token operator">=</span><span class="token string">'#f19ec2'</span><span class="token punctuation">,</span> ms<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">,</span> c<span class="token operator">=</span><span class="token string">'#f19ec2'</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">"Test"</span><span class="token punctuation">)</span>
+<span class="token comment">#plt.plot(distribution_errors, '-', mfc="none", mec="#3D3D3F", ms=10, c="#3D3D3F", label="Distribution")</span>
+plt<span class="token punctuation">.</span>legend<span class="token punctuation">(</span>fontsize<span class="token operator">=</span><span class="token string">'x-large'</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>xlabel<span class="token punctuation">(</span><span class="token string">"degree"</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>ylabel<span class="token punctuation">(</span><span class="token string">"MSE"</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>savefig<span class="token punctuation">(</span><span class="token string">'ml-mse-error.pdf'</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">train errors<span class="token punctuation">:</span> 
+ <span class="token punctuation">[</span><span class="token number">0.4672910273075104</span><span class="token punctuation">,</span> <span class="token number">0.2713072597980499</span><span class="token punctuation">,</span> <span class="token number">0.25924286246299744</span><span class="token punctuation">,</span> <span class="token number">0.007656396366655827</span><span class="token punctuation">,</span> <span class="token number">0.007648141589015722</span><span class="token punctuation">,</span> <span class="token number">0.004982923157513142</span><span class="token punctuation">,</span> <span class="token number">0.055855292826890945</span><span class="token punctuation">,</span> <span class="token number">0.01697038859128952</span><span class="token punctuation">,</span> <span class="token number">13.178251266479492</span><span class="token punctuation">]</span>
+test errors<span class="token punctuation">:</span> 
+ <span class="token punctuation">[</span><span class="token number">0.48431509733200073</span><span class="token punctuation">,</span> <span class="token number">0.20496585965156555</span><span class="token punctuation">,</span> <span class="token number">0.22155332565307617</span><span class="token punctuation">,</span> <span class="token number">0.02112610451877117</span><span class="token punctuation">,</span> <span class="token number">0.021505268290638924</span><span class="token punctuation">,</span> <span class="token number">0.009555519558489323</span><span class="token punctuation">,</span> <span class="token number">0.07138563692569733</span><span class="token punctuation">,</span> <span class="token number">0.014405457302927971</span><span class="token punctuation">,</span> <span class="token number">8.89521312713623</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221211213007230.png" srcset="/img/loading.gif" lazyload alt="image-20221212165459211"></p>
+<p>观察可视化结果：</p>
+<ul>
+<li>当阶数较低的时候，模型的表示能力有限，训练误差和测试误差都很高，代表模型欠拟合；</li>
+<li>当阶数较高的时候，模型表示能力强，但将训练数据中的噪声也作为特征进行学习，一般情况下训练误差继续降低而测试误差显著升高，代表模型过拟合。</li>
+</ul>
+<blockquote>
+<p>此处多项式阶数大于等于5时，训练误差并没有下降，尤其是在多项式阶数为7时，训练误差变得非常大，请思考原因？提示：请从幂函数特性角度思考。</p>
+</blockquote>
+<p>对于模型过拟合的情况，可以引入正则化方法，通过向误差函数中添加一个<strong>惩罚项</strong>来避免系数倾向于较大的取值。下面加入$\mathcal{l_{2}}$正则化项，查看拟合结果。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">degree <span class="token operator">=</span> <span class="token number">8</span> <span class="token comment"># 多项式阶数</span>
+reg_lambda <span class="token operator">=</span> <span class="token number">0.0001</span> <span class="token comment"># 正则化系数</span>
+
+X_train_transformed <span class="token operator">=</span> polynomial_basis_function<span class="token punctuation">(</span>X_train<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> degree<span class="token punctuation">)</span>
+X_test_transformed <span class="token operator">=</span> polynomial_basis_function<span class="token punctuation">(</span>X_test<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> degree<span class="token punctuation">)</span>
+X_underlying_transformed <span class="token operator">=</span> polynomial_basis_function<span class="token punctuation">(</span>X_underlying<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> degree<span class="token punctuation">)</span>
+
+model <span class="token operator">=</span> Linear<span class="token punctuation">(</span>degree<span class="token punctuation">)</span> 
+
+optimizer_lsm<span class="token punctuation">(</span>model<span class="token punctuation">,</span>X_train_transformed<span class="token punctuation">,</span>y_train<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+y_test_pred<span class="token operator">=</span>model<span class="token punctuation">(</span>X_test_transformed<span class="token punctuation">)</span><span class="token punctuation">.</span>squeeze<span class="token punctuation">(</span><span class="token punctuation">)</span>
+y_underlying_pred<span class="token operator">=</span>model<span class="token punctuation">(</span>X_underlying_transformed<span class="token punctuation">)</span><span class="token punctuation">.</span>squeeze<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+model_reg <span class="token operator">=</span> Linear<span class="token punctuation">(</span>degree<span class="token punctuation">)</span> 
+
+optimizer_lsm<span class="token punctuation">(</span>model_reg<span class="token punctuation">,</span>X_train_transformed<span class="token punctuation">,</span>y_train<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span>reg_lambda<span class="token operator">=</span>reg_lambda<span class="token punctuation">)</span>
+
+y_test_pred_reg<span class="token operator">=</span>model_reg<span class="token punctuation">(</span>X_test_transformed<span class="token punctuation">)</span><span class="token punctuation">.</span>squeeze<span class="token punctuation">(</span><span class="token punctuation">)</span>
+y_underlying_pred_reg<span class="token operator">=</span>model_reg<span class="token punctuation">(</span>X_underlying_transformed<span class="token punctuation">)</span><span class="token punctuation">.</span>squeeze<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+mse <span class="token operator">=</span> mean_squared_error<span class="token punctuation">(</span>y_true <span class="token operator">=</span> y_test<span class="token punctuation">,</span> y_pred <span class="token operator">=</span> y_test_pred<span class="token punctuation">)</span><span class="token punctuation">.</span>item<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"mse:"</span><span class="token punctuation">,</span>mse<span class="token punctuation">)</span>
+mes_reg <span class="token operator">=</span> mean_squared_error<span class="token punctuation">(</span>y_true <span class="token operator">=</span> y_test<span class="token punctuation">,</span> y_pred <span class="token operator">=</span> y_test_pred_reg<span class="token punctuation">)</span><span class="token punctuation">.</span>item<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"mse_with_l2_reg:"</span><span class="token punctuation">,</span>mes_reg<span class="token punctuation">)</span>
+
+<span class="token comment"># 绘制图像</span>
+plt<span class="token punctuation">.</span>scatter<span class="token punctuation">(</span>X_train<span class="token punctuation">,</span> y_train<span class="token punctuation">,</span> facecolor<span class="token operator">=</span><span class="token string">"none"</span><span class="token punctuation">,</span> edgecolor<span class="token operator">=</span><span class="token string">"#e4007f"</span><span class="token punctuation">,</span> s<span class="token operator">=</span><span class="token number">50</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">"train data"</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>X_underlying<span class="token punctuation">,</span> y_underlying<span class="token punctuation">,</span> c<span class="token operator">=</span><span class="token string">'#000000'</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">r"$\sin(2\pi x)$"</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>X_underlying<span class="token punctuation">,</span> y_underlying_pred<span class="token punctuation">,</span> c<span class="token operator">=</span><span class="token string">'#e4007f'</span><span class="token punctuation">,</span> linestyle<span class="token operator">=</span><span class="token string">"--"</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">"$deg. = 8$"</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>X_underlying<span class="token punctuation">,</span> y_underlying_pred_reg<span class="token punctuation">,</span> c<span class="token operator">=</span><span class="token string">'#f19ec2'</span><span class="token punctuation">,</span> linestyle<span class="token operator">=</span><span class="token string">"-."</span><span class="token punctuation">,</span> label<span class="token operator">=</span><span class="token string">"$deg. = 8, \ell_2 reg$"</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>ylim<span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1.5</span><span class="token punctuation">,</span> <span class="token number">1.5</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>annotate<span class="token punctuation">(</span><span class="token string">"lambda=&#123;&#125;"</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>reg_lambda<span class="token punctuation">)</span><span class="token punctuation">,</span> xy<span class="token operator">=</span><span class="token punctuation">(</span><span class="token number">0.82</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1.4</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>legend<span class="token punctuation">(</span>fontsize<span class="token operator">=</span><span class="token string">'large'</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>savefig<span class="token punctuation">(</span><span class="token string">'ml-vis4.pdf'</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">mse<span class="token punctuation">:</span> <span class="token number">8.89521312713623</span>
+mse_with_l2_reg<span class="token punctuation">:</span> <span class="token number">0.009005023166537285</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212173347233.png" srcset="/img/loading.gif" lazyload alt="image-20221212165722946" style="zoom: 50%;" />
+
+<p>观察可视化结果，其中黄色曲线为加入$\mathcal{l_{2}}$正则后多项式分布拟合结果，红色曲线为未加入$\mathcal{l_{2}}$正则的拟合结果，黄色曲线的拟合效果明显好于红色曲线。</p>
+<hr>
+<h3 id="√-2-4-Runner类介绍"><a href="#√-2-4-Runner类介绍" class="headerlink" title="[√] 2.4 - Runner类介绍"></a>[√] 2.4 - Runner类介绍</h3><p>通过上面的实践，我们可以看到，在一个任务上应用机器学习方法的流程基本上包括：数据集构建、模型构建、损失函数定义、优化器、模型训练、模型评价、模型预测等环节。</p>
+<p>为了更方便地将上述环节规范化，我们将机器学习模型的基本要素封装成一个<strong>Runner</strong>类。除上述提到的要素外，再加上模型保存、模型加载等功能。</p>
+<p><strong>Runner</strong>类的成员函数定义如下：</p>
+<ul>
+<li>__init__函数：实例化<strong>Runner</strong>类时默认调用，需要传入模型、损失函数、优化器和评价指标等；</li>
+<li>train函数：完成模型训练，指定模型训练需要的训练集和验证集；</li>
+<li>evaluate函数：通过对训练好的模型进行评价，在验证集或测试集上查看模型训练效果；</li>
+<li>predict函数：选取一条数据对训练好的模型进行预测；</li>
+<li>save_model函数：模型在训练过程和训练结束后需要进行保存；</li>
+<li>load_model函数：调用加载之前保存的模型。</li>
+</ul>
+<p><code>Runner</code>类的框架定义如下：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">Runner</span><span class="token punctuation">(</span><span class="token builtin">object</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> model<span class="token punctuation">,</span> optimizer<span class="token punctuation">,</span> loss_fn<span class="token punctuation">,</span> metric<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>model <span class="token operator">=</span> model         <span class="token comment"># 模型</span>
+        self<span class="token punctuation">.</span>optimizer <span class="token operator">=</span> optimizer <span class="token comment"># 优化器</span>
+        self<span class="token punctuation">.</span>loss_fn <span class="token operator">=</span> loss_fn     <span class="token comment"># 损失函数   </span>
+        self<span class="token punctuation">.</span>metric <span class="token operator">=</span> metric       <span class="token comment"># 评估指标</span>
+
+    <span class="token comment"># 模型训练</span>
+    <span class="token keyword">def</span> <span class="token function">train</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> train_dataset<span class="token punctuation">,</span> dev_dataset<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> <span class="token operator">**</span>kwargs<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">pass</span>
+
+    <span class="token comment"># 模型评价</span>
+    <span class="token keyword">def</span> <span class="token function">evaluate</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> data_set<span class="token punctuation">,</span> <span class="token operator">**</span>kwargs<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">pass</span>
+
+    <span class="token comment"># 模型预测</span>
+    <span class="token keyword">def</span> <span class="token function">predict</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> x<span class="token punctuation">,</span> <span class="token operator">**</span>kwargs<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">pass</span>
+
+    <span class="token comment"># 模型保存</span>
+    <span class="token keyword">def</span> <span class="token function">save_model</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> save_path<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">pass</span>
+
+    <span class="token comment"># 模型加载</span>
+    <span class="token keyword">def</span> <span class="token function">load_model</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> model_path<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">pass</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><strong>Runner</strong>类的流程如<strong>图2.8</strong>所示，可以分为 4 个阶段：</p>
+<ol>
+<li>初始化阶段：传入模型、损失函数、优化器和评价指标。</li>
+<li>模型训练阶段：基于训练集调用<code>train()</code>函数训练模型，基于验证集通过<code>evaluate()</code>函数验证模型。通过<code>save_model()</code>函数保存模型。</li>
+<li>模型评价阶段：基于测试集通过<code>evaluate()</code>函数得到指标性能。</li>
+<li>模型预测阶段：给定样本，通过<code>predict()</code>函数得到该样本标签。</li>
+</ol>
+<center><img src="https://ai-studio-static-online.cdn.bcebos.com/fdb656daadb349a78560fa464b0de5fa5d63423fc2234adfac48e6ff020a6d60" srcset="/img/loading.gif" lazyload width=700 ></img></center>
+
+<center>图2.8 Runner类</center>
+
+
+
+<hr>
+<h3 id="√-2-5-基于线性回归的波士顿房价预测"><a href="#√-2-5-基于线性回归的波士顿房价预测" class="headerlink" title="[√] 2.5 - 基于线性回归的波士顿房价预测"></a>[√] 2.5 - 基于线性回归的波士顿房价预测</h3><p>在本节中，我们使用线性回归来对马萨诸塞州波士顿郊区的房屋进行预测。实验流程主要包含如下5个步骤：</p>
+<ul>
+<li>数据处理：包括数据清洗（缺失值和异常值处理）、数据集划分，以便数据可以被模型正常读取，并具有良好的泛化性;</li>
+<li>模型构建：定义线性回归模型类；</li>
+<li>训练配置:训练相关的一些配置，如：优化算法、评价指标等；</li>
+<li>组装训练框架Runner:<code>Runner</code>用于管理模型训练和测试过程；</li>
+<li>模型训练和测试:利用<code>Runner</code>进行模型训练和测试。</li>
+</ul>
+<hr>
+<h4 id="√-2-5-1-数据处理"><a href="#√-2-5-1-数据处理" class="headerlink" title="[√] 2.5.1 - 数据处理"></a>[√] 2.5.1 - 数据处理</h4><h5 id="√-2-5-1-1-数据集介绍"><a href="#√-2-5-1-1-数据集介绍" class="headerlink" title="[√] 2.5.1.1 - 数据集介绍"></a>[√] 2.5.1.1 - 数据集介绍</h5><p>本实验使用波士顿房价预测数据集，共506条样本数据，每条样本包含了12种可能影响房价的因素和该类房屋价格的中位数，各字段含义如<strong>表2.1</strong>所示：</p>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212173220360.png" srcset="/img/loading.gif" lazyload alt="image-20221212173220360"></p>
+<p>预览前5条数据：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> pandas <span class="token keyword">as</span> pd <span class="token comment"># 开源数据分析和操作工具</span>
+
+<span class="token comment"># 利用pandas加载波士顿房价的数据集</span>
+data<span class="token operator">=</span>pd<span class="token punctuation">.</span>read_csv<span class="token punctuation">(</span><span class="token string">"/home/aistudio/work/boston_house_prices.csv"</span><span class="token punctuation">)</span>
+<span class="token comment"># 预览前5行数据</span>
+data<span class="token punctuation">.</span>head<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212173523825.png" srcset="/img/loading.gif" lazyload alt="image-20221212173347233"></p>
+<hr>
+<h5 id="√-2-5-1-2-数据清洗"><a href="#√-2-5-1-2-数据清洗" class="headerlink" title="[√] 2.5.1.2 - 数据清洗"></a>[√] 2.5.1.2 - 数据清洗</h5><p>对数据集中的缺失值或异常值等情况进行分析和处理，保证数据可以被模型正常读取。</p>
+<ul>
+<li><strong>缺失值分析</strong></li>
+</ul>
+<p>通过<code>isna()</code>方法判断数据中各元素是否缺失，然后通过<code>sum()</code>方法统计每个字段缺失情况，代码实现如下：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 查看各字段缺失值统计情况</span>
+data<span class="token punctuation">.</span>isna<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token builtin">sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212165145316.png" srcset="/img/loading.gif" lazyload alt="image-20221212173523825"></p>
+<p>可以看出不存在缺失数据的情况</p>
+<ul>
+<li><strong>异常值处理</strong></li>
+</ul>
+<p>通过箱线图直观的显示数据分布，并观测数据中的异常值。箱线图一般由五个统计值组成：最大值、上四分位、中位数、下四分位和最小值。一般来说，观测到的数据大于最大估计值或者小于最小估计值则判断为异常值，其中<br>$$<br>最大估计值 = 上四分位 + 1.5 * (上四分位 - 下四分位)\<br>最小估计值=下四分位 - 1.5 * (上四分位 - 下四分位)<br>$$</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> matplotlib<span class="token punctuation">.</span>pyplot <span class="token keyword">as</span> plt <span class="token comment"># 可视化工具</span>
+
+<span class="token comment"># 箱线图查看异常值分布</span>
+<span class="token keyword">def</span> <span class="token function">boxplot</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> fig_name<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># 绘制每个属性的箱线图</span>
+    data_col <span class="token operator">=</span> <span class="token builtin">list</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span>columns<span class="token punctuation">)</span>
+    
+    <span class="token comment"># 连续画几个图片</span>
+    plt<span class="token punctuation">.</span>figure<span class="token punctuation">(</span>figsize<span class="token operator">=</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">,</span> dpi<span class="token operator">=</span><span class="token number">300</span><span class="token punctuation">)</span>
+    <span class="token comment"># 子图调整</span>
+    plt<span class="token punctuation">.</span>subplots_adjust<span class="token punctuation">(</span>wspace<span class="token operator">=</span><span class="token number">0.6</span><span class="token punctuation">)</span>
+    <span class="token comment"># 每个特征画一个箱线图</span>
+    <span class="token keyword">for</span> i<span class="token punctuation">,</span> col_name <span class="token keyword">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>data_col<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        plt<span class="token punctuation">.</span>subplot<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token comment"># 画箱线图</span>
+        plt<span class="token punctuation">.</span>boxplot<span class="token punctuation">(</span>data<span class="token punctuation">[</span>col_name<span class="token punctuation">]</span><span class="token punctuation">,</span> 
+                    showmeans<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span> 
+                    meanprops<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">"markersize"</span><span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token string">"marker"</span><span class="token punctuation">:</span><span class="token string">"D"</span><span class="token punctuation">,</span><span class="token string">"markeredgecolor"</span><span class="token punctuation">:</span><span class="token string">"#C54680"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token comment"># 均值的属性</span>
+                    medianprops<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">"color"</span><span class="token punctuation">:</span><span class="token string">"#946279"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token comment"># 中位数线的属性</span>
+                    whiskerprops<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">"color"</span><span class="token punctuation">:</span><span class="token string">"#8E004D"</span><span class="token punctuation">,</span> <span class="token string">"linewidth"</span><span class="token punctuation">:</span><span class="token number">0.4</span><span class="token punctuation">,</span> <span class="token string">'linestyle'</span><span class="token punctuation">:</span><span class="token string">"--"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                    flierprops<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">"markersize"</span><span class="token punctuation">:</span><span class="token number">0.4</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+                    <span class="token punctuation">)</span> 
+        <span class="token comment"># 图名</span>
+        plt<span class="token punctuation">.</span>title<span class="token punctuation">(</span>col_name<span class="token punctuation">,</span> fontdict<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">"size"</span><span class="token punctuation">:</span><span class="token number">5</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> pad<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">)</span>
+        <span class="token comment"># y方向刻度</span>
+        plt<span class="token punctuation">.</span>yticks<span class="token punctuation">(</span>fontsize<span class="token operator">=</span><span class="token number">4</span><span class="token punctuation">,</span> rotation<span class="token operator">=</span><span class="token number">90</span><span class="token punctuation">)</span>
+        plt<span class="token punctuation">.</span>tick_params<span class="token punctuation">(</span>pad<span class="token operator">=</span><span class="token number">0.5</span><span class="token punctuation">)</span>
+        <span class="token comment"># x方向刻度</span>
+        plt<span class="token punctuation">.</span>xticks<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    plt<span class="token punctuation">.</span>savefig<span class="token punctuation">(</span>fig_name<span class="token punctuation">)</span>
+    plt<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+boxplot<span class="token punctuation">(</span>data<span class="token punctuation">,</span> <span class="token string">'ml-vis5.pdf'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>箱线图的具体含义：</p>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212173925680.png" srcset="/img/loading.gif" lazyload alt="image-20221212173925680"></p>
+<p>从输出结果看，数据中存在较多的异常值（图中上下边缘以外的空心小圆圈）。</p>
+<p>使用四分位值筛选出箱线图中分布的异常值，并将这些数据视为噪声，其将被临界值取代，代码实现如下：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 四分位处理异常值</span>
+num_features<span class="token operator">=</span>data<span class="token punctuation">.</span>select_dtypes<span class="token punctuation">(</span>exclude<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">'object'</span><span class="token punctuation">,</span><span class="token string">'bool'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span>columns<span class="token punctuation">.</span>tolist<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">for</span> feature <span class="token keyword">in</span> num_features<span class="token punctuation">:</span>
+    <span class="token keyword">if</span> feature <span class="token operator">==</span><span class="token string">'CHAS'</span><span class="token punctuation">:</span>
+        <span class="token keyword">continue</span>
+    
+    Q1  <span class="token operator">=</span> data<span class="token punctuation">[</span>feature<span class="token punctuation">]</span><span class="token punctuation">.</span>quantile<span class="token punctuation">(</span>q<span class="token operator">=</span><span class="token number">0.25</span><span class="token punctuation">)</span> <span class="token comment"># 下四分位</span>
+    Q3  <span class="token operator">=</span> data<span class="token punctuation">[</span>feature<span class="token punctuation">]</span><span class="token punctuation">.</span>quantile<span class="token punctuation">(</span>q<span class="token operator">=</span><span class="token number">0.75</span><span class="token punctuation">)</span> <span class="token comment"># 上四分位</span>
+    
+    IQR <span class="token operator">=</span> Q3<span class="token operator">-</span>Q1 
+    top <span class="token operator">=</span> Q3<span class="token operator">+</span><span class="token number">1.5</span><span class="token operator">*</span>IQR <span class="token comment"># 最大估计值</span>
+    bot <span class="token operator">=</span> Q1<span class="token operator">-</span><span class="token number">1.5</span><span class="token operator">*</span>IQR <span class="token comment"># 最小估计值</span>
+    values<span class="token operator">=</span>data<span class="token punctuation">[</span>feature<span class="token punctuation">]</span><span class="token punctuation">.</span>values
+    values<span class="token punctuation">[</span>values <span class="token operator">></span> top<span class="token punctuation">]</span> <span class="token operator">=</span> top <span class="token comment"># 临界值取代噪声</span>
+    values<span class="token punctuation">[</span>values <span class="token operator">&lt;</span> bot<span class="token punctuation">]</span> <span class="token operator">=</span> bot <span class="token comment"># 临界值取代噪声</span>
+    data<span class="token punctuation">[</span>feature<span class="token punctuation">]</span> <span class="token operator">=</span> values<span class="token punctuation">.</span>astype<span class="token punctuation">(</span>data<span class="token punctuation">[</span>feature<span class="token punctuation">]</span><span class="token punctuation">.</span>dtypes<span class="token punctuation">)</span>
+
+<span class="token comment"># 再次查看箱线图，异常值已被临界值替换（数据量较多或本身异常值较少时，箱线图展示会不容易体现出来）</span>
+boxplot<span class="token punctuation">(</span>data<span class="token punctuation">,</span> <span class="token string">'ml-vis6.pdf'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>从输出结果看，经过异常值处理后，箱线图中异常值得到了改善。</p>
+<hr>
+<h5 id="√-2-5-1-3-数据集划分"><a href="#√-2-5-1-3-数据集划分" class="headerlink" title="[√] 2.5.1.3 - 数据集划分"></a>[√] 2.5.1.3 - 数据集划分</h5><p>由于本实验比较简单，将数据集划分为两份：训练集和测试集，不包括验证集。</p>
+<p>具体代码如下：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> paddle
+
+paddle<span class="token punctuation">.</span>seed<span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span>
+
+<span class="token comment"># 划分训练集和测试集</span>
+<span class="token keyword">def</span> <span class="token function">train_test_split</span><span class="token punctuation">(</span>X<span class="token punctuation">,</span> y<span class="token punctuation">,</span> train_percent<span class="token operator">=</span><span class="token number">0.8</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    n <span class="token operator">=</span> <span class="token builtin">len</span><span class="token punctuation">(</span>X<span class="token punctuation">)</span>
+    shuffled_indices <span class="token operator">=</span> paddle<span class="token punctuation">.</span>randperm<span class="token punctuation">(</span>n<span class="token punctuation">)</span> <span class="token comment"># 返回一个数值在0到n-1、随机排列的1-D Tensor</span>
+    train_set_size <span class="token operator">=</span> <span class="token builtin">int</span><span class="token punctuation">(</span>n<span class="token operator">*</span>train_percent<span class="token punctuation">)</span>
+    train_indices <span class="token operator">=</span> shuffled_indices<span class="token punctuation">[</span><span class="token punctuation">:</span>train_set_size<span class="token punctuation">]</span>
+    test_indices <span class="token operator">=</span> shuffled_indices<span class="token punctuation">[</span>train_set_size<span class="token punctuation">:</span><span class="token punctuation">]</span>
+
+    X <span class="token operator">=</span> X<span class="token punctuation">.</span>values
+    y <span class="token operator">=</span> y<span class="token punctuation">.</span>values
+
+    X_train<span class="token operator">=</span>X<span class="token punctuation">[</span>train_indices<span class="token punctuation">]</span>
+    y_train <span class="token operator">=</span> y<span class="token punctuation">[</span>train_indices<span class="token punctuation">]</span>
+    
+    X_test <span class="token operator">=</span> X<span class="token punctuation">[</span>test_indices<span class="token punctuation">]</span>
+    y_test <span class="token operator">=</span> y<span class="token punctuation">[</span>test_indices<span class="token punctuation">]</span>
+
+    <span class="token keyword">return</span> X_train<span class="token punctuation">,</span> X_test<span class="token punctuation">,</span> y_train<span class="token punctuation">,</span> y_test 
+
+
+X <span class="token operator">=</span> data<span class="token punctuation">.</span>drop<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'MEDV'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> axis<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span>
+y <span class="token operator">=</span> data<span class="token punctuation">[</span><span class="token string">'MEDV'</span><span class="token punctuation">]</span>
+
+X_train<span class="token punctuation">,</span> X_test<span class="token punctuation">,</span> y_train<span class="token punctuation">,</span> y_test <span class="token operator">=</span> train_test_split<span class="token punctuation">(</span>X<span class="token punctuation">,</span>y<span class="token punctuation">)</span><span class="token comment"># X_train每一行是个样本，shape[N,D]</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h5 id="√-2-5-1-4-特征工程"><a href="#√-2-5-1-4-特征工程" class="headerlink" title="[√] 2.5.1.4 - 特征工程"></a>[√] 2.5.1.4 - 特征工程</h5><p>为了消除纲量对数据特征之间影响，在模型训练前，需要对特征数据进行归一化处理，将数据缩放到[0, 1]区间内，使得不同特征之间具有可比性。</p>
+<p>代码实现如下：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> paddle
+
+X_train <span class="token operator">=</span> paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span>X_train<span class="token punctuation">,</span>dtype<span class="token operator">=</span><span class="token string">'float32'</span><span class="token punctuation">)</span>
+X_test <span class="token operator">=</span> paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span>X_test<span class="token punctuation">,</span>dtype<span class="token operator">=</span><span class="token string">'float32'</span><span class="token punctuation">)</span>
+y_train <span class="token operator">=</span> paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span>y_train<span class="token punctuation">,</span>dtype<span class="token operator">=</span><span class="token string">'float32'</span><span class="token punctuation">)</span>
+y_test <span class="token operator">=</span> paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span>y_test<span class="token punctuation">,</span>dtype<span class="token operator">=</span><span class="token string">'float32'</span><span class="token punctuation">)</span>
+
+X_min <span class="token operator">=</span> paddle<span class="token punctuation">.</span><span class="token builtin">min</span><span class="token punctuation">(</span>X_train<span class="token punctuation">,</span>axis<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">)</span>
+X_max <span class="token operator">=</span> paddle<span class="token punctuation">.</span><span class="token builtin">max</span><span class="token punctuation">(</span>X_train<span class="token punctuation">,</span>axis<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">)</span>
+
+X_train <span class="token operator">=</span> <span class="token punctuation">(</span>X_train<span class="token operator">-</span>X_min<span class="token punctuation">)</span><span class="token operator">/</span><span class="token punctuation">(</span>X_max<span class="token operator">-</span>X_min<span class="token punctuation">)</span>
+
+X_test  <span class="token operator">=</span> <span class="token punctuation">(</span>X_test<span class="token operator">-</span>X_min<span class="token punctuation">)</span><span class="token operator">/</span><span class="token punctuation">(</span>X_max<span class="token operator">-</span>X_min<span class="token punctuation">)</span>
+
+<span class="token comment"># 训练集构造</span>
+train_dataset<span class="token operator">=</span><span class="token punctuation">(</span>X_train<span class="token punctuation">,</span>y_train<span class="token punctuation">)</span>
+<span class="token comment"># 测试集构造</span>
+test_dataset<span class="token operator">=</span><span class="token punctuation">(</span>X_test<span class="token punctuation">,</span>y_test<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+
+
+
+
+<hr>
+<h4 id="√-2-5-2-模型构建"><a href="#√-2-5-2-模型构建" class="headerlink" title="[√] 2.5.2 - 模型构建"></a>[√] 2.5.2 - 模型构建</h4><p>实例化一个线性回归模型，特征维度为 12:</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> nndl<span class="token punctuation">.</span>op <span class="token keyword">import</span> Linear
+
+<span class="token comment"># 模型实例化</span>
+input_size <span class="token operator">=</span> <span class="token number">12</span>
+model<span class="token operator">=</span>Linear<span class="token punctuation">(</span>input_size<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+
+
+<hr>
+<h4 id="√-2-5-3-完善Runner类"><a href="#√-2-5-3-完善Runner类" class="headerlink" title="[√] 2.5.3 - 完善Runner类"></a>[√] 2.5.3 - 完善Runner类</h4><p>模型定义好后，围绕模型需要配置损失函数、优化器、评估、测试等信息，以及模型相关的一些其他信息（如模型存储路径等）。</p>
+<p>在本章中使用的<strong>Runner</strong>类为V1版本。其中训练过程通过直接求解解析解的方式得到模型参数，没有模型优化及计算损失函数过程，模型训练结束后保存模型参数。</p>
+<p>训练配置中定义:</p>
+<ul>
+<li>训练环境，如GPU还是CPU，本案例不涉及；</li>
+<li>优化器，本案例不涉及；</li>
+<li>损失函数，本案例通过平方损失函数得到模型参数的解析解；</li>
+<li>评估指标，本案例利用MSE评估模型效果。</li>
+</ul>
+<p>在测试集上使用MSE对模型性能进行评估。本案例利用飞桨框架提供的<a target="_blank" rel="noopener" href="https://www.paddlepaddle.org.cn/documentation/docs/zh/api/paddle/nn/MSELoss_cn.html">MSELoss API</a>实现。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> paddle<span class="token punctuation">.</span>nn <span class="token keyword">as</span> nn
+mse_loss <span class="token operator">=</span> nn<span class="token punctuation">.</span>MSELoss<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<p>具体实现如下：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> paddle
+<span class="token keyword">import</span> os
+<span class="token keyword">from</span> nndl<span class="token punctuation">.</span>opitimizer <span class="token keyword">import</span> optimizer_lsm
+
+<span class="token keyword">class</span> <span class="token class-name">Runner</span><span class="token punctuation">(</span><span class="token builtin">object</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> model<span class="token punctuation">,</span> optimizer<span class="token punctuation">,</span> loss_fn<span class="token punctuation">,</span> metric<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token comment"># 优化器和损失函数为None,不再关注</span>
+
+        <span class="token comment"># 模型</span>
+        self<span class="token punctuation">.</span>model<span class="token operator">=</span>model
+        <span class="token comment"># 评估指标</span>
+        self<span class="token punctuation">.</span>metric <span class="token operator">=</span> metric
+        <span class="token comment"># 优化器</span>
+        self<span class="token punctuation">.</span>optimizer <span class="token operator">=</span> optimizer
+    
+    <span class="token keyword">def</span> <span class="token function">train</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span>dataset<span class="token punctuation">,</span>reg_lambda<span class="token punctuation">,</span>model_dir<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        X<span class="token punctuation">,</span>y <span class="token operator">=</span> dataset
+        self<span class="token punctuation">.</span>optimizer<span class="token punctuation">(</span>self<span class="token punctuation">.</span>model<span class="token punctuation">,</span>X<span class="token punctuation">,</span>y<span class="token punctuation">,</span>reg_lambda<span class="token punctuation">)</span>
+
+        <span class="token comment"># 保存模型</span>
+        self<span class="token punctuation">.</span>save_model<span class="token punctuation">(</span>model_dir<span class="token punctuation">)</span>
+    
+    <span class="token keyword">def</span> <span class="token function">evaluate</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> dataset<span class="token punctuation">,</span> <span class="token operator">**</span>kwargs<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        X<span class="token punctuation">,</span>y <span class="token operator">=</span> dataset
+
+        y_pred <span class="token operator">=</span> self<span class="token punctuation">.</span>model<span class="token punctuation">(</span>X<span class="token punctuation">)</span>
+        result <span class="token operator">=</span> self<span class="token punctuation">.</span>metric<span class="token punctuation">(</span>y_pred<span class="token punctuation">,</span> y<span class="token punctuation">)</span>
+
+        <span class="token keyword">return</span> result
+
+    <span class="token keyword">def</span> <span class="token function">predict</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> X<span class="token punctuation">,</span> <span class="token operator">**</span>kwargs<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>model<span class="token punctuation">(</span>X<span class="token punctuation">)</span>
+    
+    <span class="token keyword">def</span> <span class="token function">save_model</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> model_dir<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> <span class="token keyword">not</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>exists<span class="token punctuation">(</span>model_dir<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            os<span class="token punctuation">.</span>makedirs<span class="token punctuation">(</span>model_dir<span class="token punctuation">)</span>
+        
+        params_saved_path <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>join<span class="token punctuation">(</span>model_dir<span class="token punctuation">,</span><span class="token string">'params.pdtensor'</span><span class="token punctuation">)</span>
+        paddle<span class="token punctuation">.</span>save<span class="token punctuation">(</span>model<span class="token punctuation">.</span>params<span class="token punctuation">,</span>params_saved_path<span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">load_model</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> model_dir<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        params_saved_path <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>join<span class="token punctuation">(</span>model_dir<span class="token punctuation">,</span><span class="token string">'params.pdtensor'</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>model<span class="token punctuation">.</span>params<span class="token operator">=</span>paddle<span class="token punctuation">.</span>load<span class="token punctuation">(</span>params_saved_path<span class="token punctuation">)</span>
+
+optimizer <span class="token operator">=</span> optimizer_lsm
+
+<span class="token comment"># 实例化Runner</span>
+runner <span class="token operator">=</span> Runner<span class="token punctuation">(</span>model<span class="token punctuation">,</span> optimizer<span class="token operator">=</span>optimizer<span class="token punctuation">,</span>loss_fn<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">,</span> metric<span class="token operator">=</span>mse_loss<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+
+
+<hr>
+<h4 id="√-2-5-4-模型训练"><a href="#√-2-5-4-模型训练" class="headerlink" title="[√] 2.5.4 - 模型训练"></a>[√] 2.5.4 - 模型训练</h4><p>在组装完成<code>Runner</code>之后，我们将开始进行模型训练、评估和测试。首先，我们先实例化<code>Runner</code>，然后开始进行装配训练环境，接下来就可以开始训练了，相关代码如下：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 模型保存文件夹</span>
+saved_dir <span class="token operator">=</span> <span class="token string">'/home/aistudio/work/models'</span>
+
+<span class="token comment"># 启动训练</span>
+runner<span class="token punctuation">.</span>train<span class="token punctuation">(</span>train_dataset<span class="token punctuation">,</span>reg_lambda<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span>model_dir<span class="token operator">=</span>saved_dir<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<p>打印出训练得到的权重：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">columns_list <span class="token operator">=</span> data<span class="token punctuation">.</span>columns<span class="token punctuation">.</span>to_list<span class="token punctuation">(</span><span class="token punctuation">)</span>
+weights <span class="token operator">=</span> runner<span class="token punctuation">.</span>model<span class="token punctuation">.</span>params<span class="token punctuation">[</span><span class="token string">'w'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>tolist<span class="token punctuation">(</span><span class="token punctuation">)</span>
+b <span class="token operator">=</span> runner<span class="token punctuation">.</span>model<span class="token punctuation">.</span>params<span class="token punctuation">[</span><span class="token string">'b'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>item<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>weights<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>columns_list<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token string">"weight:"</span><span class="token punctuation">,</span>weights<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"b:"</span><span class="token punctuation">,</span>b<span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">CRIM weight<span class="token punctuation">:</span> <span class="token operator">-</span><span class="token number">6.7268967628479</span>
+ZN weight<span class="token punctuation">:</span> <span class="token number">1.28081214427948</span>
+INDUS weight<span class="token punctuation">:</span> <span class="token operator">-</span><span class="token number">0.4696650803089142</span>
+CHAS weight<span class="token punctuation">:</span> <span class="token number">2.235346794128418</span>
+NOX weight<span class="token punctuation">:</span> <span class="token operator">-</span><span class="token number">7.0105814933776855</span>
+RM weight<span class="token punctuation">:</span> <span class="token number">9.76220417022705</span>
+AGE weight<span class="token punctuation">:</span> <span class="token operator">-</span><span class="token number">0.8556219339370728</span>
+DIS weight<span class="token punctuation">:</span> <span class="token operator">-</span><span class="token number">9.265738487243652</span>
+RAD weight<span class="token punctuation">:</span> <span class="token number">7.973038673400879</span>
+TAX weight<span class="token punctuation">:</span> <span class="token operator">-</span><span class="token number">4.365403175354004</span>
+PTRATIO weight<span class="token punctuation">:</span> <span class="token operator">-</span><span class="token number">7.105883598327637</span>
+LSTAT weight<span class="token punctuation">:</span> <span class="token operator">-</span><span class="token number">13.165120124816895</span>
+b<span class="token punctuation">:</span> <span class="token number">32.1007522583008</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+<h4 id="√-2-5-5-模型测试"><a href="#√-2-5-5-模型测试" class="headerlink" title="[√] 2.5.5 - 模型测试"></a>[√] 2.5.5 - 模型测试</h4><p>加载训练好的模型参数，在测试集上得到模型的MSE指标。</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 加载模型权重</span>
+runner<span class="token punctuation">.</span>load_model<span class="token punctuation">(</span>saved_dir<span class="token punctuation">)</span>
+
+mse <span class="token operator">=</span> runner<span class="token punctuation">.</span>evaluate<span class="token punctuation">(</span>test_dataset<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'MSE:'</span><span class="token punctuation">,</span> mse<span class="token punctuation">.</span>item<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">MSE: 12.345974922180176<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+
+
+
+<hr>
+<h4 id="√-2-5-6-模型预测"><a href="#√-2-5-6-模型预测" class="headerlink" title="[√] 2.5.6 - 模型预测"></a>[√] 2.5.6 - 模型预测</h4><p>使用<code>Runner</code>中<code>load_model</code>函数加载保存好的模型，使用<code>predict</code>进行模型预测，代码实现如下：</p>
+<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">runner<span class="token punctuation">.</span>load_model<span class="token punctuation">(</span>saved_dir<span class="token punctuation">)</span>
+pred <span class="token operator">=</span> runner<span class="token punctuation">.</span>predict<span class="token punctuation">(</span>X_test<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"真实房价："</span><span class="token punctuation">,</span>y_test<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span>item<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"预测的房价："</span><span class="token punctuation">,</span>pred<span class="token punctuation">.</span>item<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+
+<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">真实房价： 33.099998474121094
+预测的房价： 33.04654312133789<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/" class="category-chain-item">分支导航</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E5%AE%9E%E8%B7%B5%E5%AD%A6%E4%B9%A0/" class="category-chain-item">实践学习</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E5%AE%9E%E8%B7%B5%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%EF%BC%9A%E6%A1%88%E4%BE%8B%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E9%A3%9E%E6%A1%A8-%E9%82%B1%E9%94%A1%E9%B9%8F/" class="category-chain-item">神经网络与深度学习：案例与实践 - 飞桨 - 邱锡鹏</a>
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>第2章 - 机器学习概述</div>
+      <div>http://example.com/posts/2499540575/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年12月19日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/2180589992/" title="第3章 - 线性分类">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">第3章 - 线性分类</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/2304768005/" title="第1章 - 实践基础1">
+                        <span class="hidden-mobile">第1章 - 实践基础1</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <!-- MetingJS start --> <div class="aplayer" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-fixed="true" data-autoplay="false" data-volume="0.7"></div> <!-- MetingJS end --> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <footer class="text-center mt-5 py-3" style="color: #DDD;font-size: 13.6px;">
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener" style="color:#D8D9DA"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener" style="color:#D8D9DA"><span>Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/alec-97" target="_blank" rel="nofollow noopener" style="color:#D8D9DA"><span>Alec</span></a> <div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div> 
+      </div>
+  
+  
+  
+  
+    <div class="statistics">
+  
+  
+  
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none;font-size:13.6px">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none;font-size:13.6px">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+
+</div>
+
+<div class="statistics" style="font-size: 13.6px;">
+  <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #DDD;font-size:13.6px"  id="hitokoto"></span></a>
+  <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
+</div>
+
+  
+  
+  
+  
+  
+
+
+
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/prismjs@1/plugins/line-numbers/prism-line-numbers.min.js" ></script>
+
+  <script src=https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+
+
+  
+<script src="/js/love.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/yinghua.js"></script>
+<script src="/js/APlayer/dist/APlayer.min.js"></script>
+<script src="/js/Meting.min.js"></script>
+
+
+
+
+<!-- alec:监控页面焦点变换标题 -->
+
+  <script type="text/javascript">
+    /*窗口监视*/
+    var originalTitle = document.title;
+    window.onblur = function(){document.title = "给时间一点时间"};
+    window.onfocus = function(){document.title = originalTitle};
+  </script>
+
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+</body>
+</html>

@@ -7,6 +7,7 @@ categories:
   - 计算机基础
   - 操作系统
   - inbox
+abbrlink: 441628142
 ---
 
 ==传统的I/O的方式：==

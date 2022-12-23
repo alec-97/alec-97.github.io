@@ -7,6 +7,7 @@ categories:
   - mysql
   - 笔记
   - SQL语法
+abbrlink: 410845037
 ---
 
 ## 笔记
