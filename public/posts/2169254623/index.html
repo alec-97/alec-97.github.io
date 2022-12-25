@@ -1,11 +1,5 @@
 
 
-
-<!--alec insert start-->
-<script src="/live2d-widget/autoload.js"></script>
-<!--alec insert end-->
-
-
 <!DOCTYPE html>
 <html lang="zh-CN" data-default-color-scheme=auto>
 
@@ -18,22 +12,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
   <meta name="theme-color" content="#2f4154">
   <meta name="author" content="Shuai Zhao">
   <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
   
-    <meta name="description" content="前言  IO 指的是用户态的进程，需要操作系统帮助其进行数据的读入和写出。 以 IN 为例，可以分为两个步骤：从磁盘、网络等地方将数据放到内核空间（准备内核数据）、数据从内核空间拷贝到用户空间（内核空间的数据拷贝到用户空间）。     阻塞 I&#x2F;O  阻塞 I&#x2F;O 阻塞等待的是两个过程：准备内核数据 和 内核数据拷贝到用户空间。 用户进程需要数据的时候，调用 read() 函数，然后用户进程">
+    <meta name="description" content="前言  IO 指的是用户态的进程，需要操作系统帮助其进行数据的读入和写出。 以 IN 为例，可以分为两个步骤：从磁盘、网络等地方将数据放到内核空间（准备内核数据）、数据从内核空间拷贝到用户空间（内核空间的数据拷贝到用户空间）。     阻塞 I&#x2F;O  阻塞 I&#x2F;O 阻塞等待的是两个过程：准备内核数据 和 内核数据拷贝到用户空间。 用户进程需要数据的时候，调用 read()">
 <meta property="og:type" content="article">
 <meta property="og:title" content="OS中的阻塞与非阻塞IO、同步与异步IO">
 <meta property="og:url" content="http://example.com/posts/2169254623/index.html">
 <meta property="og:site_name" content="要走起来，你才知道方向。">
-<meta property="og:description" content="前言  IO 指的是用户态的进程，需要操作系统帮助其进行数据的读入和写出。 以 IN 为例，可以分为两个步骤：从磁盘、网络等地方将数据放到内核空间（准备内核数据）、数据从内核空间拷贝到用户空间（内核空间的数据拷贝到用户空间）。     阻塞 I&#x2F;O  阻塞 I&#x2F;O 阻塞等待的是两个过程：准备内核数据 和 内核数据拷贝到用户空间。 用户进程需要数据的时候，调用 read() 函数，然后用户进程">
+<meta property="og:description" content="前言  IO 指的是用户态的进程，需要操作系统帮助其进行数据的读入和写出。 以 IN 为例，可以分为两个步骤：从磁盘、网络等地方将数据放到内核空间（准备内核数据）、数据从内核空间拷贝到用户空间（内核空间的数据拷贝到用户空间）。     阻塞 I&#x2F;O  阻塞 I&#x2F;O 阻塞等待的是两个过程：准备内核数据 和 内核数据拷贝到用户空间。 用户进程需要数据的时候，调用 read()">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202211211631552.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202211211631553.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202211211631554.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202211211631555.png">
-<meta property="article:published_time" content="2022-12-16T08:56:22.071Z">
+<meta property="article:published_time" content="2022-12-25T07:16:57.871Z">
 <meta property="article:modified_time" content="2022-12-21T13:43:10.690Z">
 <meta property="article:author" content="Shuai Zhao">
 <meta property="article:tag" content="操作系统基础知识">
@@ -44,21 +40,17 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"> 
-  
   <title>OS中的阻塞与非阻塞IO、同步与异步IO - 要走起来，你才知道方向。</title>
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
 
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/plugins/line-numbers/prism-line-numbers.min.css" />
-
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
 
 
 
@@ -83,36 +75,34 @@
 
 
   
-<link rel="stylesheet" href="/js/APlayer/dist/APlayer.min.css">
-<link rel="stylesheet" href="/css/custom.css">
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
 
 
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":5,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":5,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
   
 
-  
-  
 
-<meta name="generator" content="Hexo 5.4.2"></head>
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
 <body>
   <div>
 	<div class='real_mask' style="
-		background-color: rgba(0,0,0,0.4);
+		background-color: rgba(0,0,0,0.3);
 		width: 100%;
 		height: 100%;
 		position: fixed;
@@ -124,11 +114,18 @@
 	</div>
 </div>
 <div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
 
   <header>
     
 
-<div class="header-inner" style="height: 85vh;">
+<div class="header-inner" style="height: 80vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
@@ -152,7 +149,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/">
                 <i class="iconfont icon-home-fill"></i>
-                首页
+                <span>首页</span>
               </a>
             </li>
           
@@ -164,7 +161,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/archives/">
                 <i class="iconfont icon-archive-fill"></i>
-                归档
+                <span>归档</span>
               </a>
             </li>
           
@@ -176,7 +173,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/categories/">
                 <i class="iconfont icon-category-fill"></i>
-                分类
+                <span>分类</span>
               </a>
             </li>
           
@@ -188,7 +185,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/tags/">
                 <i class="iconfont icon-tags-fill"></i>
-                标签
+                <span>标签</span>
               </a>
             </li>
           
@@ -200,7 +197,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/playlist/">
                 <i class="iconfont icon-music"></i>
-                音乐
+                <span>音乐</span>
               </a>
             </li>
           
@@ -212,7 +209,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/about/">
                 <i class="iconfont icon-user-fill"></i>
-                关于
+                <span>关于</span>
               </a>
             </li>
           
@@ -220,15 +217,16 @@
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+              <i class="iconfont icon-search"></i>
             </a>
           </li>
           
         
         
           <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
-                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
           </li>
         
       </ul>
@@ -237,14 +235,15 @@
 </nav>
 
   
+
 <div id="banner" class="banner" parallax=true
-     style="background: url('https://101.43.39.125/HexoFiles/new/bg-trans.png') no-repeat center center; background-size: cover;">
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="OS中的阻塞与非阻塞IO、同步与异步IO"></span>
+            <span id="subtitle">OS中的阻塞与非阻塞IO、同步与异步IO</span>
           
         </div>
 
@@ -260,8 +259,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-12-16 16:56" pubdate>
-          2022年12月16日 下午
+        <time datetime="2022-12-25 15:16" pubdate>
+          2022年12月25日 下午
         </time>
       </span>
     
@@ -272,8 +271,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          <!-- compatible with older versions-->
-          784 字
+          854 字
         
       </span>
     
@@ -284,8 +282,7 @@
         
         
         
-          <!-- compatible with older versions-->
-          7 分钟
+          8 分钟
         
       </span>
     
@@ -320,7 +317,6 @@
 	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
 
 	<div class="banner" id='banner' >
-
 
 		<div class="full-bg-img" >
 
@@ -380,11 +376,8 @@
 						}
 				</script>
 			
-			
 			</div>
 		</div>
-
-
     </div>
   </header>
 
@@ -406,6 +399,14 @@
             <!-- SEO header -->
             <h1 style="display: none">OS中的阻塞与非阻塞IO、同步与异步IO</h1>
             
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：4 天前
+                  
+                
+              </p>
+            
             
               <div class="markdown-body">
                 
@@ -416,9 +417,9 @@
 <p>以 IN 为例，可以分为两个步骤：从磁盘、网络等地方将数据放到内核空间（准备内核数据）、数据从内核空间拷贝到用户空间（内核空间的数据拷贝到用户空间）。</p>
 <hr>
 <blockquote>
-<p>  阻塞 I/O</p>
+<p>  阻塞 I&#x2F;O</p>
 </blockquote>
-<p>阻塞 I/O 阻塞等待的是<code>两个过程</code>：准备内核数据 和 内核数据拷贝到用户空间。</p>
+<p>阻塞 I&#x2F;O 阻塞等待的是<code>两个过程</code>：准备内核数据 和 内核数据拷贝到用户空间。</p>
 <p>用户进程需要数据的时候，调用 read() 函数，然后用户进程阻塞，直到数据拷贝到用户空间。</p>
 <img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202211211631552.png" srcset="/img/loading.gif" lazyload alt="image-20221121152445935" style="zoom:50%;" /> 
 
@@ -426,34 +427,34 @@
 
 <hr>
 <blockquote>
-<p>  非阻塞 I/O</p>
+<p>  非阻塞 I&#x2F;O</p>
 </blockquote>
-<p>非阻塞 I/O 阻塞<code>只等待一个过程</code>：<del>准备内核数据</del> 和 内核数据拷贝到用户空间。</p>
+<p>非阻塞 I&#x2F;O 阻塞<code>只等待一个过程</code>：<del>准备内核数据</del> 和 内核数据拷贝到用户空间。</p>
 <p>当发起非阻塞的 IO 之后，如果发现需要的数据在内核中未准备好，那么直接返回，不等待。然后通过不断轮询内核，来查看有没有准备好数据。如果准备好了数据，那么用户进程再阻塞，等待数据从内核空间拷贝到用户空间这一过程。</p>
 <img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202211211631553.png" srcset="/img/loading.gif" lazyload alt="image-20221121153225613" style="zoom:50%;" /> 
 
 <hr>
 <blockquote>
-<p>  基于非阻塞的 I/O 多路复用</p>
+<p>  基于非阻塞的 I&#x2F;O 多路复用</p>
 </blockquote>
-<p>非阻塞 I/O 存在问题：当数据未准备好的时候，用户进程需要不断地去轮询内核，查看数据准备好了没有。这个不断轮询的过程，导致用户进程没办法做其它的事情。因此引入了 I/O 多路复用技术。</p>
-<p>I/O 多路复用技术：内核数据为装备好的时候，用户直接返回，不阻塞，且不轮询。当内核中的数据准备好之后，以事件通知应⽤程序过来拿数据。</p>
+<p>非阻塞 I&#x2F;O 存在问题：当数据未准备好的时候，用户进程需要不断地去轮询内核，查看数据准备好了没有。这个不断轮询的过程，导致用户进程没办法做其它的事情。因此引入了 I&#x2F;O 多路复用技术。</p>
+<p>I&#x2F;O 多路复用技术：内核数据为装备好的时候，用户直接返回，不阻塞，且不轮询。当内核中的数据准备好之后，以事件通知应⽤程序过来拿数据。</p>
 <img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202211211631554.png" srcset="/img/loading.gif" lazyload alt="image-20221121161111685" style="zoom:50%;" /> 
 
 
 
 <hr>
 <blockquote>
-<p>  同步 I/O</p>
+<p>  同步 I&#x2F;O</p>
 </blockquote>
-<p>⽆论是阻塞 I/O、还是⾮阻塞 I/O、非阻塞I/O多路复用，都是同步调⽤。</p>
+<p>⽆论是阻塞 I&#x2F;O、还是⾮阻塞 I&#x2F;O、非阻塞I&#x2F;O多路复用，都是同步调⽤。</p>
 <p>因为它们在read调⽤时，第二个过程-内核将数据从内核空间拷⻉到应⽤程序空间，这个过程都是需要等待的，也就是说这个过程是同步的。</p>
 <p>如果内核实现的拷⻉效率不⾼，read调⽤就会在这个同步过程中等待⽐较⻓的时间。</p>
 <hr>
 <blockquote>
-<p>  异步 I/O</p>
+<p>  异步 I&#x2F;O</p>
 </blockquote>
-<p>真正的异步 I/O 是<code>内核数据准备好</code>和<code>数据从内核态拷⻉到⽤户态</code>这两个过程都不⽤等待。</p>
+<p>真正的异步 I&#x2F;O 是<code>内核数据准备好</code>和<code>数据从内核态拷⻉到⽤户态</code>这两个过程都不⽤等待。</p>
 <p>发起 aio_read 之后，就⽴即返回，内核⾃动将数据从内核空间拷⻉到应⽤程序空间，这个拷⻉过程同样是异步的，内核⾃动完成的，和前⾯的同步操作不⼀样，应⽤程序并不需要主动发起拷⻉动作。</p>
 <img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202211211631555.png" srcset="/img/loading.gif" lazyload alt="image-20221121162857355" style="zoom:50%;" /> 
 
@@ -535,7 +536,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年12月16日</div>
+          <div>2022年12月25日</div>
         </div>
       
       
@@ -567,9 +568,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/410845037/" title="SQL中DQL，DML，DDL，DCL，TCL的区别">
+                      <a href="/posts/441628142/" title="OS中的零拷贝">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">SQL中DQL，DML，DDL，DCL，TCL的区别</span>
+                        <span class="hidden-mobile">OS中的零拷贝</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -577,8 +578,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/441628142/" title="OS中的零拷贝">
-                        <span class="hidden-mobile">OS中的零拷贝</span>
+                      <a href="/posts/2701885837/" title="6 - 循环神经网络">
+                        <span class="hidden-mobile">6 - 循环神经网络</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -598,7 +599,10 @@
       
   <aside class="sidebar" style="margin-left: -1rem">
     <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
   <div class="toc-body" id="toc-body"></div>
 </div>
 
@@ -674,37 +678,39 @@
     
       <div class="col-lg-7 mx-auto nopadding-x-md">
         <div class="container custom mx-auto">
-           <!-- MetingJS start --> <div class="aplayer" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-fixed="true" data-autoplay="false" data-volume="0.7"></div> <!-- MetingJS end --> 
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
         </div>
       </div>
     
   </main>
 
   <footer>
-    <div class="footer-inner">
-  
-    <footer class="text-center mt-5 py-3" style="color: #DDD;font-size: 13.6px;">
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
       <div class="footer-content">
-         <a href="https://hexo.io" target="_blank" rel="nofollow noopener" style="color:#D8D9DA"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener" style="color:#D8D9DA"><span>Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/alec-97" target="_blank" rel="nofollow noopener" style="color:#D8D9DA"><span>Alec</span></a> <div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div> 
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
       </div>
+    
+
+    
+      <div class="statistics">
   
   
-  
-  
-    <div class="statistics">
-  
-  
-  
+
   
     
-      <span id="busuanzi_container_site_pv" style="display: none;font-size:13.6px">
+      <span id="busuanzi_container_site_pv" style="display: none">
         总访问量 
         <span id="busuanzi_value_site_pv"></span>
          次
       </span>
     
     
-      <span id="busuanzi_container_site_uv" style="display: none;font-size:13.6px">
+      <span id="busuanzi_container_site_uv" style="display: none">
         总访客数 
         <span id="busuanzi_value_site_uv"></span>
          人
@@ -712,31 +718,29 @@
     
     
   
-
 </div>
 
-<div class="statistics" style="font-size: 13.6px;">
-  <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #DDD;font-size:13.6px"  id="hitokoto"></span></a>
-  <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
-</div>
+    
 
-  
-  
-  
-  
-  
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
 
+    
 
+    
 
-  
+  </div>  
 </div>
 
   </footer>
 
   <!-- Scripts -->
   
-  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
   <script>
     NProgress.configure({"showSpinner":false,"trickleSpeed":100})
@@ -747,26 +751,11 @@
   </script>
 
 
-<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
-<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>
 
-
-  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
 
 
 
@@ -780,7 +769,7 @@
 
   
 <script>
-  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js', function() {
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
     var toc = jQuery('#toc');
     if (toc.length === 0 || !window.tocbot) { return; }
     var boardCtn = jQuery('#board-ctn');
@@ -818,16 +807,14 @@
 </script>
 
 
-  <script  src="https://cdn.jsdelivr.net/npm/prismjs@1/plugins/line-numbers/prism-line-numbers.min.js" ></script>
-
-  <script src=https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js></script>
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
 
   <script>Fluid.plugins.codeWidget();</script>
 
 
   
 <script>
-  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js', function() {
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
     window.anchors.options = {
       placement: CONFIG.anchorjs.placement,
       visible  : CONFIG.anchorjs.visible
@@ -865,7 +852,7 @@
 
   
 <script>
-  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js', function() {
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
     Fluid.plugins.fancyBox();
   });
 </script>
@@ -880,29 +867,10 @@
 
 
 
-
-
-
   
-<script src="/js/love.js"></script>
-<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/yinghua.js"></script>
-<script src="/js/APlayer/dist/APlayer.min.js"></script>
-<script src="/js/Meting.min.js"></script>
-
-
-
-
-<!-- alec:监控页面焦点变换标题 -->
-
-  <script type="text/javascript">
-    /*窗口监视*/
-    var originalTitle = document.title;
-    window.onblur = function(){document.title = "给时间一点时间"};
-    window.onfocus = function(){document.title = originalTitle};
-  </script>
-
-
-
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
 
 
 
@@ -916,6 +884,9 @@
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
   </noscript>
+
+
+
 
 </body>
 </html>

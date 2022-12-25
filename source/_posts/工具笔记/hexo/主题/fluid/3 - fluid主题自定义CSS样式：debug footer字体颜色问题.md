@@ -1,5 +1,11 @@
 ---
 title: 3 - fluid主题自定义CSS样式：debug footer字体颜色问题
+categories:
+  - 工具笔记
+  - hexo
+  - 主题
+  - fluid
+abbrlink: 2526870413
 ---
 
 ## [√] 相关知识
@@ -128,7 +134,17 @@ footer:
 
 
 
-
+> 补充：
+>
+> 若自定义CSS失效，可以在代码中直接侵入式修改：
+>
+> ```ejs
+> <div class="footer-inner" style="font-size: 0.85rem;color:#DDD">
+> ```
+>
+> 或者：
+>
+> \# 注意，此处的CSS文件，或者只能同时放在blog中的source或者主题中的source，不能分开放
 
 ## [√] 参考
 

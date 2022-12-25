@@ -3,12 +3,6 @@ var banner_img_height = parseFloat(page.banner_img_height || theme.index.banner_
 var colorSchema = theme.dark_mode && theme.dark_mode.enable && theme.dark_mode.default ? theme.dark_mode.default : ''
 %>
 
-
-<!--alec insert start-->
-<script src="/live2d-widget/autoload.js"></script>
-<!--alec insert end-->
-
-
 <!DOCTYPE html>
 <html lang="<%= config.language %>" <%= colorSchema ? `data-default-color-scheme=${colorSchema}` : '' %>>
 
@@ -75,6 +69,9 @@ var colorSchema = theme.dark_mode && theme.dark_mode.enable && theme.dark_mode.d
   <noscript>
     <div class="noscript-warning"><%- __('noscript_warning') %></div>
   </noscript>
+
+
+
 
 </body>
 </html>

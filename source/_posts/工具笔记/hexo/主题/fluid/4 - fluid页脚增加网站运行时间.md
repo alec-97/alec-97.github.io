@@ -1,5 +1,11 @@
 ---
 title: 4 - fluid页脚增加网站运行时间
+categories:
+  - 工具笔记
+  - hexo
+  - 主题
+  - fluid
+abbrlink: 2108047675
 ---
 
 Fluid 1.8.4 版本支持自定义页脚内容了，本文记录页脚添加网站运行时间的方法。

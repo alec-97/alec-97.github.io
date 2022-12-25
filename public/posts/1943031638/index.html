@@ -1,11 +1,5 @@
 
 
-
-<!--alec insert start-->
-<script src="/live2d-widget/autoload.js"></script>
-<!--alec insert end-->
-
-
 <!DOCTYPE html>
 <html lang="zh-CN" data-default-color-scheme=auto>
 
@@ -18,16 +12,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
   <meta name="theme-color" content="#2f4154">
   <meta name="author" content="Shuai Zhao">
   <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
   
-    <meta name="description" content="[√] 4.1 - 神经元和前馈神经网络 [√] D &#x3D;&gt; 神经元 - 净活性值        [√] F -&gt; ReLU函数绘制   [√] D &#x3D;&gt; 前馈神经网络  [√] F -&gt; 全连接神经网络、多层感知机   alec: 输出层什么时候使用激活函数？  分类问题，输出层一般有激活函数，因此要做成概率来表示分类的可能性 回归问题，一般输出层不要激活函数，因为回归问题">
+    <meta name="description" content="[√] 4.1 - 神经元和前馈神经网络 [√] D &#x3D;&gt; 神经元 - 净活性值        [√] F -&gt; ReLU函数绘制   [√] D &#x3D;&gt; 前馈神经网络  [√] F -&gt; 全连接神经网络、多层感知机   alec: 输出层什么时候使用激活函数？  分类问题，输出层一般有激活函数，因此要做成概率来表示分类的可能性 回归问题，一般输出层不要激">
 <meta property="og:type" content="article">
 <meta property="og:title" content="第4章 - 前馈神经网络 - 视频">
 <meta property="og:url" content="http://example.com/posts/1943031638/index.html">
 <meta property="og:site_name" content="要走起来，你才知道方向。">
-<meta property="og:description" content="[√] 4.1 - 神经元和前馈神经网络 [√] D &#x3D;&gt; 神经元 - 净活性值        [√] F -&gt; ReLU函数绘制   [√] D &#x3D;&gt; 前馈神经网络  [√] F -&gt; 全连接神经网络、多层感知机   alec: 输出层什么时候使用激活函数？  分类问题，输出层一般有激活函数，因此要做成概率来表示分类的可能性 回归问题，一般输出层不要激活函数，因为回归问题">
+<meta property="og:description" content="[√] 4.1 - 神经元和前馈神经网络 [√] D &#x3D;&gt; 神经元 - 净活性值        [√] F -&gt; ReLU函数绘制   [√] D &#x3D;&gt; 前馈神经网络  [√] F -&gt; 全连接神经网络、多层感知机   alec: 输出层什么时候使用激活函数？  分类问题，输出层一般有激活函数，因此要做成概率来表示分类的可能性 回归问题，一般输出层不要激">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217150624226.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217150505118.png">
@@ -89,7 +85,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217183658601.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217150208903.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217150555919.png">
-<meta property="article:published_time" content="2022-12-19T13:11:46.331Z">
+<meta property="article:published_time" content="2022-12-25T07:16:57.808Z">
 <meta property="article:modified_time" content="2022-12-21T13:43:10.707Z">
 <meta property="article:author" content="Shuai Zhao">
 <meta property="article:tag" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
@@ -100,21 +96,17 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"> 
-  
   <title>第4章 - 前馈神经网络 - 视频 - 要走起来，你才知道方向。</title>
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
 
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/plugins/line-numbers/prism-line-numbers.min.css" />
-
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
 
 
 
@@ -139,36 +131,34 @@
 
 
   
-<link rel="stylesheet" href="/js/APlayer/dist/APlayer.min.css">
-<link rel="stylesheet" href="/css/custom.css">
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
 
 
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":5,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":5,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
   
 
-  
-  
 
-<meta name="generator" content="Hexo 5.4.2"></head>
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
 <body>
   <div>
 	<div class='real_mask' style="
-		background-color: rgba(0,0,0,0.4);
+		background-color: rgba(0,0,0,0.3);
 		width: 100%;
 		height: 100%;
 		position: fixed;
@@ -180,11 +170,18 @@
 	</div>
 </div>
 <div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
 
   <header>
     
 
-<div class="header-inner" style="height: 85vh;">
+<div class="header-inner" style="height: 80vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
@@ -208,7 +205,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/">
                 <i class="iconfont icon-home-fill"></i>
-                首页
+                <span>首页</span>
               </a>
             </li>
           
@@ -220,7 +217,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/archives/">
                 <i class="iconfont icon-archive-fill"></i>
-                归档
+                <span>归档</span>
               </a>
             </li>
           
@@ -232,7 +229,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/categories/">
                 <i class="iconfont icon-category-fill"></i>
-                分类
+                <span>分类</span>
               </a>
             </li>
           
@@ -244,7 +241,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/tags/">
                 <i class="iconfont icon-tags-fill"></i>
-                标签
+                <span>标签</span>
               </a>
             </li>
           
@@ -256,7 +253,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/playlist/">
                 <i class="iconfont icon-music"></i>
-                音乐
+                <span>音乐</span>
               </a>
             </li>
           
@@ -268,7 +265,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/about/">
                 <i class="iconfont icon-user-fill"></i>
-                关于
+                <span>关于</span>
               </a>
             </li>
           
@@ -276,15 +273,16 @@
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+              <i class="iconfont icon-search"></i>
             </a>
           </li>
           
         
         
           <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
-                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
           </li>
         
       </ul>
@@ -293,14 +291,15 @@
 </nav>
 
   
+
 <div id="banner" class="banner" parallax=true
-     style="background: url('https://101.43.39.125/HexoFiles/new/bg-trans.png') no-repeat center center; background-size: cover;">
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="第4章 - 前馈神经网络 - 视频"></span>
+            <span id="subtitle">第4章 - 前馈神经网络 - 视频</span>
           
         </div>
 
@@ -316,8 +315,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-12-19 21:11" pubdate>
-          2022年12月19日 晚上
+        <time datetime="2022-12-25 15:16" pubdate>
+          2022年12月25日 下午
         </time>
       </span>
     
@@ -328,8 +327,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          <!-- compatible with older versions-->
-          2k 字
+          2.1k 字
         
       </span>
     
@@ -340,8 +338,7 @@
         
         
         
-          <!-- compatible with older versions-->
-          17 分钟
+          18 分钟
         
       </span>
     
@@ -376,7 +373,6 @@
 	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
 
 	<div class="banner" id='banner' >
-
 
 		<div class="full-bg-img" >
 
@@ -436,11 +432,8 @@
 						}
 				</script>
 			
-			
 			</div>
 		</div>
-
-
     </div>
   </header>
 
@@ -462,11 +455,19 @@
             <!-- SEO header -->
             <h1 style="display: none">第4章 - 前馈神经网络 - 视频</h1>
             
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：4 天前
+                  
+                
+              </p>
+            
             
               <div class="markdown-body">
                 
                 <h2 id="√-4-1-神经元和前馈神经网络"><a href="#√-4-1-神经元和前馈神经网络" class="headerlink" title="[√] 4.1 - 神经元和前馈神经网络"></a>[√] 4.1 - 神经元和前馈神经网络</h2><hr>
-<h4 id="√-D-gt-神经元-净活性值"><a href="#√-D-gt-神经元-净活性值" class="headerlink" title="[√] D =&gt; 神经元 - 净活性值"></a>[√] D =&gt; 神经元 - 净活性值</h4><hr>
+<h4 id="√-D-x3D-gt-神经元-净活性值"><a href="#√-D-x3D-gt-神经元-净活性值" class="headerlink" title="[√] D &#x3D;&gt; 神经元 - 净活性值"></a>[√] D &#x3D;&gt; 神经元 - 净活性值</h4><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217150624226.png" srcset="/img/loading.gif" lazyload alt="image-20221217150208903"></p>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217150505118.png" srcset="/img/loading.gif" lazyload alt="image-20221217150410382"></p>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217150718241.png" srcset="/img/loading.gif" lazyload alt="image-20221217150505118"></p>
@@ -477,7 +478,7 @@
 <h6 id="√-F-gt-ReLU函数绘制"><a href="#√-F-gt-ReLU函数绘制" class="headerlink" title="[√] F -&gt; ReLU函数绘制"></a>[√] F -&gt; ReLU函数绘制</h6><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217153529772.png" srcset="/img/loading.gif" lazyload alt="image-20221217151601341"></p>
 <hr>
-<h4 id="√-D-gt-前馈神经网络"><a href="#√-D-gt-前馈神经网络" class="headerlink" title="[√] D =&gt; 前馈神经网络"></a>[√] D =&gt; 前馈神经网络</h4><hr>
+<h4 id="√-D-x3D-gt-前馈神经网络"><a href="#√-D-x3D-gt-前馈神经网络" class="headerlink" title="[√] D &#x3D;&gt; 前馈神经网络"></a>[√] D &#x3D;&gt; 前馈神经网络</h4><hr>
 <hr>
 <h6 id="√-F-gt-全连接神经网络、多层感知机"><a href="#√-F-gt-全连接神经网络、多层感知机" class="headerlink" title="[√] F -&gt; 全连接神经网络、多层感知机"></a>[√] F -&gt; 全连接神经网络、多层感知机</h6><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217153708226.png" srcset="/img/loading.gif" lazyload alt="image-20221217152359647"></p>
@@ -492,10 +493,10 @@
 <p>没有激活函数，函数计算的数值可能会随着层数的加深变得非常大从而溢出</p>
 <p>没有激活函数那么全都是线性的，无法解决非线性问题</p>
 <h2 id="√-4-2-基于前馈神经网络的二分类任务"><a href="#√-4-2-基于前馈神经网络的二分类任务" class="headerlink" title="[√] 4.2 - 基于前馈神经网络的二分类任务"></a>[√] 4.2 - 基于前馈神经网络的二分类任务</h2><hr>
-<h4 id="√-D-gt-机器学习实践5要素"><a href="#√-D-gt-机器学习实践5要素" class="headerlink" title="[√] D =&gt; 机器学习实践5要素"></a>[√] D =&gt; 机器学习实践5要素</h4><hr>
+<h4 id="√-D-x3D-gt-机器学习实践5要素"><a href="#√-D-x3D-gt-机器学习实践5要素" class="headerlink" title="[√] D &#x3D;&gt; 机器学习实践5要素"></a>[√] D &#x3D;&gt; 机器学习实践5要素</h4><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217160129023.png" srcset="/img/loading.gif" lazyload alt="image-20221217153051359"></p>
 <hr>
-<h4 id="√-D-gt-数据集构建"><a href="#√-D-gt-数据集构建" class="headerlink" title="[√] D =&gt; 数据集构建"></a>[√] D =&gt; 数据集构建</h4><hr>
+<h4 id="√-D-x3D-gt-数据集构建"><a href="#√-D-x3D-gt-数据集构建" class="headerlink" title="[√] D &#x3D;&gt; 数据集构建"></a>[√] D &#x3D;&gt; 数据集构建</h4><hr>
 <hr>
 <h6 id="√-F-gt-二分类数据集"><a href="#√-F-gt-二分类数据集" class="headerlink" title="[√] F -&gt; 二分类数据集"></a>[√] F -&gt; 二分类数据集</h6><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217154445689.png" srcset="/img/loading.gif" lazyload alt="image-20221217153207228"></p>
@@ -509,7 +510,7 @@
 <h6 id="√-F-gt-层的串行组合"><a href="#√-F-gt-层的串行组合" class="headerlink" title="[√] F -&gt; 层的串行组合"></a>[√] F -&gt; 层的串行组合</h6><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217160325924.png" srcset="/img/loading.gif" lazyload alt="image-20221217153708226"></p>
 <hr>
-<h4 id="√-D-gt-前馈神经网络的模型优化"><a href="#√-D-gt-前馈神经网络的模型优化" class="headerlink" title="[√] D =&gt; 前馈神经网络的模型优化"></a>[√] D =&gt; 前馈神经网络的模型优化</h4><hr>
+<h4 id="√-D-x3D-gt-前馈神经网络的模型优化"><a href="#√-D-x3D-gt-前馈神经网络的模型优化" class="headerlink" title="[√] D &#x3D;&gt; 前馈神经网络的模型优化"></a>[√] D &#x3D;&gt; 前馈神经网络的模型优化</h4><hr>
 <h6 id="√-F-gt-参数优化-反向传播算法"><a href="#√-F-gt-参数优化-反向传播算法" class="headerlink" title="[√] F -&gt; 参数优化 + 反向传播算法"></a>[√] F -&gt; 参数优化 + 反向传播算法</h6><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217160721891.png" srcset="/img/loading.gif" lazyload alt="image-20221217154247581"></p>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217163305414.png" srcset="/img/loading.gif" lazyload alt="image-20221217154445689"></p>
@@ -544,7 +545,7 @@
 <p>优化器的step方法用来进行参数的更新</p>
 <p>遍历所有层，进行每一层的参数的更新</p>
 <hr>
-<h4 id="√-D-gt-Runner类"><a href="#√-D-gt-Runner类" class="headerlink" title="[√] D =&gt; Runner类"></a>[√] D =&gt; Runner类</h4><hr>
+<h4 id="√-D-x3D-gt-Runner类"><a href="#√-D-x3D-gt-Runner类" class="headerlink" title="[√] D &#x3D;&gt; Runner类"></a>[√] D &#x3D;&gt; Runner类</h4><hr>
 <h6 id="√-F-gt-完善Runner类"><a href="#√-F-gt-完善Runner类" class="headerlink" title="[√] F -&gt; 完善Runner类"></a>[√] F -&gt; 完善Runner类</h6><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217171436228.png" srcset="/img/loading.gif" lazyload alt="image-20221217160300062"></p>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217170723956.png" srcset="/img/loading.gif" lazyload alt="image-20221217160325924"></p>
@@ -557,11 +558,11 @@
 <h6 id="√-F-gt-性能评价"><a href="#√-F-gt-性能评价" class="headerlink" title="[√] F -&gt; 性能评价"></a>[√] F -&gt; 性能评价</h6><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217170938635.png" srcset="/img/loading.gif" lazyload alt="image-20221217160721891"></p>
 <hr>
-<h4 id="√-D-gt-可视化"><a href="#√-D-gt-可视化" class="headerlink" title="[√] D =&gt; 可视化"></a>[√] D =&gt; 可视化</h4><hr>
+<h4 id="√-D-x3D-gt-可视化"><a href="#√-D-x3D-gt-可视化" class="headerlink" title="[√] D &#x3D;&gt; 可视化"></a>[√] D &#x3D;&gt; 可视化</h4><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217172823148.png" srcset="/img/loading.gif" lazyload alt="image-20221217160800466"></p>
 <p>可以看出，模型学习出的分界线是一个非线性的分界线。模型的分类效果更好。</p>
 <hr>
-<h2 id="√-4-3-自动梯度计算和预定义算子"><a href="#√-4-3-自动梯度计算和预定义算子" class="headerlink" title="[√] 4.3 - 自动梯度计算和预定义算子"></a>[√] 4.3 - 自动梯度计算和预定义算子</h2><h4 id="√-D-gt-重新实现前馈神经网络"><a href="#√-D-gt-重新实现前馈神经网络" class="headerlink" title="[√] D =&gt; 重新实现前馈神经网络"></a>[√] D =&gt; 重新实现前馈神经网络</h4><hr>
+<h2 id="√-4-3-自动梯度计算和预定义算子"><a href="#√-4-3-自动梯度计算和预定义算子" class="headerlink" title="[√] 4.3 - 自动梯度计算和预定义算子"></a>[√] 4.3 - 自动梯度计算和预定义算子</h2><h4 id="√-D-x3D-gt-重新实现前馈神经网络"><a href="#√-D-x3D-gt-重新实现前馈神经网络" class="headerlink" title="[√] D &#x3D;&gt; 重新实现前馈神经网络"></a>[√] D &#x3D;&gt; 重新实现前馈神经网络</h4><hr>
 <h6 id="√-F-gt-自动梯度计算-amp-nn-Layer-amp-nn-Linear-amp-nn"><a href="#√-F-gt-自动梯度计算-amp-nn-Layer-amp-nn-Linear-amp-nn" class="headerlink" title="[√] F -&gt; 自动梯度计算 &amp; nn.Layer &amp; nn.Linear &amp; nn"></a>[√] F -&gt; 自动梯度计算 &amp; nn.Layer &amp; nn.Linear &amp; nn</h6><hr>
 <blockquote>
 <p>alec - nn.Layer和nn.Linear的区别：</p>
@@ -575,7 +576,7 @@
 <h6 id="√-F-gt-代码实现"><a href="#√-F-gt-代码实现" class="headerlink" title="[√] F -&gt; 代码实现"></a>[√] F -&gt; 代码实现</h6><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217152359647.png" srcset="/img/loading.gif" lazyload alt="image-20221217163655327"></p>
 <hr>
-<h4 id="√-D-gt-完善Runner类"><a href="#√-D-gt-完善Runner类" class="headerlink" title="[√] D =&gt; 完善Runner类"></a>[√] D =&gt; 完善Runner类</h4><hr>
+<h4 id="√-D-x3D-gt-完善Runner类"><a href="#√-D-x3D-gt-完善Runner类" class="headerlink" title="[√] D &#x3D;&gt; 完善Runner类"></a>[√] D &#x3D;&gt; 完善Runner类</h4><hr>
 <h6 id="√-F-gt-RunnerV2-2"><a href="#√-F-gt-RunnerV2-2" class="headerlink" title="[√] F -&gt; RunnerV2_2"></a>[√] F -&gt; RunnerV2_2</h6><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217154247581.png" srcset="/img/loading.gif" lazyload alt="image-20221217163859825"></p>
 <hr>
@@ -595,11 +596,11 @@
 <h6 id="√-F-gt-模型的训练"><a href="#√-F-gt-模型的训练" class="headerlink" title="[√] F -&gt; 模型的训练"></a>[√] F -&gt; 模型的训练</h6><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217155933754.png" srcset="/img/loading.gif" lazyload alt="image-20221217164233292"></p>
 <hr>
-<h4 id="√-D-gt-性能评价"><a href="#√-D-gt-性能评价" class="headerlink" title="[√] D =&gt; 性能评价"></a>[√] D =&gt; 性能评价</h4><hr>
+<h4 id="√-D-x3D-gt-性能评价"><a href="#√-D-x3D-gt-性能评价" class="headerlink" title="[√] D &#x3D;&gt; 性能评价"></a>[√] D &#x3D;&gt; 性能评价</h4><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217160527263.png" srcset="/img/loading.gif" lazyload alt="image-20221217164302567"></p>
 <hr>
 <h2 id="√-4-4-优化问题"><a href="#√-4-4-优化问题" class="headerlink" title="[√] 4.4 - 优化问题"></a>[√] 4.4 - 优化问题</h2><hr>
-<h4 id="√-D-gt-优化问题1-参数初始化"><a href="#√-D-gt-优化问题1-参数初始化" class="headerlink" title="[√] D =&gt; 优化问题1 - 参数初始化"></a>[√] D =&gt; 优化问题1 - 参数初始化</h4><hr>
+<h4 id="√-D-x3D-gt-优化问题1-参数初始化"><a href="#√-D-x3D-gt-优化问题1-参数初始化" class="headerlink" title="[√] D &#x3D;&gt; 优化问题1 - 参数初始化"></a>[√] D &#x3D;&gt; 优化问题1 - 参数初始化</h4><hr>
 <h6 id="√-F-gt-0初始化"><a href="#√-F-gt-0初始化" class="headerlink" title="[√] F -&gt; 0初始化"></a>[√] F -&gt; 0初始化</h6><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217183719028.png" srcset="/img/loading.gif" lazyload alt="image-20221217165833209"></p>
 <p>0初始化的对称权重现象：所有隐藏层的激活值相同</p>
@@ -607,7 +608,7 @@
 <p>参数的初始化一般是使用非零的初始化，一般是使用高斯分布和均匀分布来初始化</p>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217164053403.png" srcset="/img/loading.gif" lazyload alt="image-20221217170125398"></p>
 <hr>
-<h4 id="√-D-gt-优化问题2-梯度消失问题"><a href="#√-D-gt-优化问题2-梯度消失问题" class="headerlink" title="[√] D =&gt; 优化问题2 - 梯度消失问题"></a>[√] D =&gt; 优化问题2 - 梯度消失问题</h4><hr>
+<h4 id="√-D-x3D-gt-优化问题2-梯度消失问题"><a href="#√-D-x3D-gt-优化问题2-梯度消失问题" class="headerlink" title="[√] D &#x3D;&gt; 优化问题2 - 梯度消失问题"></a>[√] D &#x3D;&gt; 优化问题2 - 梯度消失问题</h4><hr>
 <h6 id="√-F-gt-反向传播-amp-amp-梯度消失问题-amp-amp-减轻梯度消失问题"><a href="#√-F-gt-反向传播-amp-amp-梯度消失问题-amp-amp-减轻梯度消失问题" class="headerlink" title="[√] F -&gt; 反向传播 &amp;&amp; 梯度消失问题 &amp;&amp; 减轻梯度消失问题"></a>[√] F -&gt; 反向传播 &amp;&amp; 梯度消失问题 &amp;&amp; 减轻梯度消失问题</h6><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217163655327.png" srcset="/img/loading.gif" lazyload alt="image-20221217170358022"></p>
 <p>使用梯度比较稳定的激活函数缓解梯度消失问题</p>
@@ -620,19 +621,19 @@
 <h6 id="√-F-gt-网络每层的梯度变化趋势"><a href="#√-F-gt-网络每层的梯度变化趋势" class="headerlink" title="[√] F -&gt; 网络每层的梯度变化趋势"></a>[√] F -&gt; 网络每层的梯度变化趋势</h6><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217165833209.png" srcset="/img/loading.gif" lazyload alt="image-20221217170723956"></p>
 <hr>
-<h4 id="√-D-gt-优化问题3-死亡ReLU"><a href="#√-D-gt-优化问题3-死亡ReLU" class="headerlink" title="[√] D =&gt; 优化问题3 - 死亡ReLU"></a>[√] D =&gt; 优化问题3 - 死亡ReLU</h4><hr>
+<h4 id="√-D-x3D-gt-优化问题3-死亡ReLU"><a href="#√-D-x3D-gt-优化问题3-死亡ReLU" class="headerlink" title="[√] D &#x3D;&gt; 优化问题3 - 死亡ReLU"></a>[√] D &#x3D;&gt; 优化问题3 - 死亡ReLU</h4><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217163940010.png" srcset="/img/loading.gif" lazyload alt="image-20221217170841827"></p>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217170358022.png" srcset="/img/loading.gif" lazyload alt="image-20221217170938635"></p>
 <h2 id="√-4-5-前馈神经网络总结"><a href="#√-4-5-前馈神经网络总结" class="headerlink" title="[√] 4.5 - 前馈神经网络总结"></a>[√] 4.5 - 前馈神经网络总结</h2><p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217170125398.png" srcset="/img/loading.gif" lazyload alt="image-20221217171436228"></p>
 <h2 id="√-4-6-基于前馈神经网络的鸢尾花分类任务"><a href="#√-4-6-基于前馈神经网络的鸢尾花分类任务" class="headerlink" title="[√] 4.6 - 基于前馈神经网络的鸢尾花分类任务"></a>[√] 4.6 - 基于前馈神经网络的鸢尾花分类任务</h2><hr>
-<h4 id="√-D-gt-机器学习实践5要素-1"><a href="#√-D-gt-机器学习实践5要素-1" class="headerlink" title="[√] D =&gt; 机器学习实践5要素"></a>[√] D =&gt; 机器学习实践5要素</h4><hr>
+<h4 id="√-D-x3D-gt-机器学习实践5要素-1"><a href="#√-D-x3D-gt-机器学习实践5要素-1" class="headerlink" title="[√] D &#x3D;&gt; 机器学习实践5要素"></a>[√] D &#x3D;&gt; 机器学习实践5要素</h4><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217170612514.png" srcset="/img/loading.gif" lazyload alt="image-20221217171755802"></p>
 <hr>
-<h4 id="√-D-gt-小批量梯度下降法"><a href="#√-D-gt-小批量梯度下降法" class="headerlink" title="[√] D =&gt; 小批量梯度下降法"></a>[√] D =&gt; 小批量梯度下降法</h4><hr>
+<h4 id="√-D-x3D-gt-小批量梯度下降法"><a href="#√-D-x3D-gt-小批量梯度下降法" class="headerlink" title="[√] D &#x3D;&gt; 小批量梯度下降法"></a>[√] D &#x3D;&gt; 小批量梯度下降法</h4><hr>
 <h6 id="√-F-gt-BGD批量梯度下降法-amp-amp-mini-BGD-小批量梯度下降法-amp-amp-参数更新"><a href="#√-F-gt-BGD批量梯度下降法-amp-amp-mini-BGD-小批量梯度下降法-amp-amp-参数更新" class="headerlink" title="[√] F -&gt; BGD批量梯度下降法 &amp;&amp; mini BGD 小批量梯度下降法 &amp;&amp; 参数更新"></a>[√] F -&gt; BGD批量梯度下降法 &amp;&amp; mini BGD 小批量梯度下降法 &amp;&amp; 参数更新</h6><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217172014449.png" srcset="/img/loading.gif" lazyload alt="image-20221217172014449"></p>
 <hr>
-<h4 id="√-D-gt-数据处理"><a href="#√-D-gt-数据处理" class="headerlink" title="[√] D =&gt; 数据处理"></a>[√] D =&gt; 数据处理</h4><hr>
+<h4 id="√-D-x3D-gt-数据处理"><a href="#√-D-x3D-gt-数据处理" class="headerlink" title="[√] D &#x3D;&gt; 数据处理"></a>[√] D &#x3D;&gt; 数据处理</h4><hr>
 <h6 id="√-F-gt-数据分组-amp-amp-Dataset类-amp-amp-DataLoader类"><a href="#√-F-gt-数据分组-amp-amp-Dataset类-amp-amp-DataLoader类" class="headerlink" title="[√] F -&gt; 数据分组 &amp;&amp; Dataset类 &amp;&amp; DataLoader类"></a>[√] F -&gt; 数据分组 &amp;&amp; Dataset类 &amp;&amp; DataLoader类</h6><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217170528466.png" srcset="/img/loading.gif" lazyload alt="image-20221217172823148"></p>
 <hr>
@@ -642,12 +643,12 @@
 <h6 id="√-F-gt-用DataLoader进行封装"><a href="#√-F-gt-用DataLoader进行封装" class="headerlink" title="[√] F -&gt; 用DataLoader进行封装"></a>[√] F -&gt; 用DataLoader进行封装</h6><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217181115279.png" srcset="/img/loading.gif" lazyload alt="image-20221217173925371"></p>
 <hr>
-<h4 id="√-D-gt-模型构建"><a href="#√-D-gt-模型构建" class="headerlink" title="[√] D =&gt; 模型构建"></a>[√] D =&gt; 模型构建</h4><hr>
+<h4 id="√-D-x3D-gt-模型构建"><a href="#√-D-x3D-gt-模型构建" class="headerlink" title="[√] D &#x3D;&gt; 模型构建"></a>[√] D &#x3D;&gt; 模型构建</h4><hr>
 <h6 id="√-F-gt-前馈神经网络-amp-amp-注意"><a href="#√-F-gt-前馈神经网络-amp-amp-注意" class="headerlink" title="[√] F -&gt; 前馈神经网络 &amp;&amp; 注意"></a>[√] F -&gt; 前馈神经网络 &amp;&amp; 注意</h6><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217180742986.png" srcset="/img/loading.gif" lazyload alt="image-20221217180742986"></p>
 <p>飞桨的损失函数中集成了softmax激活函数，因此前向传播这里最后没有加激活函数</p>
 <hr>
-<h4 id="√-D-gt-RunnerV3"><a href="#√-D-gt-RunnerV3" class="headerlink" title="[√] D =&gt; RunnerV3"></a>[√] D =&gt; RunnerV3</h4><hr>
+<h4 id="√-D-x3D-gt-RunnerV3"><a href="#√-D-x3D-gt-RunnerV3" class="headerlink" title="[√] D &#x3D;&gt; RunnerV3"></a>[√] D &#x3D;&gt; RunnerV3</h4><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217181211275.png" srcset="/img/loading.gif" lazyload alt="image-20221217181115279"></p>
 <hr>
 <h6 id="√-F-gt-RunnerV3"><a href="#√-F-gt-RunnerV3" class="headerlink" title="[√] F -&gt; RunnerV3"></a>[√] F -&gt; RunnerV3</h6><hr>
@@ -658,7 +659,7 @@
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217181954787.png" srcset="/img/loading.gif" lazyload alt="image-20221217181317314"></p>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217181627593.png" srcset="/img/loading.gif" lazyload alt="image-20221217181406357"></p>
 <hr>
-<h4 id="√-D-gt-模型训练"><a href="#√-D-gt-模型训练" class="headerlink" title="[√] D =&gt; 模型训练"></a>[√] D =&gt; 模型训练</h4><hr>
+<h4 id="√-D-x3D-gt-模型训练"><a href="#√-D-x3D-gt-模型训练" class="headerlink" title="[√] D &#x3D;&gt; 模型训练"></a>[√] D &#x3D;&gt; 模型训练</h4><hr>
 <h6 id="√-F-gt-模型训练-1"><a href="#√-F-gt-模型训练-1" class="headerlink" title="[√] F -&gt; 模型训练"></a>[√] F -&gt; 模型训练</h6><hr>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221217181317314.png" srcset="/img/loading.gif" lazyload alt="image-20221217181627593"></p>
 <p>损失函数要计算梯度、前向传播网络也要计算损失函数，损失函数只是反向传播的第一步，并不是计算了损失就可以直接进行梯度更新了，而是要计算损失，然后计算损失函数的梯度，然后从这里开始，逐层的往前计算每一层的梯度并根据链式法则计算梯度并保存，然后再根据计算的梯度来更新参数。循环往复。</p>
@@ -746,7 +747,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年12月19日</div>
+          <div>2022年12月25日</div>
         </div>
       
       
@@ -778,9 +779,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/75512103/" title="第4章 - 前馈神经网络 - 书籍">
+                      <a href="/posts/1254558254/" title="第5章 - 卷积神经网络 - 书籍">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">第4章 - 前馈神经网络 - 书籍</span>
+                        <span class="hidden-mobile">第5章 - 卷积神经网络 - 书籍</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -788,8 +789,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/2180589992/" title="第3章 - 线性分类">
-                        <span class="hidden-mobile">第3章 - 线性分类</span>
+                      <a href="/posts/75512103/" title="第4章 - 前馈神经网络 - 书籍">
+                        <span class="hidden-mobile">第4章 - 前馈神经网络 - 书籍</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -809,7 +810,10 @@
       
   <aside class="sidebar" style="margin-left: -1rem">
     <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
   <div class="toc-body" id="toc-body"></div>
 </div>
 
@@ -885,37 +889,39 @@
     
       <div class="col-lg-7 mx-auto nopadding-x-md">
         <div class="container custom mx-auto">
-           <!-- MetingJS start --> <div class="aplayer" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-fixed="true" data-autoplay="false" data-volume="0.7"></div> <!-- MetingJS end --> 
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
         </div>
       </div>
     
   </main>
 
   <footer>
-    <div class="footer-inner">
-  
-    <footer class="text-center mt-5 py-3" style="color: #DDD;font-size: 13.6px;">
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
       <div class="footer-content">
-         <a href="https://hexo.io" target="_blank" rel="nofollow noopener" style="color:#D8D9DA"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener" style="color:#D8D9DA"><span>Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/alec-97" target="_blank" rel="nofollow noopener" style="color:#D8D9DA"><span>Alec</span></a> <div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div> 
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
       </div>
+    
+
+    
+      <div class="statistics">
   
   
-  
-  
-    <div class="statistics">
-  
-  
-  
+
   
     
-      <span id="busuanzi_container_site_pv" style="display: none;font-size:13.6px">
+      <span id="busuanzi_container_site_pv" style="display: none">
         总访问量 
         <span id="busuanzi_value_site_pv"></span>
          次
       </span>
     
     
-      <span id="busuanzi_container_site_uv" style="display: none;font-size:13.6px">
+      <span id="busuanzi_container_site_uv" style="display: none">
         总访客数 
         <span id="busuanzi_value_site_uv"></span>
          人
@@ -923,31 +929,29 @@
     
     
   
-
 </div>
 
-<div class="statistics" style="font-size: 13.6px;">
-  <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #DDD;font-size:13.6px"  id="hitokoto"></span></a>
-  <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
-</div>
+    
 
-  
-  
-  
-  
-  
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
 
+    
 
+    
 
-  
+  </div>  
 </div>
 
   </footer>
 
   <!-- Scripts -->
   
-  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
   <script>
     NProgress.configure({"showSpinner":false,"trickleSpeed":100})
@@ -958,26 +962,11 @@
   </script>
 
 
-<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
-<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>
 
-
-  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
 
 
 
@@ -991,7 +980,7 @@
 
   
 <script>
-  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js', function() {
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
     var toc = jQuery('#toc');
     if (toc.length === 0 || !window.tocbot) { return; }
     var boardCtn = jQuery('#board-ctn');
@@ -1029,16 +1018,14 @@
 </script>
 
 
-  <script  src="https://cdn.jsdelivr.net/npm/prismjs@1/plugins/line-numbers/prism-line-numbers.min.js" ></script>
-
-  <script src=https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js></script>
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
 
   <script>Fluid.plugins.codeWidget();</script>
 
 
   
 <script>
-  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js', function() {
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
     window.anchors.options = {
       placement: CONFIG.anchorjs.placement,
       visible  : CONFIG.anchorjs.visible
@@ -1076,7 +1063,7 @@
 
   
 <script>
-  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js', function() {
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
     Fluid.plugins.fancyBox();
   });
 </script>
@@ -1091,29 +1078,10 @@
 
 
 
-
-
-
   
-<script src="/js/love.js"></script>
-<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/yinghua.js"></script>
-<script src="/js/APlayer/dist/APlayer.min.js"></script>
-<script src="/js/Meting.min.js"></script>
-
-
-
-
-<!-- alec:监控页面焦点变换标题 -->
-
-  <script type="text/javascript">
-    /*窗口监视*/
-    var originalTitle = document.title;
-    window.onblur = function(){document.title = "给时间一点时间"};
-    window.onfocus = function(){document.title = originalTitle};
-  </script>
-
-
-
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
 
 
 
@@ -1127,6 +1095,9 @@
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
   </noscript>
+
+
+
 
 </body>
 </html>

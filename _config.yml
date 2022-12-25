@@ -1,16 +1,40 @@
-# ---------------------------------------------------------------
-#站点配置文件
-# ---------------------------------------------------------------
-
-
-
 # Hexo Configuration
 ## Docs: https://hexo.io/docs/configuration.html
 ## Source: https://github.com/hexojs/hexo/
 
+
+# alec_diy===========================================================================start
+# aplayer
+aplayer:  
+  meting: true  
+  asset_inject: false
+
+# 自动根据文件夹分类插件
+# Generate categories from directory-tree
+# Dependencies: https://github.com/xu-song/hexo-auto-category
+# depth: the depth of directory-tree you want to generate, should > 0
+auto_category:
+  enable: true
+  depth:
+
+
+
+
+
+
+
+# alec_diy===========================================================================end
+
+
+
+
+
+
+
+
+
+
 # Site
-#title: Alec's Blog
-#title: 以平静对待生活
 title: 要走起来，你才知道方向。
 subtitle: alec-97.github.io/
 description: 要走起来，你才知道方向。
@@ -19,34 +43,21 @@ author: Shuai Zhao
 language: zh-CN
 timezone: ''
 
-
-
-symbols_count_time:
-  symbols: true                # 文章字数统计
-  time: true                   # 文章阅读时长
-  total_symbols: true          # 站点总字数统计
-  total_time: true             # 站点总阅读时长
-  exclude_codeblock: false     # 排除代码字数统计
-
-
-# aplayer
-aplayer:  
-  meting: true  
-  asset_inject: false
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
 url: http://example.com
-# permalink: :year/:month/:day/:title/
-# permalink: :category/:post_title/
+pretty_urls:
+  trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
+  trailing_html: true # Set to false to remove trailing '.html' from permalinks
 #permalink: :year/:month/:day/:title/
 #permalink_defaults:
 permalink: posts/:abbrlink/
 abbrlink:
   alg: crc32 #support crc16(default) and crc32
   rep: dec   #support dec(default) and hex
-pretty_urls:
-  trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
-  trailing_html: true # Set to false to remove trailing '.html' from permalinks  
+
+
+
 # Directory
 source_dir: source
 public_dir: public
@@ -56,7 +67,7 @@ category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
 skip_render:
-    - vvd_js/**
+  - vvd_js/**
 
 # Writing
 new_post_name: :title.md # File name of new posts
@@ -78,13 +89,6 @@ highlight:
   tab_replace: ''
   wrap: true
   hljs: false
-# Generate categories from directory-tree
-# Dependencies: https://github.com/xu-song/hexo-auto-category
-# depth: the depth of directory-tree you want to generate, should > 0
-auto_category:
- enable: true
- depth:
-
 prismjs:
   enable: false
   preprocess: true
@@ -132,8 +136,8 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-#theme: next
 theme: fluid
+
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment

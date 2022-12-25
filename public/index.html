@@ -1,11 +1,5 @@
 
 
-
-<!--alec insert start-->
-<script src="/live2d-widget/autoload.js"></script>
-<!--alec insert end-->
-
-
 <!DOCTYPE html>
 <html lang="zh-CN" data-default-color-scheme=auto>
 
@@ -17,6 +11,8 @@
   <link rel="icon" href="/img/photo.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   
   <meta name="theme-color" content="#2f4154">
   <meta name="author" content="Shuai Zhao">
@@ -37,11 +33,9 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"> 
-  
   <title>要走起来，你才知道方向。</title>
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
 
 
@@ -68,36 +62,34 @@
 
 
   
-<link rel="stylesheet" href="/js/APlayer/dist/APlayer.min.css">
-<link rel="stylesheet" href="/css/custom.css">
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
 
 
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":5,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":5,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
   
 
-  
-  
 
-<meta name="generator" content="Hexo 5.4.2"></head>
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
 <body>
   <div>
 	<div class='real_mask' style="
-		background-color: rgba(0,0,0,0.4);
+		background-color: rgba(0,0,0,0.3);
 		width: 100%;
 		height: 100%;
 		position: fixed;
@@ -109,6 +101,13 @@
 	</div>
 </div>
 <div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
 
   <header>
     
@@ -137,7 +136,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/">
                 <i class="iconfont icon-home-fill"></i>
-                首页
+                <span>首页</span>
               </a>
             </li>
           
@@ -149,7 +148,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/archives/">
                 <i class="iconfont icon-archive-fill"></i>
-                归档
+                <span>归档</span>
               </a>
             </li>
           
@@ -161,7 +160,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/categories/">
                 <i class="iconfont icon-category-fill"></i>
-                分类
+                <span>分类</span>
               </a>
             </li>
           
@@ -173,7 +172,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/tags/">
                 <i class="iconfont icon-tags-fill"></i>
-                标签
+                <span>标签</span>
               </a>
             </li>
           
@@ -185,7 +184,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/playlist/">
                 <i class="iconfont icon-music"></i>
-                音乐
+                <span>音乐</span>
               </a>
             </li>
           
@@ -197,7 +196,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/about/">
                 <i class="iconfont icon-user-fill"></i>
-                关于
+                <span>关于</span>
               </a>
             </li>
           
@@ -205,15 +204,16 @@
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+              <i class="iconfont icon-search"></i>
             </a>
           </li>
           
         
         
           <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
-                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
           </li>
         
       </ul>
@@ -222,14 +222,15 @@
 </nav>
 
   
+
 <div id="banner" class="banner" parallax=true
-     style="background: url('https://101.43.39.125/HexoFiles/new/bg-trans.png') no-repeat center center; background-size: cover;">
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="赵客缦胡缨，吴钩霜雪明。"></span>
+            <span id="subtitle" data-typed-text="要走起来，你才知道方向。"></span>
           
         </div>
 
@@ -250,7 +251,6 @@
 	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
 
 	<div class="banner" id='banner' >
-
 
 		<div class="full-bg-img" >
 
@@ -310,11 +310,8 @@
 						}
 				</script>
 			
-			
 			</div>
 		</div>
-
-
     </div>
   </header>
 
@@ -334,23 +331,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/posts/1557301731/" target="_self">
-          <img src="https://img.xjh.me/random_img.php?type=bg&amp;ctype=nature&amp;return=302" srcset="/img/loading.gif" lazyload alt="6 - 循环神经网络 - 视频">
+        <a href="/posts/3315347902/" target="_self">
+          <img src="https://img.xjh.me/random_img.php?type=bg&amp;ctype=nature&amp;return=302" srcset="/img/loading.gif" lazyload alt="常见的消息队列有哪些">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/posts/1557301731/" target="_self">
-          6 - 循环神经网络 - 视频
+        <a href="/posts/3315347902/" target="_self">
+          常见的消息队列有哪些
         </a>
       </h1>
 
       
-      <a class="index-excerpt " href="/posts/1557301731/" target="_self">
+      <a class="index-excerpt " href="/posts/3315347902/" target="_self">
         <div>
-          [√] 6.1 - 循环神经网络及应用模式 [√] 循环神经网络和前馈神经网络  alec：  NLP:one-hot向量维度1w+、embedding维度128+ ↑：将单词转成在计算机中的表示形式：编码为one-hot向量或者embedding编码 循环神经网络的显著特点： 时间步上的连接 权重共享      [√] 循环神经网络(RNN)  [√] RNN常见的应用模式 [√] 序列到类别
+          参考：   常见的消息队列有哪些？ - JavaGuide（√）  KafkaKafka 是 LinkedIn 开源的一个分布式流式处理平台，已经成为 Apache 顶级项目，早期被用来用于处理海量的日志，后面才慢慢发展成了一款功能全面的高性能消息队列。 Kafka 是一个分布式系统，由通过高性能 TCP 网络协议进行通信的服务器和客户端组成，可以部署在在本地和云环境中的裸机硬件、虚拟机和容
         </div>
       </a>
 
@@ -358,47 +355,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-22 16:59" pubdate>
-              2022-12-22
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/posts/1841524034/" target="_self">
-          <img src="https://img.xjh.me/random_img.php?type=bg&amp;ctype=nature&amp;return=302" srcset="/img/loading.gif" lazyload alt="hexo：修改文章永久链接为随机编号">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/posts/1841524034/" target="_self">
-          hexo：修改文章永久链接为随机编号
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/posts/1841524034/" target="_self">
-        <div>
-          参考文章： https://blog.51cto.com/u_13640625/3032262（√）  1.安装abbrlink插件 在博客根目录（执行hexo命令的地方）安装插件： npm install hexo-abbrlink --save  2.编辑站点配置文件 #permalink: :year/:month/:day/:title/ #permalink_defaults: per
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-21 21:27" pubdate>
-              2022-12-21
+            <time datetime="2022-12-25 15:16" pubdate>
+              2022-12-25
             </time>
           </div>
         
@@ -413,13 +371,27 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E5%B7%A5%E5%85%B7%E7%AC%94%E8%AE%B0/" class="category-chain-item">工具笔记</a>
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84/" class="category-chain-item">软件架构</a>
   
   
     <span>></span>
     
-  <a href="/categories/%E5%B7%A5%E5%85%B7%E7%AC%94%E8%AE%B0/hexo/" class="category-chain-item">hexo</a>
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" class="category-chain-item">消息队列</a>
   
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/%E7%AC%94%E8%AE%B0/inbox/" class="category-chain-item">inbox</a>
+  
+  
+
+  
+
   
 
   
@@ -432,6 +404,15 @@
           </div>
         
         
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">#消息队列</a>
+            
+              <a href="/tags/%E6%9E%B6%E6%9E%84/">#架构</a>
+            
+          </div>
+        
       </div>
     </article>
   </div>
@@ -440,23 +421,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/posts/3859538395/" target="_self">
-          <img src="https://img.xjh.me/random_img.php?type=bg&amp;ctype=nature&amp;return=302" srcset="/img/loading.gif" lazyload alt="typora + GitHub + jsDelivr + PicGo">
+        <a href="/posts/441628142/" target="_self">
+          <img src="https://img.xjh.me/random_img.php?type=bg&amp;ctype=nature&amp;return=302" srcset="/img/loading.gif" lazyload alt="OS中的零拷贝">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/posts/3859538395/" target="_self">
-          typora + GitHub + jsDelivr + PicGo
+        <a href="/posts/441628142/" target="_self">
+          OS中的零拷贝
         </a>
       </h1>
 
       
-      <a class="index-excerpt " href="/posts/3859538395/" target="_self">
+      <a class="index-excerpt " href="/posts/441628142/" target="_self">
         <div>
-          参考文章：  PicGo图床与Typora（PicGo+Typora+GitHub的完整设置）（√） GitHub + jsDelivr + PicGo + Imagine 打造稳定快速、高效免费图床（√）   1.github创建仓库 github创建仓库 2.获取github账号token  点击头像，选中头像列表中的Settings 进入Settings,点击Developer Setti
+          &#x3D;&#x3D;传统的I&#x2F;O的方式：&#x3D;&#x3D; 数据的读取和写入需要从内核空间和用户空间之间来回的复制，而内核空间的数据则是通过操作系统的I&#x2F;O从磁盘读取。这个过程需要发生多次的上下文切换和数据拷贝。   &#x3D;&#x3D;传统I&#x2F;O方式的弊端：&#x3D;&#x3D; 发生多次的上下文切换和内存拷贝，导致IO性能低。 4次上下文切换和4次
         </div>
       </a>
 
@@ -464,8 +445,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-21 20:51" pubdate>
-              2022-12-21
+            <time datetime="2022-12-25 15:16" pubdate>
+              2022-12-25
             </time>
           </div>
         
@@ -480,13 +461,203 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E5%B7%A5%E5%85%B7%E7%AC%94%E8%AE%B0/" class="category-chain-item">工具笔记</a>
+  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" class="category-chain-item">计算机基础</a>
   
   
     <span>></span>
     
-  <a href="/categories/%E5%B7%A5%E5%85%B7%E7%AC%94%E8%AE%B0/typora/" class="category-chain-item">typora</a>
+  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="category-chain-item">操作系统</a>
   
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/inbox/" class="category-chain-item">inbox</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">#操作系统基础知识</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/posts/2169254623/" target="_self">
+          <img src="https://img.xjh.me/random_img.php?type=bg&amp;ctype=nature&amp;return=302" srcset="/img/loading.gif" lazyload alt="OS中的阻塞与非阻塞IO、同步与异步IO">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/posts/2169254623/" target="_self">
+          OS中的阻塞与非阻塞IO、同步与异步IO
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/posts/2169254623/" target="_self">
+        <div>
+          前言  IO 指的是用户态的进程，需要操作系统帮助其进行数据的读入和写出。 以 IN 为例，可以分为两个步骤：从磁盘、网络等地方将数据放到内核空间（准备内核数据）、数据从内核空间拷贝到用户空间（内核空间的数据拷贝到用户空间）。     阻塞 I&#x2F;O  阻塞 I&#x2F;O 阻塞等待的是两个过程：准备内核数据 和 内核数据拷贝到用户空间。 用户进程需要数据的时候，调用 read()
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-12-25 15:16" pubdate>
+              2022-12-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" class="category-chain-item">计算机基础</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="category-chain-item">操作系统</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/inbox/" class="category-chain-item">inbox</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">#操作系统基础知识</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/posts/2701885837/" target="_self">
+          <img src="https://img.xjh.me/random_img.php?type=bg&amp;ctype=nature&amp;return=302" srcset="/img/loading.gif" lazyload alt="6 - 循环神经网络">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/posts/2701885837/" target="_self">
+          6 - 循环神经网络
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/posts/2701885837/" target="_self">
+        <div>
+          [√] 6.0 - 循环神经网络  alec： 循环神经网络的变种版本：GRU和LSTM 前馈神经网络和卷积神经网络，信息是单向传播的 循环神经网络中，信息是带有环路的  [√] 6.1 - 给神经网络增加记忆能力 [√] 前馈网络  alec： 前馈神经网络总体上是无法处理可变大小的输入的（卷积神经网络中也有全连接层） 序列数据通常来讲是变长的，因为无法通过前馈神经网路来处理     需要想办法
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-12-25 15:16" pubdate>
+              2022-12-25
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/" class="category-chain-item">分支导航</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/" class="category-chain-item">视频学习</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E9%A3%9E%E6%A1%A8-%E5%A4%8D%E6%97%A6%E5%A4%A7%E5%AD%A6-%E9%82%B1%E9%94%A1%E9%B9%8F%EF%BC%88NNDL%E8%92%B2%E5%85%AC%E8%8B%B1%E4%B9%A6%EF%BC%89/" class="category-chain-item">神经网络与深度学习 - 飞桨 - 复旦大学 - 邱锡鹏（NNDL蒲公英书）</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E9%A3%9E%E6%A1%A8-%E5%A4%8D%E6%97%A6%E5%A4%A7%E5%AD%A6-%E9%82%B1%E9%94%A1%E9%B9%8F%EF%BC%88NNDL%E8%92%B2%E5%85%AC%E8%8B%B1%E4%B9%A6%EF%BC%89/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+
+  
+
+  
+
+  
+
   
 
   
@@ -531,8 +702,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-21 20:39" pubdate>
-              2022-12-21
+            <time datetime="2022-12-25 15:16" pubdate>
+              2022-12-25
             </time>
           </div>
         
@@ -626,8 +797,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-21 20:39" pubdate>
-              2022-12-21
+            <time datetime="2022-12-25 15:16" pubdate>
+              2022-12-25
             </time>
           </div>
         
@@ -721,8 +892,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-21 20:39" pubdate>
-              2022-12-21
+            <time datetime="2022-12-25 15:16" pubdate>
+              2022-12-25
             </time>
           </div>
         
@@ -816,8 +987,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-21 20:39" pubdate>
-              2022-12-21
+            <time datetime="2022-12-25 15:16" pubdate>
+              2022-12-25
             </time>
           </div>
         
@@ -887,23 +1058,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/posts/2701885837/" target="_self">
-          <img src="https://img.xjh.me/random_img.php?type=bg&amp;ctype=nature&amp;return=302" srcset="/img/loading.gif" lazyload alt="6 - 循环神经网络">
+        <a href="/posts/2249908027/" target="_self">
+          <img src="https://img.xjh.me/random_img.php?type=bg&amp;ctype=nature&amp;return=302" srcset="/img/loading.gif" lazyload alt="1 - 课节1 绪论">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/posts/2701885837/" target="_self">
-          6 - 循环神经网络
+        <a href="/posts/2249908027/" target="_self">
+          1 - 课节1 绪论
         </a>
       </h1>
 
       
-      <a class="index-excerpt " href="/posts/2701885837/" target="_self">
+      <a class="index-excerpt " href="/posts/2249908027/" target="_self">
         <div>
-          [√] 6.0 - 循环神经网络  alec： 循环神经网络的变种版本：GRU和LSTM 前馈神经网络和卷积神经网络，信息是单向传播的 循环神经网络中，信息是带有环路的  [√] 6.1 - 给神经网络增加记忆能力 [√] 前馈网络  alec： 前馈神经网络总体上是无法处理可变大小的输入的（卷积神经网络中也有全连接层） 序列数据通常来讲是变长的，因为无法通过前馈神经网路来处理     需要想办法
+          1 - 课节1: 绪论1.0 - 绪论         1.1 - 人工智能    1.2 - 如何开发人工智能系统   1.3 - 表示学习          特征提取含有人工的过程，不能保证学习到的特征一定能帮助于分类 表示学习是将输入和输出直接串联到一起，希望学到的这种表示(特征)是对后面的这种分类是直接有帮助的，希望这种表示能够蕴含高层的语义特征。表示学习的难点在于没有明确的目标。它所有的
         </div>
       </a>
 
@@ -911,8 +1082,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-21 20:39" pubdate>
-              2022-12-21
+            <time datetime="2022-12-25 15:16" pubdate>
+              2022-12-25
             </time>
           </div>
         
@@ -982,23 +1153,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/posts/4083129976/" target="_self">
-          <img src="https://img.xjh.me/random_img.php?type=bg&amp;ctype=nature&amp;return=302" srcset="/img/loading.gif" lazyload alt="1 - fluid主题无侵入式方式添加视频背景">
+        <a href="/posts/1557301731/" target="_self">
+          <img src="https://img.xjh.me/random_img.php?type=bg&amp;ctype=nature&amp;return=302" srcset="/img/loading.gif" lazyload alt="6 - 循环神经网络 - 视频">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/posts/4083129976/" target="_self">
-          1 - fluid主题无侵入式方式添加视频背景
+        <a href="/posts/1557301731/" target="_self">
+          6 - 循环神经网络 - 视频
         </a>
       </h1>
 
       
-      <a class="index-excerpt " href="/posts/4083129976/" target="_self">
+      <a class="index-excerpt " href="/posts/1557301731/" target="_self">
         <div>
-          1 - fluid主题无侵入式方式添加视频背景 参考：Fluid -20- 使用 Fluid 注入功能实现背景视频（√）   通过代码注入的方式修改主题，可以实现无侵入式的修改。hexo中开发者开发的各种主题，会不断的优化改进、迭代新的版本。侵入式的方式在hexo博客目录/themes/fluid/文件夹中修改源代码，当主题升级之后，可能就会出现兼容性问题。因此推荐使用代码注入的方式实现无侵入式
+          [√] 6.1 - 循环神经网络及应用模式 [√] 循环神经网络和前馈神经网络  alec：  NLP:one-hot向量维度1w+、embedding维度128+ ↑：将单词转成在计算机中的表示形式：编码为one-hot向量或者embedding编码 循环神经网络的显著特点： 时间步上的连接 权重共享      [√] 循环神经网络(RNN)  [√] RNN常见的应用模式 [√] 序列到类别
         </div>
       </a>
 
@@ -1006,8 +1177,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-21 12:50" pubdate>
-              2022-12-21
+            <time datetime="2022-12-25 15:16" pubdate>
+              2022-12-25
             </time>
           </div>
         
@@ -1022,94 +1193,34 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E5%B7%A5%E5%85%B7%E7%AC%94%E8%AE%B0/" class="category-chain-item">工具笔记</a>
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
   
   
     <span>></span>
     
-  <a href="/categories/%E5%B7%A5%E5%85%B7%E7%AC%94%E8%AE%B0/hexo/" class="category-chain-item">hexo</a>
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
   
   
     <span>></span>
     
-  <a href="/categories/%E5%B7%A5%E5%85%B7%E7%AC%94%E8%AE%B0/hexo/%E4%B8%BB%E9%A2%98/" class="category-chain-item">主题</a>
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/" class="category-chain-item">分支导航</a>
   
   
     <span>></span>
     
-  <a href="/categories/%E5%B7%A5%E5%85%B7%E7%AC%94%E8%AE%B0/hexo/%E4%B8%BB%E9%A2%98/fluid/" class="category-chain-item">fluid</a>
-  
-  
-
-  
-
-  
-
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/posts/1312067499/" target="_self">
-          <img src="https://img.xjh.me/random_img.php?type=bg&amp;ctype=nature&amp;return=302" srcset="/img/loading.gif" lazyload alt="hexo博客搭建记录">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/posts/1312067499/" target="_self">
-          hexo博客搭建记录
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/posts/1312067499/" target="_self">
-        <div>
-          参考文章：超详细Hexo+Github博客搭建小白教程 - 知乎 - 字节跳动 AI Lab NLP算法工程师 - godweiyang  1 - 安装Node.js2 - 安装Git3 - 本地安装、运行hexo3.1 - 新建文件夹在合适的地方新建一个文件夹，用来存放自己的博客文件，比如我的博客文件都存放在D:\坚果云\blog目录下。 在该目录下右键点击Git Bash Here，打开gi
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-21 12:38" pubdate>
-              2022-12-21
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E5%B7%A5%E5%85%B7%E7%AC%94%E8%AE%B0/" class="category-chain-item">工具笔记</a>
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E5%AE%9E%E8%B7%B5%E5%AD%A6%E4%B9%A0/" class="category-chain-item">实践学习</a>
   
   
     <span>></span>
     
-  <a href="/categories/%E5%B7%A5%E5%85%B7%E7%AC%94%E8%AE%B0/hexo/" class="category-chain-item">hexo</a>
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E5%AE%9E%E8%B7%B5%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%EF%BC%9A%E6%A1%88%E4%BE%8B%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E9%A3%9E%E6%A1%A8-%E9%82%B1%E9%94%A1%E9%B9%8F/" class="category-chain-item">神经网络与深度学习：案例与实践 - 飞桨 - 邱锡鹏</a>
   
+  
+
+  
+
+  
+
   
 
   
@@ -1130,7 +1241,7 @@
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><a class="page-number" href="/page/4/#board">4</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/#board">5</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
@@ -1176,37 +1287,39 @@
     
       <div class="col-lg-7 mx-auto nopadding-x-md">
         <div class="container custom mx-auto">
-           <!-- MetingJS start --> <div class="aplayer" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-fixed="true" data-autoplay="false" data-volume="0.7"></div> <!-- MetingJS end --> 
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
         </div>
       </div>
     
   </main>
 
   <footer>
-    <div class="footer-inner">
-  
-    <footer class="text-center mt-5 py-3" style="color: #DDD;font-size: 13.6px;">
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
       <div class="footer-content">
-         <a href="https://hexo.io" target="_blank" rel="nofollow noopener" style="color:#D8D9DA"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener" style="color:#D8D9DA"><span>Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/alec-97" target="_blank" rel="nofollow noopener" style="color:#D8D9DA"><span>Alec</span></a> <div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div> 
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
       </div>
+    
+
+    
+      <div class="statistics">
   
   
-  
-  
-    <div class="statistics">
-  
-  
-  
+
   
     
-      <span id="busuanzi_container_site_pv" style="display: none;font-size:13.6px">
+      <span id="busuanzi_container_site_pv" style="display: none">
         总访问量 
         <span id="busuanzi_value_site_pv"></span>
          次
       </span>
     
     
-      <span id="busuanzi_container_site_uv" style="display: none;font-size:13.6px">
+      <span id="busuanzi_container_site_uv" style="display: none">
         总访客数 
         <span id="busuanzi_value_site_uv"></span>
          人
@@ -1214,31 +1327,29 @@
     
     
   
-
 </div>
 
-<div class="statistics" style="font-size: 13.6px;">
-  <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #DDD;font-size:13.6px"  id="hitokoto"></span></a>
-  <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
-</div>
+    
 
-  
-  
-  
-  
-  
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
 
+    
 
+    
 
-  
+  </div>  
 </div>
 
   </footer>
 
   <!-- Scripts -->
   
-  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
   <script>
     NProgress.configure({"showSpinner":false,"trickleSpeed":100})
@@ -1249,13 +1360,13 @@
   </script>
 
 
-<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
-<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>
 
 
-  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
   <script>
     (function (window, document) {
       var typing = Fluid.plugins.typing;
@@ -1317,29 +1428,10 @@
 
 
 
-
-
-
   
-<script src="/js/love.js"></script>
-<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/yinghua.js"></script>
-<script src="/js/APlayer/dist/APlayer.min.js"></script>
-<script src="/js/Meting.min.js"></script>
-
-
-
-
-<!-- alec:监控页面焦点变换标题 -->
-
-  <script type="text/javascript">
-    /*窗口监视*/
-    var originalTitle = document.title;
-    window.onblur = function(){document.title = "给时间一点时间"};
-    window.onfocus = function(){document.title = originalTitle};
-  </script>
-
-
-
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
 
 
 
@@ -1353,6 +1445,9 @@
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
   </noscript>
+
+
+
 
 </body>
 </html>

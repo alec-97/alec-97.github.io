@@ -4,6 +4,7 @@ var banner_img_height = parseFloat(page.banner_img_height || theme.index.banner_
 var banner_mask_alpha = parseFloat(page.banner_mask_alpha || theme.index.banner_mask_alpha)
 var subtitle = page.subtitle || page.title
 %>
+
 <div id="banner" class="banner" <%- theme.banner && theme.banner.parallax && 'parallax=true' %>
      style="background: url('<%- url_for(banner_img) %>') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">

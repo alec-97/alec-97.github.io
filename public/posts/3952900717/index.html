@@ -1,11 +1,5 @@
 
 
-
-<!--alec insert start-->
-<script src="/live2d-widget/autoload.js"></script>
-<!--alec insert end-->
-
-
 <!DOCTYPE html>
 <html lang="zh-CN" data-default-color-scheme=auto>
 
@@ -17,6 +11,8 @@
   <link rel="icon" href="/img/photo.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
   
   <meta name="theme-color" content="#2f4154">
   <meta name="author" content="Shuai Zhao">
@@ -33,7 +29,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221218190218195.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221218190000774.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221218183028491.png">
-<meta property="article:published_time" content="2022-12-19T13:11:46.347Z">
+<meta property="article:published_time" content="2022-12-25T07:16:57.816Z">
 <meta property="article:modified_time" content="2022-12-21T13:43:10.709Z">
 <meta property="article:author" content="Shuai Zhao">
 <meta property="article:tag" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
@@ -44,21 +40,17 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"> 
-  
   <title>第5章 - 卷积神经网络实践：ResNet18图像分类 - 要走起来，你才知道方向。</title>
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
 
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/plugins/line-numbers/prism-line-numbers.min.css" />
-
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
 
 
 
@@ -83,36 +75,34 @@
 
 
   
-<link rel="stylesheet" href="/js/APlayer/dist/APlayer.min.css">
-<link rel="stylesheet" href="/css/custom.css">
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
 
 
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":5,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":5,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
   
 
-  
-  
 
-<meta name="generator" content="Hexo 5.4.2"></head>
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
 <body>
   <div>
 	<div class='real_mask' style="
-		background-color: rgba(0,0,0,0.4);
+		background-color: rgba(0,0,0,0.3);
 		width: 100%;
 		height: 100%;
 		position: fixed;
@@ -124,11 +114,18 @@
 	</div>
 </div>
 <div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
 
   <header>
     
 
-<div class="header-inner" style="height: 85vh;">
+<div class="header-inner" style="height: 80vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
@@ -152,7 +149,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/">
                 <i class="iconfont icon-home-fill"></i>
-                首页
+                <span>首页</span>
               </a>
             </li>
           
@@ -164,7 +161,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/archives/">
                 <i class="iconfont icon-archive-fill"></i>
-                归档
+                <span>归档</span>
               </a>
             </li>
           
@@ -176,7 +173,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/categories/">
                 <i class="iconfont icon-category-fill"></i>
-                分类
+                <span>分类</span>
               </a>
             </li>
           
@@ -188,7 +185,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/tags/">
                 <i class="iconfont icon-tags-fill"></i>
-                标签
+                <span>标签</span>
               </a>
             </li>
           
@@ -200,7 +197,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/playlist/">
                 <i class="iconfont icon-music"></i>
-                音乐
+                <span>音乐</span>
               </a>
             </li>
           
@@ -212,7 +209,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/about/">
                 <i class="iconfont icon-user-fill"></i>
-                关于
+                <span>关于</span>
               </a>
             </li>
           
@@ -220,15 +217,16 @@
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+              <i class="iconfont icon-search"></i>
             </a>
           </li>
           
         
         
           <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
-                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
           </li>
         
       </ul>
@@ -237,14 +235,15 @@
 </nav>
 
   
+
 <div id="banner" class="banner" parallax=true
-     style="background: url('https://101.43.39.125/HexoFiles/new/bg-trans.png') no-repeat center center; background-size: cover;">
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="第5章 - 卷积神经网络实践：ResNet18图像分类"></span>
+            <span id="subtitle">第5章 - 卷积神经网络实践：ResNet18图像分类</span>
           
         </div>
 
@@ -260,8 +259,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-12-19 21:11" pubdate>
-          2022年12月19日 晚上
+        <time datetime="2022-12-25 15:16" pubdate>
+          2022年12月25日 下午
         </time>
       </span>
     
@@ -272,8 +271,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          <!-- compatible with older versions-->
-          9k 字
+          10k 字
         
       </span>
     
@@ -284,8 +282,7 @@
         
         
         
-          <!-- compatible with older versions-->
-          76 分钟
+          84 分钟
         
       </span>
     
@@ -320,7 +317,6 @@
 	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
 
 	<div class="banner" id='banner' >
-
 
 		<div class="full-bg-img" >
 
@@ -380,11 +376,8 @@
 						}
 				</script>
 			
-			
 			</div>
 		</div>
-
-
     </div>
   </header>
 
@@ -405,6 +398,14 @@
           <article class="post-content mx-auto">
             <!-- SEO header -->
             <h1 style="display: none">第5章 - 卷积神经网络实践：ResNet18图像分类</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：4 天前
+                  
+                
+              </p>
             
             
               <div class="markdown-body">
@@ -428,21 +429,9 @@
 <p>CIFAR-10数据集包含了10种不同的类别、共60,000张图像，其中每个类别的图像都是6000张，图像大小均为$32\times32$像素。CIFAR-10数据集的示例如 <strong>图5.15</strong> 所示。</p>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221218183851356.png" srcset="/img/loading.gif" lazyload alt="image-20221218183028491"></p>
 <p>将数据集文件进行解压：</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 解压数据集</span>
-<span class="token comment"># 初次运行时将注释取消，以便解压文件</span>
-<span class="token comment"># 如果已经解压过，不需要运行此段代码，否则由于文件已经存在，解压时会报错</span>
-!mkdir <span class="token operator">/</span>home<span class="token operator">/</span>aistudio<span class="token operator">/</span>datasets<span class="token operator">/</span>
-!tar <span class="token operator">-</span>xvf <span class="token operator">/</span>home<span class="token operator">/</span>aistudio<span class="token operator">/</span>data<span class="token operator">/</span>data9154<span class="token operator">/</span>cifar<span class="token operator">-</span><span class="token number">10</span><span class="token operator">-</span>python<span class="token punctuation">.</span>tar<span class="token punctuation">.</span>gz <span class="token operator">-</span>C <span class="token operator">/</span>home<span class="token operator">/</span>aistudio<span class="token operator">/</span>datasets<span class="token operator">/</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 解压数据集</span><br><span class="hljs-comment"># 初次运行时将注释取消，以便解压文件</span><br><span class="hljs-comment"># 如果已经解压过，不需要运行此段代码，否则由于文件已经存在，解压时会报错</span><br>!mkdir /home/aistudio/datasets/<br>!tar -xvf /home/aistudio/data/data9154/cifar-<span class="hljs-number">10</span>-python.tar.gz -C /home/aistudio/datasets/<br></code></pre></td></tr></table></figure>
 
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">cifar<span class="token operator">-</span><span class="token number">10</span><span class="token operator">-</span>batches<span class="token operator">-</span>py<span class="token operator">/</span>
-cifar<span class="token operator">-</span><span class="token number">10</span><span class="token operator">-</span>batches<span class="token operator">-</span>py<span class="token operator">/</span>data_batch_4
-cifar<span class="token operator">-</span><span class="token number">10</span><span class="token operator">-</span>batches<span class="token operator">-</span>py<span class="token operator">/</span>readme<span class="token punctuation">.</span>html
-cifar<span class="token operator">-</span><span class="token number">10</span><span class="token operator">-</span>batches<span class="token operator">-</span>py<span class="token operator">/</span>test_batch
-cifar<span class="token operator">-</span><span class="token number">10</span><span class="token operator">-</span>batches<span class="token operator">-</span>py<span class="token operator">/</span>data_batch_3
-cifar<span class="token operator">-</span><span class="token number">10</span><span class="token operator">-</span>batches<span class="token operator">-</span>py<span class="token operator">/</span>batches<span class="token punctuation">.</span>meta
-cifar<span class="token operator">-</span><span class="token number">10</span><span class="token operator">-</span>batches<span class="token operator">-</span>py<span class="token operator">/</span>data_batch_2
-cifar<span class="token operator">-</span><span class="token number">10</span><span class="token operator">-</span>batches<span class="token operator">-</span>py<span class="token operator">/</span>data_batch_5
-cifar<span class="token operator">-</span><span class="token number">10</span><span class="token operator">-</span>batches<span class="token operator">-</span>py<span class="token operator">/</span>data_batch_1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">cifar-<span class="hljs-number">10</span>-batches-py/<br>cifar-<span class="hljs-number">10</span>-batches-py/data_batch_4<br>cifar-<span class="hljs-number">10</span>-batches-py/readme.html<br>cifar-<span class="hljs-number">10</span>-batches-py/test_batch<br>cifar-<span class="hljs-number">10</span>-batches-py/data_batch_3<br>cifar-<span class="hljs-number">10</span>-batches-py/batches.meta<br>cifar-<span class="hljs-number">10</span>-batches-py/data_batch_2<br>cifar-<span class="hljs-number">10</span>-batches-py/data_batch_5<br>cifar-<span class="hljs-number">10</span>-batches-py/data_batch_1<br></code></pre></td></tr></table></figure>
 
 <hr>
 <h6 id="√-5-5-1-2-数据读取"><a href="#√-5-5-1-2-数据读取" class="headerlink" title="[√] 5.5.1.2 - 数据读取"></a>[√] 5.5.1.2 - 数据读取</h6><hr>
@@ -453,94 +442,30 @@ cifar<span class="token operator">-</span><span class="token number">10</span><s
 <li>测试集：10 000条样本。</li>
 </ul>
 <p>读取一个batch数据的代码如下所示：</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> os
-<span class="token keyword">import</span> pickle
-<span class="token keyword">import</span> numpy <span class="token keyword">as</span> np
-
-<span class="token keyword">def</span> <span class="token function">load_cifar10_batch</span><span class="token punctuation">(</span>folder_path<span class="token punctuation">,</span> batch_id<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> mode<span class="token operator">=</span><span class="token string">'train'</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token keyword">if</span> mode <span class="token operator">==</span> <span class="token string">'test'</span><span class="token punctuation">:</span>
-        file_path <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>join<span class="token punctuation">(</span>folder_path<span class="token punctuation">,</span> <span class="token string">'test_batch'</span><span class="token punctuation">)</span>
-    <span class="token keyword">else</span><span class="token punctuation">:</span>
-        file_path <span class="token operator">=</span> os<span class="token punctuation">.</span>path<span class="token punctuation">.</span>join<span class="token punctuation">(</span>folder_path<span class="token punctuation">,</span> <span class="token string">'data_batch_'</span><span class="token operator">+</span><span class="token builtin">str</span><span class="token punctuation">(</span>batch_id<span class="token punctuation">)</span><span class="token punctuation">)</span>
-
-    <span class="token comment"># 加载数据集文件</span>
-    <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span>file_path<span class="token punctuation">,</span> <span class="token string">'rb'</span><span class="token punctuation">)</span> <span class="token keyword">as</span> batch_file<span class="token punctuation">:</span>
-        batch <span class="token operator">=</span> pickle<span class="token punctuation">.</span>load<span class="token punctuation">(</span>batch_file<span class="token punctuation">,</span> encoding <span class="token operator">=</span> <span class="token string">'latin1'</span><span class="token punctuation">)</span>
-
-    imgs <span class="token operator">=</span> batch<span class="token punctuation">[</span><span class="token string">'data'</span><span class="token punctuation">]</span><span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>batch<span class="token punctuation">[</span><span class="token string">'data'</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">32</span><span class="token punctuation">,</span><span class="token number">32</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token number">255.</span><span class="token comment">#数据归一化</span>
-    labels <span class="token operator">=</span> batch<span class="token punctuation">[</span><span class="token string">'labels'</span><span class="token punctuation">]</span>
-
-    <span class="token keyword">return</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>imgs<span class="token punctuation">,</span> dtype<span class="token operator">=</span><span class="token string">'float32'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> np<span class="token punctuation">.</span>array<span class="token punctuation">(</span>labels<span class="token punctuation">)</span>
-
-imgs_batch<span class="token punctuation">,</span> labels_batch <span class="token operator">=</span> load_cifar10_batch<span class="token punctuation">(</span>folder_path<span class="token operator">=</span><span class="token string">'datasets/cifar-10-batches-py'</span><span class="token punctuation">,</span> 
-                                                batch_id<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> mode<span class="token operator">=</span><span class="token string">'train'</span><span class="token punctuation">)</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> pickle<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">load_cifar10_batch</span>(<span class="hljs-params">folder_path, batch_id=<span class="hljs-number">1</span>, mode=<span class="hljs-string">&#x27;train&#x27;</span></span>):<br>    <span class="hljs-keyword">if</span> mode == <span class="hljs-string">&#x27;test&#x27;</span>:<br>        file_path = os.path.join(folder_path, <span class="hljs-string">&#x27;test_batch&#x27;</span>)<br>    <span class="hljs-keyword">else</span>:<br>        file_path = os.path.join(folder_path, <span class="hljs-string">&#x27;data_batch_&#x27;</span>+<span class="hljs-built_in">str</span>(batch_id))<br><br>    <span class="hljs-comment"># 加载数据集文件</span><br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(file_path, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> batch_file:<br>        batch = pickle.load(batch_file, encoding = <span class="hljs-string">&#x27;latin1&#x27;</span>)<br><br>    imgs = batch[<span class="hljs-string">&#x27;data&#x27;</span>].reshape((<span class="hljs-built_in">len</span>(batch[<span class="hljs-string">&#x27;data&#x27;</span>]),<span class="hljs-number">3</span>,<span class="hljs-number">32</span>,<span class="hljs-number">32</span>)) / <span class="hljs-number">255.</span><span class="hljs-comment">#数据归一化</span><br>    labels = batch[<span class="hljs-string">&#x27;labels&#x27;</span>]<br><br>    <span class="hljs-keyword">return</span> np.array(imgs, dtype=<span class="hljs-string">&#x27;float32&#x27;</span>), np.array(labels)<br><br>imgs_batch, labels_batch = load_cifar10_batch(folder_path=<span class="hljs-string">&#x27;datasets/cifar-10-batches-py&#x27;</span>, <br>                                                batch_id=<span class="hljs-number">1</span>, mode=<span class="hljs-string">&#x27;train&#x27;</span>)<br><br></code></pre></td></tr></table></figure>
 
 <p>查看数据的维度：</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 打印一下每个batch中X和y的维度</span>
-<span class="token keyword">print</span> <span class="token punctuation">(</span><span class="token string">"batch of imgs shape: "</span><span class="token punctuation">,</span>imgs_batch<span class="token punctuation">.</span>shape<span class="token punctuation">,</span> <span class="token string">"batch of labels shape: "</span><span class="token punctuation">,</span> labels_batch<span class="token punctuation">.</span>shape<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 打印一下每个batch中X和y的维度</span><br><span class="hljs-built_in">print</span> (<span class="hljs-string">&quot;batch of imgs shape: &quot;</span>,imgs_batch.shape, <span class="hljs-string">&quot;batch of labels shape: &quot;</span>, labels_batch.shape)<br></code></pre></td></tr></table></figure>
 
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">batch of imgs shape<span class="token punctuation">:</span>  <span class="token punctuation">(</span><span class="token number">10000</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">32</span><span class="token punctuation">,</span> <span class="token number">32</span><span class="token punctuation">)</span> batch of labels shape<span class="token punctuation">:</span>  <span class="token punctuation">(</span><span class="token number">10000</span><span class="token punctuation">,</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">batch of imgs shape:  (<span class="hljs-number">10000</span>, <span class="hljs-number">3</span>, <span class="hljs-number">32</span>, <span class="hljs-number">32</span>) batch of labels shape:  (<span class="hljs-number">10000</span>,)<br></code></pre></td></tr></table></figure>
 
 <p>1万张图像，1万个分类标签，每张图像3个通道，像素为32*32</p>
 <p>可视化观察其中的一张样本图像和对应的标签，代码如下所示：</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token operator">%</span>matplotlib inline
-<span class="token keyword">import</span> matplotlib<span class="token punctuation">.</span>pyplot <span class="token keyword">as</span> plt
-
-image<span class="token punctuation">,</span> label <span class="token operator">=</span> imgs_batch<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> labels_batch<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"The label in the picture is &#123;&#125;"</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>label<span class="token punctuation">)</span><span class="token punctuation">)</span>
-plt<span class="token punctuation">.</span>figure<span class="token punctuation">(</span>figsize<span class="token operator">=</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-plt<span class="token punctuation">.</span>imshow<span class="token punctuation">(</span>image<span class="token punctuation">.</span>transpose<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-plt<span class="token punctuation">.</span>savefig<span class="token punctuation">(</span><span class="token string">'cnn-car.pdf'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">%matplotlib inline<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><br>image, label = imgs_batch[<span class="hljs-number">1</span>], labels_batch[<span class="hljs-number">1</span>]<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;The label in the picture is &#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(label))<br>plt.figure(figsize=(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>))<br>plt.imshow(image.transpose(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">0</span>))<br>plt.savefig(<span class="hljs-string">&#x27;cnn-car.pdf&#x27;</span>)<br></code></pre></td></tr></table></figure>
 
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221218190218195.png" srcset="/img/loading.gif" lazyload alt="image-20221218183851356"></p>
 <p>类别9是卡车</p>
 <hr>
 <h6 id="√-5-5-1-3-构造Dataset类"><a href="#√-5-5-1-3-构造Dataset类" class="headerlink" title="[√] 5.5.1.3 - 构造Dataset类"></a>[√] 5.5.1.3 - 构造Dataset类</h6><hr>
 <p>构造一个CIFAR10Dataset类，其将继承自<code>paddle.io.Dataset</code>类，可以逐个数据进行处理。代码实现如下：</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> paddle
-<span class="token keyword">import</span> paddle<span class="token punctuation">.</span>io <span class="token keyword">as</span> io
-<span class="token keyword">from</span> paddle<span class="token punctuation">.</span>vision<span class="token punctuation">.</span>transforms <span class="token keyword">import</span> Normalize
-
-<span class="token keyword">class</span> <span class="token class-name">CIFAR10Dataset</span><span class="token punctuation">(</span>io<span class="token punctuation">.</span>Dataset<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> folder_path<span class="token operator">=</span><span class="token string">'/home/aistudio/cifar-10-batches-py'</span><span class="token punctuation">,</span> mode<span class="token operator">=</span><span class="token string">'train'</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-        <span class="token keyword">if</span> mode <span class="token operator">==</span> <span class="token string">'train'</span><span class="token punctuation">:</span>
-            <span class="token comment"># 加载batch1-batch4作为训练集</span>
-            self<span class="token punctuation">.</span>imgs<span class="token punctuation">,</span> self<span class="token punctuation">.</span>labels <span class="token operator">=</span> load_cifar10_batch<span class="token punctuation">(</span>folder_path<span class="token operator">=</span>folder_path<span class="token punctuation">,</span> batch_id<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> mode<span class="token operator">=</span><span class="token string">'train'</span><span class="token punctuation">)</span>
-            <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-                imgs_batch<span class="token punctuation">,</span> labels_batch <span class="token operator">=</span> load_cifar10_batch<span class="token punctuation">(</span>folder_path<span class="token operator">=</span>folder_path<span class="token punctuation">,</span> batch_id<span class="token operator">=</span>i<span class="token punctuation">,</span> mode<span class="token operator">=</span><span class="token string">'train'</span><span class="token punctuation">)</span>
-                self<span class="token punctuation">.</span>imgs<span class="token punctuation">,</span> self<span class="token punctuation">.</span>labels <span class="token operator">=</span> np<span class="token punctuation">.</span>concatenate<span class="token punctuation">(</span><span class="token punctuation">[</span>self<span class="token punctuation">.</span>imgs<span class="token punctuation">,</span> imgs_batch<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> np<span class="token punctuation">.</span>concatenate<span class="token punctuation">(</span><span class="token punctuation">[</span>self<span class="token punctuation">.</span>labels<span class="token punctuation">,</span> labels_batch<span class="token punctuation">]</span><span class="token punctuation">)</span>
-        <span class="token keyword">elif</span> mode <span class="token operator">==</span> <span class="token string">'dev'</span><span class="token punctuation">:</span>
-            <span class="token comment"># 加载batch5作为验证集</span>
-            self<span class="token punctuation">.</span>imgs<span class="token punctuation">,</span> self<span class="token punctuation">.</span>labels <span class="token operator">=</span> load_cifar10_batch<span class="token punctuation">(</span>folder_path<span class="token operator">=</span>folder_path<span class="token punctuation">,</span> batch_id<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> mode<span class="token operator">=</span><span class="token string">'dev'</span><span class="token punctuation">)</span>
-        <span class="token keyword">elif</span> mode <span class="token operator">==</span> <span class="token string">'test'</span><span class="token punctuation">:</span>
-            <span class="token comment"># 加载测试集</span>
-            self<span class="token punctuation">.</span>imgs<span class="token punctuation">,</span> self<span class="token punctuation">.</span>labels <span class="token operator">=</span> load_cifar10_batch<span class="token punctuation">(</span>folder_path<span class="token operator">=</span>folder_path<span class="token punctuation">,</span> mode<span class="token operator">=</span><span class="token string">'test'</span><span class="token punctuation">)</span>
-        <span class="token comment"># 对每张图像进行normalize处理</span>
-        self<span class="token punctuation">.</span>transform <span class="token operator">=</span> Normalize<span class="token punctuation">(</span>mean<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">0.4914</span><span class="token punctuation">,</span> <span class="token number">0.4822</span><span class="token punctuation">,</span> <span class="token number">0.4465</span><span class="token punctuation">]</span><span class="token punctuation">,</span> std<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">0.2023</span><span class="token punctuation">,</span> <span class="token number">0.1994</span><span class="token punctuation">,</span> <span class="token number">0.2010</span><span class="token punctuation">]</span><span class="token punctuation">,</span> data_format<span class="token operator">=</span><span class="token string">'CHW'</span><span class="token punctuation">)</span>
-
-    <span class="token comment"># 先拿到数据x、y，然后对图像x进行处理，然后返回数据</span>
-    <span class="token keyword">def</span> <span class="token function">__getitem__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> idx<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        img<span class="token punctuation">,</span> label <span class="token operator">=</span> self<span class="token punctuation">.</span>imgs<span class="token punctuation">[</span>idx<span class="token punctuation">]</span><span class="token punctuation">,</span> self<span class="token punctuation">.</span>labels<span class="token punctuation">[</span>idx<span class="token punctuation">]</span>
-        img <span class="token operator">=</span> self<span class="token punctuation">.</span>transform<span class="token punctuation">(</span>img<span class="token punctuation">)</span>
-        <span class="token keyword">return</span> img<span class="token punctuation">,</span> label
-
-    <span class="token keyword">def</span> <span class="token function">__len__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        <span class="token keyword">return</span> <span class="token builtin">len</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>imgs<span class="token punctuation">)</span>
-
-paddle<span class="token punctuation">.</span>seed<span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span>
-train_dataset <span class="token operator">=</span> CIFAR10Dataset<span class="token punctuation">(</span>folder_path<span class="token operator">=</span><span class="token string">'/home/aistudio/datasets/cifar-10-batches-py'</span><span class="token punctuation">,</span> mode<span class="token operator">=</span><span class="token string">'train'</span><span class="token punctuation">)</span>
-dev_dataset <span class="token operator">=</span> CIFAR10Dataset<span class="token punctuation">(</span>folder_path<span class="token operator">=</span><span class="token string">'/home/aistudio/datasets/cifar-10-batches-py'</span><span class="token punctuation">,</span> mode<span class="token operator">=</span><span class="token string">'dev'</span><span class="token punctuation">)</span>
-test_dataset <span class="token operator">=</span> CIFAR10Dataset<span class="token punctuation">(</span>folder_path<span class="token operator">=</span><span class="token string">'/home/aistudio/datasets/cifar-10-batches-py'</span><span class="token punctuation">,</span> mode<span class="token operator">=</span><span class="token string">'test'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> paddle<br><span class="hljs-keyword">import</span> paddle.io <span class="hljs-keyword">as</span> io<br><span class="hljs-keyword">from</span> paddle.vision.transforms <span class="hljs-keyword">import</span> Normalize<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">CIFAR10Dataset</span>(io.Dataset):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, folder_path=<span class="hljs-string">&#x27;/home/aistudio/cifar-10-batches-py&#x27;</span>, mode=<span class="hljs-string">&#x27;train&#x27;</span></span>):<br>        <span class="hljs-keyword">if</span> mode == <span class="hljs-string">&#x27;train&#x27;</span>:<br>            <span class="hljs-comment"># 加载batch1-batch4作为训练集</span><br>            self.imgs, self.labels = load_cifar10_batch(folder_path=folder_path, batch_id=<span class="hljs-number">1</span>, mode=<span class="hljs-string">&#x27;train&#x27;</span>)<br>            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>, <span class="hljs-number">5</span>):<br>                imgs_batch, labels_batch = load_cifar10_batch(folder_path=folder_path, batch_id=i, mode=<span class="hljs-string">&#x27;train&#x27;</span>)<br>                self.imgs, self.labels = np.concatenate([self.imgs, imgs_batch]), np.concatenate([self.labels, labels_batch])<br>        <span class="hljs-keyword">elif</span> mode == <span class="hljs-string">&#x27;dev&#x27;</span>:<br>            <span class="hljs-comment"># 加载batch5作为验证集</span><br>            self.imgs, self.labels = load_cifar10_batch(folder_path=folder_path, batch_id=<span class="hljs-number">5</span>, mode=<span class="hljs-string">&#x27;dev&#x27;</span>)<br>        <span class="hljs-keyword">elif</span> mode == <span class="hljs-string">&#x27;test&#x27;</span>:<br>            <span class="hljs-comment"># 加载测试集</span><br>            self.imgs, self.labels = load_cifar10_batch(folder_path=folder_path, mode=<span class="hljs-string">&#x27;test&#x27;</span>)<br>        <span class="hljs-comment"># 对每张图像进行normalize处理</span><br>        self.transform = Normalize(mean=[<span class="hljs-number">0.4914</span>, <span class="hljs-number">0.4822</span>, <span class="hljs-number">0.4465</span>], std=[<span class="hljs-number">0.2023</span>, <span class="hljs-number">0.1994</span>, <span class="hljs-number">0.2010</span>], data_format=<span class="hljs-string">&#x27;CHW&#x27;</span>)<br><br>    <span class="hljs-comment"># 先拿到数据x、y，然后对图像x进行处理，然后返回数据</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__getitem__</span>(<span class="hljs-params">self, idx</span>):<br>        img, label = self.imgs[idx], self.labels[idx]<br>        img = self.transform(img)<br>        <span class="hljs-keyword">return</span> img, label<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__len__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">len</span>(self.imgs)<br><br>paddle.seed(<span class="hljs-number">100</span>)<br>train_dataset = CIFAR10Dataset(folder_path=<span class="hljs-string">&#x27;/home/aistudio/datasets/cifar-10-batches-py&#x27;</span>, mode=<span class="hljs-string">&#x27;train&#x27;</span>)<br>dev_dataset = CIFAR10Dataset(folder_path=<span class="hljs-string">&#x27;/home/aistudio/datasets/cifar-10-batches-py&#x27;</span>, mode=<span class="hljs-string">&#x27;dev&#x27;</span>)<br>test_dataset = CIFAR10Dataset(folder_path=<span class="hljs-string">&#x27;/home/aistudio/datasets/cifar-10-batches-py&#x27;</span>, mode=<span class="hljs-string">&#x27;test&#x27;</span>)<br></code></pre></td></tr></table></figure>
 
 
 
 <hr>
 <h4 id="√-5-5-2-模型构建"><a href="#√-5-5-2-模型构建" class="headerlink" title="[√] 5.5.2 - 模型构建"></a>[√] 5.5.2 - 模型构建</h4><hr>
 <p>对于Reset18这种比较经典的图像分类网络，飞桨高层API中都为大家提供了实现好的版本，大家可以不再从头开始实现。这里首先使用飞桨高层API中的Resnet18进行图像分类实验。</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> paddle<span class="token punctuation">.</span>vision<span class="token punctuation">.</span>models <span class="token keyword">import</span> resnet18
-
-resnet18_model <span class="token operator">=</span> resnet18<span class="token punctuation">(</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> paddle.vision.models <span class="hljs-keyword">import</span> resnet18<br><br>resnet18_model = resnet18()<br></code></pre></td></tr></table></figure>
 
 <hr>
 <p>飞桨高层 API是对飞桨API的进一步封装与升级，提供了更加简洁易用的API，进一步提升了飞桨的易学易用性。其中，飞桨高层API封装了以下模块：</p>
@@ -562,79 +487,16 @@ resnet18_model <span class="token operator">=</span> resnet18<span class="token 
 <li>评价指标函数中的<code>is_logist=True</code>参数是什么意思</li>
 </ul>
 </blockquote>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> paddle<span class="token punctuation">.</span>nn<span class="token punctuation">.</span>functional <span class="token keyword">as</span> F
-<span class="token keyword">import</span> paddle<span class="token punctuation">.</span>optimizer <span class="token keyword">as</span> opt
-<span class="token keyword">from</span> nndl <span class="token keyword">import</span> RunnerV3<span class="token punctuation">,</span> metric
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> paddle.nn.functional <span class="hljs-keyword">as</span> F<br><span class="hljs-keyword">import</span> paddle.optimizer <span class="hljs-keyword">as</span> opt<br><span class="hljs-keyword">from</span> nndl <span class="hljs-keyword">import</span> RunnerV3, metric<br><br><span class="hljs-comment"># 指定运行设备</span><br>use_gpu = <span class="hljs-literal">True</span> <span class="hljs-keyword">if</span> paddle.get_device().startswith(<span class="hljs-string">&quot;gpu&quot;</span>) <span class="hljs-keyword">else</span> <span class="hljs-literal">False</span><br><span class="hljs-keyword">if</span> use_gpu:<br>    paddle.set_device(<span class="hljs-string">&#x27;gpu:0&#x27;</span>)<br><span class="hljs-comment"># 学习率大小</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;------------------------------\n&#x27;</span>)<br><span class="hljs-built_in">print</span>(use_gpu)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;------------------------------\n&#x27;</span>)<br>lr = <span class="hljs-number">0.001</span>  <br><span class="hljs-comment"># 批次大小</span><br>batch_size = <span class="hljs-number">64</span> <br><span class="hljs-comment"># 加载数据</span><br>train_loader = io.DataLoader(train_dataset, batch_size=batch_size, shuffle=<span class="hljs-literal">True</span>)<br>dev_loader = io.DataLoader(dev_dataset, batch_size=batch_size)<br>test_loader = io.DataLoader(test_dataset, batch_size=batch_size) <br><span class="hljs-comment"># 定义网络</span><br>model = resnet18_model<br><span class="hljs-comment"># 定义优化器，这里使用Adam优化器以及l2正则化策略，相关内容在7.3.3.2和7.6.2中会进行详细介绍</span><br><span class="hljs-comment"># 使用Adam优化器和L2正则化策略</span><br>optimizer = opt.Adam(learning_rate=lr, parameters=model.parameters(), weight_decay=<span class="hljs-number">0.005</span>)<br><span class="hljs-comment"># 定义损失函数</span><br>loss_fn = F.cross_entropy<br><span class="hljs-comment"># 定义评价指标</span><br>metric = metric.Accuracy(is_logist=<span class="hljs-literal">True</span>)<br><span class="hljs-comment"># 实例化RunnerV3</span><br>runner = RunnerV3(model, optimizer, loss_fn, metric)<br><span class="hljs-comment"># 启动训练</span><br>log_steps = <span class="hljs-number">3000</span><br>eval_steps = <span class="hljs-number">3000</span><br>runner.train(train_loader, dev_loader, num_epochs=<span class="hljs-number">30</span>, log_steps=log_steps, <br>                eval_steps=eval_steps, save_path=<span class="hljs-string">&quot;best_model.pdparams&quot;</span>)<br></code></pre></td></tr></table></figure>
 
-<span class="token comment"># 指定运行设备</span>
-use_gpu <span class="token operator">=</span> <span class="token boolean">True</span> <span class="token keyword">if</span> paddle<span class="token punctuation">.</span>get_device<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>startswith<span class="token punctuation">(</span><span class="token string">"gpu"</span><span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token boolean">False</span>
-<span class="token keyword">if</span> use_gpu<span class="token punctuation">:</span>
-    paddle<span class="token punctuation">.</span>set_device<span class="token punctuation">(</span><span class="token string">'gpu:0'</span><span class="token punctuation">)</span>
-<span class="token comment"># 学习率大小</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'------------------------------\n'</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span>use_gpu<span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'------------------------------\n'</span><span class="token punctuation">)</span>
-lr <span class="token operator">=</span> <span class="token number">0.001</span>  
-<span class="token comment"># 批次大小</span>
-batch_size <span class="token operator">=</span> <span class="token number">64</span> 
-<span class="token comment"># 加载数据</span>
-train_loader <span class="token operator">=</span> io<span class="token punctuation">.</span>DataLoader<span class="token punctuation">(</span>train_dataset<span class="token punctuation">,</span> batch_size<span class="token operator">=</span>batch_size<span class="token punctuation">,</span> shuffle<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
-dev_loader <span class="token operator">=</span> io<span class="token punctuation">.</span>DataLoader<span class="token punctuation">(</span>dev_dataset<span class="token punctuation">,</span> batch_size<span class="token operator">=</span>batch_size<span class="token punctuation">)</span>
-test_loader <span class="token operator">=</span> io<span class="token punctuation">.</span>DataLoader<span class="token punctuation">(</span>test_dataset<span class="token punctuation">,</span> batch_size<span class="token operator">=</span>batch_size<span class="token punctuation">)</span> 
-<span class="token comment"># 定义网络</span>
-model <span class="token operator">=</span> resnet18_model
-<span class="token comment"># 定义优化器，这里使用Adam优化器以及l2正则化策略，相关内容在7.3.3.2和7.6.2中会进行详细介绍</span>
-<span class="token comment"># 使用Adam优化器和L2正则化策略</span>
-optimizer <span class="token operator">=</span> opt<span class="token punctuation">.</span>Adam<span class="token punctuation">(</span>learning_rate<span class="token operator">=</span>lr<span class="token punctuation">,</span> parameters<span class="token operator">=</span>model<span class="token punctuation">.</span>parameters<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> weight_decay<span class="token operator">=</span><span class="token number">0.005</span><span class="token punctuation">)</span>
-<span class="token comment"># 定义损失函数</span>
-loss_fn <span class="token operator">=</span> F<span class="token punctuation">.</span>cross_entropy
-<span class="token comment"># 定义评价指标</span>
-metric <span class="token operator">=</span> metric<span class="token punctuation">.</span>Accuracy<span class="token punctuation">(</span>is_logist<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
-<span class="token comment"># 实例化RunnerV3</span>
-runner <span class="token operator">=</span> RunnerV3<span class="token punctuation">(</span>model<span class="token punctuation">,</span> optimizer<span class="token punctuation">,</span> loss_fn<span class="token punctuation">,</span> metric<span class="token punctuation">)</span>
-<span class="token comment"># 启动训练</span>
-log_steps <span class="token operator">=</span> <span class="token number">3000</span>
-eval_steps <span class="token operator">=</span> <span class="token number">3000</span>
-runner<span class="token punctuation">.</span>train<span class="token punctuation">(</span>train_loader<span class="token punctuation">,</span> dev_loader<span class="token punctuation">,</span> num_epochs<span class="token operator">=</span><span class="token number">30</span><span class="token punctuation">,</span> log_steps<span class="token operator">=</span>log_steps<span class="token punctuation">,</span> 
-                eval_steps<span class="token operator">=</span>eval_steps<span class="token punctuation">,</span> save_path<span class="token operator">=</span><span class="token string">"best_model.pdparams"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
-
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">运行时长<span class="token punctuation">:</span> <span class="token number">7</span>分钟<span class="token number">8</span>秒<span class="token number">92</span>毫秒
-结束时间<span class="token punctuation">:</span> <span class="token number">2022</span><span class="token operator">-</span><span class="token number">12</span><span class="token operator">-</span><span class="token number">18</span> <span class="token number">18</span><span class="token punctuation">:</span><span class="token number">59</span><span class="token punctuation">:</span><span class="token number">13</span>
-<span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>
-
-<span class="token boolean">True</span>
-<span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>
-
-<span class="token punctuation">[</span>Train<span class="token punctuation">]</span> epoch<span class="token punctuation">:</span> <span class="token number">0</span><span class="token operator">/</span><span class="token number">30</span><span class="token punctuation">,</span> step<span class="token punctuation">:</span> <span class="token number">0</span><span class="token operator">/</span><span class="token number">18750</span><span class="token punctuation">,</span> loss<span class="token punctuation">:</span> <span class="token number">7.30469</span>
-<span class="token operator">/</span>opt<span class="token operator">/</span>conda<span class="token operator">/</span>envs<span class="token operator">/</span>python35<span class="token operator">-</span>paddle120<span class="token operator">-</span>env<span class="token operator">/</span>lib<span class="token operator">/</span>python3<span class="token punctuation">.</span><span class="token number">7</span><span class="token operator">/</span>site<span class="token operator">-</span>packages<span class="token operator">/</span>paddle<span class="token operator">/</span>nn<span class="token operator">/</span>layer<span class="token operator">/</span>norm<span class="token punctuation">.</span>py<span class="token punctuation">:</span><span class="token number">653</span><span class="token punctuation">:</span> UserWarning<span class="token punctuation">:</span> When training<span class="token punctuation">,</span> we now always track <span class="token keyword">global</span> mean <span class="token keyword">and</span> variance<span class="token punctuation">.</span>
-  <span class="token string">"When training, we now always track global mean and variance."</span><span class="token punctuation">)</span>
-<span class="token punctuation">[</span>Train<span class="token punctuation">]</span> epoch<span class="token punctuation">:</span> <span class="token number">4</span><span class="token operator">/</span><span class="token number">30</span><span class="token punctuation">,</span> step<span class="token punctuation">:</span> <span class="token number">3000</span><span class="token operator">/</span><span class="token number">18750</span><span class="token punctuation">,</span> loss<span class="token punctuation">:</span> <span class="token number">0.92417</span>
-<span class="token punctuation">[</span>Evaluate<span class="token punctuation">]</span>  dev score<span class="token punctuation">:</span> <span class="token number">0.65710</span><span class="token punctuation">,</span> dev loss<span class="token punctuation">:</span> <span class="token number">0.99306</span>
-<span class="token punctuation">[</span>Evaluate<span class="token punctuation">]</span> best accuracy performence has been updated<span class="token punctuation">:</span> <span class="token number">0.00000</span> <span class="token operator">-</span><span class="token operator">-</span><span class="token operator">></span> <span class="token number">0.65710</span>
-<span class="token punctuation">[</span>Train<span class="token punctuation">]</span> epoch<span class="token punctuation">:</span> <span class="token number">9</span><span class="token operator">/</span><span class="token number">30</span><span class="token punctuation">,</span> step<span class="token punctuation">:</span> <span class="token number">6000</span><span class="token operator">/</span><span class="token number">18750</span><span class="token punctuation">,</span> loss<span class="token punctuation">:</span> <span class="token number">0.59166</span>
-<span class="token punctuation">[</span>Evaluate<span class="token punctuation">]</span>  dev score<span class="token punctuation">:</span> <span class="token number">0.70810</span><span class="token punctuation">,</span> dev loss<span class="token punctuation">:</span> <span class="token number">0.85658</span>
-<span class="token punctuation">[</span>Evaluate<span class="token punctuation">]</span> best accuracy performence has been updated<span class="token punctuation">:</span> <span class="token number">0.65710</span> <span class="token operator">-</span><span class="token operator">-</span><span class="token operator">></span> <span class="token number">0.70810</span>
-<span class="token punctuation">[</span>Train<span class="token punctuation">]</span> epoch<span class="token punctuation">:</span> <span class="token number">14</span><span class="token operator">/</span><span class="token number">30</span><span class="token punctuation">,</span> step<span class="token punctuation">:</span> <span class="token number">9000</span><span class="token operator">/</span><span class="token number">18750</span><span class="token punctuation">,</span> loss<span class="token punctuation">:</span> <span class="token number">0.75011</span>
-<span class="token punctuation">[</span>Evaluate<span class="token punctuation">]</span>  dev score<span class="token punctuation">:</span> <span class="token number">0.70640</span><span class="token punctuation">,</span> dev loss<span class="token punctuation">:</span> <span class="token number">0.87181</span>
-<span class="token punctuation">[</span>Train<span class="token punctuation">]</span> epoch<span class="token punctuation">:</span> <span class="token number">19</span><span class="token operator">/</span><span class="token number">30</span><span class="token punctuation">,</span> step<span class="token punctuation">:</span> <span class="token number">12000</span><span class="token operator">/</span><span class="token number">18750</span><span class="token punctuation">,</span> loss<span class="token punctuation">:</span> <span class="token number">0.57231</span>
-<span class="token punctuation">[</span>Evaluate<span class="token punctuation">]</span>  dev score<span class="token punctuation">:</span> <span class="token number">0.72950</span><span class="token punctuation">,</span> dev loss<span class="token punctuation">:</span> <span class="token number">0.81165</span>
-<span class="token punctuation">[</span>Evaluate<span class="token punctuation">]</span> best accuracy performence has been updated<span class="token punctuation">:</span> <span class="token number">0.70810</span> <span class="token operator">-</span><span class="token operator">-</span><span class="token operator">></span> <span class="token number">0.72950</span>
-<span class="token punctuation">[</span>Train<span class="token punctuation">]</span> epoch<span class="token punctuation">:</span> <span class="token number">24</span><span class="token operator">/</span><span class="token number">30</span><span class="token punctuation">,</span> step<span class="token punctuation">:</span> <span class="token number">15000</span><span class="token operator">/</span><span class="token number">18750</span><span class="token punctuation">,</span> loss<span class="token punctuation">:</span> <span class="token number">0.49599</span>
-<span class="token punctuation">[</span>Evaluate<span class="token punctuation">]</span>  dev score<span class="token punctuation">:</span> <span class="token number">0.73080</span><span class="token punctuation">,</span> dev loss<span class="token punctuation">:</span> <span class="token number">0.79610</span>
-<span class="token punctuation">[</span>Evaluate<span class="token punctuation">]</span> best accuracy performence has been updated<span class="token punctuation">:</span> <span class="token number">0.72950</span> <span class="token operator">-</span><span class="token operator">-</span><span class="token operator">></span> <span class="token number">0.73080</span>
-<span class="token punctuation">[</span>Train<span class="token punctuation">]</span> epoch<span class="token punctuation">:</span> <span class="token number">28</span><span class="token operator">/</span><span class="token number">30</span><span class="token punctuation">,</span> step<span class="token punctuation">:</span> <span class="token number">18000</span><span class="token operator">/</span><span class="token number">18750</span><span class="token punctuation">,</span> loss<span class="token punctuation">:</span> <span class="token number">0.60004</span>
-<span class="token punctuation">[</span>Evaluate<span class="token punctuation">]</span>  dev score<span class="token punctuation">:</span> <span class="token number">0.70690</span><span class="token punctuation">,</span> dev loss<span class="token punctuation">:</span> <span class="token number">0.88804</span>
-<span class="token punctuation">[</span>Evaluate<span class="token punctuation">]</span>  dev score<span class="token punctuation">:</span> <span class="token number">0.71990</span><span class="token punctuation">,</span> dev loss<span class="token punctuation">:</span> <span class="token number">0.84240</span>
-<span class="token punctuation">[</span>Train<span class="token punctuation">]</span> Training done!<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs python">运行时长: <span class="hljs-number">7</span>分钟<span class="hljs-number">8</span>秒<span class="hljs-number">92</span>毫秒<br>结束时间: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">18</span> <span class="hljs-number">18</span>:<span class="hljs-number">59</span>:<span class="hljs-number">13</span><br>------------------------------<br><br><span class="hljs-literal">True</span><br>------------------------------<br><br>[Train] epoch: <span class="hljs-number">0</span>/<span class="hljs-number">30</span>, step: <span class="hljs-number">0</span>/<span class="hljs-number">18750</span>, loss: <span class="hljs-number">7.30469</span><br>/opt/conda/envs/python35-paddle120-env/lib/python3<span class="hljs-number">.7</span>/site-packages/paddle/nn/layer/norm.py:<span class="hljs-number">653</span>: UserWarning: When training, we now always track <span class="hljs-keyword">global</span> mean <span class="hljs-keyword">and</span> variance.<br>  <span class="hljs-string">&quot;When training, we now always track global mean and variance.&quot;</span>)<br>[Train] epoch: <span class="hljs-number">4</span>/<span class="hljs-number">30</span>, step: <span class="hljs-number">3000</span>/<span class="hljs-number">18750</span>, loss: <span class="hljs-number">0.92417</span><br>[Evaluate]  dev score: <span class="hljs-number">0.65710</span>, dev loss: <span class="hljs-number">0.99306</span><br>[Evaluate] best accuracy performence has been updated: <span class="hljs-number">0.00000</span> --&gt; <span class="hljs-number">0.65710</span><br>[Train] epoch: <span class="hljs-number">9</span>/<span class="hljs-number">30</span>, step: <span class="hljs-number">6000</span>/<span class="hljs-number">18750</span>, loss: <span class="hljs-number">0.59166</span><br>[Evaluate]  dev score: <span class="hljs-number">0.70810</span>, dev loss: <span class="hljs-number">0.85658</span><br>[Evaluate] best accuracy performence has been updated: <span class="hljs-number">0.65710</span> --&gt; <span class="hljs-number">0.70810</span><br>[Train] epoch: <span class="hljs-number">14</span>/<span class="hljs-number">30</span>, step: <span class="hljs-number">9000</span>/<span class="hljs-number">18750</span>, loss: <span class="hljs-number">0.75011</span><br>[Evaluate]  dev score: <span class="hljs-number">0.70640</span>, dev loss: <span class="hljs-number">0.87181</span><br>[Train] epoch: <span class="hljs-number">19</span>/<span class="hljs-number">30</span>, step: <span class="hljs-number">12000</span>/<span class="hljs-number">18750</span>, loss: <span class="hljs-number">0.57231</span><br>[Evaluate]  dev score: <span class="hljs-number">0.72950</span>, dev loss: <span class="hljs-number">0.81165</span><br>[Evaluate] best accuracy performence has been updated: <span class="hljs-number">0.70810</span> --&gt; <span class="hljs-number">0.72950</span><br>[Train] epoch: <span class="hljs-number">24</span>/<span class="hljs-number">30</span>, step: <span class="hljs-number">15000</span>/<span class="hljs-number">18750</span>, loss: <span class="hljs-number">0.49599</span><br>[Evaluate]  dev score: <span class="hljs-number">0.73080</span>, dev loss: <span class="hljs-number">0.79610</span><br>[Evaluate] best accuracy performence has been updated: <span class="hljs-number">0.72950</span> --&gt; <span class="hljs-number">0.73080</span><br>[Train] epoch: <span class="hljs-number">28</span>/<span class="hljs-number">30</span>, step: <span class="hljs-number">18000</span>/<span class="hljs-number">18750</span>, loss: <span class="hljs-number">0.60004</span><br>[Evaluate]  dev score: <span class="hljs-number">0.70690</span>, dev loss: <span class="hljs-number">0.88804</span><br>[Evaluate]  dev score: <span class="hljs-number">0.71990</span>, dev loss: <span class="hljs-number">0.84240</span><br>[Train] Training done!<br></code></pre></td></tr></table></figure>
 
 
 
 
 
 <p>可视化观察训练集与验证集的准确率及损失变化情况。</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> nndl <span class="token keyword">import</span> plot_training_loss_acc
-
-plot_training_loss_acc<span class="token punctuation">(</span>runner<span class="token punctuation">,</span> fig_name<span class="token operator">=</span><span class="token string">'cnn-loss4.pdf'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> nndl <span class="hljs-keyword">import</span> plot_training_loss_acc<br><br>plot_training_loss_acc(runner, fig_name=<span class="hljs-string">&#x27;cnn-loss4.pdf&#x27;</span>)<br></code></pre></td></tr></table></figure>
 
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221218190000774.png" srcset="/img/loading.gif" lazyload alt="image-20221218190000774"></p>
 <p>在本实验中，使用了第7章中介绍的Adam优化器进行网络优化，如果使用SGD优化器，会造成过拟合的现象，在验证集上无法得到很好的收敛效果。可以尝试使用第7章中其他优化策略调整训练配置，达到更高的模型精度。</p>
@@ -645,37 +507,16 @@ plot_training_loss_acc<span class="token punctuation">(</span>runner<span class=
 <hr>
 <h4 id="√-5-5-4-模型评价"><a href="#√-5-5-4-模型评价" class="headerlink" title="[√] 5.5.4 - 模型评价"></a>[√] 5.5.4 - 模型评价</h4><hr>
 <p>使用测试数据对在训练过程中保存的最佳模型进行评价，观察模型在测试集上的准确率以及损失情况。代码实现如下：</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 加载最优模型</span>
-runner<span class="token punctuation">.</span>load_model<span class="token punctuation">(</span><span class="token string">'best_model.pdparams'</span><span class="token punctuation">)</span>
-<span class="token comment"># 模型评价</span>
-score<span class="token punctuation">,</span> loss <span class="token operator">=</span> runner<span class="token punctuation">.</span>evaluate<span class="token punctuation">(</span>test_loader<span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"[Test] accuracy/loss: &#123;:.4f&#125;/&#123;:.4f&#125;"</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>score<span class="token punctuation">,</span> loss<span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 加载最优模型</span><br>runner.load_model(<span class="hljs-string">&#x27;best_model.pdparams&#x27;</span>)<br><span class="hljs-comment"># 模型评价</span><br>score, loss = runner.evaluate(test_loader)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[Test] accuracy/loss: &#123;:.4f&#125;/&#123;:.4f&#125;&quot;</span>.<span class="hljs-built_in">format</span>(score, loss))<br></code></pre></td></tr></table></figure>
 
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token punctuation">[</span>Test<span class="token punctuation">]</span> accuracy<span class="token operator">/</span>loss<span class="token punctuation">:</span> <span class="token number">0.7257</span><span class="token operator">/</span><span class="token number">0.8251</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">[Test] accuracy/loss: <span class="hljs-number">0.7257</span>/<span class="hljs-number">0.8251</span><br></code></pre></td></tr></table></figure>
 
 
 
 <hr>
 <h4 id="√-5-5-5-模型预测"><a href="#√-5-5-5-模型预测" class="headerlink" title="[√] 5.5.5 - 模型预测"></a>[√] 5.5.5 - 模型预测</h4><hr>
 <p>同样地，也可以使用保存好的模型，对测试集中的数据进行模型预测，观察模型效果，具体代码实现如下：</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">id2label <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">:</span><span class="token string">'airplane'</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">:</span><span class="token string">'automobile'</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">:</span><span class="token string">'bird'</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">:</span><span class="token string">'cat'</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">:</span><span class="token string">'deer'</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">:</span><span class="token string">'dog'</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">:</span><span class="token string">'frog'</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">:</span><span class="token string">'horse'</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">:</span><span class="token string">'ship'</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">:</span><span class="token string">'truck'</span><span class="token punctuation">&#125;</span>
-<span class="token comment"># 获取测试集中的一个batch的数据</span>
-X<span class="token punctuation">,</span> label_ids <span class="token operator">=</span> <span class="token builtin">next</span><span class="token punctuation">(</span>test_loader<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-logits <span class="token operator">=</span> runner<span class="token punctuation">.</span>predict<span class="token punctuation">(</span>X<span class="token punctuation">)</span>
-<span class="token comment"># 多分类，使用softmax计算预测概率</span>
-pred <span class="token operator">=</span> F<span class="token punctuation">.</span>softmax<span class="token punctuation">(</span>logits<span class="token punctuation">)</span>
-<span class="token comment"># 获取概率最大的类别</span>
-pred_class_id <span class="token operator">=</span> paddle<span class="token punctuation">.</span>argmax<span class="token punctuation">(</span>pred<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">.</span>numpy<span class="token punctuation">(</span><span class="token punctuation">)</span>
-label_id <span class="token operator">=</span> label_ids<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>numpy<span class="token punctuation">(</span><span class="token punctuation">)</span>
-pred_class <span class="token operator">=</span> id2label<span class="token punctuation">[</span>pred_class_id<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
-label <span class="token operator">=</span> id2label<span class="token punctuation">[</span>label_id<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
-<span class="token comment"># 输出真实类别与预测类别</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"The true category is &#123;&#125; and the predicted category is &#123;&#125;"</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>label<span class="token punctuation">,</span> pred_class<span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token comment"># 可视化图片</span>
-plt<span class="token punctuation">.</span>figure<span class="token punctuation">(</span>figsize<span class="token operator">=</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-imgs<span class="token punctuation">,</span> labels <span class="token operator">=</span> load_cifar10_batch<span class="token punctuation">(</span>folder_path<span class="token operator">=</span><span class="token string">'/home/aistudio/datasets/cifar-10-batches-py'</span><span class="token punctuation">,</span> mode<span class="token operator">=</span><span class="token string">'test'</span><span class="token punctuation">)</span>
-plt<span class="token punctuation">.</span>imshow<span class="token punctuation">(</span>imgs<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">.</span>transpose<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-plt<span class="token punctuation">.</span>savefig<span class="token punctuation">(</span><span class="token string">'cnn-test-vis.pdf'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python">id2label = &#123;<span class="hljs-number">0</span>:<span class="hljs-string">&#x27;airplane&#x27;</span>, <span class="hljs-number">1</span>:<span class="hljs-string">&#x27;automobile&#x27;</span>, <span class="hljs-number">2</span>:<span class="hljs-string">&#x27;bird&#x27;</span>, <span class="hljs-number">3</span>:<span class="hljs-string">&#x27;cat&#x27;</span>, <span class="hljs-number">4</span>:<span class="hljs-string">&#x27;deer&#x27;</span>, <span class="hljs-number">5</span>:<span class="hljs-string">&#x27;dog&#x27;</span>, <span class="hljs-number">6</span>:<span class="hljs-string">&#x27;frog&#x27;</span>, <span class="hljs-number">7</span>:<span class="hljs-string">&#x27;horse&#x27;</span>, <span class="hljs-number">8</span>:<span class="hljs-string">&#x27;ship&#x27;</span>, <span class="hljs-number">9</span>:<span class="hljs-string">&#x27;truck&#x27;</span>&#125;<br><span class="hljs-comment"># 获取测试集中的一个batch的数据</span><br>X, label_ids = <span class="hljs-built_in">next</span>(test_loader())<br>logits = runner.predict(X)<br><span class="hljs-comment"># 多分类，使用softmax计算预测概率</span><br>pred = F.softmax(logits)<br><span class="hljs-comment"># 获取概率最大的类别</span><br>pred_class_id = paddle.argmax(pred[<span class="hljs-number">2</span>]).numpy()<br>label_id = label_ids[<span class="hljs-number">2</span>][<span class="hljs-number">0</span>].numpy()<br>pred_class = id2label[pred_class_id[<span class="hljs-number">0</span>]]<br>label = id2label[label_id[<span class="hljs-number">0</span>]]<br><span class="hljs-comment"># 输出真实类别与预测类别</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;The true category is &#123;&#125; and the predicted category is &#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(label, pred_class))<br><span class="hljs-comment"># 可视化图片</span><br>plt.figure(figsize=(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>))<br>imgs, labels = load_cifar10_batch(folder_path=<span class="hljs-string">&#x27;/home/aistudio/datasets/cifar-10-batches-py&#x27;</span>, mode=<span class="hljs-string">&#x27;test&#x27;</span>)<br>plt.imshow(imgs[<span class="hljs-number">2</span>].transpose(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">0</span>))<br>plt.savefig(<span class="hljs-string">&#x27;cnn-test-vis.pdf&#x27;</span>)<br></code></pre></td></tr></table></figure>
 
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221218183028491.png" srcset="/img/loading.gif" lazyload alt="image-20221218190218195"></p>
 <hr>
@@ -683,48 +524,13 @@ plt<span class="token punctuation">.</span>savefig<span class="token punctuation
 <p>这里使用自定义的 <code>Model_ResNet18</code> 模型进行图像分类实验，观察两者结果是否一致。</p>
 <hr>
 <h6 id="√-5-5-7-1-模型训练"><a href="#√-5-5-7-1-模型训练" class="headerlink" title="[√] 5.5.7.1 - 模型训练"></a>[√] 5.5.7.1 - 模型训练</h6><hr>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> paddle<span class="token punctuation">.</span>nn<span class="token punctuation">.</span>functional <span class="token keyword">as</span> F
-<span class="token keyword">import</span> paddle<span class="token punctuation">.</span>optimizer <span class="token keyword">as</span> opt
-<span class="token keyword">from</span> nndl <span class="token keyword">import</span> RunnerV3<span class="token punctuation">,</span> metric<span class="token punctuation">,</span> op
-
-<span class="token comment"># 指定运行设备</span>
-use_gpu <span class="token operator">=</span> <span class="token boolean">True</span> <span class="token keyword">if</span> paddle<span class="token punctuation">.</span>get_device<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>startswith<span class="token punctuation">(</span><span class="token string">"gpu"</span><span class="token punctuation">)</span> <span class="token keyword">else</span> <span class="token boolean">False</span>
-<span class="token keyword">if</span> use_gpu<span class="token punctuation">:</span>
-    paddle<span class="token punctuation">.</span>set_device<span class="token punctuation">(</span><span class="token string">'gpu:0'</span><span class="token punctuation">)</span>
-<span class="token comment"># 学习率大小</span>
-lr <span class="token operator">=</span> <span class="token number">0.001</span>  
-<span class="token comment"># 批次大小</span>
-batch_size <span class="token operator">=</span> <span class="token number">64</span> 
-<span class="token comment"># 加载数据</span>
-train_loader <span class="token operator">=</span> io<span class="token punctuation">.</span>DataLoader<span class="token punctuation">(</span>train_dataset<span class="token punctuation">,</span> batch_size<span class="token operator">=</span>batch_size<span class="token punctuation">,</span> shuffle<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
-dev_loader <span class="token operator">=</span> io<span class="token punctuation">.</span>DataLoader<span class="token punctuation">(</span>dev_dataset<span class="token punctuation">,</span> batch_size<span class="token operator">=</span>batch_size<span class="token punctuation">)</span>
-test_loader <span class="token operator">=</span> io<span class="token punctuation">.</span>DataLoader<span class="token punctuation">(</span>test_dataset<span class="token punctuation">,</span> batch_size<span class="token operator">=</span>batch_size<span class="token punctuation">)</span> 
-<span class="token comment"># 定义网络</span>
-model <span class="token operator">=</span> op<span class="token punctuation">.</span>Model_ResNet18<span class="token punctuation">(</span>in_channels<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">,</span> num_classes<span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">,</span> use_residual<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
-
-<span class="token comment"># 定义优化器，这里使用Adam优化器以及l2正则化策略，相关内容在7.3.3.2和7.6.2中会进行详细介绍</span>
-optimizer <span class="token operator">=</span> opt<span class="token punctuation">.</span>Adam<span class="token punctuation">(</span>learning_rate<span class="token operator">=</span>lr<span class="token punctuation">,</span> parameters<span class="token operator">=</span>model<span class="token punctuation">.</span>parameters<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> weight_decay<span class="token operator">=</span><span class="token number">0.005</span><span class="token punctuation">)</span>
-<span class="token comment"># 定义损失函数</span>
-loss_fn <span class="token operator">=</span> F<span class="token punctuation">.</span>cross_entropy
-<span class="token comment"># 定义评价指标</span>
-metric <span class="token operator">=</span> metric<span class="token punctuation">.</span>Accuracy<span class="token punctuation">(</span>is_logist<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
-<span class="token comment"># 实例化RunnerV3</span>
-runner <span class="token operator">=</span> RunnerV3<span class="token punctuation">(</span>model<span class="token punctuation">,</span> optimizer<span class="token punctuation">,</span> loss_fn<span class="token punctuation">,</span> metric<span class="token punctuation">)</span>
-<span class="token comment"># 启动训练</span>
-log_steps <span class="token operator">=</span> <span class="token number">3000</span>
-eval_steps <span class="token operator">=</span> <span class="token number">3000</span>
-runner<span class="token punctuation">.</span>train<span class="token punctuation">(</span>train_loader<span class="token punctuation">,</span> dev_loader<span class="token punctuation">,</span> num_epochs<span class="token operator">=</span><span class="token number">30</span><span class="token punctuation">,</span> log_steps<span class="token operator">=</span>log_steps<span class="token punctuation">,</span> 
-                eval_steps<span class="token operator">=</span>eval_steps<span class="token punctuation">,</span> save_path<span class="token operator">=</span><span class="token string">"best_model.pdparams"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> paddle.nn.functional <span class="hljs-keyword">as</span> F<br><span class="hljs-keyword">import</span> paddle.optimizer <span class="hljs-keyword">as</span> opt<br><span class="hljs-keyword">from</span> nndl <span class="hljs-keyword">import</span> RunnerV3, metric, op<br><br><span class="hljs-comment"># 指定运行设备</span><br>use_gpu = <span class="hljs-literal">True</span> <span class="hljs-keyword">if</span> paddle.get_device().startswith(<span class="hljs-string">&quot;gpu&quot;</span>) <span class="hljs-keyword">else</span> <span class="hljs-literal">False</span><br><span class="hljs-keyword">if</span> use_gpu:<br>    paddle.set_device(<span class="hljs-string">&#x27;gpu:0&#x27;</span>)<br><span class="hljs-comment"># 学习率大小</span><br>lr = <span class="hljs-number">0.001</span>  <br><span class="hljs-comment"># 批次大小</span><br>batch_size = <span class="hljs-number">64</span> <br><span class="hljs-comment"># 加载数据</span><br>train_loader = io.DataLoader(train_dataset, batch_size=batch_size, shuffle=<span class="hljs-literal">True</span>)<br>dev_loader = io.DataLoader(dev_dataset, batch_size=batch_size)<br>test_loader = io.DataLoader(test_dataset, batch_size=batch_size) <br><span class="hljs-comment"># 定义网络</span><br>model = op.Model_ResNet18(in_channels=<span class="hljs-number">3</span>, num_classes=<span class="hljs-number">10</span>, use_residual=<span class="hljs-literal">True</span>)<br><br><span class="hljs-comment"># 定义优化器，这里使用Adam优化器以及l2正则化策略，相关内容在7.3.3.2和7.6.2中会进行详细介绍</span><br>optimizer = opt.Adam(learning_rate=lr, parameters=model.parameters(), weight_decay=<span class="hljs-number">0.005</span>)<br><span class="hljs-comment"># 定义损失函数</span><br>loss_fn = F.cross_entropy<br><span class="hljs-comment"># 定义评价指标</span><br>metric = metric.Accuracy(is_logist=<span class="hljs-literal">True</span>)<br><span class="hljs-comment"># 实例化RunnerV3</span><br>runner = RunnerV3(model, optimizer, loss_fn, metric)<br><span class="hljs-comment"># 启动训练</span><br>log_steps = <span class="hljs-number">3000</span><br>eval_steps = <span class="hljs-number">3000</span><br>runner.train(train_loader, dev_loader, num_epochs=<span class="hljs-number">30</span>, log_steps=log_steps, <br>                eval_steps=eval_steps, save_path=<span class="hljs-string">&quot;best_model.pdparams&quot;</span>)<br></code></pre></td></tr></table></figure>
 
 
 
 <hr>
 <h6 id="√-5-5-7-2-模型评价"><a href="#√-5-5-7-2-模型评价" class="headerlink" title="[√] 5.5.7.2 - 模型评价"></a>[√] 5.5.7.2 - 模型评价</h6><hr>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 加载最优模型</span>
-runner<span class="token punctuation">.</span>load_model<span class="token punctuation">(</span><span class="token string">'best_model.pdparams'</span><span class="token punctuation">)</span>
-<span class="token comment"># 模型评价</span>
-score<span class="token punctuation">,</span> loss <span class="token operator">=</span> runner<span class="token punctuation">.</span>evaluate<span class="token punctuation">(</span>test_loader<span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"[Test] accuracy/loss: &#123;:.4f&#125;/&#123;:.4f&#125;"</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>score<span class="token punctuation">,</span> loss<span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 加载最优模型</span><br>runner.load_model(<span class="hljs-string">&#x27;best_model.pdparams&#x27;</span>)<br><span class="hljs-comment"># 模型评价</span><br>score, loss = runner.evaluate(test_loader)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;[Test] accuracy/loss: &#123;:.4f&#125;/&#123;:.4f&#125;&quot;</span>.<span class="hljs-built_in">format</span>(score, loss))<br></code></pre></td></tr></table></figure>
 
 <p>可以看到，使用自定义的Resnet18模型与高层API中的Resnet18模型训练效果可以基本一致。</p>
 <hr>
@@ -808,7 +614,7 @@ score<span class="token punctuation">,</span> loss <span class="token operator">
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年12月19日</div>
+          <div>2022年12月25日</div>
         </div>
       
       
@@ -850,8 +656,8 @@ score<span class="token punctuation">,</span> loss <span class="token operator">
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/75512103/" title="第4章 - 前馈神经网络 - 书籍">
-                        <span class="hidden-mobile">第4章 - 前馈神经网络 - 书籍</span>
+                      <a href="/posts/1254558254/" title="第5章 - 卷积神经网络 - 书籍">
+                        <span class="hidden-mobile">第5章 - 卷积神经网络 - 书籍</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -871,7 +677,10 @@ score<span class="token punctuation">,</span> loss <span class="token operator">
       
   <aside class="sidebar" style="margin-left: -1rem">
     <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
   <div class="toc-body" id="toc-body"></div>
 </div>
 
@@ -947,37 +756,39 @@ score<span class="token punctuation">,</span> loss <span class="token operator">
     
       <div class="col-lg-7 mx-auto nopadding-x-md">
         <div class="container custom mx-auto">
-           <!-- MetingJS start --> <div class="aplayer" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-fixed="true" data-autoplay="false" data-volume="0.7"></div> <!-- MetingJS end --> 
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
         </div>
       </div>
     
   </main>
 
   <footer>
-    <div class="footer-inner">
-  
-    <footer class="text-center mt-5 py-3" style="color: #DDD;font-size: 13.6px;">
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
       <div class="footer-content">
-         <a href="https://hexo.io" target="_blank" rel="nofollow noopener" style="color:#D8D9DA"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener" style="color:#D8D9DA"><span>Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/alec-97" target="_blank" rel="nofollow noopener" style="color:#D8D9DA"><span>Alec</span></a> <div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div> 
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
       </div>
+    
+
+    
+      <div class="statistics">
   
   
-  
-  
-    <div class="statistics">
-  
-  
-  
+
   
     
-      <span id="busuanzi_container_site_pv" style="display: none;font-size:13.6px">
+      <span id="busuanzi_container_site_pv" style="display: none">
         总访问量 
         <span id="busuanzi_value_site_pv"></span>
          次
       </span>
     
     
-      <span id="busuanzi_container_site_uv" style="display: none;font-size:13.6px">
+      <span id="busuanzi_container_site_uv" style="display: none">
         总访客数 
         <span id="busuanzi_value_site_uv"></span>
          人
@@ -985,31 +796,29 @@ score<span class="token punctuation">,</span> loss <span class="token operator">
     
     
   
-
 </div>
 
-<div class="statistics" style="font-size: 13.6px;">
-  <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #DDD;font-size:13.6px"  id="hitokoto"></span></a>
-  <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
-</div>
+    
 
-  
-  
-  
-  
-  
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
 
+    
 
+    
 
-  
+  </div>  
 </div>
 
   </footer>
 
   <!-- Scripts -->
   
-  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
   <script>
     NProgress.configure({"showSpinner":false,"trickleSpeed":100})
@@ -1020,26 +829,11 @@ score<span class="token punctuation">,</span> loss <span class="token operator">
   </script>
 
 
-<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
-<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>
 
-
-  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
 
 
 
@@ -1053,7 +847,7 @@ score<span class="token punctuation">,</span> loss <span class="token operator">
 
   
 <script>
-  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js', function() {
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
     var toc = jQuery('#toc');
     if (toc.length === 0 || !window.tocbot) { return; }
     var boardCtn = jQuery('#board-ctn');
@@ -1091,16 +885,14 @@ score<span class="token punctuation">,</span> loss <span class="token operator">
 </script>
 
 
-  <script  src="https://cdn.jsdelivr.net/npm/prismjs@1/plugins/line-numbers/prism-line-numbers.min.js" ></script>
-
-  <script src=https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js></script>
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
 
   <script>Fluid.plugins.codeWidget();</script>
 
 
   
 <script>
-  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js', function() {
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
     window.anchors.options = {
       placement: CONFIG.anchorjs.placement,
       visible  : CONFIG.anchorjs.visible
@@ -1138,7 +930,7 @@ score<span class="token punctuation">,</span> loss <span class="token operator">
 
   
 <script>
-  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js', function() {
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
     Fluid.plugins.fancyBox();
   });
 </script>
@@ -1153,29 +945,10 @@ score<span class="token punctuation">,</span> loss <span class="token operator">
 
 
 
-
-
-
   
-<script src="/js/love.js"></script>
-<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/yinghua.js"></script>
-<script src="/js/APlayer/dist/APlayer.min.js"></script>
-<script src="/js/Meting.min.js"></script>
-
-
-
-
-<!-- alec:监控页面焦点变换标题 -->
-
-  <script type="text/javascript">
-    /*窗口监视*/
-    var originalTitle = document.title;
-    window.onblur = function(){document.title = "给时间一点时间"};
-    window.onfocus = function(){document.title = originalTitle};
-  </script>
-
-
-
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
 
 
 
@@ -1189,6 +962,9 @@ score<span class="token punctuation">,</span> loss <span class="token operator">
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
   </noscript>
+
+
+
 
 </body>
 </html>

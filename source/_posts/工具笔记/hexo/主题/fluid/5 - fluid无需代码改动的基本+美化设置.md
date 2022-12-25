@@ -1,10 +1,16 @@
 ---
 title: 5 - fluid无需代码改动的基本+美化设置
+categories:
+  - 工具笔记
+  - hexo
+  - 主题
+  - fluid
+abbrlink: 135347359
 ---
 
 
 
-## [] 主题配置文件
+## [√] 主题配置文件
 
 ---
 
@@ -16,7 +22,7 @@ title: 5 - fluid无需代码改动的基本+美化设置
 
 （1）在`blog/themes/fluid/source/img/`中，添加自己喜欢的图片，并命名为`photo.png`
 
-![image-20221223112505185](D:\坚果云\Alec - backup files\typora pictures\image-20221223112505185.png)
+![image-20221223112505185](https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212241646455.png)
 
 （2）修改主题配置文件
 
@@ -37,9 +43,9 @@ apple_touch_icon: /img/photo.png
 
 （3）效果展示：
 
-![image-20221223112704543](D:\坚果云\Alec - backup files\typora pictures\image-20221223112704543.png)
+![image-20221223112704543](https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212241646456.png)
 
-#### [] 副标题美化
+#### [√] 副标题美化
 
 ---
 
@@ -76,9 +82,52 @@ fun_features:
 
 
 
+#### [√] 为文章内容中的当前标题添加锚图标
+
+---
+
+（1）设置
+
+```yaml
+  # 为文章内容中的标题添加锚图标
+  # Add an anchor icon to the title on the post page
+  anchorjs:
+    enable: true
+    element: h1,h2,h3,h4,h5,h6
+    # Options: left | right
+    placement: left
+    # Options: hover | always | touch
+    visible: hover
+    # Options: § | # | ❡
+    icon: "->"
+
+```
 
 
 
+（2）效果展示
+
+![image-20221223220959466](https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212241646457.png)
 
 
+
+#### [√] 加载进度条调整宽度和颜色
+
+---
+
+```yaml
+  # 加载进度条
+  # Progress bar when loading
+  progressbar:
+    enable: true
+    height_px: 5
+    color: "#29d"
+    # See: https://github.com/rstacruz/nprogress
+    options: { showSpinner: false, trickleSpeed: 100 }
+
+```
+
+效果展示
+
+![image-20221223221218379](https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212241646458.png)
 

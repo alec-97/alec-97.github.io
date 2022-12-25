@@ -1,27 +1,31 @@
-<div class="footer-inner">
-  <% if (theme.footer.content) { %>
-    <footer class="text-center mt-5 py-3" style="color: #DDD;font-size: 13.6px;">
+<div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    <% if (theme.footer.content) { %>
       <div class="footer-content">
         <%- theme.footer.content %>
       </div>
-  <% } %>
-  
-  
-  <% if (theme.footer.statistics.enable) { %>
-    <%- partial('_partials/footer/statistics.ejs') %>
-  <% } %>
-  
-  
-  
-  <% if(theme.footer.beian.enable) { %>
-    <!-- 备案信息 ICP for China -->
-    <%- partial('_partials/footer/beian.ejs') %>
-  <% } %>
+    <% } %>
 
+    <% if (theme.footer.statistics.enable) { %>
+      <%- partial('_partials/footer/statistics.ejs') %>
+    <% } %>
 
+    <% if (theme.footer.content2) { %>
+      <div class="footer-content">
+        <%- theme.footer.content2 %>
+      </div>
+    <% } %>
 
-  <% if(theme.web_analytics.cnzz) { %>
-    <!-- cnzz Analytics Icon -->
-    <span id="cnzz_stat_icon_<%= theme.web_analytics.cnzz %>" style="display: none"></span>
-  <% } %>
+    <% if(theme.footer.beian.enable) { %>
+      <!-- 备案信息 ICP for China -->
+      <%- partial('_partials/footer/beian.ejs') %>
+    <% } %>
+
+    <% if(theme.web_analytics.cnzz) { %>
+      <!-- cnzz Analytics Icon -->
+      <span id="cnzz_stat_icon_<%= theme.web_analytics.cnzz %>" style="display: none"></span>
+    <% } %>
+
+  </div>  
 </div>

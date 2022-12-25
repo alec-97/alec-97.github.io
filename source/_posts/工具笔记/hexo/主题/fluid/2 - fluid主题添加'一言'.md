@@ -1,5 +1,11 @@
 ---
 title: 2 - fluid主题添加'一言'
+categories:
+  - 工具笔记
+  - hexo
+  - 主题
+  - fluid
+abbrlink: 151223124
 ---
 
 

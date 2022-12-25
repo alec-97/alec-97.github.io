@@ -20,20 +20,13 @@ h6:hover > .anchorjs-link {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0);
+  background-color: rgba(0,0,0,0.3);
 }
 .banner[parallax="true"] {
   will-change: transform;
   -webkit-transform-style: preserve-3d;
   -webkit-backface-visibility: hidden;
   transition: transform 0.05s ease-out;
-}
-.real_mask {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.4);
-  z-index: -777;
 }
 @media (max-width: 100vh) {
   .header-inner {
@@ -187,7 +180,7 @@ h6:hover > .anchorjs-link {
   }
 }
 .footer-inner {
-  padding: 0px 0 0px;
+  padding: 3rem 0 1rem 0;
   text-align: center;
 }
 .footer-inner > div:not(:first-child) {
@@ -316,6 +309,9 @@ sup > a::before,
 }
 .navbar .nav-item .nav-link i {
   font-size: 0.875rem;
+}
+.navbar .nav-item .nav-link i:only-child {
+  margin: 0 0.2rem;
 }
 .navbar .navbar-toggler {
   border-width: 0;
@@ -450,6 +446,9 @@ sup > a::before,
   width: 80%;
   overflow-wrap: break-word;
 }
+.banner-text .typed-cursor {
+  margin: 0 0.2rem;
+}
 @media (max-width: 767px) {
   #subtitle,
   .typed-cursor {
@@ -564,10 +563,10 @@ sup > a::before,
 }
 #nprogress .bar {
   height: 5px !important;
-  background-color: #29d !important;
+  background-color: #00FF7F !important;
 }
 #nprogress .peg {
-  box-shadow: 0 0 14px #29d, 0 0 8px #29d !important;
+  box-shadow: 0 0 14px #00FF7F, 0 0 8px #00FF7F !important;
 }
 @media (max-width: 575px) {
   #nprogress .bar {
@@ -877,7 +876,7 @@ i.iconfont {
     --scrollbar-hover-color: #9da8b3;
     --button-bg-color: transparent;
     --button-hover-bg-color: #46647e;
-    --highlight-bg-color: #2d333b;
+    --highlight-bg-color: #303030;
     --inlinecode-bg-color: rgba(99,110,123,0.4);
   }
   :root:not([data-user-color-scheme]) img {
@@ -912,7 +911,7 @@ i.iconfont {
   --scrollbar-hover-color: #9da8b3;
   --button-bg-color: transparent;
   --button-hover-bg-color: #46647e;
-  --highlight-bg-color: #2d333b;
+  --highlight-bg-color: #303030;
   --inlinecode-bg-color: rgba(99,110,123,0.4);
 }
 [data-user-color-scheme="dark"] img {

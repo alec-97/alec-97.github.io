@@ -1,11 +1,5 @@
 
 
-
-<!--alec insert start-->
-<script src="/live2d-widget/autoload.js"></script>
-<!--alec insert end-->
-
-
 <!DOCTYPE html>
 <html lang="zh-CN" data-default-color-scheme=auto>
 
@@ -18,16 +12,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
   <meta name="theme-color" content="#2f4154">
   <meta name="author" content="Shuai Zhao">
   <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
   
-    <meta name="description" content="[√] 课节1: 实践基础1.1 - [视频] 直播回放——邱锡鹏老师  模型需要自己构建，其中线性模型可以看做浅层学习，非线性函数可以看成深层学习或深度学习 学习准则可以定义为一些损失函数来评判学习的好坏 有了学习准则之后可以通过一些优化算法来优化，让其在学习准则下达到最优   深度学习 &#x3D; 表示学习 + 预测    通过偏导数，在机器学习中，对参数稍微调整一下，看一下这个调整对最终结果的影响是">
+    <meta name="description" content="[√] 课节1: 实践基础1.1 - [视频] 直播回放——邱锡鹏老师  模型需要自己构建，其中线性模型可以看做浅层学习，非线性函数可以看成深层学习或深度学习 学习准则可以定义为一些损失函数来评判学习的好坏 有了学习准则之后可以通过一些优化算法来优化，让其在学习准则下达到最优   深度学习 &#x3D; 表示学习 + 预测    通过偏导数，在机器学习中，对参数稍微调整一下，看一下这个调整对最终结">
 <meta property="og:type" content="article">
 <meta property="og:title" content="第1章 - 实践基础1">
 <meta property="og:url" content="http://example.com/posts/2304768005/index.html">
 <meta property="og:site_name" content="要走起来，你才知道方向。">
-<meta property="og:description" content="[√] 课节1: 实践基础1.1 - [视频] 直播回放——邱锡鹏老师  模型需要自己构建，其中线性模型可以看做浅层学习，非线性函数可以看成深层学习或深度学习 学习准则可以定义为一些损失函数来评判学习的好坏 有了学习准则之后可以通过一些优化算法来优化，让其在学习准则下达到最优   深度学习 &#x3D; 表示学习 + 预测    通过偏导数，在机器学习中，对参数稍微调整一下，看一下这个调整对最终结果的影响是">
+<meta property="og:description" content="[√] 课节1: 实践基础1.1 - [视频] 直播回放——邱锡鹏老师  模型需要自己构建，其中线性模型可以看做浅层学习，非线性函数可以看成深层学习或深度学习 学习准则可以定义为一些损失函数来评判学习的好坏 有了学习准则之后可以通过一些优化算法来优化，让其在学习准则下达到最优   深度学习 &#x3D; 表示学习 + 预测    通过偏导数，在机器学习中，对参数稍微调整一下，看一下这个调整对最终结">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221209164937541.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221209164905028.png">
@@ -91,7 +87,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221209210516027.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221209213544884.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/5bc27443b5ab4df99c7578f75ea973e84cab41d1caf949bea84af0b814325621.png">
-<meta property="article:published_time" content="2022-12-19T11:54:36.353Z">
+<meta property="article:published_time" content="2022-12-25T07:16:57.796Z">
 <meta property="article:modified_time" content="2022-12-21T13:43:10.702Z">
 <meta property="article:author" content="Shuai Zhao">
 <meta property="article:tag" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
@@ -102,21 +98,17 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"> 
-  
   <title>第1章 - 实践基础1 - 要走起来，你才知道方向。</title>
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
 
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1/plugins/line-numbers/prism-line-numbers.min.css" />
-
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
 
 
 
@@ -141,36 +133,34 @@
 
 
   
-<link rel="stylesheet" href="/js/APlayer/dist/APlayer.min.css">
-<link rel="stylesheet" href="/css/custom.css">
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
 
 
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":60,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":5,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":5,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
       Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
   </script>
-
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
   
 
-  
-  
 
-<meta name="generator" content="Hexo 5.4.2"></head>
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
 
 
 <body>
   <div>
 	<div class='real_mask' style="
-		background-color: rgba(0,0,0,0.4);
+		background-color: rgba(0,0,0,0.3);
 		width: 100%;
 		height: 100%;
 		position: fixed;
@@ -182,11 +172,18 @@
 	</div>
 </div>
 <div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
 
   <header>
     
 
-<div class="header-inner" style="height: 85vh;">
+<div class="header-inner" style="height: 80vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
@@ -210,7 +207,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/">
                 <i class="iconfont icon-home-fill"></i>
-                首页
+                <span>首页</span>
               </a>
             </li>
           
@@ -222,7 +219,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/archives/">
                 <i class="iconfont icon-archive-fill"></i>
-                归档
+                <span>归档</span>
               </a>
             </li>
           
@@ -234,7 +231,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/categories/">
                 <i class="iconfont icon-category-fill"></i>
-                分类
+                <span>分类</span>
               </a>
             </li>
           
@@ -246,7 +243,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/tags/">
                 <i class="iconfont icon-tags-fill"></i>
-                标签
+                <span>标签</span>
               </a>
             </li>
           
@@ -258,7 +255,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/playlist/">
                 <i class="iconfont icon-music"></i>
-                音乐
+                <span>音乐</span>
               </a>
             </li>
           
@@ -270,7 +267,7 @@
             <li class="nav-item">
               <a class="nav-link" href="/about/">
                 <i class="iconfont icon-user-fill"></i>
-                关于
+                <span>关于</span>
               </a>
             </li>
           
@@ -278,15 +275,16 @@
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+              <i class="iconfont icon-search"></i>
             </a>
           </li>
           
         
         
           <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
-                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
           </li>
         
       </ul>
@@ -295,14 +293,15 @@
 </nav>
 
   
+
 <div id="banner" class="banner" parallax=true
-     style="background: url('https://101.43.39.125/HexoFiles/new/bg-trans.png') no-repeat center center; background-size: cover;">
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="第1章 - 实践基础1"></span>
+            <span id="subtitle">第1章 - 实践基础1</span>
           
         </div>
 
@@ -318,8 +317,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-12-19 19:54" pubdate>
-          2022年12月19日 晚上
+        <time datetime="2022-12-25 15:16" pubdate>
+          2022年12月25日 下午
         </time>
       </span>
     
@@ -330,8 +329,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          <!-- compatible with older versions-->
-          20k 字
+          21k 字
         
       </span>
     
@@ -342,8 +340,7 @@
         
         
         
-          <!-- compatible with older versions-->
-          163 分钟
+          172 分钟
         
       </span>
     
@@ -378,7 +375,6 @@
 	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
 
 	<div class="banner" id='banner' >
-
 
 		<div class="full-bg-img" >
 
@@ -438,11 +434,8 @@
 						}
 				</script>
 			
-			
 			</div>
 		</div>
-
-
     </div>
   </header>
 
@@ -464,6 +457,14 @@
             <!-- SEO header -->
             <h1 style="display: none">第1章 - 实践基础1</h1>
             
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：4 天前
+                  
+                
+              </p>
+            
             
               <div class="markdown-body">
                 
@@ -474,7 +475,7 @@
 <p>有了学习准则之后可以通过一些优化算法来优化，让其在学习准则下达到最优</p>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221209165732312.png" srcset="/img/loading.gif" lazyload alt="image-20221209165332527"></p>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221209165332527.png" srcset="/img/loading.gif" lazyload alt="image-20221209165554684"></p>
-<p>深度学习 = 表示学习 + 预测</p>
+<p>深度学习 &#x3D; 表示学习 + 预测</p>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221209165820537.png" srcset="/img/loading.gif" lazyload alt="image-20221209165732312"></p>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221209170339498.png" srcset="/img/loading.gif" lazyload alt="image-20221209165820537"></p>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221209165554684.png" srcset="/img/loading.gif" lazyload alt="image-20221209170102382"></p>
@@ -528,7 +529,7 @@
 <p>汇聚层算子</p>
 </blockquote>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221209170519833.png" srcset="/img/loading.gif" lazyload alt="image-20221209204701684"></p>
-<p>汇聚层 = 池化层？</p>
+<p>汇聚层 &#x3D; 池化层？</p>
 <p>平均池化、最大池化</p>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221209171152826.png" srcset="/img/loading.gif" lazyload alt="image-20221209205003669"></p>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221209184636787.png" srcset="/img/loading.gif" lazyload alt="image-20221209205908083"></p>
@@ -565,98 +566,33 @@
 <p>张量中元素的类型可以是布尔型数据、整数、浮点数或者复数，<strong>但同一张量中所有元素的数据类型均相同</strong>。因此我们可以给张量定义一个数据类型(dtype)来表</p>
 <p>示其元素的类型。</p>
 <h5 id="E（√）1-2-1-创建张量"><a href="#E（√）1-2-1-创建张量" class="headerlink" title="E（√）1.2.1 创建张量"></a>E（√）1.2.1 创建张量</h5><h6 id="F（√）1-2-1-1-指定数据创建张量"><a href="#F（√）1-2-1-1-指定数据创建张量" class="headerlink" title="F（√）1.2.1.1 指定数据创建张量"></a>F（√）1.2.1.1 指定数据创建张量</h6><p>（1）指定数据，创建一维张量</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 导入PaddlePaddle</span>
-<span class="token keyword">import</span> paddle
-<span class="token comment"># 创建一维Tensor</span>
-ndim_1_Tensor <span class="token operator">=</span> paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">2.0</span><span class="token punctuation">,</span> <span class="token number">3.0</span><span class="token punctuation">,</span> <span class="token number">4.0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span>ndim_1_Tensor<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 导入PaddlePaddle</span><br><span class="hljs-keyword">import</span> paddle<br><span class="hljs-comment"># 创建一维Tensor</span><br>ndim_1_Tensor = paddle.to_tensor([<span class="hljs-number">2.0</span>, <span class="hljs-number">3.0</span>, <span class="hljs-number">4.0</span>])<br><span class="hljs-built_in">print</span>(ndim_1_Tensor)<br></code></pre></td></tr></table></figure>
 
 <p>（2）指定数据，创建二维矩阵</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 创建二维Tensor</span>
-ndim_2_Tensor <span class="token operator">=</span> paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">2.0</span><span class="token punctuation">,</span> <span class="token number">3.0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-                                  <span class="token punctuation">[</span><span class="token number">4.0</span><span class="token punctuation">,</span> <span class="token number">5.0</span><span class="token punctuation">,</span> <span class="token number">6.0</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span>ndim_2_Tensor<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 创建二维Tensor</span><br>ndim_2_Tensor = paddle.to_tensor([[<span class="hljs-number">1.0</span>, <span class="hljs-number">2.0</span>, <span class="hljs-number">3.0</span>],<br>                                  [<span class="hljs-number">4.0</span>, <span class="hljs-number">5.0</span>, <span class="hljs-number">6.0</span>]])<br><span class="hljs-built_in">print</span>(ndim_2_Tensor)<br></code></pre></td></tr></table></figure>
 
 <p>（3）指定数据，创建多维张量</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 创建多维Tensor</span>
-ndim_3_Tensor <span class="token operator">=</span> paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-                                   <span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-                                  <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">11</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">,</span> <span class="token number">13</span><span class="token punctuation">,</span> <span class="token number">14</span><span class="token punctuation">,</span> <span class="token number">15</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-                                   <span class="token punctuation">[</span><span class="token number">16</span><span class="token punctuation">,</span> <span class="token number">17</span><span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">,</span> <span class="token number">19</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span>ndim_3_Tensor<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 创建多维Tensor</span><br>ndim_3_Tensor = paddle.to_tensor([[[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>],<br>                                   [<span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>]],<br>                                  [[<span class="hljs-number">11</span>, <span class="hljs-number">12</span>, <span class="hljs-number">13</span>, <span class="hljs-number">14</span>, <span class="hljs-number">15</span>],<br>                                   [<span class="hljs-number">16</span>, <span class="hljs-number">17</span>, <span class="hljs-number">18</span>, <span class="hljs-number">19</span>, <span class="hljs-number">20</span>]]])<br><span class="hljs-built_in">print</span>(ndim_3_Tensor)<br></code></pre></td></tr></table></figure>
 
 <p>注意：张量在任何一个维度上的元素数量必须相等</p>
 <h6 id="F（√）1-2-1-2-指定形状创建"><a href="#F（√）1-2-1-2-指定形状创建" class="headerlink" title="F（√）1.2.1.2 指定形状创建"></a>F（√）1.2.1.2 指定形状创建</h6><p>如果要创建一个指定形状、元素数据相同的张量，可以使用paddle.zeros、paddle.ones、paddle.full等API。</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">m<span class="token punctuation">,</span> n <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span>
-
-<span class="token comment"># 使用paddle.zeros创建数据全为0，形状为[m, n]的Tensor</span>
-zeros_Tensor <span class="token operator">=</span> paddle<span class="token punctuation">.</span>zeros<span class="token punctuation">(</span><span class="token punctuation">[</span>m<span class="token punctuation">,</span> n<span class="token punctuation">]</span><span class="token punctuation">)</span>
-
-<span class="token comment"># 使用paddle.ones创建数据全为1，形状为[m, n]的Tensor</span>
-ones_Tensor <span class="token operator">=</span> paddle<span class="token punctuation">.</span>ones<span class="token punctuation">(</span><span class="token punctuation">[</span>m<span class="token punctuation">,</span> n<span class="token punctuation">]</span><span class="token punctuation">)</span>
-
-<span class="token comment"># 使用paddle.full创建数据全为指定值，形状为[m, n]的Tensor，这里我们指定数据为10</span>
-full_Tensor <span class="token operator">=</span> paddle<span class="token punctuation">.</span>full<span class="token punctuation">(</span><span class="token punctuation">[</span>m<span class="token punctuation">,</span> n<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span>
-
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'zeros Tensor: '</span><span class="token punctuation">,</span> zeros_Tensor<span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'ones Tensor: '</span><span class="token punctuation">,</span> ones_Tensor<span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'full Tensor: '</span><span class="token punctuation">,</span> full_Tensor<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python">m, n = <span class="hljs-number">2</span>, <span class="hljs-number">3</span><br><br><span class="hljs-comment"># 使用paddle.zeros创建数据全为0，形状为[m, n]的Tensor</span><br>zeros_Tensor = paddle.zeros([m, n])<br><br><span class="hljs-comment"># 使用paddle.ones创建数据全为1，形状为[m, n]的Tensor</span><br>ones_Tensor = paddle.ones([m, n])<br><br><span class="hljs-comment"># 使用paddle.full创建数据全为指定值，形状为[m, n]的Tensor，这里我们指定数据为10</span><br>full_Tensor = paddle.full([m, n], <span class="hljs-number">10</span>)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;zeros Tensor: &#x27;</span>, zeros_Tensor)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;ones Tensor: &#x27;</span>, ones_Tensor)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;full Tensor: &#x27;</span>, full_Tensor)<br></code></pre></td></tr></table></figure>
 
 <h6 id="F（√）1-2-1-3-指定区间创建"><a href="#F（√）1-2-1-3-指定区间创建" class="headerlink" title="F（√）1.2.1.3 指定区间创建"></a>F（√）1.2.1.3 指定区间创建</h6><p>如果要在指定区间内创建张量，可以使用<code>paddle.arange</code>、<code>paddle.linspace</code>等API。</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 使用paddle.arange创建以步长step均匀分隔数值区间[start, end)的一维Tensor</span>
-arange_Tensor <span class="token operator">=</span> paddle<span class="token punctuation">.</span>arange<span class="token punctuation">(</span>start<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> end<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> step<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 使用paddle.arange创建以步长step均匀分隔数值区间[start, end)的一维Tensor</span><br>arange_Tensor = paddle.arange(start=<span class="hljs-number">1</span>, end=<span class="hljs-number">5</span>, step=<span class="hljs-number">1</span>)<br><br><span class="hljs-comment"># 使用paddle.linspace创建以元素个数num均匀分隔数值区间[start, stop]的Tensor</span><br>linspace_Tensor = paddle.linspace(start=<span class="hljs-number">1</span>, stop=<span class="hljs-number">5</span>, num=<span class="hljs-number">5</span>)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;arange Tensor: &#x27;</span>, arange_Tensor)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;linspace Tensor: &#x27;</span>, linspace_Tensor)<br></code></pre></td></tr></table></figure>
 
-<span class="token comment"># 使用paddle.linspace创建以元素个数num均匀分隔数值区间[start, stop]的Tensor</span>
-linspace_Tensor <span class="token operator">=</span> paddle<span class="token punctuation">.</span>linspace<span class="token punctuation">(</span>start<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">,</span> stop<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">,</span> num<span class="token operator">=</span><span class="token number">5</span><span class="token punctuation">)</span>
+<h5 id="E（√）1-2-2-张量的属性"><a href="#E（√）1-2-2-张量的属性" class="headerlink" title="E（√）1.2.2 张量的属性"></a>E（√）1.2.2 张量的属性</h5><h6 id="F（√）1-2-2-1-张量的形状"><a href="#F（√）1-2-2-1-张量的形状" class="headerlink" title="F（√）1.2.2.1 张量的形状"></a>F（√）1.2.2.1 张量的形状</h6><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">ndim_4_Tensor = paddle.ones([<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>])<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Number of dimensions:&quot;</span>, ndim_4_Tensor.ndim)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Shape of Tensor:&quot;</span>, ndim_4_Tensor.shape)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Elements number along axis 0 of Tensor:&quot;</span>, ndim_4_Tensor.shape[<span class="hljs-number">0</span>])<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Elements number along the last axis of Tensor:&quot;</span>, ndim_4_Tensor.shape[-<span class="hljs-number">1</span>])<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Number of elements in Tensor: &#x27;</span>, ndim_4_Tensor.size)<br></code></pre></td></tr></table></figure>
 
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'arange Tensor: '</span><span class="token punctuation">,</span> arange_Tensor<span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'linspace Tensor: '</span><span class="token punctuation">,</span> linspace_Tensor<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
-
-<h5 id="E（√）1-2-2-张量的属性"><a href="#E（√）1-2-2-张量的属性" class="headerlink" title="E（√）1.2.2 张量的属性"></a>E（√）1.2.2 张量的属性</h5><h6 id="F（√）1-2-2-1-张量的形状"><a href="#F（√）1-2-2-1-张量的形状" class="headerlink" title="F（√）1.2.2.1 张量的形状"></a>F（√）1.2.2.1 张量的形状</h6><figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">ndim_4_Tensor <span class="token operator">=</span> paddle<span class="token punctuation">.</span>ones<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Number of dimensions:"</span><span class="token punctuation">,</span> ndim_4_Tensor<span class="token punctuation">.</span>ndim<span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Shape of Tensor:"</span><span class="token punctuation">,</span> ndim_4_Tensor<span class="token punctuation">.</span>shape<span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Elements number along axis 0 of Tensor:"</span><span class="token punctuation">,</span> ndim_4_Tensor<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Elements number along the last axis of Tensor:"</span><span class="token punctuation">,</span> ndim_4_Tensor<span class="token punctuation">.</span>shape<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Number of elements in Tensor: '</span><span class="token punctuation">,</span> ndim_4_Tensor<span class="token punctuation">.</span>size<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
-
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">Number of dimensions<span class="token punctuation">:</span> <span class="token number">4</span>
-Shape of Tensor<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span>
-Elements number along axis <span class="token number">0</span> of Tensor<span class="token punctuation">:</span> <span class="token number">2</span>
-Elements number along the last axis of Tensor<span class="token punctuation">:</span> <span class="token number">5</span>
-Number of elements <span class="token keyword">in</span> Tensor<span class="token punctuation">:</span>  <span class="token number">120</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">Number of dimensions: <span class="hljs-number">4</span><br>Shape of Tensor: [<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]<br>Elements number along axis <span class="hljs-number">0</span> of Tensor: <span class="hljs-number">2</span><br>Elements number along the last axis of Tensor: <span class="hljs-number">5</span><br>Number of elements <span class="hljs-keyword">in</span> Tensor:  <span class="hljs-number">120</span><br></code></pre></td></tr></table></figure>
 
 <h6 id="F（√）1-2-2-2-形状的改变"><a href="#F（√）1-2-2-2-形状的改变" class="headerlink" title="F（√）1.2.2.2 形状的改变"></a>F（√）1.2.2.2 形状的改变</h6><blockquote>
 <p>总结：</p>
 <p>使用reshape方法和unsqueeze方法改变张量的shape</p>
 </blockquote>
 <p>除了查看张量的形状外，重新设置张量的在实际编程中也具有重要意义，飞桨提供了<code>paddle.reshape</code>接口来改变张量的形状。</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 定义一个shape为[3,2,5]的三维Tensor</span>
-ndim_3_Tensor <span class="token operator">=</span> paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-                                   <span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-                                  <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">11</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">,</span> <span class="token number">13</span><span class="token punctuation">,</span> <span class="token number">14</span><span class="token punctuation">,</span> <span class="token number">15</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-                                   <span class="token punctuation">[</span><span class="token number">16</span><span class="token punctuation">,</span> <span class="token number">17</span><span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">,</span> <span class="token number">19</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-                                  <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">21</span><span class="token punctuation">,</span> <span class="token number">22</span><span class="token punctuation">,</span> <span class="token number">23</span><span class="token punctuation">,</span> <span class="token number">24</span><span class="token punctuation">,</span> <span class="token number">25</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-                                   <span class="token punctuation">[</span><span class="token number">26</span><span class="token punctuation">,</span> <span class="token number">27</span><span class="token punctuation">,</span> <span class="token number">28</span><span class="token punctuation">,</span> <span class="token number">29</span><span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"the shape of ndim_3_Tensor:"</span><span class="token punctuation">,</span> ndim_3_Tensor<span class="token punctuation">.</span>shape<span class="token punctuation">)</span>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 定义一个shape为[3,2,5]的三维Tensor</span><br>ndim_3_Tensor = paddle.to_tensor([[[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>],<br>                                   [<span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>]],<br>                                  [[<span class="hljs-number">11</span>, <span class="hljs-number">12</span>, <span class="hljs-number">13</span>, <span class="hljs-number">14</span>, <span class="hljs-number">15</span>],<br>                                   [<span class="hljs-number">16</span>, <span class="hljs-number">17</span>, <span class="hljs-number">18</span>, <span class="hljs-number">19</span>, <span class="hljs-number">20</span>]],<br>                                  [[<span class="hljs-number">21</span>, <span class="hljs-number">22</span>, <span class="hljs-number">23</span>, <span class="hljs-number">24</span>, <span class="hljs-number">25</span>],<br>                                   [<span class="hljs-number">26</span>, <span class="hljs-number">27</span>, <span class="hljs-number">28</span>, <span class="hljs-number">29</span>, <span class="hljs-number">30</span>]]])<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;the shape of ndim_3_Tensor:&quot;</span>, ndim_3_Tensor.shape)<br><br><span class="hljs-comment"># paddle.reshape 可以保持在输入数据不变的情况下，改变数据形状。这里我们设置reshape为[2,5,3]</span><br>reshape_Tensor = paddle.reshape(ndim_3_Tensor, [<span class="hljs-number">2</span>, <span class="hljs-number">5</span>, <span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;After reshape:&quot;</span>, reshape_Tensor)<br></code></pre></td></tr></table></figure>
 
-<span class="token comment"># paddle.reshape 可以保持在输入数据不变的情况下，改变数据形状。这里我们设置reshape为[2,5,3]</span>
-reshape_Tensor <span class="token operator">=</span> paddle<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span>ndim_3_Tensor<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"After reshape:"</span><span class="token punctuation">,</span> reshape_Tensor<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
-
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">the shape of ndim_3_Tensor<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span>
-After reshape<span class="token punctuation">:</span> Tensor<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>int64<span class="token punctuation">,</span> place<span class="token operator">=</span>CPUPlace<span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
-       <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1</span> <span class="token punctuation">,</span> <span class="token number">2</span> <span class="token punctuation">,</span> <span class="token number">3</span> <span class="token punctuation">]</span><span class="token punctuation">,</span>
-         <span class="token punctuation">[</span><span class="token number">4</span> <span class="token punctuation">,</span> <span class="token number">5</span> <span class="token punctuation">,</span> <span class="token number">6</span> <span class="token punctuation">]</span><span class="token punctuation">,</span>
-         <span class="token punctuation">[</span><span class="token number">7</span> <span class="token punctuation">,</span> <span class="token number">8</span> <span class="token punctuation">,</span> <span class="token number">9</span> <span class="token punctuation">]</span><span class="token punctuation">,</span>
-         <span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-         <span class="token punctuation">[</span><span class="token number">13</span><span class="token punctuation">,</span> <span class="token number">14</span><span class="token punctuation">,</span> <span class="token number">15</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-
-        <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">16</span><span class="token punctuation">,</span> <span class="token number">17</span><span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-         <span class="token punctuation">[</span><span class="token number">19</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">21</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-         <span class="token punctuation">[</span><span class="token number">22</span><span class="token punctuation">,</span> <span class="token number">23</span><span class="token punctuation">,</span> <span class="token number">24</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-         <span class="token punctuation">[</span><span class="token number">25</span><span class="token punctuation">,</span> <span class="token number">26</span><span class="token punctuation">,</span> <span class="token number">27</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-         <span class="token punctuation">[</span><span class="token number">28</span><span class="token punctuation">,</span> <span class="token number">29</span><span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python">the shape of ndim_3_Tensor: [<span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">5</span>]<br>After reshape: Tensor(shape=[<span class="hljs-number">2</span>, <span class="hljs-number">5</span>, <span class="hljs-number">3</span>], dtype=int64, place=CPUPlace, stop_gradient=<span class="hljs-literal">True</span>,<br>       [[[<span class="hljs-number">1</span> , <span class="hljs-number">2</span> , <span class="hljs-number">3</span> ],<br>         [<span class="hljs-number">4</span> , <span class="hljs-number">5</span> , <span class="hljs-number">6</span> ],<br>         [<span class="hljs-number">7</span> , <span class="hljs-number">8</span> , <span class="hljs-number">9</span> ],<br>         [<span class="hljs-number">10</span>, <span class="hljs-number">11</span>, <span class="hljs-number">12</span>],<br>         [<span class="hljs-number">13</span>, <span class="hljs-number">14</span>, <span class="hljs-number">15</span>]],<br><br>        [[<span class="hljs-number">16</span>, <span class="hljs-number">17</span>, <span class="hljs-number">18</span>],<br>         [<span class="hljs-number">19</span>, <span class="hljs-number">20</span>, <span class="hljs-number">21</span>],<br>         [<span class="hljs-number">22</span>, <span class="hljs-number">23</span>, <span class="hljs-number">24</span>],<br>         [<span class="hljs-number">25</span>, <span class="hljs-number">26</span>, <span class="hljs-number">27</span>],<br>         [<span class="hljs-number">28</span>, <span class="hljs-number">29</span>, <span class="hljs-number">30</span>]]])<br></code></pre></td></tr></table></figure>
 
 <p>从输出结果看，将张量从[3, 2, 5]的形状reshape为[2, 5, 3]的形状时，张量内的数据不会发生改变，元素顺序也没有发生改变，只有数据形状发生了改变。</p>
 <p><strong>笔记</strong></p>
@@ -666,24 +602,15 @@ After reshape<span class="token punctuation">:</span> Tensor<span class="token p
 <li>0表示实际的维数是从张量的对应维数中复制出来的，因此shape中0所对应的索引值不能超过张量的总维度。</li>
 </ul>
 <p>分别对上文定义的ndim_3_Tensor进行reshape为[-1]和reshape为[0, 5, 2]两种操作，观察新张量的形状。</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">new_Tensor1 <span class="token operator">=</span> ndim_3_Tensor<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'new Tensor 1 shape: '</span><span class="token punctuation">,</span> new_Tensor1<span class="token punctuation">.</span>shape<span class="token punctuation">)</span>
-new_Tensor2 <span class="token operator">=</span> ndim_3_Tensor<span class="token punctuation">.</span>reshape<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'new Tensor 2 shape: '</span><span class="token punctuation">,</span> new_Tensor2<span class="token punctuation">.</span>shape<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">new_Tensor1 = ndim_3_Tensor.reshape([-<span class="hljs-number">1</span>])<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;new Tensor 1 shape: &#x27;</span>, new_Tensor1.shape)<br>new_Tensor2 = ndim_3_Tensor.reshape([<span class="hljs-number">0</span>, <span class="hljs-number">5</span>, <span class="hljs-number">2</span>])<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;new Tensor 2 shape: &#x27;</span>, new_Tensor2.shape)<br></code></pre></td></tr></table></figure>
 
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">new Tensor <span class="token number">1</span> shape<span class="token punctuation">:</span>  <span class="token punctuation">[</span><span class="token number">30</span><span class="token punctuation">]</span>
-new Tensor <span class="token number">2</span> shape<span class="token punctuation">:</span>  <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">new Tensor <span class="hljs-number">1</span> shape:  [<span class="hljs-number">30</span>]<br>new Tensor <span class="hljs-number">2</span> shape:  [<span class="hljs-number">3</span>, <span class="hljs-number">5</span>, <span class="hljs-number">2</span>]<br></code></pre></td></tr></table></figure>
 
 <p>从输出结果看，第一行代码中的第一个reshape操作将张量<code>reshape</code>为元素数量为30的一维向量；第四行代码中的第二个<code>reshape</code>操作中，0对应的维度的元素个数与原张量在该维度上的元素个数相同。</p>
 <p>除使用<code>paddle.reshape</code>进行张量形状的改变外，还可以通过<code>paddle.unsqueeze</code>将张量中的一个或多个维度中插入尺寸为1的维度。</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">ones_Tensor <span class="token operator">=</span> paddle<span class="token punctuation">.</span>ones<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-new_Tensor1 <span class="token operator">=</span> paddle<span class="token punctuation">.</span>unsqueeze<span class="token punctuation">(</span>ones_Tensor<span class="token punctuation">,</span> axis<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'new Tensor 1 shape: '</span><span class="token punctuation">,</span> new_Tensor1<span class="token punctuation">.</span>shape<span class="token punctuation">)</span>
-new_Tensor2 <span class="token operator">=</span> paddle<span class="token punctuation">.</span>unsqueeze<span class="token punctuation">(</span>ones_Tensor<span class="token punctuation">,</span> axis<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'new Tensor 2 shape: '</span><span class="token punctuation">,</span> new_Tensor2<span class="token punctuation">.</span>shape<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">ones_Tensor = paddle.ones([<span class="hljs-number">5</span>, <span class="hljs-number">10</span>])<br>new_Tensor1 = paddle.unsqueeze(ones_Tensor, axis=<span class="hljs-number">0</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;new Tensor 1 shape: &#x27;</span>, new_Tensor1.shape)<br>new_Tensor2 = paddle.unsqueeze(ones_Tensor, axis=[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>])<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;new Tensor 2 shape: &#x27;</span>, new_Tensor2.shape)<br></code></pre></td></tr></table></figure>
 
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">new Tensor <span class="token number">1</span> shape<span class="token punctuation">:</span>  <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">]</span>
-new Tensor <span class="token number">2</span> shape<span class="token punctuation">:</span>  <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">new Tensor <span class="hljs-number">1</span> shape:  [<span class="hljs-number">1</span>, <span class="hljs-number">5</span>, <span class="hljs-number">10</span>]<br>new Tensor <span class="hljs-number">2</span> shape:  [<span class="hljs-number">5</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">10</span>]<br></code></pre></td></tr></table></figure>
 
 <h6 id="F（√）1-2-2-3-张量的数据类型"><a href="#F（√）1-2-2-3-张量的数据类型" class="headerlink" title="F（√）1.2.2.3 张量的数据类型"></a>F（√）1.2.2.3 张量的数据类型</h6><p>飞桨中可以通过<code>Tensor.dtype</code>来查看张量的数据类型，类型支持bool、float16、float32、float64、uint8、int8、int16、int32、int64和复数类型数据。</p>
 <p>1）通过Python元素创建的张量，可以通过dtype来指定数据类型，如果未指定：</p>
@@ -692,178 +619,59 @@ new Tensor <span class="token number">2</span> shape<span class="token punctuati
 <li>对于Python浮点型数据，默认会创建float32型张量。</li>
 </ul>
 <p>2）通过Numpy数组创建的张量，则与其原来的数据类型保持相同。通过<code>paddle.to_tensor()</code>函数可以将Numpy数组转化为张量。</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 使用paddle.to_tensor通过已知数据来创建一个Tensor</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Tensor dtype from Python integers:"</span><span class="token punctuation">,</span> paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">.</span>dtype<span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Tensor dtype from Python floating point:"</span><span class="token punctuation">,</span> paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span><span class="token number">1.0</span><span class="token punctuation">)</span><span class="token punctuation">.</span>dtype<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 使用paddle.to_tensor通过已知数据来创建一个Tensor</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Tensor dtype from Python integers:&quot;</span>, paddle.to_tensor(<span class="hljs-number">1</span>).dtype)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Tensor dtype from Python floating point:&quot;</span>, paddle.to_tensor(<span class="hljs-number">1.0</span>).dtype)<br></code></pre></td></tr></table></figure>
 
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">Tensor dtype <span class="token keyword">from</span> Python integers<span class="token punctuation">:</span> paddle<span class="token punctuation">.</span>int64
-Tensor dtype <span class="token keyword">from</span> Python floating point<span class="token punctuation">:</span> paddle<span class="token punctuation">.</span>float32<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">Tensor dtype <span class="hljs-keyword">from</span> Python integers: paddle.int64<br>Tensor dtype <span class="hljs-keyword">from</span> Python floating point: paddle.float32<br></code></pre></td></tr></table></figure>
 
 <p>如果想改变张量的数据类型，可以通过调用<code>paddle.cast</code>API来实现。</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 定义dtype为float32的Tensor</span>
-float32_Tensor <span class="token operator">=</span> paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span><span class="token number">1.0</span><span class="token punctuation">)</span>
-<span class="token comment"># paddle.cast可以将输入数据的数据类型转换为指定的dtype并输出。支持输出和输入数据类型相同。</span>
-int64_Tensor <span class="token operator">=</span> paddle<span class="token punctuation">.</span>cast<span class="token punctuation">(</span>float32_Tensor<span class="token punctuation">,</span> dtype<span class="token operator">=</span><span class="token string">'int64'</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Tensor after cast to int64:"</span><span class="token punctuation">,</span> int64_Tensor<span class="token punctuation">.</span>dtype<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 定义dtype为float32的Tensor</span><br>float32_Tensor = paddle.to_tensor(<span class="hljs-number">1.0</span>)<br><span class="hljs-comment"># paddle.cast可以将输入数据的数据类型转换为指定的dtype并输出。支持输出和输入数据类型相同。</span><br>int64_Tensor = paddle.cast(float32_Tensor, dtype=<span class="hljs-string">&#x27;int64&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Tensor after cast to int64:&quot;</span>, int64_Tensor.dtype)<br></code></pre></td></tr></table></figure>
 
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">Tensor after cast to int64<span class="token punctuation">:</span> paddle<span class="token punctuation">.</span>int64<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">Tensor after cast to int64: paddle.int64<br></code></pre></td></tr></table></figure>
 
 <h6 id="F（√）1-2-2-4-张量的设备位置"><a href="#F（√）1-2-2-4-张量的设备位置" class="headerlink" title="F（√）1.2.2.4 张量的设备位置"></a>F（√）1.2.2.4 张量的设备位置</h6><p>初始化张量时可以通过place来指定其分配的设备位置，可支持的设备位置有三种：CPU、GPU和固定内存。</p>
 <p>固定内存也称为不可分页内存或锁页内存，它与GPU之间具有更高的读写效率，并且支持异步传输，这对网络整体性能会有进一步提升，但它的缺点是分配空间过多时可能会降低主机系统的性能，因为它减少了用于存储虚拟内存数据的可分页内存。当未指定设备位置时，张量默认设备位置和安装的飞桨版本一致，如安装了GPU版本的飞桨，则设备位置默认为GPU。</p>
 <p>如下代码分别创建了CPU、GPU和固定内存上的张量，并通过<code>Tensor.place</code>查看张量所在的设备位置。</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 创建CPU上的Tensor</span>
-cpu_Tensor <span class="token operator">=</span> paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> place<span class="token operator">=</span>paddle<span class="token punctuation">.</span>CPUPlace<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token comment"># 通过Tensor.place查看张量所在设备位置</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'cpu Tensor: '</span><span class="token punctuation">,</span> cpu_Tensor<span class="token punctuation">.</span>place<span class="token punctuation">)</span>
-<span class="token comment"># 创建GPU上的Tensor</span>
-gpu_Tensor <span class="token operator">=</span> paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> place<span class="token operator">=</span>paddle<span class="token punctuation">.</span>CUDAPlace<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'gpu Tensor: '</span><span class="token punctuation">,</span> gpu_Tensor<span class="token punctuation">.</span>place<span class="token punctuation">)</span>
-<span class="token comment"># 创建固定内存上的Tensor</span>
-pin_memory_Tensor <span class="token operator">=</span> paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> place<span class="token operator">=</span>paddle<span class="token punctuation">.</span>CUDAPinnedPlace<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'pin memory Tensor: '</span><span class="token punctuation">,</span> pin_memory_Tensor<span class="token punctuation">.</span>place<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 创建CPU上的Tensor</span><br>cpu_Tensor = paddle.to_tensor(<span class="hljs-number">1</span>, place=paddle.CPUPlace())<br><span class="hljs-comment"># 通过Tensor.place查看张量所在设备位置</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;cpu Tensor: &#x27;</span>, cpu_Tensor.place)<br><span class="hljs-comment"># 创建GPU上的Tensor</span><br>gpu_Tensor = paddle.to_tensor(<span class="hljs-number">1</span>, place=paddle.CUDAPlace(<span class="hljs-number">0</span>))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;gpu Tensor: &#x27;</span>, gpu_Tensor.place)<br><span class="hljs-comment"># 创建固定内存上的Tensor</span><br>pin_memory_Tensor = paddle.to_tensor(<span class="hljs-number">1</span>, place=paddle.CUDAPinnedPlace())<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;pin memory Tensor: &#x27;</span>, pin_memory_Tensor.place)<br></code></pre></td></tr></table></figure>
 
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">cpu Tensor<span class="token punctuation">:</span>  CPUPlace
-gpu Tensor<span class="token punctuation">:</span>  CUDAPlace<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
-pin memory Tensor<span class="token punctuation">:</span>  CUDAPinnedPlace<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">cpu Tensor:  CPUPlace<br>gpu Tensor:  CUDAPlace(<span class="hljs-number">0</span>)<br>pin memory Tensor:  CUDAPinnedPlace<br></code></pre></td></tr></table></figure>
 
 <h5 id="E（√）1-2-3-张量与Numpy数组转换"><a href="#E（√）1-2-3-张量与Numpy数组转换" class="headerlink" title="E（√）1.2.3 张量与Numpy数组转换"></a>E（√）1.2.3 张量与Numpy数组转换</h5><p>张量和Numpy数组可以相互转换。第1.2.2.3节中我们了解到paddle.to_tensor()函数可以将Numpy数组转化为张量，也可以通过<code>Tensor.numpy()</code>函数将张量转化为Numpy数组。</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">ndim_1_Tensor <span class="token operator">=</span> paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1.</span><span class="token punctuation">,</span> <span class="token number">2.</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-<span class="token comment"># 将当前 Tensor 转化为 numpy.ndarray</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Tensor to convert: '</span><span class="token punctuation">,</span> ndim_1_Tensor<span class="token punctuation">.</span>numpy<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token builtin">type</span><span class="token punctuation">(</span>ndim_1_Tensor<span class="token punctuation">.</span>numpy<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">ndim_1_Tensor = paddle.to_tensor([<span class="hljs-number">1.</span>, <span class="hljs-number">2.</span>])<br><span class="hljs-comment"># 将当前 Tensor 转化为 numpy.ndarray</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Tensor to convert: &#x27;</span>, ndim_1_Tensor.numpy())<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(ndim_1_Tensor.numpy()))<br></code></pre></td></tr></table></figure>
 
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">Tensor to convert<span class="token punctuation">:</span>  <span class="token punctuation">[</span><span class="token number">1.</span> <span class="token number">2.</span><span class="token punctuation">]</span>
-<span class="token operator">&lt;</span><span class="token keyword">class</span> <span class="token string">'numpy.ndarray'</span><span class="token operator">></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">Tensor to convert:  [<span class="hljs-number">1.</span> <span class="hljs-number">2.</span>]<br>&lt;<span class="hljs-keyword">class</span> <span class="hljs-string">&#x27;numpy.ndarray&#x27;</span>&gt;<br></code></pre></td></tr></table></figure>
 
 <h5 id="E（√）1-2-4-张量的访问"><a href="#E（√）1-2-4-张量的访问" class="headerlink" title="E（√）1.2.4 张量的访问"></a>E（√）1.2.4 张量的访问</h5><h6 id="F（√）1-2-4-1-索引和切片"><a href="#F（√）1-2-4-1-索引和切片" class="headerlink" title="F（√）1.2.4.1 索引和切片"></a>F（√）1.2.4.1 索引和切片</h6><p>我们可以通过索引或切片方便地访问或修改张量。飞桨使用标准的Python索引规则与Numpy索引规则，具有以下特点：</p>
 <ul>
 <li>基于0−n0-n0−<em>n</em>的下标进行索引，如果下标为负数，则从尾部开始计算。</li>
 <li>通过冒号“:”分隔切片参数start:stop:step来进行切片操作，也就是访问start到stop范围内的部分元素并生成一个新的序列。其中start为切片的起始位置，stop为切片的截止位置，step是切片的步长，这三个参数均可缺省。</li>
 </ul>
-<h6 id="F（√）1-2-4-2-访问张量"><a href="#F（√）1-2-4-2-访问张量" class="headerlink" title="F（√）1.2.4.2 访问张量"></a>F（√）1.2.4.2 访问张量</h6><figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 定义1个一维Tensor</span>
-ndim_1_Tensor <span class="token operator">=</span> paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<h6 id="F（√）1-2-4-2-访问张量"><a href="#F（√）1-2-4-2-访问张量" class="headerlink" title="F（√）1.2.4.2 访问张量"></a>F（√）1.2.4.2 访问张量</h6><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 定义1个一维Tensor</span><br>ndim_1_Tensor = paddle.to_tensor([<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>])<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Origin Tensor:&quot;</span>, ndim_1_Tensor)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;First element:&quot;</span>, ndim_1_Tensor[<span class="hljs-number">0</span>])<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Last element:&quot;</span>, ndim_1_Tensor[-<span class="hljs-number">1</span>])<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;All element:&quot;</span>, ndim_1_Tensor[:])<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Before 3:&quot;</span>, ndim_1_Tensor[:<span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Interval of 3:&quot;</span>, ndim_1_Tensor[::<span class="hljs-number">3</span>])<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Reverse:&quot;</span>, ndim_1_Tensor[::-<span class="hljs-number">1</span>])<br></code></pre></td></tr></table></figure>
 
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Origin Tensor:"</span><span class="token punctuation">,</span> ndim_1_Tensor<span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"First element:"</span><span class="token punctuation">,</span> ndim_1_Tensor<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Last element:"</span><span class="token punctuation">,</span> ndim_1_Tensor<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"All element:"</span><span class="token punctuation">,</span> ndim_1_Tensor<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Before 3:"</span><span class="token punctuation">,</span> ndim_1_Tensor<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Interval of 3:"</span><span class="token punctuation">,</span> ndim_1_Tensor<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Reverse:"</span><span class="token punctuation">,</span> ndim_1_Tensor<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
-
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">Origin Tensor<span class="token punctuation">:</span> Tensor<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">9</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>int64<span class="token punctuation">,</span> place<span class="token operator">=</span>CPUPlace<span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
-       <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-First element<span class="token punctuation">:</span> Tensor<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>int64<span class="token punctuation">,</span> place<span class="token operator">=</span>CPUPlace<span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
-       <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-Last element<span class="token punctuation">:</span> Tensor<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>int64<span class="token punctuation">,</span> place<span class="token operator">=</span>CPUPlace<span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
-       <span class="token punctuation">[</span><span class="token number">8</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-All element<span class="token punctuation">:</span> Tensor<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">9</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>int64<span class="token punctuation">,</span> place<span class="token operator">=</span>CPUPlace<span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
-       <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-Before <span class="token number">3</span><span class="token punctuation">:</span> Tensor<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>int64<span class="token punctuation">,</span> place<span class="token operator">=</span>CPUPlace<span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
-       <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-Interval of <span class="token number">3</span><span class="token punctuation">:</span> Tensor<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>int64<span class="token punctuation">,</span> place<span class="token operator">=</span>CPUPlace<span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
-       <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-Reverse<span class="token punctuation">:</span> Tensor<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">9</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>int64<span class="token punctuation">,</span> place<span class="token operator">=</span>CPUPlace<span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
-       <span class="token punctuation">[</span><span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python">Origin Tensor: Tensor(shape=[<span class="hljs-number">9</span>], dtype=int64, place=CPUPlace, stop_gradient=<span class="hljs-literal">True</span>,<br>       [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>])<br>First element: Tensor(shape=[<span class="hljs-number">1</span>], dtype=int64, place=CPUPlace, stop_gradient=<span class="hljs-literal">True</span>,<br>       [<span class="hljs-number">0</span>])<br>Last element: Tensor(shape=[<span class="hljs-number">1</span>], dtype=int64, place=CPUPlace, stop_gradient=<span class="hljs-literal">True</span>,<br>       [<span class="hljs-number">8</span>])<br>All element: Tensor(shape=[<span class="hljs-number">9</span>], dtype=int64, place=CPUPlace, stop_gradient=<span class="hljs-literal">True</span>,<br>       [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>])<br>Before <span class="hljs-number">3</span>: Tensor(shape=[<span class="hljs-number">3</span>], dtype=int64, place=CPUPlace, stop_gradient=<span class="hljs-literal">True</span>,<br>       [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>])<br>Interval of <span class="hljs-number">3</span>: Tensor(shape=[<span class="hljs-number">3</span>], dtype=int64, place=CPUPlace, stop_gradient=<span class="hljs-literal">True</span>,<br>       [<span class="hljs-number">0</span>, <span class="hljs-number">3</span>, <span class="hljs-number">6</span>])<br>Reverse: Tensor(shape=[<span class="hljs-number">9</span>], dtype=int64, place=CPUPlace, stop_gradient=<span class="hljs-literal">True</span>,<br>       [<span class="hljs-number">8</span>, <span class="hljs-number">7</span>, <span class="hljs-number">6</span>, <span class="hljs-number">5</span>, <span class="hljs-number">4</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>])<br></code></pre></td></tr></table></figure>
 
 <p>针对二维及以上维度的张量，在多个维度上进行索引或切片。索引或切片的第一个值对应第0维，第二个值对应第1维，以此类推，如果某个维度上未指定索引，则默认为“:”。</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 定义1个二维Tensor</span>
-ndim_2_Tensor <span class="token operator">=</span> paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-                                  <span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-                                  <span class="token punctuation">[</span><span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Origin Tensor:"</span><span class="token punctuation">,</span> ndim_2_Tensor<span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"First row:"</span><span class="token punctuation">,</span> ndim_2_Tensor<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token comment"># 第一行</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"First row:"</span><span class="token punctuation">,</span> ndim_2_Tensor<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token comment"># 第一行</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"First column:"</span><span class="token punctuation">,</span> ndim_2_Tensor<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment"># 第一列</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Last column:"</span><span class="token punctuation">,</span> ndim_2_Tensor<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment"># 最后一列</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"All element:"</span><span class="token punctuation">,</span> ndim_2_Tensor<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment"># 全部</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"First row and second column:"</span><span class="token punctuation">,</span> ndim_2_Tensor<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token comment"># 第一行，第二列</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 定义1个二维Tensor</span><br>ndim_2_Tensor = paddle.to_tensor([[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>],<br>                                  [<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>],<br>                                  [<span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>, <span class="hljs-number">11</span>]])<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Origin Tensor:&quot;</span>, ndim_2_Tensor)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;First row:&quot;</span>, ndim_2_Tensor[<span class="hljs-number">0</span>])<span class="hljs-comment"># 第一行</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;First row:&quot;</span>, ndim_2_Tensor[<span class="hljs-number">0</span>, :])<span class="hljs-comment"># 第一行</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;First column:&quot;</span>, ndim_2_Tensor[:, <span class="hljs-number">0</span>]) <span class="hljs-comment"># 第一列</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Last column:&quot;</span>, ndim_2_Tensor[:, -<span class="hljs-number">1</span>]) <span class="hljs-comment"># 最后一列</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;All element:&quot;</span>, ndim_2_Tensor[:]) <span class="hljs-comment"># 全部</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;First row and second column:&quot;</span>, ndim_2_Tensor[<span class="hljs-number">0</span>, <span class="hljs-number">1</span>]) <span class="hljs-comment"># 第一行，第二列</span><br></code></pre></td></tr></table></figure>
 
 <h6 id="F（√）1-2-4-3-修改张量"><a href="#F（√）1-2-4-3-修改张量" class="headerlink" title="F（√）1.2.4.3 修改张量"></a>F（√）1.2.4.3 修改张量</h6><p>与访问张量类似，可以在单个或多个轴上通过索引或切片操作来修改张量。</p>
 <blockquote>
 <p><strong>提醒</strong><br>慎重通过索引或切片操作来修改张量，此操作仅会原地修改该张量的数值，且原值不会被保存。如果被修改的张量参与梯度计算，将仅会使用修改后的数值，这可能会给梯度计算引入风险。</p>
 </blockquote>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 定义1个二维Tensor</span>
-ndim_2_Tensor <span class="token operator">=</span> paddle<span class="token punctuation">.</span>ones<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span><span class="token string">'float32'</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Origin Tensor: '</span><span class="token punctuation">,</span> ndim_2_Tensor<span class="token punctuation">)</span>
-<span class="token comment"># 修改第1维为0</span>
-ndim_2_Tensor<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'change Tensor: '</span><span class="token punctuation">,</span> ndim_2_Tensor<span class="token punctuation">)</span>
-<span class="token comment"># 修改第1维为2.1</span>
-ndim_2_Tensor<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">2.1</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'change Tensor: '</span><span class="token punctuation">,</span> ndim_2_Tensor<span class="token punctuation">)</span>
-<span class="token comment"># 修改全部Tensor</span>
-ndim_2_Tensor<span class="token punctuation">[</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">3</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'change Tensor: '</span><span class="token punctuation">,</span> ndim_2_Tensor<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 定义1个二维Tensor</span><br>ndim_2_Tensor = paddle.ones([<span class="hljs-number">2</span>, <span class="hljs-number">3</span>], dtype=<span class="hljs-string">&#x27;float32&#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Origin Tensor: &#x27;</span>, ndim_2_Tensor)<br><span class="hljs-comment"># 修改第1维为0</span><br>ndim_2_Tensor[<span class="hljs-number">0</span>] = <span class="hljs-number">0</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;change Tensor: &#x27;</span>, ndim_2_Tensor)<br><span class="hljs-comment"># 修改第1维为2.1</span><br>ndim_2_Tensor[<span class="hljs-number">0</span>:<span class="hljs-number">1</span>] = <span class="hljs-number">2.1</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;change Tensor: &#x27;</span>, ndim_2_Tensor)<br><span class="hljs-comment"># 修改全部Tensor</span><br>ndim_2_Tensor[...] = <span class="hljs-number">3</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;change Tensor: &#x27;</span>, ndim_2_Tensor)<br></code></pre></td></tr></table></figure>
 
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">Origin Tensor<span class="token punctuation">:</span>  Tensor<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>float32<span class="token punctuation">,</span> place<span class="token operator">=</span>CPUPlace<span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
-       <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1.</span><span class="token punctuation">,</span> <span class="token number">1.</span><span class="token punctuation">,</span> <span class="token number">1.</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-        <span class="token punctuation">[</span><span class="token number">1.</span><span class="token punctuation">,</span> <span class="token number">1.</span><span class="token punctuation">,</span> <span class="token number">1.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-change Tensor<span class="token punctuation">:</span>  Tensor<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>float32<span class="token punctuation">,</span> place<span class="token operator">=</span>CPUPlace<span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
-       <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">,</span> <span class="token number">0.</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-        <span class="token punctuation">[</span><span class="token number">1.</span><span class="token punctuation">,</span> <span class="token number">1.</span><span class="token punctuation">,</span> <span class="token number">1.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-change Tensor<span class="token punctuation">:</span>  Tensor<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>float32<span class="token punctuation">,</span> place<span class="token operator">=</span>CPUPlace<span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
-       <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">2.09999990</span><span class="token punctuation">,</span> <span class="token number">2.09999990</span><span class="token punctuation">,</span> <span class="token number">2.09999990</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-        <span class="token punctuation">[</span><span class="token number">1.</span>        <span class="token punctuation">,</span> <span class="token number">1.</span>        <span class="token punctuation">,</span> <span class="token number">1.</span>        <span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-change Tensor<span class="token punctuation">:</span>  Tensor<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>float32<span class="token punctuation">,</span> place<span class="token operator">=</span>CPUPlace<span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
-       <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">3.</span><span class="token punctuation">,</span> <span class="token number">3.</span><span class="token punctuation">,</span> <span class="token number">3.</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-        <span class="token punctuation">[</span><span class="token number">3.</span><span class="token punctuation">,</span> <span class="token number">3.</span><span class="token punctuation">,</span> <span class="token number">3.</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python">Origin Tensor:  Tensor(shape=[<span class="hljs-number">2</span>, <span class="hljs-number">3</span>], dtype=float32, place=CPUPlace, stop_gradient=<span class="hljs-literal">True</span>,<br>       [[<span class="hljs-number">1.</span>, <span class="hljs-number">1.</span>, <span class="hljs-number">1.</span>],<br>        [<span class="hljs-number">1.</span>, <span class="hljs-number">1.</span>, <span class="hljs-number">1.</span>]])<br>change Tensor:  Tensor(shape=[<span class="hljs-number">2</span>, <span class="hljs-number">3</span>], dtype=float32, place=CPUPlace, stop_gradient=<span class="hljs-literal">True</span>,<br>       [[<span class="hljs-number">0.</span>, <span class="hljs-number">0.</span>, <span class="hljs-number">0.</span>],<br>        [<span class="hljs-number">1.</span>, <span class="hljs-number">1.</span>, <span class="hljs-number">1.</span>]])<br>change Tensor:  Tensor(shape=[<span class="hljs-number">2</span>, <span class="hljs-number">3</span>], dtype=float32, place=CPUPlace, stop_gradient=<span class="hljs-literal">True</span>,<br>       [[<span class="hljs-number">2.09999990</span>, <span class="hljs-number">2.09999990</span>, <span class="hljs-number">2.09999990</span>],<br>        [<span class="hljs-number">1.</span>        , <span class="hljs-number">1.</span>        , <span class="hljs-number">1.</span>        ]])<br>change Tensor:  Tensor(shape=[<span class="hljs-number">2</span>, <span class="hljs-number">3</span>], dtype=float32, place=CPUPlace, stop_gradient=<span class="hljs-literal">True</span>,<br>       [[<span class="hljs-number">3.</span>, <span class="hljs-number">3.</span>, <span class="hljs-number">3.</span>],<br>        [<span class="hljs-number">3.</span>, <span class="hljs-number">3.</span>, <span class="hljs-number">3.</span>]])<br></code></pre></td></tr></table></figure>
 
 <h5 id="E（√）1-2-5-张量的运算"><a href="#E（√）1-2-5-张量的运算" class="headerlink" title="E（√）1.2.5 张量的运算"></a>E（√）1.2.5 张量的运算</h5><p>张量支持包括基础数学运算、逻辑运算、矩阵运算等100余种运算操作，以加法为例，有如下两种实现方式：<br>1）使用飞桨API <code>paddle.add(x,y)</code>。<br>2）使用张量类成员函数<code>x.add(y)</code>。</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 定义两个Tensor</span>
-x <span class="token operator">=</span> paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">1.1</span><span class="token punctuation">,</span> <span class="token number">2.2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">3.3</span><span class="token punctuation">,</span> <span class="token number">4.4</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span><span class="token string">"float64"</span><span class="token punctuation">)</span>
-y <span class="token operator">=</span> paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">5.5</span><span class="token punctuation">,</span> <span class="token number">6.6</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">7.7</span><span class="token punctuation">,</span> <span class="token number">8.8</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span><span class="token string">"float64"</span><span class="token punctuation">)</span>
-<span class="token comment"># 第一种调用方法，paddle.add逐元素相加算子，并将各个位置的输出元素保存到返回结果中</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Method 1: '</span><span class="token punctuation">,</span> paddle<span class="token punctuation">.</span>add<span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token comment"># 第二种调用方法</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'Method 2: '</span><span class="token punctuation">,</span> x<span class="token punctuation">.</span>add<span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 定义两个Tensor</span><br>x = paddle.to_tensor([[<span class="hljs-number">1.1</span>, <span class="hljs-number">2.2</span>], [<span class="hljs-number">3.3</span>, <span class="hljs-number">4.4</span>]], dtype=<span class="hljs-string">&quot;float64&quot;</span>)<br>y = paddle.to_tensor([[<span class="hljs-number">5.5</span>, <span class="hljs-number">6.6</span>], [<span class="hljs-number">7.7</span>, <span class="hljs-number">8.8</span>]], dtype=<span class="hljs-string">&quot;float64&quot;</span>)<br><span class="hljs-comment"># 第一种调用方法，paddle.add逐元素相加算子，并将各个位置的输出元素保存到返回结果中</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Method 1: &#x27;</span>, paddle.add(x, y))<br><span class="hljs-comment"># 第二种调用方法</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Method 2: &#x27;</span>, x.add(y))<br></code></pre></td></tr></table></figure>
 
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">Method <span class="token number">1</span><span class="token punctuation">:</span>  Tensor<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>float64<span class="token punctuation">,</span> place<span class="token operator">=</span>CPUPlace<span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
-       <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">6.60000000</span> <span class="token punctuation">,</span> <span class="token number">8.80000000</span> <span class="token punctuation">]</span><span class="token punctuation">,</span>
-        <span class="token punctuation">[</span><span class="token number">11.</span>        <span class="token punctuation">,</span> <span class="token number">13.20000000</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-Method <span class="token number">2</span><span class="token punctuation">:</span>  Tensor<span class="token punctuation">(</span>shape<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> dtype<span class="token operator">=</span>float64<span class="token punctuation">,</span> place<span class="token operator">=</span>CPUPlace<span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">,</span>
-       <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">6.60000000</span> <span class="token punctuation">,</span> <span class="token number">8.80000000</span> <span class="token punctuation">]</span><span class="token punctuation">,</span>
-        <span class="token punctuation">[</span><span class="token number">11.</span>        <span class="token punctuation">,</span> <span class="token number">13.20000000</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">Method <span class="hljs-number">1</span>:  Tensor(shape=[<span class="hljs-number">2</span>, <span class="hljs-number">2</span>], dtype=float64, place=CPUPlace, stop_gradient=<span class="hljs-literal">True</span>,<br>       [[<span class="hljs-number">6.60000000</span> , <span class="hljs-number">8.80000000</span> ],<br>        [<span class="hljs-number">11.</span>        , <span class="hljs-number">13.20000000</span>]])<br>Method <span class="hljs-number">2</span>:  Tensor(shape=[<span class="hljs-number">2</span>, <span class="hljs-number">2</span>], dtype=float64, place=CPUPlace, stop_gradient=<span class="hljs-literal">True</span>,<br>       [[<span class="hljs-number">6.60000000</span> , <span class="hljs-number">8.80000000</span> ],<br>        [<span class="hljs-number">11.</span>        , <span class="hljs-number">13.20000000</span>]])<br></code></pre></td></tr></table></figure>
 
 <h6 id="F（√）1-2-5-1-数学运算"><a href="#F（√）1-2-5-1-数学运算" class="headerlink" title="F（√）1.2.5.1 数学运算"></a>F（√）1.2.5.1 数学运算</h6><p>张量类的基础数学函数运算：</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">x<span class="token punctuation">.</span><span class="token builtin">abs</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                       <span class="token comment"># 逐元素取绝对值</span>
-x<span class="token punctuation">.</span>ceil<span class="token punctuation">(</span><span class="token punctuation">)</span>                      <span class="token comment"># 逐元素向上取整</span>
-x<span class="token punctuation">.</span>floor<span class="token punctuation">(</span><span class="token punctuation">)</span>                     <span class="token comment"># 逐元素向下取整</span>
-x<span class="token punctuation">.</span><span class="token builtin">round</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                     <span class="token comment"># 逐元素四舍五入</span>
-x<span class="token punctuation">.</span>exp<span class="token punctuation">(</span><span class="token punctuation">)</span>                       <span class="token comment"># 逐元素计算自然常数为底的指数</span>
-x<span class="token punctuation">.</span>log<span class="token punctuation">(</span><span class="token punctuation">)</span>                       <span class="token comment"># 逐元素计算x的自然对数</span>
-x<span class="token punctuation">.</span>reciprocal<span class="token punctuation">(</span><span class="token punctuation">)</span>                <span class="token comment"># 逐元素求倒数</span>
-x<span class="token punctuation">.</span>square<span class="token punctuation">(</span><span class="token punctuation">)</span>                    <span class="token comment"># 逐元素计算平方</span>
-x<span class="token punctuation">.</span>sqrt<span class="token punctuation">(</span><span class="token punctuation">)</span>                      <span class="token comment"># 逐元素计算平方根</span>
-x<span class="token punctuation">.</span>sin<span class="token punctuation">(</span><span class="token punctuation">)</span>                       <span class="token comment"># 逐元素计算正弦</span>
-x<span class="token punctuation">.</span>cos<span class="token punctuation">(</span><span class="token punctuation">)</span>                       <span class="token comment"># 逐元素计算余弦</span>
-x<span class="token punctuation">.</span>add<span class="token punctuation">(</span>y<span class="token punctuation">)</span>                      <span class="token comment"># 逐元素加</span>
-x<span class="token punctuation">.</span>subtract<span class="token punctuation">(</span>y<span class="token punctuation">)</span>                 <span class="token comment"># 逐元素减</span>
-x<span class="token punctuation">.</span>multiply<span class="token punctuation">(</span>y<span class="token punctuation">)</span>                 <span class="token comment"># 逐元素乘（积）</span>
-x<span class="token punctuation">.</span>divide<span class="token punctuation">(</span>y<span class="token punctuation">)</span>                   <span class="token comment"># 逐元素除</span>
-x<span class="token punctuation">.</span>mod<span class="token punctuation">(</span>y<span class="token punctuation">)</span>                      <span class="token comment"># 逐元素除并取余</span>
-x<span class="token punctuation">.</span><span class="token builtin">pow</span><span class="token punctuation">(</span>y<span class="token punctuation">)</span>                      <span class="token comment"># 逐元素幂</span>
-x<span class="token punctuation">.</span><span class="token builtin">max</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                       <span class="token comment"># 指定维度上元素最大值，默认为全部维度</span>
-x<span class="token punctuation">.</span><span class="token builtin">min</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                       <span class="token comment"># 指定维度上元素最小值，默认为全部维度</span>
-x<span class="token punctuation">.</span>prod<span class="token punctuation">(</span><span class="token punctuation">)</span>                      <span class="token comment"># 指定维度上元素累乘，默认为全部维度</span>
-x<span class="token punctuation">.</span><span class="token builtin">sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span>                       <span class="token comment"># 指定维度上元素的和，默认为全部维度</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python">x.<span class="hljs-built_in">abs</span>()                       <span class="hljs-comment"># 逐元素取绝对值</span><br>x.ceil()                      <span class="hljs-comment"># 逐元素向上取整</span><br>x.floor()                     <span class="hljs-comment"># 逐元素向下取整</span><br>x.<span class="hljs-built_in">round</span>()                     <span class="hljs-comment"># 逐元素四舍五入</span><br>x.exp()                       <span class="hljs-comment"># 逐元素计算自然常数为底的指数</span><br>x.log()                       <span class="hljs-comment"># 逐元素计算x的自然对数</span><br>x.reciprocal()                <span class="hljs-comment"># 逐元素求倒数</span><br>x.square()                    <span class="hljs-comment"># 逐元素计算平方</span><br>x.sqrt()                      <span class="hljs-comment"># 逐元素计算平方根</span><br>x.sin()                       <span class="hljs-comment"># 逐元素计算正弦</span><br>x.cos()                       <span class="hljs-comment"># 逐元素计算余弦</span><br>x.add(y)                      <span class="hljs-comment"># 逐元素加</span><br>x.subtract(y)                 <span class="hljs-comment"># 逐元素减</span><br>x.multiply(y)                 <span class="hljs-comment"># 逐元素乘（积）</span><br>x.divide(y)                   <span class="hljs-comment"># 逐元素除</span><br>x.mod(y)                      <span class="hljs-comment"># 逐元素除并取余</span><br>x.<span class="hljs-built_in">pow</span>(y)                      <span class="hljs-comment"># 逐元素幂</span><br>x.<span class="hljs-built_in">max</span>()                       <span class="hljs-comment"># 指定维度上元素最大值，默认为全部维度</span><br>x.<span class="hljs-built_in">min</span>()                       <span class="hljs-comment"># 指定维度上元素最小值，默认为全部维度</span><br>x.prod()                      <span class="hljs-comment"># 指定维度上元素累乘，默认为全部维度</span><br>x.<span class="hljs-built_in">sum</span>()                       <span class="hljs-comment"># 指定维度上元素的和，默认为全部维度</span><br></code></pre></td></tr></table></figure>
 
 <h6 id="F（√）1-2-5-2-逻辑运算"><a href="#F（√）1-2-5-2-逻辑运算" class="headerlink" title="F（√）1.2.5.2 逻辑运算"></a>F（√）1.2.5.2 逻辑运算</h6><p>张量类的逻辑运算函数：</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">x<span class="token punctuation">.</span>isfinite<span class="token punctuation">(</span><span class="token punctuation">)</span>                  <span class="token comment"># 判断Tensor中元素是否是有限的数字，即不包括inf与nan</span>
-x<span class="token punctuation">.</span>equal_all<span class="token punctuation">(</span>y<span class="token punctuation">)</span>                <span class="token comment"># 判断两个Tensor的全部元素是否相等，并返回形状为[1]的布尔类Tensor</span>
-x<span class="token punctuation">.</span>equal<span class="token punctuation">(</span>y<span class="token punctuation">)</span>                    <span class="token comment"># 判断两个Tensor的每个元素是否相等，并返回形状相同的布尔类Tensor</span>
-x<span class="token punctuation">.</span>not_equal<span class="token punctuation">(</span>y<span class="token punctuation">)</span>                <span class="token comment"># 判断两个Tensor的每个元素是否不相等</span>
-x<span class="token punctuation">.</span>less_than<span class="token punctuation">(</span>y<span class="token punctuation">)</span>                <span class="token comment"># 判断Tensor x的元素是否小于Tensor y的对应元素</span>
-x<span class="token punctuation">.</span>less_equal<span class="token punctuation">(</span>y<span class="token punctuation">)</span>               <span class="token comment"># 判断Tensor x的元素是否小于或等于Tensor y的对应元素</span>
-x<span class="token punctuation">.</span>greater_than<span class="token punctuation">(</span>y<span class="token punctuation">)</span>             <span class="token comment"># 判断Tensor x的元素是否大于Tensor y的对应元素</span>
-x<span class="token punctuation">.</span>greater_equal<span class="token punctuation">(</span>y<span class="token punctuation">)</span>            <span class="token comment"># 判断Tensor x的元素是否大于或等于Tensor y的对应元素</span>
-x<span class="token punctuation">.</span>allclose<span class="token punctuation">(</span>y<span class="token punctuation">)</span>                 <span class="token comment"># 判断两个Tensor的全部元素是否接近</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">x.isfinite()                  <span class="hljs-comment"># 判断Tensor中元素是否是有限的数字，即不包括inf与nan</span><br>x.equal_all(y)                <span class="hljs-comment"># 判断两个Tensor的全部元素是否相等，并返回形状为[1]的布尔类Tensor</span><br>x.equal(y)                    <span class="hljs-comment"># 判断两个Tensor的每个元素是否相等，并返回形状相同的布尔类Tensor</span><br>x.not_equal(y)                <span class="hljs-comment"># 判断两个Tensor的每个元素是否不相等</span><br>x.less_than(y)                <span class="hljs-comment"># 判断Tensor x的元素是否小于Tensor y的对应元素</span><br>x.less_equal(y)               <span class="hljs-comment"># 判断Tensor x的元素是否小于或等于Tensor y的对应元素</span><br>x.greater_than(y)             <span class="hljs-comment"># 判断Tensor x的元素是否大于Tensor y的对应元素</span><br>x.greater_equal(y)            <span class="hljs-comment"># 判断Tensor x的元素是否大于或等于Tensor y的对应元素</span><br>x.allclose(y)                 <span class="hljs-comment"># 判断两个Tensor的全部元素是否接近</span><br></code></pre></td></tr></table></figure>
 
-<h6 id="F（√）1-2-5-3-矩阵运算"><a href="#F（√）1-2-5-3-矩阵运算" class="headerlink" title="F（√）1.2.5.3 矩阵运算"></a>F（√）1.2.5.3 矩阵运算</h6><figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">x<span class="token punctuation">.</span>t<span class="token punctuation">(</span><span class="token punctuation">)</span>                         <span class="token comment"># 矩阵转置</span>
-x<span class="token punctuation">.</span>transpose<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>           <span class="token comment"># 交换第 0 维与第 1 维的顺序</span>
-x<span class="token punctuation">.</span>norm<span class="token punctuation">(</span><span class="token string">'fro'</span><span class="token punctuation">)</span>                 <span class="token comment"># 矩阵的弗罗贝尼乌斯范数</span>
-x<span class="token punctuation">.</span>dist<span class="token punctuation">(</span>y<span class="token punctuation">,</span> p<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">)</span>                <span class="token comment"># 矩阵（x-y）的2范数</span>
-x<span class="token punctuation">.</span>matmul<span class="token punctuation">(</span>y<span class="token punctuation">)</span>                   <span class="token comment"># 矩阵乘法</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<h6 id="F（√）1-2-5-3-矩阵运算"><a href="#F（√）1-2-5-3-矩阵运算" class="headerlink" title="F（√）1.2.5.3 矩阵运算"></a>F（√）1.2.5.3 矩阵运算</h6><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">x.t()                         <span class="hljs-comment"># 矩阵转置</span><br>x.transpose([<span class="hljs-number">1</span>, <span class="hljs-number">0</span>])           <span class="hljs-comment"># 交换第 0 维与第 1 维的顺序</span><br>x.norm(<span class="hljs-string">&#x27;fro&#x27;</span>)                 <span class="hljs-comment"># 矩阵的弗罗贝尼乌斯范数</span><br>x.dist(y, p=<span class="hljs-number">2</span>)                <span class="hljs-comment"># 矩阵（x-y）的2范数</span><br>x.matmul(y)                   <span class="hljs-comment"># 矩阵乘法</span><br></code></pre></td></tr></table></figure>
 
 <p>有些矩阵运算中也支持大于两维的张量，比如matmul函数，对最后两个维度进行矩阵乘。比如x是形状为[j,k,n,m]的张量，另一个y是[j,k,m,p]的张量，则x.matmul(y)输出的张量形状为[j,k,n,p]。</p>
 <h6 id="F（√）1-2-5-4-广播机制"><a href="#F（√）1-2-5-4-广播机制" class="headerlink" title="F（√）1.2.5.4 广播机制"></a>F（√）1.2.5.4 广播机制</h6><p>飞桨的一些API在计算时支持广播(Broadcasting)机制，允许在一些运算时使用不同形状的张量。通常来讲，如果有一个形状较小和一个形状较大的张量，会希望多次使用较小的张量来对较大的张量执行某些操作，看起来像是形状较小的张量首先被扩展到和较大的张量形状一致，然后再做运算。</p>
@@ -871,25 +679,9 @@ x<span class="token punctuation">.</span>matmul<span class="token punctuation">(
 <p>飞桨的广播机制主要遵循如下规则（参考Numpy广播机制）：</p>
 <p>1）每个张量至少为一维张量。</p>
 <p>2）从后往前比较张量的形状，当前维度的大小要么相等，要么其中一个等于1，要么其中一个不存在。</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 当两个Tensor的形状一致时，可以广播</span>
-x <span class="token operator">=</span> paddle<span class="token punctuation">.</span>ones<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-y <span class="token operator">=</span> paddle<span class="token punctuation">.</span>ones<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-z <span class="token operator">=</span> x <span class="token operator">+</span> y
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'broadcasting with two same shape tensor: '</span><span class="token punctuation">,</span> z<span class="token punctuation">.</span>shape<span class="token punctuation">)</span>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 当两个Tensor的形状一致时，可以广播</span><br>x = paddle.ones((<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>))<br>y = paddle.ones((<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>))<br>z = x + y<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;broadcasting with two same shape tensor: &#x27;</span>, z.shape)<br><br>x = paddle.ones((<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">5</span>))<br>y = paddle.ones((<span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">1</span>))<br><span class="hljs-comment"># 从后往前依次比较：</span><br><span class="hljs-comment"># 第一次：y的维度大小是1</span><br><span class="hljs-comment"># 第二次：x的维度大小是1</span><br><span class="hljs-comment"># 第三次：x和y的维度大小相等，都为3</span><br><span class="hljs-comment"># 第四次：y的维度不存在</span><br><span class="hljs-comment"># 所以x和y是可以广播的</span><br>z = x + y<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;broadcasting with two different shape tensor:&#x27;</span>, z.shape)<br></code></pre></td></tr></table></figure>
 
-x <span class="token operator">=</span> paddle<span class="token punctuation">.</span>ones<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-y <span class="token operator">=</span> paddle<span class="token punctuation">.</span>ones<span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token comment"># 从后往前依次比较：</span>
-<span class="token comment"># 第一次：y的维度大小是1</span>
-<span class="token comment"># 第二次：x的维度大小是1</span>
-<span class="token comment"># 第三次：x和y的维度大小相等，都为3</span>
-<span class="token comment"># 第四次：y的维度不存在</span>
-<span class="token comment"># 所以x和y是可以广播的</span>
-z <span class="token operator">=</span> x <span class="token operator">+</span> y
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'broadcasting with two different shape tensor:'</span><span class="token punctuation">,</span> z<span class="token punctuation">.</span>shape<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
-
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">broadcasting <span class="token keyword">with</span> two same shape tensor<span class="token punctuation">:</span>  <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span>
-broadcasting <span class="token keyword">with</span> two different shape tensor<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">broadcasting <span class="hljs-keyword">with</span> two same shape tensor:  [<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]<br>broadcasting <span class="hljs-keyword">with</span> two different shape tensor: [<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]<br></code></pre></td></tr></table></figure>
 
 <p><strong>广播机制的计算规则</strong></p>
 <p>现在我们知道在什么情况下两个张量是可以广播的。两个张量进行广播后的结果张量的形状计算规则如下：</p>
@@ -903,118 +695,38 @@ broadcasting <span class="token keyword">with</span> two different shape tensor<
 <p>4） 如果张量x是二维，y是一维，则获得矩阵与向量的乘积。</p>
 <p>5） 如果两个张量都是N维张量（N &gt; 2），则根据广播规则广播非矩阵维度（除最后两个维度外其余维度）。比如：如果输入x是形状为[j,1,n,m]的张量，另一个y是[k,m,p]的张量，则输出张量的形状为[j,k,n,p]。</p>
 <p><strong>矩阵乘法示例</strong></p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">x <span class="token operator">=</span> paddle<span class="token punctuation">.</span>ones<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-y <span class="token operator">=</span> paddle<span class="token punctuation">.</span>ones<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
-z <span class="token operator">=</span> paddle<span class="token punctuation">.</span>matmul<span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'After matmul: '</span><span class="token punctuation">,</span> z<span class="token punctuation">.</span>shape<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">x = paddle.ones([<span class="hljs-number">10</span>, <span class="hljs-number">1</span>, <span class="hljs-number">5</span>, <span class="hljs-number">2</span>])<br>y = paddle.ones([<span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">5</span>])<br>z = paddle.matmul(x, y)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;After matmul: &#x27;</span>, z.shape)<br></code></pre></td></tr></table></figure>
 
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">After matmul<span class="token punctuation">:</span>  <span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">After matmul:  [<span class="hljs-number">10</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>, <span class="hljs-number">5</span>]<br></code></pre></td></tr></table></figure>
 
 <p><strong>笔记</strong><br>飞桨的API有原位（inplace）操作和非原位操作之分。原位操作即在原张量上保存操作结果，非原位操作则不会修改原张量，而是返回一个新的张量来表示运算结果。在飞桨框架V2.1及之后版本，部分API有对应的原位操作版本，在API后加上’_‘表示，如：<code>x.add(y)</code>是非原位操作，<code>x.add_(y)</code>为原位操作。</p>
-<h4 id="D（√）1-3-算子"><a href="#D（√）1-3-算子" class="headerlink" title="D（√）1.3 算子"></a>D（√）1.3 算子</h4><p>一个复杂的机器学习模型（比如神经网络）可以看作一个复合函数，输入是数据特征，输出是标签的值或概率。简单起见，假设一个由$L$个函数复合的神经网络定义为：<br>$$<br>y=f_L(\cdots f_2(f_1(x))),<br>$$</p>
+<h4 id="D（√）1-3-算子"><a href="#D（√）1-3-算子" class="headerlink" title="D（√）1.3 算子"></a>D（√）1.3 算子</h4><p>一个复杂的机器学习模型（比如神经网络）可以看作一个复合函数，输入是数据特征，输出是标签的值或概率。简单起见，假设一个由$L$个函数复合的神经网络定义为：<br>$$<br>y&#x3D;f_L(\cdots f_2(f_1(x))),<br>$$</p>
 <p>其中$f_l(\cdot)$可以为带参数的函数，也可以为不带参数的函数，$x$为输入特征，$y$为某种损失。<br>我们将从$x$到$y$的计算看作一个前向计算过程。而神经网络的参数学习需要计算损失关于所有参数的偏导数（即梯度）。假设函数$f_l(\cdot)$包含参数$\theta_l$，根据链式法则，</p>
-<p>$$<br>\begin{aligned}<br>\frac{\partial y}{\partial \theta_l} &amp;= {\frac{\partial f_l}{\partial \theta_l}} \frac{\partial y}{\partial f_l} \<br>&amp;= \frac{\partial f_l}{\partial \theta_l} \frac{\partial f_{l+1}}{\partial f_l} \cdots \frac{\partial f_L}{\partial f_{L-1}} .<br>\end{aligned}<br>$$</p>
-<p>在实践中，一种比较高效的计算$y$关于每个函数$f_l$的偏导数的方式是利用递归进行反向计算。令$\delta_l\triangleq \frac{\partial y}{\partial f_l}$，则有<br>$$<br>\delta_{l-1} = \frac{\partial f_l}{\partial f_{l-1}} \delta_{l}.<br>$$</p>
+<p>$$<br>\begin{aligned}<br>\frac{\partial y}{\partial \theta_l} &amp;&#x3D; {\frac{\partial f_l}{\partial \theta_l}} \frac{\partial y}{\partial f_l} \<br>&amp;&#x3D; \frac{\partial f_l}{\partial \theta_l} \frac{\partial f_{l+1}}{\partial f_l} \cdots \frac{\partial f_L}{\partial f_{L-1}} .<br>\end{aligned}<br>$$</p>
+<p>在实践中，一种比较高效的计算$y$关于每个函数$f_l$的偏导数的方式是利用递归进行反向计算。令$\delta_l\triangleq \frac{\partial y}{\partial f_l}$，则有<br>$$<br>\delta_{l-1} &#x3D; \frac{\partial f_l}{\partial f_{l-1}} \delta_{l}.<br>$$</p>
 <p>如果将函数$f_l(\cdot)$称为前向函数，则$\delta_{l-1}$的计算称为函数$f(x)$的反向函数。</p>
 <p>如果我们实现每个基础函数的前向函数和反向函数，就可以非常方便地通过这些基础函数组合出复杂函数，并通过链式法则反向计算复杂函数的偏导数。<br>在深度学习框架中，这些基本函数的实现称为算子(Operator，Op)。有了算子，就可以像搭积木一样构建复杂的模型。</p>
 <h5 id="E（√）1-3-1-算子定义"><a href="#E（√）1-3-1-算子定义" class="headerlink" title="E（√）1.3.1 算子定义"></a>E（√）1.3.1 算子定义</h5><p>算子是构建复杂机器学习模型的基础组件，包含一个函数f(x)f(x)<em>f</em>(<em>x</em>)的前向函数和反向函数。为了可以更便捷地进行算子组合，本书中定义算子Op}的接口如下：</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">Op</span><span class="token punctuation">(</span><span class="token builtin">object</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        <span class="token keyword">pass</span>
-
-    <span class="token keyword">def</span> <span class="token function">__call__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> inputs<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        <span class="token keyword">return</span> self<span class="token punctuation">.</span>forward<span class="token punctuation">(</span>inputs<span class="token punctuation">)</span>
-
-    <span class="token comment"># 前向函数</span>
-    <span class="token comment"># 输入：张量inputs</span>
-    <span class="token comment"># 输出：张量outputs</span>
-    <span class="token keyword">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> inputs<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        <span class="token comment"># return outputs</span>
-        <span class="token keyword">raise</span> NotImplementedError
-
-    <span class="token comment"># 反向函数</span>
-    <span class="token comment"># 输入：最终输出对outputs的梯度outputs_grads</span>
-    <span class="token comment"># 输出：最终输出对inputs的梯度inputs_grads</span>
-    <span class="token keyword">def</span> <span class="token function">backward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> outputs_grads<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        <span class="token comment"># return inputs_grads</span>
-        <span class="token keyword">raise</span> NotImplementedError<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Op</span>(<span class="hljs-title class_ inherited__">object</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">pass</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__call__</span>(<span class="hljs-params">self, inputs</span>):<br>        <span class="hljs-keyword">return</span> self.forward(inputs)<br><br>    <span class="hljs-comment"># 前向函数</span><br>    <span class="hljs-comment"># 输入：张量inputs</span><br>    <span class="hljs-comment"># 输出：张量outputs</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, inputs</span>):<br>        <span class="hljs-comment"># return outputs</span><br>        <span class="hljs-keyword">raise</span> NotImplementedError<br><br>    <span class="hljs-comment"># 反向函数</span><br>    <span class="hljs-comment"># 输入：最终输出对outputs的梯度outputs_grads</span><br>    <span class="hljs-comment"># 输出：最终输出对inputs的梯度inputs_grads</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">backward</span>(<span class="hljs-params">self, outputs_grads</span>):<br>        <span class="hljs-comment"># return inputs_grads</span><br>        <span class="hljs-keyword">raise</span> NotImplementedError<br></code></pre></td></tr></table></figure>
 
 <p>在上面的接口中，<code>forward</code>是自定义Op的前向函数，必须被子类重写，它的参数为输入对象，参数的类型和数量任意；<code>backward</code>是自定义Op的反向函数，必须被子类重写，它的参数为<code>forward</code>输出张量的梯度<code>outputs_grads</code>，它的输出为<code>forward</code>输入张量的梯度<code>inputs_grads</code>。</p>
-<h6 id="F（√）1-3-1-1-加法算子"><a href="#F（√）1-3-1-1-加法算子" class="headerlink" title="F（√）1.3.1.1 加法算子"></a>F（√）1.3.1.1 加法算子</h6><figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">add</span><span class="token punctuation">(</span>Op<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        <span class="token builtin">super</span><span class="token punctuation">(</span>add<span class="token punctuation">,</span> self<span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<h6 id="F（√）1-3-1-1-加法算子"><a href="#F（√）1-3-1-1-加法算子" class="headerlink" title="F（√）1.3.1.1 加法算子"></a>F（√）1.3.1.1 加法算子</h6><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">add</span>(<span class="hljs-title class_ inherited__">Op</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-built_in">super</span>(add, self).__init__()<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__call__</span>(<span class="hljs-params">self, x, y</span>):<br>        <span class="hljs-keyword">return</span> self.forward(x, y)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x, y</span>):<br>        self.x = x<br>        self.y = y<br>        outputs = x + y<br>        <span class="hljs-keyword">return</span> outputs<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">backward</span>(<span class="hljs-params">self, grads</span>):<br>        grads_x = grads * <span class="hljs-number">1</span><br>        grads_y = grads * <span class="hljs-number">1</span><br>        <span class="hljs-keyword">return</span> grads_x, grads_y<br></code></pre></td></tr></table></figure>
 
-    <span class="token keyword">def</span> <span class="token function">__call__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        <span class="token keyword">return</span> self<span class="token punctuation">.</span>forward<span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span>
+<p>定义x&#x3D;1、y&#x3D;4，根据反向计算，得到x、y的梯度。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">x = <span class="hljs-number">1</span><br>y = <span class="hljs-number">4</span><br>add_op = add()<br>z = add_op(x, y)<br>grads_x, grads_y = add_op.backward(grads=<span class="hljs-number">1</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;x&#x27;s grad is: &quot;</span>, grads_x)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;y&#x27;s grad is: &quot;</span>, grads_y)<br></code></pre></td></tr></table></figure>
 
-    <span class="token keyword">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        self<span class="token punctuation">.</span>x <span class="token operator">=</span> x
-        self<span class="token punctuation">.</span>y <span class="token operator">=</span> y
-        outputs <span class="token operator">=</span> x <span class="token operator">+</span> y
-        <span class="token keyword">return</span> outputs
-
-    <span class="token keyword">def</span> <span class="token function">backward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> grads<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        grads_x <span class="token operator">=</span> grads <span class="token operator">*</span> <span class="token number">1</span>
-        grads_y <span class="token operator">=</span> grads <span class="token operator">*</span> <span class="token number">1</span>
-        <span class="token keyword">return</span> grads_x<span class="token punctuation">,</span> grads_y<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
-
-<p>定义x=1、y=4，根据反向计算，得到x、y的梯度。</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">x <span class="token operator">=</span> <span class="token number">1</span>
-y <span class="token operator">=</span> <span class="token number">4</span>
-add_op <span class="token operator">=</span> add<span class="token punctuation">(</span><span class="token punctuation">)</span>
-z <span class="token operator">=</span> add_op<span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span>
-grads_x<span class="token punctuation">,</span> grads_y <span class="token operator">=</span> add_op<span class="token punctuation">.</span>backward<span class="token punctuation">(</span>grads<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"x's grad is: "</span><span class="token punctuation">,</span> grads_x<span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"y's grad is: "</span><span class="token punctuation">,</span> grads_y<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
-
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">x's grad <span class="token keyword">is</span><span class="token punctuation">:</span>  <span class="token number">1</span>
-y's grad <span class="token keyword">is</span><span class="token punctuation">:</span>  <span class="token number">1</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">x<span class="hljs-string">&#x27;s grad is:  1</span><br><span class="hljs-string">y&#x27;</span>s grad <span class="hljs-keyword">is</span>:  <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
 
 <h6 id="F（√）1-3-1-2-乘法算子"><a href="#F（√）1-3-1-2-乘法算子" class="headerlink" title="F（√）1.3.1.2 乘法算子"></a>F（√）1.3.1.2 乘法算子</h6><p>乘法算子的代码如下：</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">multiply</span><span class="token punctuation">(</span>Op<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        <span class="token builtin">super</span><span class="token punctuation">(</span>multiply<span class="token punctuation">,</span> self<span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
-
-    <span class="token keyword">def</span> <span class="token function">__call__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        <span class="token keyword">return</span> self<span class="token punctuation">.</span>forward<span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span>
-
-    <span class="token keyword">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        self<span class="token punctuation">.</span>x <span class="token operator">=</span> x
-        self<span class="token punctuation">.</span>y <span class="token operator">=</span> y
-        outputs <span class="token operator">=</span> x <span class="token operator">*</span> y
-        <span class="token keyword">return</span> outputs
-
-    <span class="token keyword">def</span> <span class="token function">backward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> grads<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        grads_x <span class="token operator">=</span> grads <span class="token operator">*</span> self<span class="token punctuation">.</span>y
-        grads_y <span class="token operator">=</span> grads <span class="token operator">*</span> self<span class="token punctuation">.</span>x
-        <span class="token keyword">return</span> grads_x<span class="token punctuation">,</span> grads_y<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">multiply</span>(<span class="hljs-title class_ inherited__">Op</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-built_in">super</span>(multiply, self).__init__()<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__call__</span>(<span class="hljs-params">self, x, y</span>):<br>        <span class="hljs-keyword">return</span> self.forward(x, y)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x, y</span>):<br>        self.x = x<br>        self.y = y<br>        outputs = x * y<br>        <span class="hljs-keyword">return</span> outputs<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">backward</span>(<span class="hljs-params">self, grads</span>):<br>        grads_x = grads * self.y<br>        grads_y = grads * self.x<br>        <span class="hljs-keyword">return</span> grads_x, grads_y<br></code></pre></td></tr></table></figure>
 
 <h6 id="F（√）1-3-1-3-指数算子"><a href="#F（√）1-3-1-3-指数算子" class="headerlink" title="F（√）1.3.1.3 指数算子"></a>F（√）1.3.1.3 指数算子</h6><p>指数算子的代码如下：</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> math
-
-<span class="token keyword">class</span> <span class="token class-name">exponential</span><span class="token punctuation">(</span>Op<span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        <span class="token builtin">super</span><span class="token punctuation">(</span>exponential<span class="token punctuation">,</span> self<span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
-
-    <span class="token keyword">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        self<span class="token punctuation">.</span>x <span class="token operator">=</span> x
-        outputs <span class="token operator">=</span> math<span class="token punctuation">.</span>exp<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
-        <span class="token keyword">return</span> outputs
-
-    <span class="token keyword">def</span> <span class="token function">backward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> grads<span class="token punctuation">)</span><span class="token punctuation">:</span>
-        grads <span class="token operator">=</span> grads <span class="token operator">*</span> math<span class="token punctuation">.</span>exp<span class="token punctuation">(</span>self<span class="token punctuation">.</span>x<span class="token punctuation">)</span>
-        <span class="token keyword">return</span> grads<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> math<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">exponential</span>(<span class="hljs-title class_ inherited__">Op</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-built_in">super</span>(exponential, self).__init__()<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x</span>):<br>        self.x = x<br>        outputs = math.exp(x)<br>        <span class="hljs-keyword">return</span> outputs<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">backward</span>(<span class="hljs-params">self, grads</span>):<br>        grads = grads * math.exp(self.x)<br>        <span class="hljs-keyword">return</span> grads<br></code></pre></td></tr></table></figure>
 
 <p>分别指定a、b、c、d的值，通过实例化算子，调用加法、乘法和指数运算算子，计算得到y。</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python">a<span class="token punctuation">,</span> b<span class="token punctuation">,</span> c<span class="token punctuation">,</span> d <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span>
-<span class="token comment"># 实例化算子</span>
-multiply_op <span class="token operator">=</span> multiply<span class="token punctuation">(</span><span class="token punctuation">)</span>
-add_op <span class="token operator">=</span> add<span class="token punctuation">(</span><span class="token punctuation">)</span>
-exp_op <span class="token operator">=</span> exponential<span class="token punctuation">(</span><span class="token punctuation">)</span>
-y <span class="token operator">=</span> exp_op<span class="token punctuation">(</span>add_op<span class="token punctuation">(</span>multiply_op<span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">,</span> multiply_op<span class="token punctuation">(</span>c<span class="token punctuation">,</span> d<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">'y: '</span><span class="token punctuation">,</span> y<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">a, b, c, d = <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span><br><span class="hljs-comment"># 实例化算子</span><br>multiply_op = multiply()<br>add_op = add()<br>exp_op = exponential()<br>y = exp_op(add_op(multiply_op(a, b), multiply_op(c, d)))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;y: &#x27;</span>, y)<br></code></pre></td></tr></table></figure>
 
-<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">22026.465794806718<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></div></figure>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">22026</span>.<span class="hljs-number">465794806718</span><br></code></pre></td></tr></table></figure>
 
 <h5 id="E（√）1-3-2-自动微分机制"><a href="#E（√）1-3-2-自动微分机制" class="headerlink" title="E（√）1.3.2 自动微分机制"></a>E（√）1.3.2 自动微分机制</h5><p>目前大部分深度学习平台都支持自动微分（Automatic Differentiation），即根据<code>forward()</code>函数来自动构建<code>backward()</code>函数。</p>
 <p><strong>笔记</strong></p>
@@ -1022,33 +734,20 @@ y <span class="token operator">=</span> exp_op<span class="token punctuation">(<
 <p>飞桨的自动微分是通过<code>trace</code>的方式，记录各种算子和张量的前向计算，并自动创建相应的反向函数和反向变量，来实现反向梯度的计算。</p>
 <p>在飞桨中，可以通<code>过paddle.grad()</code>API或张量类成员函数x.grad来查看张量的梯度。</p>
 <p>下面用一个比较简单的例子来了解整个过程。定义两个张量a和b，并用<code>stop_gradient</code>属性用来设置是否传递梯度。将a的<code>stop_gradient</code>属性设为False，会自动为a创建一个反向张量，将b的<code>stop_gradient</code>属性设为True，即不会为b创建反向张量。</p>
-<figure><div class="code-wrapper"><pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token comment"># 定义张量a，stop_gradient=False代表进行梯度传导</span>
-a <span class="token operator">=</span> paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span><span class="token number">2.0</span><span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
-<span class="token comment"># 定义张量b，stop_gradient=True代表不进行梯度传导</span>
-b <span class="token operator">=</span> paddle<span class="token punctuation">.</span>to_tensor<span class="token punctuation">(</span><span class="token number">5.0</span><span class="token punctuation">,</span> stop_gradient<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
-c <span class="token operator">=</span> a <span class="token operator">*</span> b
-<span class="token comment"># 自动计算反向梯度</span>
-c<span class="token punctuation">.</span>backward<span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Tensor a's grad is: &#123;&#125;"</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span>grad<span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Tensor b's grad is: &#123;&#125;"</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>b<span class="token punctuation">.</span>grad<span class="token punctuation">)</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Tensor c's grad is: &#123;&#125;"</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>c<span class="token punctuation">.</span>grad<span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 定义张量a，stop_gradient=False代表进行梯度传导</span><br>a = paddle.to_tensor(<span class="hljs-number">2.0</span>, stop_gradient=<span class="hljs-literal">False</span>)<br><span class="hljs-comment"># 定义张量b，stop_gradient=True代表不进行梯度传导</span><br>b = paddle.to_tensor(<span class="hljs-number">5.0</span>, stop_gradient=<span class="hljs-literal">True</span>)<br>c = a * b<br><span class="hljs-comment"># 自动计算反向梯度</span><br>c.backward()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Tensor a&#x27;s grad is: &#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(a.grad))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Tensor b&#x27;s grad is: &#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(b.grad))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Tensor c&#x27;s grad is: &#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(c.grad))<br></code></pre></td></tr></table></figure>
 
-<figure><div class="code-wrapper"><pre class="line-numbers language-none"><code class="language-none">Tensor a&#39;s grad is: Tensor(shape&#x3D;[1], dtype&#x3D;float32, place&#x3D;CPUPlace, stop_gradient&#x3D;False,
-       [5.]) # a的梯度是b
-Tensor b&#39;s grad is: None # b关闭了梯度，因此没有梯度
-Tensor c&#39;s grad is: Tensor(shape&#x3D;[1], dtype&#x3D;float32, place&#x3D;CPUPlace, stop_gradient&#x3D;False,
-       [1.]) # c的梯度是1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></div></figure>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs jboss-cli">Tensor a&#x27;s grad is: Tensor<span class="hljs-params">(<span class="hljs-attr">shape</span>=[1], <span class="hljs-attr">dtype</span>=float32, <span class="hljs-attr">place</span>=CPUPlace, <span class="hljs-attr">stop_gradient</span>=False,</span><br><span class="hljs-params">       [5.])</span> <span class="hljs-comment"># a的梯度是b</span><br>Tensor b&#x27;s grad is: None <span class="hljs-comment"># b关闭了梯度，因此没有梯度</span><br>Tensor c&#x27;s grad is: Tensor<span class="hljs-params">(<span class="hljs-attr">shape</span>=[1], <span class="hljs-attr">dtype</span>=float32, <span class="hljs-attr">place</span>=CPUPlace, <span class="hljs-attr">stop_gradient</span>=False,</span><br><span class="hljs-params">       [1.])</span> <span class="hljs-comment"># c的梯度是1</span><br></code></pre></td></tr></table></figure>
 
 <h6 id="F（√）1-3-2-1-前向执行"><a href="#F（√）1-3-2-1-前向执行" class="headerlink" title="F（√）1.3.2.1 前向执行"></a>F（√）1.3.2.1 前向执行</h6><p>在上面代码中，第7行<code>c.backward()</code>被执行前，会为每个张量和算子创建相应的反向张量和反向函数。</p>
 <p>当创建张量或执行算子的前向计算时，会自动创建反向张量或反向算子。这里以上面代码中乘法为例来进行说明。</p>
 <ol>
 <li>当创建张量a时，由于其属性<code>stop_gradient=False</code>，因此会自动为a创建一个反向张量，也就是图1.8中的a_grad。由于a不依赖其它张量或算子，a_grad的<code>grad_op</code>为None。</li>
 <li>当创建张量b时，由于其属性<code>stop_gradient=True</code>，因此不会为b创建一个反向张量。</li>
-<li>执行乘法c=a×bc=a\times b<em>c</em>=<em>a</em>×<em>b</em> 时，×\times×是一个前向算子Mul，为其构建反向算子MulBackward。由于Mul的输入是a和b，输出是c，对应反向算子<code>MulBackward</code>的输入是张量c的反向张量<code>c_grad</code>，输出是a和b的反向张量。如果输入定义<code>stop_gradient=True</code>，反向张量即为None。在此例子中就是a_grad和None。</li>
+<li>执行乘法c&#x3D;a×bc&#x3D;a\times b<em>c</em>&#x3D;<em>a</em>×<em>b</em> 时，×\times×是一个前向算子Mul，为其构建反向算子MulBackward。由于Mul的输入是a和b，输出是c，对应反向算子<code>MulBackward</code>的输入是张量c的反向张量<code>c_grad</code>，输出是a和b的反向张量。如果输入定义<code>stop_gradient=True</code>，反向张量即为None。在此例子中就是a_grad和None。</li>
 <li>反向算子MulBackward中的<code>grad_pending_ops</code>用于在自动构建反向网络时，明确该反向算子的下一个可执行的反向算子。可以理解为在反向计算中，该算子衔接的下一个反向算子。</li>
 <li>当c通过乘法算子Mul被创建后，c会创建一个反向张量c_grad，它的<code>grad_op</code>为该乘法算子的反向算子，即MulBackward。</li>
 </ol>
-<p>由于此时还没有进行反向计算，因此这些反向张量和反向算子中的具体数值为空(data = None)。</p>
+<p>由于此时还没有进行反向计算，因此这些反向张量和反向算子中的具体数值为空(data &#x3D; None)。</p>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221209184730941.png" srcset="/img/loading.gif" lazyload alt="image-20221211203408158"></p>
 <h6 id="F（√）1-3-2-2-反向执行"><a href="#F（√）1-3-2-2-反向执行" class="headerlink" title="F（√）1.3.2.2 反向执行"></a>F（√）1.3.2.2 反向执行</h6><p>调用<code>backward()</code>后，执行计算图上的反向过程，即通过链式法则自动计算每个张量或算子的微分，计算过程如图1.9所示。经过自动反向梯度计算，获得c_grad和a_grad的值。</p>
 <p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221209211255275.png" srcset="/img/loading.gif" lazyload alt="image-20221211203606088"></p>
@@ -1172,7 +871,7 @@ Tensor c&#39;s grad is: Tensor(shape&#x3D;[1], dtype&#x3D;float32, place&#x3D;CP
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年12月19日</div>
+          <div>2022年12月25日</div>
         </div>
       
       
@@ -1214,8 +913,8 @@ Tensor c&#39;s grad is: Tensor(shape&#x3D;[1], dtype&#x3D;float32, place&#x3D;CP
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/1811526594/" title="sleep、yield、wait、join的区别">
-                        <span class="hidden-mobile">sleep、yield、wait、join的区别</span>
+                      <a href="/posts/1896225260/" title="2022年11月11日牛客测试题题目整理">
+                        <span class="hidden-mobile">2022年11月11日牛客测试题题目整理</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -1235,7 +934,10 @@ Tensor c&#39;s grad is: Tensor(shape&#x3D;[1], dtype&#x3D;float32, place&#x3D;CP
       
   <aside class="sidebar" style="margin-left: -1rem">
     <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
   <div class="toc-body" id="toc-body"></div>
 </div>
 
@@ -1311,37 +1013,39 @@ Tensor c&#39;s grad is: Tensor(shape&#x3D;[1], dtype&#x3D;float32, place&#x3D;CP
     
       <div class="col-lg-7 mx-auto nopadding-x-md">
         <div class="container custom mx-auto">
-           <!-- MetingJS start --> <div class="aplayer" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-fixed="true" data-autoplay="false" data-volume="0.7"></div> <!-- MetingJS end --> 
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
         </div>
       </div>
     
   </main>
 
   <footer>
-    <div class="footer-inner">
-  
-    <footer class="text-center mt-5 py-3" style="color: #DDD;font-size: 13.6px;">
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
       <div class="footer-content">
-         <a href="https://hexo.io" target="_blank" rel="nofollow noopener" style="color:#D8D9DA"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener" style="color:#D8D9DA"><span>Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/alec-97" target="_blank" rel="nofollow noopener" style="color:#D8D9DA"><span>Alec</span></a> <div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div> 
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
       </div>
+    
+
+    
+      <div class="statistics">
   
   
-  
-  
-    <div class="statistics">
-  
-  
-  
+
   
     
-      <span id="busuanzi_container_site_pv" style="display: none;font-size:13.6px">
+      <span id="busuanzi_container_site_pv" style="display: none">
         总访问量 
         <span id="busuanzi_value_site_pv"></span>
          次
       </span>
     
     
-      <span id="busuanzi_container_site_uv" style="display: none;font-size:13.6px">
+      <span id="busuanzi_container_site_uv" style="display: none">
         总访客数 
         <span id="busuanzi_value_site_uv"></span>
          人
@@ -1349,31 +1053,29 @@ Tensor c&#39;s grad is: Tensor(shape&#x3D;[1], dtype&#x3D;float32, place&#x3D;CP
     
     
   
-
 </div>
 
-<div class="statistics" style="font-size: 13.6px;">
-  <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #DDD;font-size:13.6px"  id="hitokoto"></span></a>
-  <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
-</div>
+    
 
-  
-  
-  
-  
-  
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
 
+    
 
+    
 
-  
+  </div>  
 </div>
 
   </footer>
 
   <!-- Scripts -->
   
-  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
   <script>
     NProgress.configure({"showSpinner":false,"trickleSpeed":100})
@@ -1384,26 +1086,11 @@ Tensor c&#39;s grad is: Tensor(shape&#x3D;[1], dtype&#x3D;float32, place&#x3D;CP
   </script>
 
 
-<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
-<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>
 
-
-  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
-  <script>
-    (function (window, document) {
-      var typing = Fluid.plugins.typing;
-      var subtitle = document.getElementById('subtitle');
-      if (!subtitle || !typing) {
-        return;
-      }
-      var text = subtitle.getAttribute('data-typed-text');
-      
-        typing(text);
-      
-    })(window, document);
-  </script>
 
 
 
@@ -1417,7 +1104,7 @@ Tensor c&#39;s grad is: Tensor(shape&#x3D;[1], dtype&#x3D;float32, place&#x3D;CP
 
   
 <script>
-  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js', function() {
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
     var toc = jQuery('#toc');
     if (toc.length === 0 || !window.tocbot) { return; }
     var boardCtn = jQuery('#board-ctn');
@@ -1455,16 +1142,14 @@ Tensor c&#39;s grad is: Tensor(shape&#x3D;[1], dtype&#x3D;float32, place&#x3D;CP
 </script>
 
 
-  <script  src="https://cdn.jsdelivr.net/npm/prismjs@1/plugins/line-numbers/prism-line-numbers.min.js" ></script>
-
-  <script src=https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js></script>
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
 
   <script>Fluid.plugins.codeWidget();</script>
 
 
   
 <script>
-  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js', function() {
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
     window.anchors.options = {
       placement: CONFIG.anchorjs.placement,
       visible  : CONFIG.anchorjs.visible
@@ -1502,7 +1187,7 @@ Tensor c&#39;s grad is: Tensor(shape&#x3D;[1], dtype&#x3D;float32, place&#x3D;CP
 
   
 <script>
-  Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js', function() {
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
     Fluid.plugins.fancyBox();
   });
 </script>
@@ -1517,29 +1202,10 @@ Tensor c&#39;s grad is: Tensor(shape&#x3D;[1], dtype&#x3D;float32, place&#x3D;CP
 
 
 
-
-
-
   
-<script src="/js/love.js"></script>
-<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/yinghua.js"></script>
-<script src="/js/APlayer/dist/APlayer.min.js"></script>
-<script src="/js/Meting.min.js"></script>
-
-
-
-
-<!-- alec:监控页面焦点变换标题 -->
-
-  <script type="text/javascript">
-    /*窗口监视*/
-    var originalTitle = document.title;
-    window.onblur = function(){document.title = "给时间一点时间"};
-    window.onfocus = function(){document.title = originalTitle};
-  </script>
-
-
-
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
 
 
 
@@ -1553,6 +1219,9 @@ Tensor c&#39;s grad is: Tensor(shape&#x3D;[1], dtype&#x3D;float32, place&#x3D;CP
   <noscript>
     <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
   </noscript>
+
+
+
 
 </body>
 </html>

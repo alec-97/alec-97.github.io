@@ -1,7 +1,7 @@
 <div class="statistics">
   <% var pv_texts = (theme.footer.statistics.pv_format || __('footer.pv')).split('{}') %>
   <% var uv_texts = (theme.footer.statistics.uv_format || __('footer.uv')).split('{}') %>
-  
+
   <% if (theme.footer.statistics.source === 'leancloud') { %>
     <% if (pv_texts.length >= 2) { %>
       <span id="leancloud-site-pv-container" style="display: none">
@@ -21,14 +21,14 @@
 
   <% } else if (theme.footer.statistics.source === 'busuanzi') { %>
     <% if (pv_texts.length >= 2) { %>
-      <span id="busuanzi_container_site_pv" style="display: none;font-size:13.6px">
+      <span id="busuanzi_container_site_pv" style="display: none">
         <%- pv_texts[0] %>
         <span id="busuanzi_value_site_pv"></span>
         <%- pv_texts[1] %>
       </span>
     <% } %>
     <% if (uv_texts.length >= 2) { %>
-      <span id="busuanzi_container_site_uv" style="display: none;font-size:13.6px">
+      <span id="busuanzi_container_site_uv" style="display: none">
         <%- uv_texts[0] %>
         <span id="busuanzi_value_site_uv"></span>
         <%- uv_texts[1] %>
@@ -36,10 +36,4 @@
     <% } %>
     <% import_js(theme.static_prefix.busuanzi, 'busuanzi.pure.mini.js', 'defer') %>
   <% } %>
-
-</div>
-
-<div class="statistics" style="font-size: 13.6px;">
-  <a href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #DDD;font-size:13.6px"  id="hitokoto"></span></a>
-  <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
 </div>
