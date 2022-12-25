@@ -1,0 +1,902 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="[√] 安装aplayer npm和github两种方式二选一，拿到dist文件夹就可以了 [√] npm安装 在hexo博客的文件夹根目录打开git bash，并输入: 1npm install --save hexo-tag-aplayer  可以看到在node_module文件夹中多出来一个aplayer文件夹即可 然后将这个dist文件夹复制一份到主题目录下的blog&#x2F;themes&#x2F;flu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="8 - fluid添加音乐页面和音乐播放器">
+<meta property="og:url" content="http://example.com/posts/3564283204/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="[√] 安装aplayer npm和github两种方式二选一，拿到dist文件夹就可以了 [√] npm安装 在hexo博客的文件夹根目录打开git bash，并输入: 1npm install --save hexo-tag-aplayer  可以看到在node_module文件夹中多出来一个aplayer文件夹即可 然后将这个dist文件夹复制一份到主题目录下的blog&#x2F;themes&#x2F;flu">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-12-25T07:16:57.652Z">
+<meta property="article:modified_time" content="2022-12-25T06:58:31.297Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>8 - fluid添加音乐页面和音乐播放器 - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="/alec_diy/APlayer/dist/APlayer.min.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":5,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">8 - fluid添加音乐页面和音乐播放器</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-12-25 15:16" pubdate>
+          2022年12月25日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          52 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">8 - fluid添加音乐页面和音乐播放器</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：24 分钟前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="√-安装aplayer"><a href="#√-安装aplayer" class="headerlink" title="[√] 安装aplayer"></a>[√] 安装aplayer</h2><hr>
+<p>npm和github两种方式二选一，拿到dist文件夹就可以了</p>
+<h4 id="√-npm安装"><a href="#√-npm安装" class="headerlink" title="[√] npm安装"></a>[√] npm安装</h4><hr>
+<p>在hexo博客的文件夹根目录打开git bash，并输入:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">npm install --save hexo-tag-aplayer<br></code></pre></td></tr></table></figure>
+
+<p>可以看到在node_module文件夹中多出来一个aplayer文件夹即可</p>
+<p>然后将这个dist文件夹复制一份到主题目录下的<code>blog/themes/fluid/source/alec_diy/aplayer/</code>文件夹中。</p>
+<h4 id="√-Github下载源码"><a href="#√-Github下载源码" class="headerlink" title="[√] Github下载源码"></a>[√] Github下载源码</h4><hr>
+<p>去github clone源码，并复制dist文件夹到主题下的<code>blog/themes/fluid/source/alec_diy/aplayer/</code>文件夹中</p>
+<h2 id="√-下载Meting-min-js文件"><a href="#√-下载Meting-min-js文件" class="headerlink" title="[√] 下载Meting.min.js文件"></a>[√] 下载Meting.min.js文件</h2><hr>
+<p><a target="_blank" rel="noopener" href="https://github.com/metowolf/MetingJS">MetingJS</a> 是基于<a target="_blank" rel="noopener" href="https://github.com/metowolf/Meting">Meting API</a> 的 APlayer 衍生播放器，引入 MetingJS 后，播放器将支持对于 QQ音乐、网易云音乐、虾米、酷狗、百度等平台的音乐播放。</p>
+<p>这个文件可以让aplayer音乐播放器添加音乐列表，而不用单个的添加音乐</p>
+<p>（1）在本地路径<code>blog/themes/fluid/source/alec_diy/aplyaer/</code>新建<code>Meting.min.js</code>文件</p>
+<p>（2）</p>
+<p>在浏览器输入：</p>
+<p>cdn.jsdelivr.net&#x2F;gh&#x2F;metowolf&#x2F;<a href="mailto:&#77;&#101;&#x74;&#105;&#x6e;&#103;&#74;&#x53;&#64;&#x31;&#46;&#50;">&#77;&#101;&#x74;&#105;&#x6e;&#103;&#74;&#x53;&#64;&#x31;&#46;&#50;</a>&#x2F;dist&#x2F;Meting.min.js</p>
+<p>然后将出现的代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-meta">&quot;use strict&quot;</span>;<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;\n %c MetingJS v1.2.0 %c https://github.com/metowolf/MetingJS \n&quot;</span>,<span class="hljs-string">&quot;color: #fadfa3; background: #030307; padding:5px 0;&quot;</span>,<span class="hljs-string">&quot;background: #fadfa3; padding:5px 0;&quot;</span>);<span class="hljs-keyword">var</span> aplayers=[],loadMeting=<span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;<span class="hljs-keyword">function</span> <span class="hljs-title function_">a</span>(<span class="hljs-params">a,t</span>)&#123;<span class="hljs-keyword">var</span> e=&#123;<span class="hljs-attr">container</span>:a,<span class="hljs-attr">audio</span>:t,<span class="hljs-attr">mini</span>:<span class="hljs-literal">null</span>,<span class="hljs-attr">fixed</span>:<span class="hljs-literal">null</span>,<span class="hljs-attr">autoplay</span>:!<span class="hljs-number">1</span>,<span class="hljs-attr">mutex</span>:!<span class="hljs-number">0</span>,<span class="hljs-attr">lrcType</span>:<span class="hljs-number">3</span>,<span class="hljs-attr">listFolded</span>:!<span class="hljs-number">1</span>,<span class="hljs-attr">preload</span>:<span class="hljs-string">&quot;auto&quot;</span>,<span class="hljs-attr">theme</span>:<span class="hljs-string">&quot;#2980b9&quot;</span>,<span class="hljs-attr">loop</span>:<span class="hljs-string">&quot;all&quot;</span>,<span class="hljs-attr">order</span>:<span class="hljs-string">&quot;list&quot;</span>,<span class="hljs-attr">volume</span>:<span class="hljs-literal">null</span>,<span class="hljs-attr">listMaxHeight</span>:<span class="hljs-literal">null</span>,<span class="hljs-attr">customAudioType</span>:<span class="hljs-literal">null</span>,<span class="hljs-attr">storageName</span>:<span class="hljs-string">&quot;metingjs&quot;</span>&#125;;<span class="hljs-keyword">if</span>(t.<span class="hljs-property">length</span>)&#123;t[<span class="hljs-number">0</span>].<span class="hljs-property">lrc</span>||(e.<span class="hljs-property">lrcType</span>=<span class="hljs-number">0</span>);<span class="hljs-keyword">var</span> r=&#123;&#125;;<span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> s <span class="hljs-keyword">in</span> e)&#123;<span class="hljs-keyword">var</span> n=s.<span class="hljs-title function_">toLowerCase</span>();(a.<span class="hljs-property">dataset</span>.<span class="hljs-title function_">hasOwnProperty</span>(n)||a.<span class="hljs-property">dataset</span>.<span class="hljs-title function_">hasOwnProperty</span>(s)||<span class="hljs-literal">null</span>!==e[s])&amp;&amp;(r[s]=a.<span class="hljs-property">dataset</span>[n]||a.<span class="hljs-property">dataset</span>[s]||e[s],<span class="hljs-string">&quot;true&quot;</span>!==r[s]&amp;&amp;<span class="hljs-string">&quot;false&quot;</span>!==r[s]||(r[s]=<span class="hljs-string">&quot;true&quot;</span>==r[s]))&#125;aplayers.<span class="hljs-title function_">push</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">APlayer</span>(r))&#125;&#125;<span class="hljs-keyword">var</span> t=<span class="hljs-string">&quot;https://api.i-meto.com/meting/api?server=:server&amp;type=:type&amp;id=:id&amp;r=:r&quot;</span>;<span class="hljs-string">&quot;undefined&quot;</span>!=<span class="hljs-keyword">typeof</span> meting_api&amp;&amp;(t=meting_api);<span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> e=<span class="hljs-number">0</span>;e&lt;aplayers.<span class="hljs-property">length</span>;e++)<span class="hljs-keyword">if</span>(!aplayers[e].<span class="hljs-property">container</span>.<span class="hljs-property">classList</span>.<span class="hljs-title function_">contains</span>(<span class="hljs-string">&quot;no-destroy&quot;</span>))<span class="hljs-keyword">try</span>&#123;aplayers[e].<span class="hljs-title function_">destroy</span>()&#125;<span class="hljs-keyword">catch</span>(a)&#123;<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(a)&#125;aplayers=[];<span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> r=<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">querySelectorAll</span>(<span class="hljs-string">&quot;.aplayer&quot;</span>),s=<span class="hljs-number">0</span>;s&lt;r.<span class="hljs-property">length</span>;s++)&#123;(<span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;<span class="hljs-keyword">var</span> e=r[s];<span class="hljs-keyword">if</span>(e.<span class="hljs-property">classList</span>.<span class="hljs-title function_">contains</span>(<span class="hljs-string">&quot;no-reload&quot;</span>))<span class="hljs-keyword">return</span><span class="hljs-string">&quot;continue&quot;</span>;<span class="hljs-keyword">if</span>(e.<span class="hljs-property">classList</span>.<span class="hljs-title function_">contains</span>(<span class="hljs-string">&quot;no-destroy&quot;</span>)&amp;&amp;e.<span class="hljs-property">classList</span>.<span class="hljs-title function_">add</span>(<span class="hljs-string">&quot;no-reload&quot;</span>),e.<span class="hljs-property">dataset</span>.<span class="hljs-property">id</span>)&#123;<span class="hljs-keyword">var</span> n=e.<span class="hljs-property">dataset</span>.<span class="hljs-property">api</span>||t;n=n.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;:server&quot;</span>,e.<span class="hljs-property">dataset</span>.<span class="hljs-property">server</span>),n=n.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;:type&quot;</span>,e.<span class="hljs-property">dataset</span>.<span class="hljs-property">type</span>),n=n.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;:id&quot;</span>,e.<span class="hljs-property">dataset</span>.<span class="hljs-property">id</span>),n=n.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;:auth&quot;</span>,e.<span class="hljs-property">dataset</span>.<span class="hljs-property">auth</span>),n=n.<span class="hljs-title function_">replace</span>(<span class="hljs-string">&quot;:r&quot;</span>,<span class="hljs-title class_">Math</span>.<span class="hljs-title function_">random</span>());<span class="hljs-keyword">var</span> o=<span class="hljs-keyword">new</span> <span class="hljs-title class_">XMLHttpRequest</span>;o.<span class="hljs-property">onreadystatechange</span>=<span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)&#123;<span class="hljs-keyword">if</span>(<span class="hljs-number">4</span>===o.<span class="hljs-property">readyState</span>&amp;&amp;(o.<span class="hljs-property">status</span>&gt;=<span class="hljs-number">200</span>&amp;&amp;o.<span class="hljs-property">status</span>&lt;<span class="hljs-number">300</span>||<span class="hljs-number">304</span>===o.<span class="hljs-property">status</span>))&#123;<span class="hljs-keyword">var</span> t=<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(o.<span class="hljs-property">responseText</span>);<span class="hljs-title function_">a</span>(e,t)&#125;&#125;,o.<span class="hljs-title function_">open</span>(<span class="hljs-string">&quot;get&quot;</span>,n,!<span class="hljs-number">0</span>),o.<span class="hljs-title function_">send</span>(<span class="hljs-literal">null</span>)&#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(e.<span class="hljs-property">dataset</span>.<span class="hljs-property">url</span>)&#123;<span class="hljs-keyword">var</span> l=[&#123;<span class="hljs-attr">name</span>:e.<span class="hljs-property">dataset</span>.<span class="hljs-property">name</span>||e.<span class="hljs-property">dataset</span>.<span class="hljs-property">title</span>||<span class="hljs-string">&quot;Audio name&quot;</span>,<span class="hljs-attr">artist</span>:e.<span class="hljs-property">dataset</span>.<span class="hljs-property">artist</span>||e.<span class="hljs-property">dataset</span>.<span class="hljs-property">author</span>||<span class="hljs-string">&quot;Audio artist&quot;</span>,<span class="hljs-attr">url</span>:e.<span class="hljs-property">dataset</span>.<span class="hljs-property">url</span>,<span class="hljs-attr">cover</span>:e.<span class="hljs-property">dataset</span>.<span class="hljs-property">cover</span>||e.<span class="hljs-property">dataset</span>.<span class="hljs-property">pic</span>,<span class="hljs-attr">lrc</span>:e.<span class="hljs-property">dataset</span>.<span class="hljs-property">lrc</span>,<span class="hljs-attr">type</span>:e.<span class="hljs-property">dataset</span>.<span class="hljs-property">type</span>||<span class="hljs-string">&quot;auto&quot;</span>&#125;];<span class="hljs-title function_">a</span>(e,l)&#125;&#125;)()&#125;&#125;;<span class="hljs-variable language_">document</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&quot;DOMContentLoaded&quot;</span>,loadMeting,!<span class="hljs-number">1</span>);<br></code></pre></td></tr></table></figure>
+
+<p>复制到Meting.min.js中</p>
+<h2 id="√-配置博客配置文件"><a href="#√-配置博客配置文件" class="headerlink" title="[√] 配置博客配置文件"></a>[√] 配置博客配置文件</h2><hr>
+<p>在<code>bolg/_config.yml</code>中添加：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment"># aplayer</span><br><span class="hljs-attr">aplayer:</span>  <br>  <span class="hljs-attr">meting:</span> <span class="hljs-literal">true</span>  <br>  <span class="hljs-attr">asset_inject:</span> <span class="hljs-string">flse</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="√-配置主题配置文件"><a href="#√-配置主题配置文件" class="headerlink" title="[√] 配置主题配置文件"></a>[√] 配置主题配置文件</h2><hr>
+<p>引入刚刚下载的文件</p>
+<p>（1）在主题配置文件中的<code>custom_js</code>处，添加</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment"># 音乐播放器依赖</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">/alec_diy/aplayer/dist/APlayer.min.js</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">/alec_diy/aplayer/Meting.min.js</span>  <span class="hljs-comment">#/APlayer依赖</span><br></code></pre></td></tr></table></figure>
+
+<p>具体为：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">custom_js:</span><br>  <span class="hljs-comment"># 音乐播放器依赖</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">/alec_diy/aplayer/dist/APlayer.min.js</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">/alec_diy/aplayer/Meting.min.js</span>  <span class="hljs-comment">#/APlayer依赖</span><br></code></pre></td></tr></table></figure>
+
+<p>（2）在主题配置文件中的<code>custom_css</code>处，添加</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment"># 音乐播放器依赖</span><br><span class="hljs-bullet">-</span> <span class="hljs-string">/alec_diy/APlayer/dist/APlayer.min.css</span><br></code></pre></td></tr></table></figure>
+
+<p>具体为：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment"># 指定自定义 .css 文件路径，用法和 custom_js 相同</span><br><span class="hljs-comment"># The usage is the same as custom_js</span><br><span class="hljs-attr">custom_css:</span><br>  <span class="hljs-comment"># 音乐播放器依赖</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">/js/APlayer/dist/APlayer.min.css</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注：除了将文件下载到本地，也可以直接引入网页连接</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">custom_js:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">//cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js</span>  <span class="hljs-comment">#/APlayer#/APlayer依赖</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">//cdn.jsdelivr.net/gh/metowolf/MetingJS@1.2/dist/Meting.min.js</span>  <span class="hljs-comment">#/APlayer依赖</span><br><span class="hljs-attr">custom_css:</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">//cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css</span>   <span class="hljs-comment">#/APlayer依赖</span><br></code></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="√-添加悬浮音乐播放器"><a href="#√-添加悬浮音乐播放器" class="headerlink" title="[√] 添加悬浮音乐播放器"></a>[√] 添加悬浮音乐播放器</h2><hr>
+<p>在fluid的主题配置文件中，提供了自定义html的位置，因此直接在主题配置文件中添加html代码</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-comment"># 自定义底部 HTML 内容（位于 footer 上方），注意不要和 `post: custom` 配置冲突</span><br><span class="hljs-comment"># Customize the HTML content at the bottom (located above the footer), be careful not to conflict with `post: custom`</span><br><span class="hljs-attr">custom_html:</span> <span class="hljs-string">&#x27;</span><br><span class="hljs-string">    &lt;!-- MetingJS start --&gt;</span><br><span class="hljs-string">    &lt;div class=&quot;aplayer&quot; data-id=&quot;7729098320&quot; data-server=&quot;netease&quot; data-type=&quot;playlist&quot; data-lrctype=&quot;0&quot; data-fixed=&quot;true&quot; data-autoplay=&quot;false&quot;</span><br><span class="hljs-string">        data-volume=&quot;0.7&quot;&gt;&lt;/div&gt;</span><br><span class="hljs-string">    &lt;!-- MetingJS end --&gt;</span><br><span class="hljs-string">&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>其中，</p>
+<ul>
+<li><code>data-id</code>是自己获取的歌单的ID</li>
+<li><code>data-server</code>是歌单的提供者，例如<code>netease</code>是网易云音乐</li>
+</ul>
+<h2 id="√-添加音乐页面"><a href="#√-添加音乐页面" class="headerlink" title="[√] 添加音乐页面"></a>[√] 添加音乐页面</h2><hr>
+<p>（1）在主题配置文件中的<code>nemu</code>处，添加音乐配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-bullet">-</span> &#123; <span class="hljs-attr">key:</span> <span class="hljs-string">&quot;音乐&quot;</span>, <span class="hljs-attr">link:</span> <span class="hljs-string">&quot;/playlist/&quot;</span>, <span class="hljs-attr">icon:</span> <span class="hljs-string">&quot;iconfont icon-music&quot;</span> &#125;<br></code></pre></td></tr></table></figure>
+
+<p>具体为：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">menu:</span><br>  <span class="hljs-bullet">-</span> &#123; <span class="hljs-attr">key:</span> <span class="hljs-string">&quot;home&quot;</span>, <span class="hljs-attr">link:</span> <span class="hljs-string">&quot;/&quot;</span>, <span class="hljs-attr">icon:</span> <span class="hljs-string">&quot;iconfont icon-home-fill&quot;</span> &#125;<br>  <span class="hljs-bullet">-</span> &#123; <span class="hljs-attr">key:</span> <span class="hljs-string">&quot;archive&quot;</span>, <span class="hljs-attr">link:</span> <span class="hljs-string">&quot;/archives/&quot;</span>, <span class="hljs-attr">icon:</span> <span class="hljs-string">&quot;iconfont icon-archive-fill&quot;</span> &#125;<br>  <span class="hljs-bullet">-</span> &#123; <span class="hljs-attr">key:</span> <span class="hljs-string">&quot;category&quot;</span>, <span class="hljs-attr">link:</span> <span class="hljs-string">&quot;/categories/&quot;</span>, <span class="hljs-attr">icon:</span> <span class="hljs-string">&quot;iconfont icon-category-fill&quot;</span> &#125;<br>  <span class="hljs-bullet">-</span> &#123; <span class="hljs-attr">key:</span> <span class="hljs-string">&quot;tag&quot;</span>, <span class="hljs-attr">link:</span> <span class="hljs-string">&quot;/tags/&quot;</span>, <span class="hljs-attr">icon:</span> <span class="hljs-string">&quot;iconfont icon-tags-fill&quot;</span> &#125;<br>  <span class="hljs-bullet">-</span> &#123; <span class="hljs-attr">key:</span> <span class="hljs-string">&quot;音乐&quot;</span>, <span class="hljs-attr">link:</span> <span class="hljs-string">&quot;/playlist/&quot;</span>, <span class="hljs-attr">icon:</span> <span class="hljs-string">&quot;iconfont icon-music&quot;</span> &#125;<br>  <span class="hljs-bullet">-</span> &#123; <span class="hljs-attr">key:</span> <span class="hljs-string">&quot;about&quot;</span>, <span class="hljs-attr">link:</span> <span class="hljs-string">&quot;/about/&quot;</span>, <span class="hljs-attr">icon:</span> <span class="hljs-string">&quot;iconfont icon-user-fill&quot;</span> &#125;<br></code></pre></td></tr></table></figure>
+
+<p>（2）使用命令创建音乐界面，比如命名为playlist</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shel">hexo new page playlist<br></code></pre></td></tr></table></figure>
+
+<p>（3）打开网站根目录source\playlist\index.md根据<a target="_blank" rel="noopener" href="https://github.com/MoePlayer/hexo-tag-aplayer">hexo-tag-aplayer</a>文档书写即可</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs markdown">示例：<br>&#123;% meting &quot;7729098320&quot; &quot;netease&quot; &quot;playlist&quot; %&#125;<br><br>&#123;% meting &quot;2305794885&quot; &quot;netease&quot; &quot;playlist&quot; %&#125;<br><br>&#123;% meting &quot;7724497259&quot; &quot;tencent&quot; &quot;playlist&quot; &quot;theme:#3F51B5&quot; &quot;mutex:true&quot; &quot;preload:auto&quot; %&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs markdown">参数说明：<br><br>选项 默认值 描述<br>id 必须值 歌曲 id / 播放列表 id / 相册 id / 搜索关键字<br>server 必须值 音乐平台: netease, tencent, kugou, xiami, baidu<br>type 必须值 song, playlist, album, search, artist<br>fixed false 开启固定模式<br>mini false 开启迷你模式<br>loop all 列表循环模式：all, one,none<br>order list 列表播放模式： list, random<br>volume 0.7 播放器音量<br>lrctype 0 歌词格式类型<br>listfolded false 指定音乐播放列表是否折叠<br>storagename metingjs LocalStorage 中存储播放器设定的键名<br>autoplay true 自动播放，移动端浏览器暂时不支持此功能<br>mutex true 该选项开启时，如果同页面有其他 aplayer 播放，该播放器会暂停<br>listmaxheight 340px 播放列表的最大长度<br>preload auto 音乐文件预载入模式，可选项： none, metadata, auto<br>theme #ad7a86 播放器风格色彩设置<br>关于如何设置自建的 Meting API 服务器地址，以及其他 MetingJS 配置，请参考章节自定义配置<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%B7%A5%E5%85%B7%E7%AC%94%E8%AE%B0/" class="category-chain-item">工具笔记</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%B7%A5%E5%85%B7%E7%AC%94%E8%AE%B0/hexo/" class="category-chain-item">hexo</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%B7%A5%E5%85%B7%E7%AC%94%E8%AE%B0/hexo/%E4%B8%BB%E9%A2%98/" class="category-chain-item">主题</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E5%B7%A5%E5%85%B7%E7%AC%94%E8%AE%B0/hexo/%E4%B8%BB%E9%A2%98/fluid/" class="category-chain-item">fluid</a>
+  
+  
+
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>8 - fluid添加音乐页面和音乐播放器</div>
+      <div>http://example.com/posts/3564283204/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年12月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/2499736958/" title="9 - fluid添加看板娘">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">9 - fluid添加看板娘</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/295724089/" title="7 - fluid主题添加关于页面">
+                        <span class="hidden-mobile">7 - fluid主题添加关于页面</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <!-- MetingJS start --> <div class="aplayer" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-fixed="true" data-autoplay="false" data-volume="0.7"></div> <!-- MetingJS end --> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/yinghua.js"></script>
+<script src="/alec_diy/aplayer/dist/APlayer.min.js"></script>
+<script src="/alec_diy/aplayer/Meting.min.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
