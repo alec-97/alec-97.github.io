@@ -18,24 +18,30 @@
   <meta name="author" content="Shuai Zhao">
   <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
   
-    <meta name="description" content="[√] 添加悬浮音乐播放器 在fluid的主题配置文件中，提供了自定义html的位置，因此直接在主题配置文件中添加html代码 1234567custom_html: &amp;#x27; &lt;!--音乐--&gt;  &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;aplayer@1.10.1&#x2F;d">
+    <meta name="description" content="链接： 一文带你入门超分辨率网络 - CSDN - 只会写bug的菜鸡（√） 2021-07-06 19:43:06  [√] 常见降采样操作 最常见的降采样操作是双三次插值 [√] 数据集 [√] 通用图像数据集 BSDS300、BSDS500、DIV2K、General-100、L20、Manage109、 OutdoorScene、PIRM、Set5、Set14、T91、Urban00 [">
 <meta property="og:type" content="article">
-<meta property="og:title" content="8 - fluid添加音乐页面和音乐播放器">
-<meta property="og:url" content="http://example.com/posts/3564283204/index.html">
+<meta property="og:title" content="016 - 文章阅读笔记：一文带你入门超分辨率网络 - CSDN - 只会写bug的菜鸡">
+<meta property="og:url" content="http://example.com/posts/2350063716/index.html">
 <meta property="og:site_name" content="要走起来，你才知道方向。">
-<meta property="og:description" content="[√] 添加悬浮音乐播放器 在fluid的主题配置文件中，提供了自定义html的位置，因此直接在主题配置文件中添加html代码 1234567custom_html: &amp;#x27; &lt;!--音乐--&gt;  &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;npm&#x2F;aplayer@1.10.1&#x2F;d">
+<meta property="og:description" content="链接： 一文带你入门超分辨率网络 - CSDN - 只会写bug的菜鸡（√） 2021-07-06 19:43:06  [√] 常见降采样操作 最常见的降采样操作是双三次插值 [√] 数据集 [√] 通用图像数据集 BSDS300、BSDS500、DIV2K、General-100、L20、Manage109、 OutdoorScene、PIRM、Set5、Set14、T91、Urban00 [">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-12-25T07:16:57.652Z">
-<meta property="article:modified_time" content="2022-12-25T08:57:41.932Z">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301091402492.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301091402493.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301091402494.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301091402495.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301091402496.png">
+<meta property="article:published_time" content="2023-01-08T15:04:08.000Z">
+<meta property="article:modified_time" content="2023-01-09T06:02:18.354Z">
 <meta property="article:author" content="Shuai Zhao">
-<meta property="article:tag" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+<meta property="article:tag" content="超分辨率重建">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301091402492.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>8 - fluid添加音乐页面和音乐播放器 - 要走起来，你才知道方向。</title>
+  <title>016 - 文章阅读笔记：一文带你入门超分辨率网络 - CSDN - 只会写bug的菜鸡 - 要走起来，你才知道方向。</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -238,7 +244,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">8 - fluid添加音乐页面和音乐播放器</span>
+            <span id="subtitle">016 - 文章阅读笔记：一文带你入门超分辨率网络 - CSDN - 只会写bug的菜鸡</span>
           
         </div>
 
@@ -254,8 +260,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-12-25 15:16" pubdate>
-          2022年12月25日 下午
+        <time datetime="2023-01-08 23:04" pubdate>
+          2023年1月8日 晚上
         </time>
       </span>
     
@@ -266,7 +272,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2k 字
+          3k 字
         
       </span>
     
@@ -277,7 +283,7 @@
         
         
         
-          17 分钟
+          26 分钟
         
       </span>
     
@@ -392,12 +398,12 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">8 - fluid添加音乐页面和音乐播放器</h1>
+            <h1 style="display: none">016 - 文章阅读笔记：一文带你入门超分辨率网络 - CSDN - 只会写bug的菜鸡</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：15 天前
+                    本文最后更新于：几秒前
                   
                 
               </p>
@@ -405,25 +411,127 @@
             
               <div class="markdown-body">
                 
-                <h2 id="√-添加悬浮音乐播放器"><a href="#√-添加悬浮音乐播放器" class="headerlink" title="[√] 添加悬浮音乐播放器"></a>[√] 添加悬浮音乐播放器</h2><hr>
-<p>在fluid的主题配置文件中，提供了自定义html的位置，因此直接在主题配置文件中添加html代码</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">custom_html:</span> <span class="hljs-string">&#x27;</span><br><span class="hljs-string"> &lt;!--音乐--&gt;</span><br><span class="hljs-string">  &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css&quot;&gt;</span><br><span class="hljs-string">  &lt;script src=&quot;https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="hljs-string">  &lt;script src=&quot;https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="hljs-string">  &lt;div id=&quot;player&quot; class=&quot;aplayer aplayer-withlist aplayer-fixed&quot; data-id=&quot;3025663508&quot; data-server=&quot;netease&quot; data-type=&quot;playlist&quot; data-order=&quot;random&quot; data-fixed=&quot;true&quot; data-listfolded=&quot;true&quot; data-theme=&quot;#2D8CF0&quot;&gt;&lt;/div&gt;</span><br><span class="hljs-string">&#x27;</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="√-添加音乐页面"><a href="#√-添加音乐页面" class="headerlink" title="[√] 添加音乐页面"></a>[√] 添加音乐页面</h2><hr>
-<p>（1）在主题配置文件中的<code>nemu</code>处，添加音乐配置：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-bullet">-</span> &#123; <span class="hljs-attr">key:</span> <span class="hljs-string">&quot;音乐&quot;</span>, <span class="hljs-attr">link:</span> <span class="hljs-string">&quot;/playlist/&quot;</span>, <span class="hljs-attr">icon:</span> <span class="hljs-string">&quot;iconfont icon-music&quot;</span> &#125;<br></code></pre></td></tr></table></figure>
-
-<p>具体为：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">menu:</span><br>  <span class="hljs-bullet">-</span> &#123; <span class="hljs-attr">key:</span> <span class="hljs-string">&quot;home&quot;</span>, <span class="hljs-attr">link:</span> <span class="hljs-string">&quot;/&quot;</span>, <span class="hljs-attr">icon:</span> <span class="hljs-string">&quot;iconfont icon-home-fill&quot;</span> &#125;<br>  <span class="hljs-bullet">-</span> &#123; <span class="hljs-attr">key:</span> <span class="hljs-string">&quot;archive&quot;</span>, <span class="hljs-attr">link:</span> <span class="hljs-string">&quot;/archives/&quot;</span>, <span class="hljs-attr">icon:</span> <span class="hljs-string">&quot;iconfont icon-archive-fill&quot;</span> &#125;<br>  <span class="hljs-bullet">-</span> &#123; <span class="hljs-attr">key:</span> <span class="hljs-string">&quot;category&quot;</span>, <span class="hljs-attr">link:</span> <span class="hljs-string">&quot;/categories/&quot;</span>, <span class="hljs-attr">icon:</span> <span class="hljs-string">&quot;iconfont icon-category-fill&quot;</span> &#125;<br>  <span class="hljs-bullet">-</span> &#123; <span class="hljs-attr">key:</span> <span class="hljs-string">&quot;tag&quot;</span>, <span class="hljs-attr">link:</span> <span class="hljs-string">&quot;/tags/&quot;</span>, <span class="hljs-attr">icon:</span> <span class="hljs-string">&quot;iconfont icon-tags-fill&quot;</span> &#125;<br>  <span class="hljs-bullet">-</span> &#123; <span class="hljs-attr">key:</span> <span class="hljs-string">&quot;音乐&quot;</span>, <span class="hljs-attr">link:</span> <span class="hljs-string">&quot;/playlist/&quot;</span>, <span class="hljs-attr">icon:</span> <span class="hljs-string">&quot;iconfont icon-music&quot;</span> &#125;<br>  <span class="hljs-bullet">-</span> &#123; <span class="hljs-attr">key:</span> <span class="hljs-string">&quot;about&quot;</span>, <span class="hljs-attr">link:</span> <span class="hljs-string">&quot;/about/&quot;</span>, <span class="hljs-attr">icon:</span> <span class="hljs-string">&quot;iconfont icon-user-fill&quot;</span> &#125;<br></code></pre></td></tr></table></figure>
-
-<p>（2）使用命令创建音乐界面，比如命名为playlist</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shel">hexo new page playlist<br></code></pre></td></tr></table></figure>
-
-<p>（3）打开网站根目录source\playlist\index.md根据<a target="_blank" rel="noopener" href="https://github.com/MoePlayer/hexo-tag-aplayer">hexo-tag-aplayer</a>文档书写即可</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs markdown">示例：<br>&#123;% meting &quot;7729098320&quot; &quot;netease&quot; &quot;playlist&quot; %&#125;<br><br>&#123;% meting &quot;2305794885&quot; &quot;netease&quot; &quot;playlist&quot; %&#125;<br><br>&#123;% meting &quot;7724497259&quot; &quot;tencent&quot; &quot;playlist&quot; &quot;theme:#3F51B5&quot; &quot;mutex:true&quot; &quot;preload:auto&quot; %&#125;<br></code></pre></td></tr></table></figure>
-
-<h2 id="√-参考"><a href="#√-参考" class="headerlink" title="[√] 参考"></a>[√] 参考</h2><hr>
-<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1953317%EF%BC%88%E2%88%9A%EF%BC%89">https://cloud.tencent.com/developer/article/1953317（√）</a></p>
+                <blockquote>
+<p>链接：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/mzj15101229871/article/details/118528074?spm=1001.2101.3001.6650.3&utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-3-118528074-blog-102925507.pc_relevant_aa&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-3-118528074-blog-102925507.pc_relevant_aa&utm_relevant_index=6">一文带你入门超分辨率网络 - CSDN - 只会写bug的菜鸡（√）</a></p>
+<p>2021-07-06 19:43:06</p>
+</blockquote>
+<h2 id="√-常见降采样操作"><a href="#√-常见降采样操作" class="headerlink" title="[√] 常见降采样操作"></a>[√] 常见降采样操作</h2><hr>
+<p>最常见的降采样操作是双三次插值</p>
+<h2 id="√-数据集"><a href="#√-数据集" class="headerlink" title="[√] 数据集"></a>[√] 数据集</h2><hr>
+<h4 id="√-通用图像数据集"><a href="#√-通用图像数据集" class="headerlink" title="[√] 通用图像数据集"></a>[√] 通用图像数据集</h4><hr>
+<p>BSDS300、BSDS500、DIV2K、General-100、L20、Manage109、 OutdoorScene、PIRM、Set5、Set14、T91、Urban00</p>
+<h4 id="√-人脸图像数据集"><a href="#√-人脸图像数据集" class="headerlink" title="[√] 人脸图像数据集"></a>[√] 人脸图像数据集</h4><hr>
+<p>CelebA、Helen、CelebMask-HQ</p>
+<h2 id="√-常见的损失函数"><a href="#√-常见的损失函数" class="headerlink" title="[√] 常见的损失函数"></a>[√] 常见的损失函数</h2><hr>
+<h4 id="√-逐像素损失"><a href="#√-逐像素损失" class="headerlink" title="[√] 逐像素损失"></a>[√] 逐像素损失</h4><hr>
+<h4 id="√-内容损失"><a href="#√-内容损失" class="headerlink" title="[√] 内容损失"></a>[√] 内容损失</h4><hr>
+<p>希望生成的图片从视觉上看更像是真实的图片</p>
+<p>content loss代表2副图像高维特征之间的欧氏距离。它把分类网络引入超分中，不再关注oixel之间的匹配，而是使生成的图片从视觉上看更像是真实的图片。</p>
+<h4 id="√-纹理损失"><a href="#√-纹理损失" class="headerlink" title="[√] 纹理损失"></a>[√] 纹理损失</h4><hr>
+<p>希望重构的图片与原图有相同的风格</p>
+<p>Gram矩阵来衡量纹理相似性</p>
+<h4 id="√-全变分损失"><a href="#√-全变分损失" class="headerlink" title="[√] 全变分损失"></a>[√] 全变分损失</h4><hr>
+<p>望生成的图片更平滑</p>
+<h4 id="√-对抗损失"><a href="#√-对抗损失" class="headerlink" title="[√] 对抗损失"></a>[√] 对抗损失</h4><hr>
+<p>希望重构的图片与原图有相同的风格</p>
+<h2 id="√-常见的网络架构设计"><a href="#√-常见的网络架构设计" class="headerlink" title="[√] 常见的网络架构设计"></a>[√] 常见的网络架构设计</h2><hr>
+<h4 id="√-残差学习"><a href="#√-残差学习" class="headerlink" title="[√] 残差学习"></a>[√] 残差学习</h4><hr>
+<h6 id="√-全局残差学习"><a href="#√-全局残差学习" class="headerlink" title="[√] 全局残差学习"></a>[√] 全局残差学习</h6><hr>
+<p>只学习两幅图像的残差，这样就避免了学习完整图像到另一个完整图像之间复杂的变换，简化了任务难度。神经网络只需要学习丢失的高频细节信息即可</p>
+<h6 id="√-局部残差学习"><a href="#√-局部残差学习" class="headerlink" title="[√] 局部残差学习"></a>[√] 局部残差学习</h6><hr>
+<p><strong>理论：</strong></p>
+<p>是ResNet网络的技巧，提出的目的是为了解决网络的梯度消失、梯度爆炸的问题，增强网络的学习能力。主要由skip-connnection和逐像素加法进行计算，前者连接输入与输出，后者在不同网络层之间进行连接</p>
+<p><strong>模型：</strong></p>
+<p>SRGAN、RCAN</p>
+<h4 id="√-递归学习"><a href="#√-递归学习" class="headerlink" title="[√] 递归学习"></a>[√] 递归学习</h4><hr>
+<h6 id="√-目的"><a href="#√-目的" class="headerlink" title="[√] 目的"></a>[√] 目的</h6><hr>
+<ul>
+<li>减少网络的参数量</li>
+<li>实现更大的感受野</li>
+</ul>
+<h6 id="√-实现方法"><a href="#√-实现方法" class="headerlink" title="[√] 实现方法"></a>[√] 实现方法</h6><hr>
+<p>将递归引入模型，多次使用相同权重的模块，这些模块之间是参数共享的</p>
+<h6 id="√-模型"><a href="#√-模型" class="headerlink" title="[√] 模型"></a>[√] 模型</h6><hr>
+<p>DRCN、MEMNet、CARN、DSRN</p>
+<h6 id="√-优缺点"><a href="#√-优缺点" class="headerlink" title="[√] 优缺点"></a>[√] 优缺点</h6><hr>
+<p>递归学习在不引入额外参数的情况下学习到更先进的表示，但并没有带来计算量的减少，同时也带来了梯度消失和梯度爆炸的问题。因此通常将残差学习和递归学习结合来缓解这些问题。</p>
+<h4 id="√-注意力机制"><a href="#√-注意力机制" class="headerlink" title="[√] 注意力机制"></a>[√] 注意力机制</h4><hr>
+<h6 id="√-理论"><a href="#√-理论" class="headerlink" title="[√] 理论"></a>[√] 理论</h6><hr>
+<p>考虑到不同通道和不同空间位置之间特征的相互依赖关系来提高网络的学习能力</p>
+<h6 id="√-模型-1"><a href="#√-模型-1" class="headerlink" title="[√] 模型"></a>[√] 模型</h6><hr>
+<p>Squeeze-and-Excitation Networks</p>
+<p>Image Super-Resolution Using Very Deep Residual Channel Attention Networks</p>
+<p>Second-Order Attention Network for Single Image Super-Resolution</p>
+<p>Image Super-Resolution With Cross-Scale Non-Local Attention and Exhaustive SelfExemplars Mining</p>
+<h4 id="√-密集连接、稠密连接"><a href="#√-密集连接、稠密连接" class="headerlink" title="[√] 密集连接、稠密连接"></a>[√] 密集连接、稠密连接</h4><hr>
+<h6 id="√-目的-1"><a href="#√-目的-1" class="headerlink" title="[√] 目的"></a>[√] 目的</h6><hr>
+<p>密集连接有助于缓解梯度消失、增强信号传播和鼓励特征重用。通过采用小增长率（growth rate,即密集块中的信道数）和在级联所有输入特征映射后对channel number进行压缩来极大程度地减少模型的大小。</p>
+<h6 id="√-理论-1"><a href="#√-理论-1" class="headerlink" title="[√] 理论"></a>[√] 理论</h6><hr>
+<p>对于稠密块体中的每一层，将所有前一层的特征图作为输入，并将其自身的特征图作为输入传递到所有后续层</p>
+<h6 id="√-模型-2"><a href="#√-模型-2" class="headerlink" title="[√] 模型"></a>[√] 模型</h6><hr>
+<p>Residual Dense Network for Image Super Resolution</p>
+<p>SRDenseNet:Image Super-Resolution Using Dense Skip Connections</p>
+<h6 id="√-优点"><a href="#√-优点" class="headerlink" title="[√] 优点"></a>[√] 优点</h6><hr>
+<p>稠密连接不仅有助于减轻梯度消失、增强信号传播和鼓励特征重用，而且还通过采用小增长率（即密集块中的信道数）和在连接所有输入特征映射后压缩通道数来显著减小模型尺寸</p>
+<h4 id="√-多路径学习"><a href="#√-多路径学习" class="headerlink" title="[√] 多路径学习"></a>[√] 多路径学习</h4><hr>
+<h6 id="√-理论-2"><a href="#√-理论-2" class="headerlink" title="[√] 理论"></a>[√] 理论</h6><hr>
+<p>指通过多条路径传递特征，每条路径执行不同的操作，将他们的操作结果融合以提供更好的建模能力</p>
+<h6 id="√-分类"><a href="#√-分类" class="headerlink" title="[√] 分类"></a>[√] 分类</h6><hr>
+<p><strong>全局多路径学习</strong></p>
+<blockquote>
+<p>理论：利用多个路径提取图像不同方面的特征。这些路径在传播过程中可以相互交叉，从而大大提高了特征提取的能力。</p>
+<p>模型：LapSRN、DSPN</p>
+</blockquote>
+<p><strong>局部多路径学习</strong></p>
+<blockquote>
+<p>理论：对输入进行不同路径的特征提取后进行融合，具体就是采用了一种新的多尺度特征提取块，采用核大小为3×3和5×5的两个卷积运算同时提取特征，然后将输出拼接起来，再次进行相同的运算，最后再进行一个额外的1×卷积。</p>
+<p>模型：CSNLN、MSRN</p>
+</blockquote>
+<p><strong>尺度明确的多路径学习</strong></p>
+<blockquote>
+<p>理论：在网络的开始端和结束端分别附加特定尺度的预处理路径和上采样路径。训练时，只启用和更新所选比例对应的路径。通过这种方式，大多数参数可以在不同的尺度上共享。</p>
+<p>模型：MDSR、CARN、ProSR</p>
+</blockquote>
+<h4 id="√-增强卷积"><a href="#√-增强卷积" class="headerlink" title="[√] 增强卷积"></a>[√] 增强卷积</h4><hr>
+<p>空洞卷积：增大感受野、有助于生成逼真的细节</p>
+<p>分组卷积：降低参数量</p>
+<p>深度分离卷积</p>
+<h4 id="√-金字塔池化"><a href="#√-金字塔池化" class="headerlink" title="[√] 金字塔池化"></a>[√] 金字塔池化</h4><hr>
+<p>Pyramid的思路就是把不同size的feature concat?在一起。对于尺寸是HxWxc的feature map,每个channel被划分成MxM块并通过GAP全局池化，生成MxMxC的结果。再通过1X卷积把输出压缩为single channel。之后，再经过双线性插值把结果进行上采样到原来feature map的维度。当M变化时，模块结合全局和局部的上下文信息以提升性能。</p>
+<h2 id="√-操作通道"><a href="#√-操作通道" class="headerlink" title="[√] 操作通道"></a>[√] 操作通道</h2><hr>
+<p>RGB</p>
+<p>YCbCr</p>
+<h2 id="√-常见的上采样方法"><a href="#√-常见的上采样方法" class="headerlink" title="[√] 常见的上采样方法"></a>[√] 常见的上采样方法</h2><hr>
+<h4 id="√-传统插值方法"><a href="#√-传统插值方法" class="headerlink" title="[√] 传统插值方法"></a>[√] 传统插值方法</h4><hr>
+<h6 id="√-最近邻插值"><a href="#√-最近邻插值" class="headerlink" title="[√] 最近邻插值"></a>[√] 最近邻插值</h6><hr>
+<p>每个待插值的位置选择最相邻的像素值，而不考虑其他像素</p>
+<h6 id="√-双线性插值"><a href="#√-双线性插值" class="headerlink" title="[√] 双线性插值"></a>[√] 双线性插值</h6><hr>
+<p>首先对图像的一个轴进行线性插值，然后在另一轴上执行。通过周围最近的4个点求出目标点的像素值</p>
+<h6 id="√-双三次插值"><a href="#√-双三次插值" class="headerlink" title="[√] 双三次插值"></a>[√] 双三次插值</h6><hr>
+<p>首先对图像的一个轴进行三次插值，然后在另一轴上执行，通过最近的16个像素值求出目标点的像素值。</p>
+<h4 id="√-可学习的上采样方法"><a href="#√-可学习的上采样方法" class="headerlink" title="[√] 可学习的上采样方法"></a>[√] 可学习的上采样方法</h4><hr>
+<h6 id="√-反卷积"><a href="#√-反卷积" class="headerlink" title="[√] 反卷积"></a>[√] 反卷积</h6><hr>
+<p>理论：为了克服基于插值方法的缺点，端到端地学习上采样，在SR领域引入了转置卷积层。先对低分辨率图像插入0值，再通过卷积(kernel&#x3D;:3,stride&#x3D;l,padding&#x3D;l)的过程获得输出。</p>
+<p>缺点：很容易在每个轴上引起“不均匀重叠“，并且两个轴上的相乘结果进一步创建了大小变化的棋盘状图案，从而损害了SR性能。</p>
+<h6 id="√-亚像素卷积"><a href="#√-亚像素卷积" class="headerlink" title="[√] 亚像素卷积"></a>[√] 亚像素卷积</h6><hr>
+<p>理论：核心思想是通过卷积操作产生大量的channel之后，再通过reshape得到最终的输出。比如说要上采样s倍，那么就需要得到sxs个不同的channel。，设输入的维度是hxwxc,则输出的维度是hxwxs.2:接下来进行一步reshapingl的操作(比如shuffle)把特征最终变为：shxswxc</p>
+<p>优点：与转置卷积层相比，亚像素层具有更大的感受野，它提供了更多的上下文信息以帮助生成更多逼真的细节。</p>
+<p>缺点：然而，由于感受野的分布是不均匀的，并且块状区域实际上共享相同的感受野，因此可能会导致在不同块的边界附近出现一些伪影，也可能会导致不平滑的输出结果。</p>
+<h6 id="√-Meta-upscale-module"><a href="#√-Meta-upscale-module" class="headerlink" title="[√] Meta upscale module"></a>[√] Meta upscale module</h6><hr>
+<hr>
+<p>这些可学习的上采样方法已成为应用最广泛的上采样方法。特别是在Post-upsampling Super–resolution框架中，这些图层通常用于最终上采样阶段，基于低维空间提取的高层表示重建HR图像，从而在避免高维空间的巨大的计算量的情况下，实现端到端的SR。</p>
+<h2 id="√-超分网络的四种框架"><a href="#√-超分网络的四种框架" class="headerlink" title="[√] 超分网络的四种框架"></a>[√] 超分网络的四种框架</h2><hr>
+<h4 id="√-Pre-upsampling-Super-resolution"><a href="#√-Pre-upsampling-Super-resolution" class="headerlink" title="[√] Pre-upsampling Super-resolution"></a>[√] Pre-upsampling Super-resolution</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301091402492.png" srcset="/img/loading.gif" lazyload alt="image-20230109134436781"></p>
+<h4 id="√-Post-upsampling-Super-resolution"><a href="#√-Post-upsampling-Super-resolution" class="headerlink" title="[√] Post-upsampling Super-resolution"></a>[√] Post-upsampling Super-resolution</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301091402493.png" srcset="/img/loading.gif" lazyload alt="image-20230109135043739"></p>
+<h4 id="√-渐进式上采样超分辨"><a href="#√-渐进式上采样超分辨" class="headerlink" title="[√] 渐进式上采样超分辨"></a>[√] 渐进式上采样超分辨</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301091402494.png" srcset="/img/loading.gif" lazyload alt="image-20230109135910311"></p>
+<h4 id="√-上下采样迭代超分辨"><a href="#√-上下采样迭代超分辨" class="headerlink" title="[√] 上下采样迭代超分辨"></a>[√] 上下采样迭代超分辨</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301091402495.png" srcset="/img/loading.gif" lazyload alt="image-20230109140018727"></p>
+<h2 id="√-质量评估方法"><a href="#√-质量评估方法" class="headerlink" title="[√] 质量评估方法"></a>[√] 质量评估方法</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301091402496.png" srcset="/img/loading.gif" lazyload alt="image-20230109140114075"></p>
 
                 
               </div>
@@ -432,48 +540,13 @@
             <div>
               <div class="post-metas my-3">
   
-    <div class="post-meta mr-3 d-flex align-items-center">
-      <i class="iconfont icon-category"></i>
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
       
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E5%B7%A5%E5%85%B7%E7%AC%94%E8%AE%B0/" class="category-chain-item">工具笔记</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E5%B7%A5%E5%85%B7%E7%AC%94%E8%AE%B0/hexo/" class="category-chain-item">hexo</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E5%B7%A5%E5%85%B7%E7%AC%94%E8%AE%B0/hexo/%E4%B8%BB%E9%A2%98/" class="category-chain-item">主题</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E5%B7%A5%E5%85%B7%E7%AC%94%E8%AE%B0/hexo/%E4%B8%BB%E9%A2%98/fluid/" class="category-chain-item">fluid</a>
-  
-  
-
-  
-
-  
-
-  
-
-      </span>
-    
-  
-</span>
-
+        <a href="/tags/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/">#超分辨率重建</a>
+      
     </div>
-  
   
 </div>
 
@@ -483,8 +556,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>8 - fluid添加音乐页面和音乐播放器</div>
-      <div>http://example.com/posts/3564283204/</div>
+      <div>016 - 文章阅读笔记：一文带你入门超分辨率网络 - CSDN - 只会写bug的菜鸡</div>
+      <div>http://example.com/posts/2350063716/</div>
     </div>
     <div class="license-meta">
       
@@ -496,7 +569,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年12月25日</div>
+          <div>2023年1月8日</div>
         </div>
       
       
@@ -528,18 +601,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/2499736958/" title="9 - fluid添加看板娘">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">9 - fluid添加看板娘</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/295724089/" title="7 - fluid主题添加关于页面">
-                        <span class="hidden-mobile">7 - fluid主题添加关于页面</span>
+                      <a href="/posts/653120721/" title="015 - 文章阅读笔记：从图像超分辨率快速入门pytorch - CSDN - gaishi_hero">
+                        <span class="hidden-mobile">015 - 文章阅读笔记：从图像超分辨率快速入门pytorch - CSDN - gaishi_hero</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
