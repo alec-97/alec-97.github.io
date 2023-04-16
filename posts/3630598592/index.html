@@ -1,0 +1,1045 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="原文链接： NTIRE 2022 冠军方案：用于轻量级图像超分辨率的蓝图可分离残差网络（CVPR workshop） - 知乎 - 极市平台 - Ziyang Li 发布于 2022-06-02 10:31 ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。   整理文章    【引言】 本文要解决的问题是：超分模型因">
+<meta property="og:type" content="article">
+<meta property="og:title" content="062 - 文章阅读笔记：NTIRE 2022 冠军方案：用于轻量级图像超分辨率的蓝图可分离残差网络（CVPR workshop） - 知乎 - 极市平台 - Ziyang Li">
+<meta property="og:url" content="http://example.com/posts/3630598592/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="原文链接： NTIRE 2022 冠军方案：用于轻量级图像超分辨率的蓝图可分离残差网络（CVPR workshop） - 知乎 - 极市平台 - Ziyang Li 发布于 2022-06-02 10:31 ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。   整理文章    【引言】 本文要解决的问题是：超分模型因">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302091742325.jpg">
+<meta property="article:published_time" content="2023-02-09T06:54:47.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.445Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="超分辨率重建">
+<meta property="article:tag" content="CVPR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302091742325.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>062 - 文章阅读笔记：NTIRE 2022 冠军方案：用于轻量级图像超分辨率的蓝图可分离残差网络（CVPR workshop） - 知乎 - 极市平台 - Ziyang Li - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">062 - 文章阅读笔记：NTIRE 2022 冠军方案：用于轻量级图像超分辨率的蓝图可分离残差网络（CVPR workshop） - 知乎 - 极市平台 - Ziyang Li</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-02-09 14:54" pubdate>
+          2023年2月9日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          45 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">062 - 文章阅读笔记：NTIRE 2022 冠军方案：用于轻量级图像超分辨率的蓝图可分离残差网络（CVPR workshop） - 知乎 - 极市平台 - Ziyang Li</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>原文链接：</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/523406356">NTIRE 2022 冠军方案：用于轻量级图像超分辨率的蓝图可分离残差网络（CVPR workshop） - 知乎 - 极市平台 - Ziyang Li</a></p>
+<p>发布于 2022-06-02 10:31</p>
+<p>ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。</p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> 整理文章</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>【引言】</p>
+<p>本文要解决的问题是：超分模型因为资源受限问题，难以在移动端部署。</p>
+<p>本文提出了蓝图可分离残差网络，引入更有效注意力操作的同时摒弃传统冗余卷积操作</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302091744844.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302091744844.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>【痛点】</p>
+<p>模型容量大、计算复杂</p>
+<p>大量冗余的卷积</p>
+<p>本文提出的BSRN，主要针对优化卷积操作和引入有效的注意力模块两个方面来展开</p>
+<p>【本文思想】</p>
+<p>文章中使用的BSConv蓝图卷积，是CVPR 2020中论文《Rethinking Depthwise Separable Convolutions: How Intra-Kernel Correlations Lead to Improved MobileNets》所提出的</p>
+<p>[&#x3D;&#x3D;&#x3D;蓝图卷积的简析&#x3D;&#x3D;&#x3D;]</p>
+<p>作者等人对卷积核可视化后发现，同一层的卷积核是类似的，能够通过简单的线性变换得到。</p>
+<p>蓝图 &#x3D; 模板 &#x3D; 样本 &#x3D; 例子</p>
+<p>对于普通卷积来讲，每个卷积核是三维的，一个卷积核的C个通道的卷积核都是独立学习的。但是可视化发现这C个卷积核是类似的，能够通过线性变化得到。因此这里为了轻量化，提出了蓝图卷积。即不是学习C个二维卷积核，而是学习一个二维卷积核蓝图，然后剩下的C-1个卷积核通过一个可学习的C维的权重向量与蓝图组合来表示。</p>
+<p>无限制的蓝图卷积可视为深度可分离卷积的逆过程。</p>
+<p>- 深度可分离卷积：先卷积，然后再对深度方向上加权组合</p>
+<p>- 无限制蓝图卷积：先对卷积核在深度方向上加权组合，然后再卷积</p>
+<p>[&#x3D;&#x3D;&#x3D;RSDB，高效可分离蒸馏块&#x3D;&#x3D;&#x3D;]</p>
+<p>- 相加多为残差连接方式，相乘多为注意力机制。</p>
+<p>- 在ESDB中，conv-1用于特征蒸馏，BSRB用于特征浓缩，注意力模块CCA和ESA用于特征增强</p>
+<p>-CCA负责通道注意力，计算注意力的方式为均值加标准差的和的对比信息来作为注意力</p>
+<p>-ESA负责计算空间注意力</p>
+</blockquote>
+<h2 id="√-文章信息"><a href="#√-文章信息" class="headerlink" title="[√] 文章信息"></a>[√] 文章信息</h2><hr>
+<blockquote>
+<p>本文首发于极市平台，作者： <a target="_blank" rel="noopener" href="https://www.zhihu.com/people/68758697a91df726f93488ad9e881e37">@Ziyang Li</a> ，转载须经授权并注明来源</p>
+</blockquote>
+<p>为解决单幅图像超分辨率（SISR）领域普遍存在的难部署于资源受限设备的问题，本文提出蓝图可分离残差网络，引入更有效注意力操作的同时摒弃传统冗余卷积操作，性能达到目前高效SR方法中的SOTA。代码即将开源~</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302091744845.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>论文题目：Blueprint Separable Residual Network for Efficient Image Super-Resolution</p>
+<p>中文题目：能够有效超分的蓝图可分离残差卷积</p>
+<p>论文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2205.05996">https://arxiv.org/abs/2205.05996</a></p>
+<p>论文代码：<a target="_blank" rel="noopener" href="https://github.com/xiaom233/BSRN">https://github.com/xiaom233/BSRN</a></p>
+<p>论文发表：CVPR 2022</p>
+<h2 id="√-一、单幅图像超分辨率领域的一大痛点"><a href="#√-一、单幅图像超分辨率领域的一大痛点" class="headerlink" title="[√] 一、单幅图像超分辨率领域的一大痛点"></a>[√] 一、单幅图像超分辨率领域的一大痛点</h2><hr>
+<p>单幅图像超分辨率（SISR，以下简称SR）旨在由低分辨率输入重建并输出高分辨率图像，然而现有方法普遍存在模型容量大、计算复杂（密集层连接策略）等特点。</p>
+<p>对于更看重实际推理速度的现实场景而言，能做到轻量且有效的方法更被青睐。</p>
+<p>而在现有流行的SOTA模型之一——RFDN中，一个明显的问题便是其存在大量冗余的卷积操作，这些冗余不可避免的为模型带来计算负担。</p>
+<p>因此本文设计轻量级的蓝图可分离残差网络（BSRN）来解决上述问题，主要针对优化卷积操作和引入有效注意力模块两个方面展开。其简单性能对比如下所示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302091744846.jpg" srcset="/img/loading.gif" lazyload alt="图1：Set5数据集上的模型性能对比"></p>
+<h2 id="√-二、如何解决？——BSRN深度剖析"><a href="#√-二、如何解决？——BSRN深度剖析" class="headerlink" title="[√] 二、如何解决？——BSRN深度剖析"></a>[√] 二、如何解决？——BSRN深度剖析</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302091744847.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>图2：BSNR整体架构示意图。  如图2所示，BSNR由四个部分所构成：浅层特征提取、深层特征提取、多层特征融合以及图像重建。</p>
+<p>在第一个BSConv（蓝图卷积）之前，输入图片被简单复制并沿通道维度连接至一起。此处BSConv的作用是扩展通道至更高维度并进行浅层特征提取。</p>
+<p>其中BSConv为CVPR 2020中论文《Rethinking Depthwise Separable Convolutions: How Intra-Kernel Correlations Lead to Improved MobileNets》所提出，这里仅做简要介绍：</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>BSConv &#x3D; 蓝图可分离卷积方式</li>
+</ul>
+</blockquote>
+<h4 id="√-简析蓝图卷积（BSConv）"><a href="#√-简析蓝图卷积（BSConv）" class="headerlink" title="[√] 简析蓝图卷积（BSConv）"></a>[√] 简析蓝图卷积（BSConv）</h4><hr>
+<p>蓝图卷积与GhostNet有异曲同工之妙，作者等人对卷积核进行可视化后，发现很多卷积核呈现类似的分布（即类似于一个模子&#x2F;蓝图，经过不同线性变换得到），如下图：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302091744848.jpg" srcset="/img/loading.gif" lazyload alt="图3：在ImageNet上训练的卷积核可视化示意图。"></p>
+<p>因此可将蓝图卷积表示如下（卷积核由蓝图内核（即一个K×K的卷积核）和一个M×1的权重向量组成）：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302091744849.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>图4：蓝图卷积（BSConv）示意图。BSConv 使用一个 2d 蓝图内核来表示每个过滤器内核，该 2d 蓝图内核使用权重向量沿深度轴分布。</p>
+<p>那么具体如何实现这样的卷积呢？对于BSConv-U（无限制蓝图卷积）来说，可视为深度可分离卷积的逆过程，即先对深度方向上加权组合再卷积，如下图所示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302091744850.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>图5：BSConv-U实现过程示意图。</p>
+<p>即与深度可分离卷积（DSC）相比，DSC相当于隐式地假设一个用于所有内核的3D蓝图，而BSConv则是依赖于每个内核的单独2D蓝图。</p>
+<p>回到图2，深层特征提取部分中顺序堆叠的若干个ESDB被用于提取并细化深度特征。同时不同阶段&#x2F;深度的特征输出在多层特征融合部分被连接至一起，并通过1×1卷积和GELU函数进行进一步融合和映射。</p>
+<p>图像重建之前，再次使用BSConv来细化融合并映射后的特征，同时一个横跨多个ESDB的残差连接被应用于重建前的特征。</p>
+<p>最终的图像重建过程由一个标准3×3卷积层和pixel-shuffle操作组成，同时用如下损失函数进行优化（其中$I_{SR}$表示模型输出）：<br>$$<br>L_1 &#x3D; ||I_{SR} - I_{HR}||_1<br>$$</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>蓝图 &#x3D; 模板 &#x3D; 样本 &#x3D; 例子</li>
+<li>对于普通卷积来讲，每个卷积核是三维的，一个卷积核的C个通道的卷积核都是独立学习的。但是可视化发现这C个卷积核是类似的，能够通过线性变化得到。因此这里为了轻量化，提出了蓝图卷积。即不是学习C个二维卷积核，而是学习一个二维卷积核蓝图，然后剩下的C-1个卷积核通过一个可学习的C维的权重向量与蓝图组合来表示。</li>
+<li>无限制的蓝图卷积可视为深度可分离卷积的逆过程。<ul>
+<li>深度可分离卷积：先卷积，然后再对深度方向上加权组合</li>
+<li>无限制蓝图卷积：先对卷积核在深度方向上加权组合，然后再卷积</li>
+</ul>
+</li>
+<li>DSC &#x3D; 深度可分离卷积</li>
+<li>BSConv &#x3D; 蓝图可分离卷积</li>
+</ul>
+</blockquote>
+<h4 id="√-模型核心组件——高效可分离蒸馏块（ESDB）剖析"><a href="#√-模型核心组件——高效可分离蒸馏块（ESDB）剖析" class="headerlink" title="[√] 模型核心组件——高效可分离蒸馏块（ESDB）剖析"></a>[√] 模型核心组件——高效可分离蒸馏块（ESDB）剖析</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302091744851.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>图6：ESDB及部分细节示意图。</p>
+<p>如图6 (b)，ESDB由三个部分所构成：特征蒸馏（Conv-1）、特征浓缩&#x2F;细化（BSRB）及特征增强（注意力模块）。</p>
+<p>各级特征依次通过并行的蒸馏、浓缩操作，并在最后沿通道维度拼接起来，辅以1×1卷积进一步浓缩特征。</p>
+<p>其中BSRB代表蓝图浅残差块，它以上述所介绍的无限制蓝图卷积为基础，辅以残差连接与GELU激活函数所组成。</p>
+<blockquote>
+<p>为什么要使用蓝图卷积而不是其他的轻量级卷积操作呢？是因为作者等人考虑到，此前有大量研究证明在多数情况下蓝图卷积对标准卷积表现出更好的分离表现，因此使用蓝图卷积在轻量化的同时保持模型性能。其简单对比结果如下表所示：</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302091744852.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>表1：基于RFDN的不同卷积分解方式性能对比。</p>
+<p>在模块的尾部，添加了两个不同的注意力模块来进一步提高模型表现能力。ESA代表增强空间注意模块（详见论文），其实现如图6 (e)所示。CCA则代表对比度感知通道注意模块（详见论文），其实现如图6 (f)所示，CCA不同于以往利用全局平均池化后的特征计算出的通道注意力，而是利用平均值与标准差之和的对比信息来计算通道注意力。</p>
+<blockquote>
+<p>需要注意的是，论文中将ESA中的卷积替换为蓝图卷积，旨在减轻注意力计算带来的额外负担。</p>
+</blockquote>
+<p>本文将两种不同的注意力方法设计为串联形式，先空间后通道。笔者思考CBAM中先通道后空间的方式，CBAM中作者等人对先空间后通道、先通道后空间、通道与空间并行这三种不同的注意力顺序进行了一些对比实验，最终先通道后空间的形式性能权衡最好。因此尚不清楚本文中两种不同的注意力模块交换次序后是否会带来更好的效果。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>ESDB &#x3D; efficient separable distill block</li>
+<li>相加多为残差连接方式，相乘多为注意力机制。</li>
+<li>在ESDB中，conv-1用于特征蒸馏，BSRB用于特征浓缩，注意力模块CCA和ESA用于特征增强。</li>
+<li>DSConv &#x3D; 深度可分离卷积</li>
+<li>BSConv &#x3D; 蓝图可分离卷积</li>
+<li>ESA和CCA都是注意力模块，这两个模块串联</li>
+<li>CCA不同于以往使用全局平均池化后的数据作为注意力加权到通道上，而是通过使用均值和标准差的和的对比信息来计算通道注意力。</li>
+</ul>
+</blockquote>
+<h2 id="√-三、性能对比"><a href="#√-三、性能对比" class="headerlink" title="[√] 三、性能对比"></a>[√] 三、性能对比</h2><hr>
+<p>论文进行了大量详细的性能对比实验，其与各种流行的SOTA方法比较结果如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302091744853.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>表2：BSNR与各流行SOTA方法性能对比结果。</p>
+<p>其可视化结果如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302091744854.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>图7：BSNR与各流行SOTA方法可视化结果。</p>
+<p>其实际推理速度对比如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302091744855.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>表3：BSNR与其他方法计算成本对比。</p>
+<h2 id="√-四、思考与总结"><a href="#√-四、思考与总结" class="headerlink" title="[√] 四、思考与总结"></a>[√] 四、思考与总结</h2><hr>
+<p>本文以轻量且有效为目标，提出针对优化卷积与引入注意力两方面的BSNR方法，性能得到有效提升。</p>
+<p>然而本文针对参数量展开对比，在在现实场景中实际推理速度更被看重，而作为理论分析的参数量仅仅是物理设备上推理时间的一种表示。</p>
+<p>在表3中本文方法与RFDN进行对比，尽管参数量大幅度减少，实现了理论级别的“轻量化”，然而Runtime指标却出现意料之外的上升。</p>
+<p>显然，本文的方法更为耗时。满足理论意义上的“轻量化”似乎并不能很好实现本文最初的目标，即解决难部署于资源受限设备上的问题。</p>
+<p>但蓝图卷积的成功引入，注意力方法的成功应用，都给了我们一定启发，即使注意力会带来额外的计算负担，也可以用蓝图卷积在保持性能的同时去减轻一定负担。</p>
+<p>期待未来能看到更多看重实际应用的工作出现~</p>
+<h2 id="√-往期精选"><a href="#√-往期精选" class="headerlink" title="[√] 往期精选"></a>[√] 往期精选</h2><hr>
+<p><strong>数据集汇总：</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/31378836">人脸识别常用数据集大全</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/31836357">行人检测数据集汇总</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/465621113">10个开源工业检测数据集汇总</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/451560519">21个深度学习开源数据集分类汇总（持续更新）</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/480523763">小目标检测、图像分类、图像识别等开源数据集汇总</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/488726913">人体姿态估计相关开源数据集介绍及汇总</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/484510684">小目标检测相关开源数据集介绍及汇总</a></li>
+</ul>
+<p><strong>顶会资源：</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/478286484">CVPR 2022 全面盘点：最新250篇论文分方向汇总 &#x2F; 代码 &#x2F; 解读 &#x2F; 直播 &#x2F; 项目（更新中）</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/483645892">CVPR’22 最新106篇论文分方向整理｜包含目标检测、动作识别、图像处理等32个方向</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/476915086">一文看尽 CVPR2022 最新 22 篇论文（附打包下载）</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/477974980">17 篇 CVPR 2022 论文速递｜涵盖 3D 目标检测、医学影像、车道线检测等方向</a><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/354043252">CVPR 2021 结果出炉！最新500篇CVPR’21论文分方向汇总（更新中）</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/113148402">CVPR 2020 Oral 汇总：论文&#x2F;代码&#x2F;解读（更新中）</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/69232431">CVPR 2019 最全整理：全部论文下载，Github源码汇总、直播视频、论文解读等</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/35131736">CVPR 2018 论文解读集锦（9月27日更新）</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/52983725">CVPR 2018 目标检测（object detection）算法总览</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/53553205">ECCV 2018 目标检测（object detection）算法总览（部分含代码）</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/27651707">CVPR 2017 论文解读集锦（12-13更新）</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/79314395">2000 ~2020 年历届 CVPR 最佳论文汇总</a></li>
+</ul>
+<p><strong>技术综述：</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/257137546">综述：图像处理中的注意力机制</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/339207092">搞懂Transformer结构，看这篇PyTorch实现就够了</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/297965943">YOLO算法最全综述：从YOLOv1到YOLOv5</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/195720175">图像匹配大领域综述！涵盖 8 个子领域，近 20年经典方法汇总</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/257145620">一文读懂深度学习中的各种卷积</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/240938895">万字综述｜核心开发者全面解读Pytorch内部机制</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/258395701">19个损失函数汇总，以Pytorch为例</a></li>
+</ul>
+<p><strong>理论深挖：</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/265411459">深入探讨：为什么要做特征归一化&#x2F;标准化？</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/342843113">令人“细思极恐”的Faster-R-CNN</a></li>
+</ul>
+<p><strong>论文盘点：</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/260021000">图像分割二十年，盘点影响力最大的10篇论文</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/164775134">2020年54篇最新CV领域综述论文速递！涵盖14个方向：目标检测&#x2F;图像分割&#x2F;医学影像&#x2F;人脸识别等</a></li>
+</ul>
+<p><strong>实践&#x2F;面经&#x2F;求学：</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/250529024">如何配置一台深度学习工作站？</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/73801738">国内外优秀的计算机视觉团队汇总</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/220345912">50种Matplotlib科研论文绘图合集，含代码实现</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/381413759">图像处理知多少？准大厂算法工程师30+场秋招后总结的面经问题详解</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/376627777">深度学习三十问！一位算法工程师经历30+场CV面试后总结的常见问题合集（含答案）</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/378073950">深度学习六十问！一位算法工程师经历30+场CV面试后总结的常见问题合集下篇（含答案）</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/374017926">一位算法工程师从30+场秋招面试中总结出的目标检测算法面经（含答案）</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/374517360">一位算法工程师从30+场秋招面试中总结出的语义分割超强面经（含答案）</a></li>
+</ul>
+<p><strong>Github优质资源：</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/67667048">25个【Awsome】GitHub 资源汇总（更新中）</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/54708641">超强合集：OCR 文本检测干货汇总（含论文、源码、demo 等资源）</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/183143487">2019-2020年目标跟踪资源全汇总（论文、模型代码、优秀实验室）</a></li>
+</ul>
+<p>发布于 2022-06-02 10:31</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-chain-item">文章学习</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>
+      
+        <a href="/tags/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/">#超分辨率重建</a>
+      
+        <a href="/tags/CVPR/">#CVPR</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>062 - 文章阅读笔记：NTIRE 2022 冠军方案：用于轻量级图像超分辨率的蓝图可分离残差网络（CVPR workshop） - 知乎 - 极市平台 - Ziyang Li</div>
+      <div>http://example.com/posts/3630598592/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年2月9日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/1733414390/" title="063 - 文章阅读笔记：【RLFN】NTIRE2022-ESR 冠军方案RLFN解析 - 微信公众号 - AIWalker">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">063 - 文章阅读笔记：【RLFN】NTIRE2022-ESR 冠军方案RLFN解析 - 微信公众号 - AIWalker</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/3802034691/" title="061 - 文章阅读笔记：CNN与Transformer相互促进，助力ACT进一步提升超分性能 - AIWalker">
+                        <span class="hidden-mobile">061 - 文章阅读笔记：CNN与Transformer相互促进，助力ACT进一步提升超分性能 - AIWalker</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

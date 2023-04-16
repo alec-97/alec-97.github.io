@@ -1,0 +1,1005 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="原文链接： 学习盲图像超分辨率的退化分布 - CSDN - geriezmann 于 2022-04-08 17:16:52  版权声明：本文为CSDN博主「geriezmann」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。原文链接：https:&#x2F;&#x2F;blog.csdn.net&#x2F;adhkcnbk&#x2F;article&#x2F;details&#x2F;124046231  学习盲图像">
+<meta property="og:type" content="article">
+<meta property="og:title" content="047 - 文章阅读笔记：学习盲图像超分辨率的退化分布 - CSDN - geriezmann">
+<meta property="og:url" content="http://example.com/posts/3058039066/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="原文链接： 学习盲图像超分辨率的退化分布 - CSDN - geriezmann 于 2022-04-08 17:16:52  版权声明：本文为CSDN博主「geriezmann」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。原文链接：https:&#x2F;&#x2F;blog.csdn.net&#x2F;adhkcnbk&#x2F;article&#x2F;details&#x2F;124046231  学习盲图像">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301251651584.png">
+<meta property="article:published_time" content="2023-01-23T14:45:13.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.436Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="计算机视觉">
+<meta property="article:tag" content="超分辨率重建">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301251651584.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>047 - 文章阅读笔记：学习盲图像超分辨率的退化分布 - CSDN - geriezmann - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">047 - 文章阅读笔记：学习盲图像超分辨率的退化分布 - CSDN - geriezmann</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-23 22:45" pubdate>
+          2023年1月23日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          39 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">047 - 文章阅读笔记：学习盲图像超分辨率的退化分布 - CSDN - geriezmann</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>原文链接：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/adhkcnbk/article/details/124046231?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522167324659416800213075044%2522%252C%2522scm%2522%253A%252220140713.130102334.pc%255Fall.%2522%257D&request_id=167324659416800213075044&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v1~times_rank-22-124046231-null-null.142%5Ev70%5Ejs_top,201%5Ev4%5Eadd_ask&utm_term=%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87&spm=1018.2226.3001.4187">学习盲图像超分辨率的退化分布 - CSDN - geriezmann</a></p>
+<p>于 2022-04-08 17:16:52</p>
+<hr>
+<p>版权声明：本文为CSDN博主「geriezmann」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/adhkcnbk/article/details/124046231">https://blog.csdn.net/adhkcnbk/article/details/124046231</a></p>
+</blockquote>
+<h1 id="学习盲图像超分辨率的退化分布"><a href="#学习盲图像超分辨率的退化分布" class="headerlink" title="学习盲图像超分辨率的退化分布"></a>学习盲图像超分辨率的退化分布</h1><h2 id="√-摘要"><a href="#√-摘要" class="headerlink" title="[√] 摘要"></a>[√] 摘要</h2><hr>
+<p>合成的高分辨率（HR）和低分辨率（LR)被广泛应用于现有的分辨率方法中，为了避免合成图像和测试图像之间的域差距，以往的大多数方法都试图通过确定性模型自适应地学习合成（退化）过程。然而，在真实场景中的一些退化是随机的，不能由图像的内容来决定，这些确定性模型可能无法建模退化的随机因素和内容无关的部分，这将限制以下SR模型的性能。</p>
+<p>在本文中，我们提出了一个概率退化模型(PDM)，研究退化D作为一个随机变量，并通过对从先验随机变量z到D的映射进行建模学习其分布。与以往的确定性退化模型相比，PDM可以随机建模更多样化的退化，生成的HR-LR对可以更好的覆盖测试图像的各种退化，从而防止SR模型对特定图像的过拟合。大量的实验表明，我们的退化模型可以帮助SR模型在不同的数据集上获得更好的性能。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>PDM &#x3D; 概率退化模型。</li>
+<li>本文提出了一个概率退化模型PDM，PDM可以随机建模多样化的退化。</li>
+</ul>
+</blockquote>
+<h2 id="√-前言"><a href="#√-前言" class="headerlink" title="[√] 前言"></a>[√] 前言</h2><hr>
+<p>超分辨旨在从低分辨率图像（LR）中重建出高分辨率图像（HR）， 近年来，基于学习的S<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=R%E6%96%B9&spm=1001.2101.3001.7020">R方</a>法取得了显著的效果，这些方法经常需要HR-LR图像对作为训练集。然而，在真实场景下获取成对的图像时非常困难的，作为一种替代，合成的HR-LR图像对被广泛应用于现存的超分辨方法，他们通过使用预定义的设计降解HR图像，如双边缘降采样， 模糊核卷积，或者添加一定范围的噪声，但是在盲超分辨中，测试图像的退化是未知的， 预定义的退化设置可能与测试图像不同，这个差距将在很大程度上破坏这些方法在实际场景中的性能。</p>
+<p>为了避免域上的差距，一些工作尝试自适应的学习退化设置，如图一所示，退化模型通过对抗进行监督，并鼓励产生与测试图像相同领域的LR图像， 在KernelGAN中，退化模型被设计为线性卷积层，在CycleSR中，在CycleGAN框架中学习了一个非线性退化模型，这些学习到的退化模型可以产生与测试用例有较小差距的HR-LR对，因此可以用于测试一个更好的SR模型。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301261800157.png" srcset="/img/loading.gif" lazyload alt="image-20230123230205028"></p>
+<p>然而，大部分之前退化学习的方法有一个共同的缺点：它们的退化模型是确定性的，每个HR图像只能退化为一个特定的LR图像，它暗示了一个假设：退化完全依赖于图像的内容，然而，这在大多数情况下可能并不成立。一些退化是内容独立和随机的，如随机抖动引起的随机噪声或模糊，这些随机的因素和退化的内容独立不能通过这些确定的模型进行模拟，<strong>一个更好的假设是，退化受到一个分布的影响，这可以用一个概率模型更好地建模。</strong></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>之前退化学习方法的缺点：退化模型是确定的，每个HR图像只能退化为一个特定的LR图像。但是某些情况下，退化可能和图像的内容是独立的。</li>
+<li>因此我们可以将图像的退化假设为是一个分布，用概率模型建模或许更好。</li>
+</ul>
+</blockquote>
+<p>在此基础上，我们提出了一种概率退化模型（PDM），该模型可以学习盲图像超分辨的退化分布，具体地说，我们用两个随机变量参数化退化，即模糊核k和随机噪声n, 通过将退化过程表述为一个线性函数：</p>
+<blockquote>
+<p>alec：（点子，来自于PDM）</p>
+<ul>
+<li>本文假设的模型的退化过程公式是：</li>
+<li><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301261800159.png" srcset="/img/loading.gif" lazyload alt="image-20230123230842197"></li>
+<li>这个顺序是确定的，先卷积退化核、然后下采样，然后添加噪声。</li>
+<li>但是这个顺序也是预定义的。先卷积退化核K，然后下采样；和先下采样，然后卷积退化核K，效果不一定是一样的。因为B过程是建立在A过程的结果的像素图像上的。</li>
+<li>采用哪个顺序，我们是未知的。这个公式中的降质因素：退化核、下采样、噪声。顺序的话一共有3x2x1种，一共6种。因此可以把这6种都加到模型中，比如放到一层中，作为同一层的卷积核。然后通过通道注意力机制，让模型在训练的过程中自适应的调整权重的强弱。</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301261800160.png" srcset="/img/loading.gif" lazyload alt="image-20230123231513581"></p>
+<p>x表示HR图像，* 表示卷积操作，s _ss表示下采样和尺度因子，因此，D的分布可以表示为k和n的联合分布，这可以通过<strong>学习先验随机变量z到k和n的映射来建模。然后在对抗框架中训练PDM，在训练过程中自动学习D的分布，这样，PDM就可以对退化过程中的随机因素进行建模，更好地将退化与图像内容解耦</strong>，这在实际场景中可能是一种更实际的近似方法，因此，PDM可能更容易覆盖所有的测试图像的不同退化，并防止SR模型<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E8%BF%87%E6%8B%9F%E5%90%88&spm=1001.2101.3001.7020">过拟合</a>特定的图像，PDM可以作为一个数据生成器，并可以很容易地与现有的SR模型集成，以帮助它们提高应用程序中的性能。</p>
+<p>我们的贡献可以总结如下：<br>1、 据我们所知，我们是第一个研究盲SR作为一个随机变量的退化，并试图通过一个概率模型来学习其分布，它允许我们建模更多样化的退化，并合成更接近测试图像领域的训练样本。</p>
+<p>2、我们提出了一种概率退化模型（PDM），该模型可以对退化过程中的随机因素进行建模，更好地将退化与图像内容解耦，从而使盲SR的退化分布更容易学习。</p>
+<p>3、我们仔细地重新实现和研究了不同的基于退化学习的SR方法，并提供了全面的比较</p>
+<p>4、 在概率退化模型的基础上，我们进一步提出了一个统一的盲SR框架，它在主流基准数据集上实现了最先进的性能。</p>
+<h2 id="√-2、相关工作"><a href="#√-2、相关工作" class="headerlink" title="[√] 2、相关工作"></a>[√] 2、相关工作</h2><hr>
+<h4 id="√-基于预定义的退化"><a href="#√-基于预定义的退化" class="headerlink" title="[√] 基于预定义的退化"></a>[√] 基于预定义的退化</h4><hr>
+<p>早期的SR方法通常是合成具有预定义退化的HR-LR样本，最广泛的设置是双边降采样，然而，一些研究然就人员开始意识到，这种合成数据与真实的测试图像存在域差距，当这些方法应用于实际应用时，这一差距将导致性能的显著下降。</p>
+<p>因此，研究人员开始合成更复杂设置的样本，包括不同水平的多个模糊核（各向同性和各向异性）和随机噪声（加性的高斯白噪声），更大的退化空间使这些模型具有更好的泛化能力，但与实际场景中巨大的退化空间相比，预定义退化的多样性仍然有限，这些方法在大多数应用中仍然失败。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>预定义的退化方式，多样性仍然有限，因此性能受限。</li>
+</ul>
+</blockquote>
+<p>最近，进一步增加了预定义设置的重复退化，这在很大程度上扩大了它们的应用场景，然而，为了牺牲更好的泛化能力，它们也可能倾向于产生过于平滑的结果，我们将在实验部分（第4.2节）中进一步讨论它。</p>
+<h4 id="√-基于学习的退化"><a href="#√-基于学习的退化" class="headerlink" title="[√] 基于学习的退化"></a>[√] 基于学习的退化</h4><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>图像的退化方式，分为基于预定义的退化和基于学习的退化</li>
+</ul>
+</blockquote>
+<h6 id="√-确定性退化模型"><a href="#√-确定性退化模型" class="headerlink" title="[√] 确定性退化模型"></a>[√] 确定性退化模型</h6><hr>
+<p>为了生成更接近真实测试图像域的LR图像，一些方法选择了自适应的学习退化， 使用了一个具有线性卷积层的神经网络来建模模糊过程，该网络通过对抗性损失进行训练，这鼓励其输出图像更像测试图像，这样，该网络就可以学习到测试图像的模糊核；为了在退化图像中更好的保存内容，在CycleGAN框架中进一步训练非线性神经网络模型。</p>
+<p>由于它们的退化是自适应学习的，这些方法可以为不同的测试图像定制一个SR模型，并且在真实场景中通常比基于预定义的基于退化方法性能更好，然而， 它们的退化模型是确定性的，而且它们可能无法模拟退化过程中的随机因素，这可能会限制它们的SR模型的性能。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>基于确定性退化的模型，效果比基于预定义的退化方式好。</li>
+<li>但是因为退化模型是确定的，无法模拟退化过程中的级因素，因此可能会限制SR模型的性能。</li>
+</ul>
+</blockquote>
+<h6 id="√-退化池"><a href="#√-退化池" class="headerlink" title="[√] 退化池"></a>[√] 退化池</h6><hr>
+<p>JI等人将退化模型建模为一个包含从测试图像中学习到模糊核和噪声的池， 然后利用退化池合成训练样本来训练SR模型，该方法与我们的PDM有相似的想法，并在NTIRE2020中取得了巨大的性能，然而，我们分别学习了模糊核和噪声，这涉及到 两个不同的任务，构建这样一个退化池是很困难和耗时的，而在我们的PDM中，模糊核和噪声是通经对抗性训练自动学习的，这要容易得多。</p>
+<h6 id="√-概率退化模型"><a href="#√-概率退化模型" class="headerlink" title="[√] 概率退化模型"></a>[√] 概率退化模型</h6><hr>
+<p>为了模拟退化过程中的随机因子，在之前，HR图像在被神经网络退化之前与随机向量连接起来，虽然他们的模型考虑了随机因素，但它们不能很好地将退化与图像内容解耦，也没有提供退化的明确公式。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>通过将随机向量和模型结合起来，来模拟退化过程中的随机因子。</li>
+</ul>
+</blockquote>
+<p>随机向量和退化之间的关系尚不清楚，我们也不知道模型会学习到什么样的退化。因此，很难根据不同的场景来调整模型的设置，相反，在我们的PDM中，我们用模拟核k和随机噪声n来参数化退化，显式公式使我们能够灵活地调整模型，还将在第3.3节中进一步讨论。</p>
+<h2 id="√-3、学习退化过程的分布"><a href="#√-3、学习退化过程的分布" class="headerlink" title="[√ 3、学习退化过程的分布"></a>[√ 3、学习退化过程的分布</h2><hr>
+<p>公式1中的退化过程实际上包含两个线性步骤：</p>
+<p><img src="https://img-blog.csdnimg.cn/43593a83402b4ab4b787f7f90b807506.png" srcset="/img/loading.gif" lazyload alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(D:\坚果云\Alec - backup files\typora pictures\43593a83402b4ab4b787f7f90b807506.png)(C:\Users\Administrator\Desktop\学习盲图像超分辨率的退化分布\image-20220407151802904.png)]"></p>
+<p>从直观上看，这两步是相互独立的，因为模糊核主要依赖于相机镜头的特性，而噪声主要与传感器的特性有关，因此，退化分布可以建模为：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301261800161.png" srcset="/img/loading.gif" lazyload alt="image-20230125153517261"></p>
+<p>这样，k和n的分布就可以独立地建模来表示D的分布。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>模糊核和噪声对图像的影响是独立的，因此可以独立的建模来表示退化过程。</li>
+</ul>
+</blockquote>
+<h4 id="√-3-1-核模型"><a href="#√-3-1-核模型" class="headerlink" title="[√] 3.1 核模型"></a>[√] 3.1 核模型</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301261800162.png" srcset="/img/loading.gif" lazyload alt="image-20230125154259248"></p>
+<h4 id="√-3-2-噪声模型"><a href="#√-3-2-噪声模型" class="headerlink" title="[√] 3.2 噪声模型"></a>[√] 3.2 噪声模型</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301261800163.png" srcset="/img/loading.gif" lazyload alt="image-20230125154741564"></p>
+<h4 id="√-3-3-概率退化模型"><a href="#√-3-3-概率退化模型" class="headerlink" title="[√] 3.3 概率退化模型"></a>[√] 3.3 概率退化模型</h4><hr>
+<p>上面讨论的核模块和噪声模块共同形成了我们的概率退化模型（PDM）， 如图2 所示，PDM用于合成HR-LR图像对。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>核模块+噪声模块，共同组成了本文的概率退化模型。</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301261800164.png" srcset="/img/loading.gif" lazyload alt="image-20230125155121356"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301261800165.png" srcset="/img/loading.gif" lazyload alt="image-20230125155155509"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>To learn image superresolution, use a gan to learn how to do image degradation first，这个论文的模型简称为Degradation GAN</li>
+<li>本文的思想和降质GAN类似，但是加入了自己定义的退化公式</li>
+<li>对抗性训练，鼓励输出的LR图像与测试图像数据集的分布相似</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301261800166.png" srcset="/img/loading.gif" lazyload alt="image-20230125160307118"></p>
+<p>首先，PDM能够模拟更多样化的退化，它允许一个HR图像退化为多个LR图像，因此，在相同数量的HR图像中，PDM可以生成更多样化的LR图像，为SR模型提供更多的训练样本，这可以更好地覆盖测试图像的退化，因此，PDM可以弥合训练数据集和测试数据集之间的差距，并帮助SR模型在测试图像上表现得更好</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301261800167.png" srcset="/img/loading.gif" lazyload alt="image-20230125160822052"></p>
+<h4 id="√-3-4-盲SR统一的框架"><a href="#√-3-4-盲SR统一的框架" class="headerlink" title="[√] 3.4 盲SR统一的框架"></a>[√] 3.4 盲SR统一的框架</h4><p>在之前，退化模型个SR模型的训练时分开的， 即它们首先训练一个退化模型，然后使用训练后的退化模型来帮助训练SR模型，这种两步训练方法很耗时，但对于其方法来说是必要的，因为它们的高度非线性退化模型会在训练开始时产生不良的结果，这可能会误导SR模型的优化，然而，在我们的方法中，由于PDM具有更好的约束性和更容易的训练性，因此它可以很好地<strong>同时训练PDM和SR模型，这样，PDM可以与任何SR模型集成，形成一个统一的盲SR框架</strong>，称为PDM-SR(如果SR模型的训练中也采用对抗性损失和感知损失，则称为PDM-SRGAN)。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>之前提出的退化模型，退化过程和SR过程是分开的，因为刚开始的时候，退化过程对SR会造成不良的影响。由于本文提出的模型具有良好的约束性，本文的降质模型和退化模型是合到一起的，端到端的。</li>
+</ul>
+</blockquote>
+<h2 id="√-4、实验"><a href="#√-4、实验" class="headerlink" title="[√] 4、实验"></a>[√] 4、实验</h2><hr>
+<h4 id="√-4、1-实验设置"><a href="#√-4、1-实验设置" class="headerlink" title="[√] 4、1 实验设置"></a>[√] 4、1 实验设置</h4><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>track，踪迹、小道</li>
+</ul>
+</blockquote>
+<h6 id="√-数据集"><a href="#√-数据集" class="headerlink" title="[√] 数据集"></a>[√] 数据集</h6><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301261800168.png" srcset="/img/loading.gif" lazyload alt="image-20230125162650461"></p>
+<p>在本文中，我们主要研究没有配对的样本的情况，因此，对于每个数据集，我们只使用HR图像的前半部分和LR图像的后半部分进行训练，对于2020Track1和Track2，由于它们提供的训练样本是未配对的，所以直接使用所有图像进行训练</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>本文是进行的未配对的训练方式，即无监督训练。</li>
+</ul>
+</blockquote>
+<h6 id="√-实验细节"><a href="#√-实验细节" class="headerlink" title="[√] 实验细节"></a>[√] 实验细节</h6><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301261800169.png" srcset="/img/loading.gif" lazyload alt="image-20230125163404098"></p>
+<h6 id="√-训练"><a href="#√-训练" class="headerlink" title="[√] 训练"></a>[√] 训练</h6><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301261800170.png" srcset="/img/loading.gif" lazyload alt="image-20230125163829416"></p>
+<h4 id="√-4-2-与其他方法比较"><a href="#√-4-2-与其他方法比较" class="headerlink" title="[√] 4.2 与其他方法比较"></a>[√] 4.2 与其他方法比较</h4><hr>
+<ul>
+<li>Bulat</li>
+<li>CinGAN</li>
+<li>DSGAN-SR</li>
+<li>CycleGAN</li>
+<li>Maeda</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301261800171.png" srcset="/img/loading.gif" lazyload alt="image-20230125163923068"></p>
+<p><img src="https://img-blog.csdnimg.cn/4799d32812914bde89e5dfa8493891bb.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAZ2VyaWV6bWFubg==,size_20,color_FFFFFF,t_70,g_se,x_16" srcset="/img/loading.gif" lazyload alt="[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(D:\坚果云\Alec - backup files\typora pictures\4799d32812914bde89e5dfa8493891bb.png)(C:\Users\Administrator\Desktop\学习盲图像超分辨率的退化分布\image-20220408170128200.png)]"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-chain-item">文章学习</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">#计算机视觉</a>
+      
+        <a href="/tags/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/">#超分辨率重建</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>047 - 文章阅读笔记：学习盲图像超分辨率的退化分布 - CSDN - geriezmann</div>
+      <div>http://example.com/posts/3058039066/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年1月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/3593526722/" title="048-文章阅读笔记：CVPR2022-Restormer:刷新多个low-level任务指标-公众号：AIWalker-Happy">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">048-文章阅读笔记：CVPR2022-Restormer:刷新多个low-level任务指标-公众号：AIWalker-Happy</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/612110586/" title="046 - 文章阅读笔记：EDT：超越SwinIR，Transformer再一次占领low-level三大任务">
+                        <span class="hidden-mobile">046 - 文章阅读笔记：EDT：超越SwinIR，Transformer再一次占领low-level三大任务</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

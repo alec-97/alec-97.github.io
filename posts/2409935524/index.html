@@ -1,0 +1,1094 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="链接： 图像超分辨率技术-简介 - 知乎 - 三维视觉与SLAM - deimo（√） 编辑于 2022-11-17 14:18・IP 属地北京  一、 定义与分类超分辨率复原技术的基本思想是釆用信号处理的方法，在改善图像质量的同时，重建成像系统截止频率之外的信息，从而在不改变硬件设备的前提下，获取高于成像系统分辨率的图像。超分辨率复原的概念广义上讲包含3种情况: 1)单幅图像分辨率放大 2)从">
+<meta property="og:type" content="article">
+<meta property="og:title" content="006 - 文章阅读笔记：图像超分辨率技术-简介 - 知乎 - 三维视觉与SLAM - deimo">
+<meta property="og:url" content="http://example.com/posts/2409935524/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="链接： 图像超分辨率技术-简介 - 知乎 - 三维视觉与SLAM - deimo（√） 编辑于 2022-11-17 14:18・IP 属地北京  一、 定义与分类超分辨率复原技术的基本思想是釆用信号处理的方法，在改善图像质量的同时，重建成像系统截止频率之外的信息，从而在不改变硬件设备的前提下，获取高于成像系统分辨率的图像。超分辨率复原的概念广义上讲包含3种情况: 1)单幅图像分辨率放大 2)从">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-01-06T08:37:33.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.411Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>006 - 文章阅读笔记：图像超分辨率技术-简介 - 知乎 - 三维视觉与SLAM - deimo - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">006 - 文章阅读笔记：图像超分辨率技术-简介 - 知乎 - 三维视觉与SLAM - deimo</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-06 16:37" pubdate>
+          2023年1月6日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          16k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          136 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">006 - 文章阅读笔记：图像超分辨率技术-简介 - 知乎 - 三维视觉与SLAM - deimo</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>链接：</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/263008440">图像超分辨率技术-简介 - 知乎 - 三维视觉与SLAM - deimo（√）</a></p>
+<p>编辑于 2022-11-17 14:18・IP 属地北京</p>
+</blockquote>
+<h2 id="一、-定义与分类"><a href="#一、-定义与分类" class="headerlink" title="一、 定义与分类"></a>一、 定义与分类</h2><p>超分辨率复原技术的基本思想是釆用信号处理的方法，在改善图像质量的同时，重建成像系统截止频率之外的信息，从而在不改变硬件设备的前提下，获取高于成像系统分辨率的图像。超分辨率复原的概念广义上讲包含3种情况:</p>
+<p>1)单幅图像分辨率放大</p>
+<p>2)从多帧连续图像中重建超分辨率单帧图像；</p>
+<p>3)视频序列的超分辨率重建。</p>
+<p>单幅图像放大主要利用对髙分辨率图像的先验知识和以混叠形式存在的高频信息进行复原。</p>
+<p>后两种情况除了利用先验知识和单幅图像信息外，还可以应用相邻图像之间的互补信息进行超分辨率重建，得到比任何一幅低分辨率（LR, Low Resolution)观测图像分辨率都高的高分辨率（HR, High Resolution)阁像。核心思想是用时间带宽换取空间分辨率。简单来讲，是在无法得到一张超高分辨率的图像时，多拍几张图像，然后利用连续多帧低分辨率图像中不同而又相似的信息，并结合有关先验知识，将这一系列低分辨率的图像组成一张高分辨的图像。</p>
+<h4 id="1-1-降质退化模型"><a href="#1-1-降质退化模型" class="headerlink" title="1.1 - 降质退化模型"></a>1.1 - 降质退化模型</h4><p>低分辨率图像在成像的过程中受到很多退化因素的影响，运动变换、成像模糊和降采样是其中最主要的三个因素。整个过程可以通过使下图的线性变换模型来表征。</p>
+<p>![image-20230106164945382](D:\坚果云\Alec - backup files\typora pictures\image-20230106164945382.png)</p>
+<p>上述退化模型可以由以下线性变换表示；</p>
+<p>L&#x3D;DBFH+N</p>
+<p>式中，L表示观测图像，H表示输入的高分辨率图像，F表示运动变换矩阵，通常由运动、平移等因素造成，B表示模糊作用矩阵，通常由环境或成像系统本身引起，D表示降采样矩阵，通常由成像系统的分辨率决定，N表示加性噪声，通常来自于成像环境或成像过程。</p>
+<h4 id="1-2-超分辨率效果评价"><a href="#1-2-超分辨率效果评价" class="headerlink" title="1.2 - 超分辨率效果评价"></a>1.2 - 超分辨率效果评价</h4><p>超分辨率的效果除了用人眼进行主管判断之外，寻找能够量化其效果的衡量指标也非常重要。主要可以参考ECCV2018 workshop PIRM2018感知超分辨率图像重建挑战赛的几项评价指标。</p>
+<h6 id="1-2-1-MSE和PSNR"><a href="#1-2-1-MSE和PSNR" class="headerlink" title="1.2.1 - MSE和PSNR"></a>1.2.1 - MSE和PSNR</h6><p>MSE均方误差(Mean Squared Error)</p>
+<p>PSNR（PeakSignal to Noise Ratio）峰值信噪比,单位是dB，数值越大表示失真越小。</p>
+<p>![image-20230106165214084](D:\坚果云\Alec - backup files\typora pictures\image-20230106165214084.png)</p>
+<p>PSNR是最普遍和使用最为广泛的一种图像客观评价指标，然而它是基于对应像素点间的误差，并未考虑到人眼的视觉特性。因为人眼对空间频率较低的对比差异敏感度较高，对亮度对比差异的敏感度较色度高，人眼对一个区域的感知结果会受到其周围邻近区域的影响，因而经常出现评价结果与人的主观感觉不一致的情况。</p>
+<h6 id="1-2-2-SSIM（structural-similarity）结构相似"><a href="#1-2-2-SSIM（structural-similarity）结构相似" class="headerlink" title="1.2.2 - SSIM（structural similarity）结构相似"></a>1.2.2 - SSIM（structural similarity）结构相似</h6><p>结构相似性SSIM从亮度、对比度和结构这三个方面来评估两幅图像的相似性，是一种衡量两幅图像相似度的指标。SSIM使用的两张图像中，一张为未经压缩的无失真图像，另一张为失真后的图像。</p>
+<p>给定两个图像x和y, 两张图像的结构相似性可按照以下方式求出:</p>
+<p>![image-20230106170458327](D:\坚果云\Alec - backup files\typora pictures\image-20230106170458327.png)</p>
+<p>结构相似性理论认为，自然图像具有极高的结构性，表现在图像的像素间存在着很强的相关性，尤其是在空间相似的情况下。这些相关性在视觉场景中携带着关于物体结构的重要信息。假设人类视觉系统（HSV）主要从可视区域内获取结构信息。所以通过探测结构信息是否改变来感知图像失真的近似信息。</p>
+<p>作为结构相似性理论的实现，结构相似度指数从图像组成的角度将结构信息定义为独立于亮度、对比度的，反映场景中物体结构的属性，并将失真建模为亮度、对比度和结构三个不同因素的组合。<strong>用<a href="https://link.zhihu.com/?target=https://baike.baidu.com/item/%E5%9D%87%E5%80%BC">均值</a>作为亮度的估计，标准差作为对比度的估计，<a href="https://link.zhihu.com/?target=https://baike.baidu.com/item/%E5%8D%8F%E6%96%B9%E5%B7%AE">协方差</a>作为结构相似程度的度量</strong>。</p>
+<p>大多数的基于误差敏感度（error sensitivity）的质量评估方法(如MSE,PSNR)使用线性变换来分解图像信号，这不会涉及到相关性。SSIM意在找到更加直接的方法来比较失真图像和参考图像的结构。</p>
+<h6 id="1-2-3-除PSNR和SSIM外还有一些评价指标"><a href="#1-2-3-除PSNR和SSIM外还有一些评价指标" class="headerlink" title="1.2.3 - 除PSNR和SSIM外还有一些评价指标"></a>1.2.3 - 除PSNR和SSIM外还有一些评价指标</h6><p>FID（Frechet Inception Distance）度量生成样本和真实数据集之间的Frechet距离。同样距离越低越好</p>
+<p>IS，即Inception Score，用过Inception v3模型度量图片分数，可用来算单张图片的分值，越高越好。</p>
+<h2 id="二、-超分辨率重建的方法"><a href="#二、-超分辨率重建的方法" class="headerlink" title="二、 超分辨率重建的方法"></a>二、 超分辨率重建的方法</h2><h4 id="2-1-基于重建的方法"><a href="#2-1-基于重建的方法" class="headerlink" title="2.1 - 基于重建的方法"></a>2.1 - 基于重建的方法</h4><p>基于重建的方法通过对低分辨率观测图像的获取过程进行建模，<strong>利用正则化方法构造高分辨率图像的先验约束</strong>，由LR观测阁像估计HR图像，最终<strong>将图像超分辨率复原问题就转变为对一个约束条件下的代价函数最优化问题</strong>。这类方法可以很方便地结合先验知识，并将图像上釆样这一病态问题转化为良态问题，通常能够取得优于非模型化算法的结果。<strong>正则化约束项通常为人为定义的关于HR阁像的平滑约束项</strong>，用这种约束项作为HR图像的先验知识。</p>
+<h4 id="2-2-基于学习的方法"><a href="#2-2-基于学习的方法" class="headerlink" title="2.2 - 基于学习的方法"></a>2.2 - 基于学习的方法</h4><p>该类方法的基本思想是<strong>通过学习过程获得先验知识</strong>，取代基于正则化方法中人为定义的平滑约束项。具体来说，是<strong>利用不同图像在高频细节上的相似性</strong>，通过学习算法获得高分辨率与低分辨率图像之间关系，以指导高分辨率图像的重建。</p>
+<p>基于学习的超分辨率复原算法被公认为是一种非常有前途的方法。研究结果表明，基于学习的方法对于特定图像如文本、人脸等，已取得了较好的效果，尤其是在放大倍数较高的时候。</p>
+<p>2017年Google 提出的一项技术。他们可以通过机器学习来消除视频图像中的马赛克。有一定限制，以下图为例，它训练的神经网络是针对人脸图像的，如果输入的马赛克图像不是人脸，就无法还原。</p>
+<p>![image-20230106171037063](D:\坚果云\Alec - backup files\typora pictures\image-20230106171037063.png)</p>
+<h6 id="2-2-1-基于邻域嵌入的超分辨率方法NE-Neighbor-Embedding"><a href="#2-2-1-基于邻域嵌入的超分辨率方法NE-Neighbor-Embedding" class="headerlink" title="2.2.1 - 基于邻域嵌入的超分辨率方法NE(Neighbor Embedding)"></a>2.2.1 - 基于邻域嵌入的超分辨率方法NE(Neighbor Embedding)</h6><p>u Hong Chang, Dit-Yan Yeung, YiminXiong.Super-Resolution through Neighbor Embedding. CVPR (1) 2004: 275-282</p>
+<p>这篇论文提出了一种解决单图像超分辨率问题的新方法。给定低分辨率图像作为输入，使用一组训练示例恢复其高分辨率对应物。这种方法受到最近的流形学习方法的启发，特别是局部线性嵌入（LLE）。</p>
+<p>![image-20230106171137735](D:\坚果云\Alec - backup files\typora pictures\image-20230106171137735.png)</p>
+<p>LLE的思想是：一个流形在很小的局部邻域上可以近似看成欧式的，是局部线性的。那么在小的局部邻域上，一个点就可以用它周围的点在最小二乘意义下最优的线性表示</p>
+<p>![image-20230106171202081](D:\坚果云\Alec - backup files\typora pictures\image-20230106171202081.png)</p>
+<h4 id="2-3-基于深度学习"><a href="#2-3-基于深度学习" class="headerlink" title="2.3 - 基于深度学习"></a>2.3 - 基于深度学习</h4><p>基于深度学习的图像超分辨率技术的重建流程主要包括以下几个步骤：</p>
+<p>(1) 特征提取：首先对输入的低分辨率图像进行去噪、上采样等预处理，然后将处理后的图像送入神经网络，拟合图像中的非线性特征，提取代表图像细节的高频信息；</p>
+<p>(2) 设计网络结构及损失函数：组合卷积神经网络及多个残差块，搭建网络模型，并根据先验知识设计损失函数；</p>
+<p>(3) 训练模型：确定优化器及学习参数，使用反向传播算法更新网络参数，通过最小化损失函数提升模型的学习能力；’</p>
+<p>(4) 验证模型：根据训练后的模型在验证集上的表现，对现有网络模型做出评估，并据此对模型做出相应的调整。</p>
+<h6 id="2-3-1-SRCNN"><a href="#2-3-1-SRCNN" class="headerlink" title="2.3.1 - SRCNN"></a>2.3.1 - SRCNN</h6><p>u <a href="https://link.zhihu.com/?target=http://personal.ie.cuhk.edu.hk/~ccloy/files/eccv_2014_deepresolution.pdf">Learning a Deep Convolutional Network for Image Super-Resolution</a>, ECCV2014)</p>
+<p>SRCNN是深度学习用在超分辨率重建上的开山之作。SRCNN的网络结构非常简单，仅仅用了三个卷积层.</p>
+<p>这篇文章将SR过程主要分为三个阶段：首先使用双三次(bicubic)插值将低分辨率图像放大成目标尺寸，接着通过三层卷积网络拟合非线性映射，最后输出高分辨率图像结果。</p>
+<ol>
+<li>图像块的提取和特征表示（Patch extraction and representation）</li>
+</ol>
+<p>这个阶段主要是对LR进行特征提取，并将其特征表征为一些feature maps。</p>
+<p>可表征为“卷积层（c<em>f1</em>f1卷积核）+RELU”</p>
+<ol start="2">
+<li>特征的非线性映射（Non-linear mapping）</li>
+</ol>
+<p>这个阶段主要是将第一阶段提取的特征映射至HR所需的feature maps。</p>
+<p>可表征为“全连接层+RELU”，而全连接层又可表征为卷积核为1x1的卷积层，因此，本层最终形式为“卷积层（n1<em>1</em>1卷积核）+RELU”</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>全连接层，上一层所有的特征图推得本层的一个神经元，因此可以将全连接看做卷积核为1x1大小的卷积。</li>
+</ul>
+</blockquote>
+<ol start="3">
+<li>HR重建（Reconstruction）</li>
+</ol>
+<p>这个阶段是将第二阶段映射后的特征恢复为HR图像。再做一次卷积进行重构，类似于传统方法的平均处理。</p>
+<p>可直接表征为“卷积层（n2<em>f3</em>f3）”</p>
+<p>![image-20230106175904945](D:\坚果云\Alec - backup files\typora pictures\image-20230106175904945.png)</p>
+<p>三个卷积层使用的卷积核的大小分为为9x9,，1x1和5x5，前两个的输出特征个数分别为64和32。前两层的激活函数都是 ReLU，第三层只是线性卷积运算，未使用激活函数。</p>
+<p>用Timofte数据集（包含91幅图像）和ImageNet大数据集进行训练。<strong>使用均方误差(Mean Squared Error, MSE)作为损失函数</strong>，有利于获得较高的PSNR。</p>
+<p>![image-20230106175949000](D:\坚果云\Alec - backup files\typora pictures\image-20230106175949000.png)</p>
+<h6 id="2-3-2-FSRCNN"><a href="#2-3-2-FSRCNN" class="headerlink" title="2.3.2 - FSRCNN"></a>2.3.2 - FSRCNN</h6><p>Accelerating the Super-Resolution Convolutional Neural Network, ECCV2016)</p>
+<p>FSRCNN与SRCNN都是香港中文大学Dong Chao， Xiaoou Tang等人的工作。FSRCNN是对之前SRCNN的改进，主要在三个方面：<strong>一是在最后使用了一个反卷积层放大尺寸，因此可以直接将原始的低分辨率图像输入到网络中</strong>，而不是像之前SRCNN那样需要先通过bicubic方法放大尺寸。<strong>二是改变特征维数，使用更小的卷积核和使用更多的映射层</strong>。三是可以共享其中的映射层，<strong>如果需要训练不同上采样倍率的模型，只需要微调最后的反卷积层。</strong></p>
+<p>由于FSRCNN不需要在网络外部进行放大图片尺寸的操作，同时通过添加收缩层和扩张层，将一个大层用一些小层来代替，因此FSRCNN<strong>与SRCNN相比有较大的速度提升</strong>。FSRCNN在训练时也可以只fine-tuning最后的反卷积层，因此训练速度也更快。FSRCNN与SCRNN的结构对比如下图所示。</p>
+<p>![image-20230106180421524](D:\坚果云\Alec - backup files\typora pictures\image-20230106180421524.png)</p>
+<p><strong>FSRCNN可以分为五个部分：</strong></p>
+<p><strong>特征提取</strong>：SRCNN中针对的是插值后的低分辨率图像，选取的核大小为9×9，这里直接是对原始的低分辨率图像进行操作，因此可以选小一点，设置为5×5。</p>
+<p><strong>收缩</strong>：通过应用1×1的卷积核进行降维，减少网络的参数，降低计算复杂度。</p>
+<p><strong>非线性映射</strong>：感受野大，能够表现的更好。SRCNN中，采用的是5×5的卷积核，但是5×5的卷积核计算量会比较大。用两个串联的3×3的卷积核可以替代一个5×5的卷积核，同时两个串联的小卷积核需要的参数3×3×2&#x3D;18比一个大卷积核5×5&#x3D;25的参数要小。FSRCNN网络中通过m个核大小为3×3的卷积层进行串联。</p>
+<p><strong>扩张</strong>：论文发现低维度的特征带来的重建效果不是太好，因此应用1×1的卷积核进行扩维，相当于收缩的逆过程。</p>
+<p><strong>反卷积层</strong>：可以堪称是卷积层的逆操作，如果步长为n，那么尺寸放大n倍，实现了上采样的操作。</p>
+<p>FSRCNN中激活函数采用PReLU，损失函数仍然是均方误差。对CNN来说，Set91并不足够去训练大的网络结构，FSRCNN提出general-100 + Set91充当训练集。并且进行数据增强，1）缩小尺寸为原来的0.9, 0.8, 0.7和0.6。2）旋转 90°，180°和270°，因此获得了数据量的提升。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>此处数据增强的方法：1）缩小尺寸为原来的0.9, 0.8, 0.7和0.6。2）旋转 90°，180°和270°，因此获得了数据量的提升。</li>
+</ul>
+</blockquote>
+<h6 id="2-3-3-ESPCN（亚像素卷积）"><a href="#2-3-3-ESPCN（亚像素卷积）" class="headerlink" title="2.3.3 - ESPCN（亚像素卷积）"></a>2.3.3 - ESPCN（亚像素卷积）</h6><p>Real-Time Single Image and Video Super-Resolution Using an Efficient Sub-Pixel Convolutional Neural Network, CVPR2016</p>
+<p>论文在这篇论文中介绍到，类似SRCNN的方法，由于需要将低分辨率图像通过上采样插值得到与高分辨率图像相同大小的尺寸，再输入到网络中，这意味着要在较高的分辨率上进行卷积操作，从而增加了计算复杂度。这篇论文提出了一种<strong>直接在低分辨率图像尺寸上提取特征</strong>，计算得到高分辨率图像的高效方法。ESPCN网络结构如下图所示。</p>
+<p>![image-20230106181027472](D:\坚果云\Alec - backup files\typora pictures\image-20230106181027472.png)</p>
+<p>ESPCN的核心概念是<strong>亚像素卷积层</strong>(sub-pixel convolutional layer)。网络的输入是原始低分辨率图像，通过三个卷积层以后，得到通道数为 r^2 的与输入图像大小一样的特征图像。再将特征图像每个像素的 r^2 个通道重新排列成一个r×r的区域，对应高分辨率图像中一个r×r大小的子块，从而大小为 H×W×r2的特征图像被重新排列成rH×rW×1的高分辨率图像。理解的亚像素卷积层包含两个过程，一个普通的卷积层和后面的排列像素的步骤。是说，最后一层卷积层输出的特征个数需要设置成固定值，即放大倍数r的平方，这样总的像素个数就与要得到的高分辨率图像一致，将像素进行重新排列就能得到高分辨率图。在ESPCN网络中，图像尺寸放大过程的插值函数被隐含地包含在前面的卷积层中，可以自动学习到。由于卷积运算都是在低分辨率图像尺寸大小上进行，因此效率会较高。</p>
+<p>训练时，可以将输入的训练数据标签，预处理成重新排列操作前的格式，比如将21×21的单通道图，预处理成9个通道，7×7的图，这样在训练时，就不需要做重新排列的操作。另外，ESPCN<strong>激活函数采用tanh替代了ReLU</strong>。损失函数为均方误差。</p>
+<h6 id="2-3-4-VDSR（非常深的SR，全局残差）"><a href="#2-3-4-VDSR（非常深的SR，全局残差）" class="headerlink" title="2.3.4 - VDSR（非常深的SR，全局残差）"></a>2.3.4 - VDSR（非常深的SR，全局残差）</h6><p>Accurate Image Super-Resolution Using Very Deep Convolutional Networks, CVPR2016</p>
+<p>VDSR是<strong>第一个将全局残差引入SR</strong>的方法，使得训练速度明显加快，在PSNR以及SSIM评价指标上有了很大的提升。正如在VDSR论文中论文提到，输入的低分辨率图像和输出的高分辨率图像在很大程度上是相似的，也是<strong>指低分辨率图像携带的低频信息与高分辨率图像的低频信息相近</strong>，训练时带上这部分会多花费大量的时间，<strong>实际上只需要学习高分辨率图像和低分辨率图像之间的高频部分残差即可</strong>。残差网络结构的思想特别适合用来解决超分辨率问题，可以说影响了之后的深度学习超分辨率方法。VDSR是最直接明显的学习残差的结构，其网络结构如下图所示。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>残差网络结构的思想特别适合用来解决超分辨率问题，可以说影响了之后的深度学习超分辨率方法。</li>
+<li>残差结构，既能够缓解梯度消失、梯度爆炸问题；同时残差结构还能只进行残差学习，只学习残差的高频信息，这种方式能够节省很多的时间。</li>
+</ul>
+</blockquote>
+<p>![image-20230106182533696](D:\坚果云\Alec - backup files\typora pictures\image-20230106182533696.png)</p>
+<p>VDSR将插值后得到的变成目标尺寸的低分辨率图像作为网络的输入，再<strong>将这个图像与网络学到的残差相加得到最终的网络的输出</strong>。VDSR主要有4点贡献。1.加深了网络结构(20层)，使得越深的网络层拥有更大的感受野。文章选取3×3的卷积核，深度为D的网络拥有(2D+1)×(2D+1)的感受野。2.采用残差学习，残差图像比较稀疏，大部分值都为0或者比较小，因此收敛速度快。VDSR还应用了<strong>自适应梯度裁剪</strong>(Adjustable Gradient Clipping)，将梯度限制在某一范围，也能够加快收敛过程。3.VDSR<strong>在每次卷积前都对图像进行补0操作，这样保证了所有的特征图和最终的输出图像在尺寸上都保持一致</strong>，解决了图像通过逐步卷积会越来越小的问题。文中说实验证明<strong>补0操作对边界像素的预测结果也能够得到提升</strong>。4.VDSR将不同倍数的图像混合在一起训练，这样训练出来的一个模型就可以解决不同倍数的超分辨率问题。</p>
+<h6 id="2-3-5-SRGAN-SRResNet"><a href="#2-3-5-SRGAN-SRResNet" class="headerlink" title="2.3.5 - SRGAN(SRResNet)"></a>2.3.5 - SRGAN(SRResNet)</h6><p>Photo-Realistic Single Image Super-Resolution Using a Generative Adversarial Network, CVPR2017</p>
+<p>在这篇文章中，<strong>将生成对抗网络(Generative Adversarial Network, GAN)用在了解决超分辨率问题上</strong>。文章提到，训练网络时用均方差作为损失函数，虽然能够获得很高的峰值信噪比，但是恢复出来的图像通常会丢失高频细节，使人不能有好的视觉感受。SRGAN利用感知损失(perceptual loss)和对抗损失(adversarial loss)来提升恢复出的图片的真实感。感知损失是利用卷积神经网络提取出的特征，通过比较生成图片经过卷积神经网络后的特征和目标图片经过卷积神经网络后的特征的差别，使生成图片和目标图片在语义和风格上更相似。</p>
+<p>SRGAN的工作是： G网通过低分辨率的图像生成高分辨率图像，由D网判断拿到的图像是由G网生成的，还是数据库中的原图像。当G网能成功骗过D网的时候，那就可以通过这个GAN完成超分辨率了。</p>
+<p>文章中，用均方误差优化SRResNet(SRGAN的生成网络部分)，能够得到具有很高的峰值信噪比的结果。在训练好的VGG模型的高层特征上计算感知损失来优化SRGAN，并结合SRGAN的判别网络，能够得到峰值信噪比虽然不是最高，但是具有逼真视觉效果的结果。SRGAN网络结构如下图所示。</p>
+<p>![image-20230106193822650](D:\坚果云\Alec - backup files\typora pictures\image-20230106193822650.png)</p>
+<p>在生成网络部分(SRResNet)部分包含多个残差块，每个残差块中包含两个3×3的卷积层，卷积层后接批规范化层(batch normalization, BN)和PReLU作为激活函数，两个2×亚像素卷积层(sub-pixel convolution layers)被用来增大特征尺寸。在判别网络部分包含8个卷积层，随着网络层数加深，特征个数不断增加，特征尺寸不断减小，选取激活函数为LeakyReLU，最终通过两个全连接层和最终的sigmoid激活函数得到预测为自然图像的概率。SRGAN的损失函数为：</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>SRGAN的生成器，使用亚像素卷积来进行图像的上采样操作</li>
+<li>感知损失 &#x3D; 内容损失 + 对抗损失</li>
+</ul>
+</blockquote>
+<p>![image-20230106194123775](D:\坚果云\Alec - backup files\typora pictures\image-20230106194123775.png)</p>
+<p>其中内容损失可以是基于均方误差的损失的损失函数：</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>内容损失可以是基于均方误差的损失函数，也可以是基于VGG模型提取的特征图像的损失函数</li>
+</ul>
+</blockquote>
+<p>![image-20230106194230858](D:\坚果云\Alec - backup files\typora pictures\image-20230106194230858.png)</p>
+<p>也可以是基于训练好的以ReLU为激活函数的VGG模型的损失函数:</p>
+<p>![image-20230106194306751](D:\坚果云\Alec - backup files\typora pictures\image-20230106194306751.png)</p>
+<p>i和j表示VGG19网络中第i个最大池化层(maxpooling)后的第j个卷积层得到的特征。对抗损失为：</p>
+<p>![image-20230106194554771](D:\坚果云\Alec - backup files\typora pictures\image-20230106194554771.png)</p>
+<p>文章中的实验结果表明，用基于均方误差的损失函数训练的SRResNet，得到了结果具有很高的峰值信噪比，但是会丢失一些高频部分细节，图像比较平滑。而SRGAN得到的结果则有更好的视觉效果。其中，又对内容损失分别设置成基于均方误差、基于VGG模型低层特征和基于VGG模型高层特征三种情况作了比较，在基于均方误差的时候表现最差，基于VGG模型高层特征比基于VGG模型低层特征的内容损失能生成更好的纹理细节。</p>
+<h6 id="2-3-6-EDSR"><a href="#2-3-6-EDSR" class="headerlink" title="2.3.6 - EDSR"></a>2.3.6 - EDSR</h6><p><a href="https://link.zhihu.com/?target=https://arxiv.org/abs/1707.02921">Enhanced Deep Residual Networks for Single Image Super-Resolution</a>, CVPRW2017</p>
+<p>EDSR是NTIRE2017超分辨率挑战赛上获得冠军的方案。如论文中所说，EDSR最有意义的模型性能提升是去除掉了SRResNet多余的模块，从而可以扩大模型的尺寸来提升结果质量。主要使用了增强的ResNet，移除了batchnorm，使用了L1 loss训练.EDSR的网络结构如下图所示。</p>
+<blockquote>
+<p>alec：</p>
+<p>EDSR：</p>
+<ul>
+<li>去除了SEResNet多余的模块</li>
+<li>使用了增强的ResNet</li>
+<li>移除了BN（批量归一化被证明在视觉任务中效果不是很好）</li>
+<li>使用了L1损失进行训练</li>
+</ul>
+</blockquote>
+<p>![image-20230106195304742](D:\坚果云\Alec - backup files\typora pictures\image-20230106195304742.png)</p>
+<p>可以看到，EDSR在结构上与SRResNet相比，是把批规范化处理(batch normalization, BN)操作给去掉了。文章中说，原始的ResNet最一开始是被提出来解决高层的计算机视觉问题，比如分类和检测，直接把ResNet的结构应用到像超分辨率这样的低层计算机视觉问题，显然不是最优的。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>计算机视觉中，分类和检测属于计算机的高层任务，而超分则属于低层计算机视觉问题。</li>
+</ul>
+</blockquote>
+<p>由于批规范化层消耗了与它前面的卷积层相同大小的内存，在去掉这一步操作后，相同的计算资源下，EDSR就可以堆叠更多的网络层或者使每层提取更多的特征，从而得到更好的性能表现。EDSR用L1范数样式的损失函数来优化网络模型。在训练时先训练低倍数的上采样模型，接着用训练低倍数上采样模型得到的参数来初始化高倍数的上采样模型，这样能减少高倍数上采样模型的训练时间，同时训练结果也更好。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>EDSR先训练低倍数的超分模型，然后使用这个作为高倍数模型的预训练参数。这样低倍数的模型的参数能够让模型的梯度具有一个好的初始值。</li>
+</ul>
+</blockquote>
+<p>这篇文章还提出了一个能同时不同上采样倍数的网络结构MDSR，如下图。</p>
+<p>![image-20230106195956233](D:\坚果云\Alec - backup files\typora pictures\image-20230106195956233.png)</p>
+<p>MDSR的中间部分还是和EDSR一样，只是在网络前面添加了不同的预训练好的模型来减少不同倍数的输入图片的差异。在网络最后，不同倍数上采样的结构平行排列来获得不同倍数的输出结果。</p>
+<p>从文章给出的结果可以看到，EDSR能够得到很好的结果。增大模型参数数量以后，结果又有了进一步的提升。</p>
+<h6 id="2-3-7-CARN（级联残差网络）"><a href="#2-3-7-CARN（级联残差网络）" class="headerlink" title="2.3.7 - CARN（级联残差网络）"></a>2.3.7 - CARN（级联残差网络）</h6><p>Fast, Accurate, and Lightweight Super-Resolution with Cascading Residual Network（ECCV 2018）</p>
+<p>CARN是NTIRE2018超分辨率挑战赛上获得冠军的方案。</p>
+<p>![image-20230106200211195](D:\坚果云\Alec - backup files\typora pictures\image-20230106200211195.png)</p>
+<p>CARN具有以下三个特征：</p>
+<ol>
+<li><p>全局和局部级联连接。</p>
+</li>
+<li><p>中间特征是级联的，且被组合在1×1大小的卷积块中</p>
+</li>
+<li><p>使多级表示和快捷连接，让信息传递更高效</p>
+</li>
+</ol>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>通过全局的和局部的连接，使得信息的传递更加的高效</li>
+</ul>
+</blockquote>
+<p>然而，多级表示的优势被限制在了每个本地级联模块内部，比如在快捷连接上的1×1卷积这样的乘法操作可能会阻碍信息的传递，所以认为性能会下降也在情理之中。这个论文在模型分析也介绍了</p>
+<p>为了提升CARN的效率，论文提出了一种残差-E模块：将普通的Residual Block中conv换成了group conv。论文在这里提出了使用group conv而是不是 depthwise convolution，因为作者认为 group conv比 depthwise convolution可以更好的调整模型的有效性。</p>
+<p>![image-20230106200434626](D:\坚果云\Alec - backup files\typora pictures\image-20230106200434626.png)</p>
+<h6 id="2-3-8-DRCN（深度递归卷积网络，2016）"><a href="#2-3-8-DRCN（深度递归卷积网络，2016）" class="headerlink" title="2.3.8 - DRCN（深度递归卷积网络，2016）"></a>2.3.8 - DRCN（深度递归卷积网络，2016）</h6><p>Deeply-Recursive Convolutional Network for Image Super-Resolution, CVPR2016</p>
+<p>DRCN与VDSR都是来自首尔国立大学计算机视觉实验室的工作，两篇论文都发表在CVPR2016上，两种方法的结果非常接近。DRCN第一次将<strong>递归神经网络</strong>(Recursive Neural Network)结构应用在超分辨率处理中。同时，利用残差学习的思想(文中的跳跃连接（Skip-Connection）)，加深了网络结构(16个递归)，增加了网络感受野，提升了性能。DRCN网络结构如下图所示。</p>
+<p>![image-20230106200900843](D:\坚果云\Alec - backup files\typora pictures\image-20230106200900843.png)</p>
+<p>DRCN输入的是插值后的图像，分为三个模块，第一个是<strong>Embedding network</strong>，相当于特征提取，第二个是<strong>Inference network</strong>, 相当于特征的非线性映射，第三个是<strong>Reconstruction network</strong>,即从特征图像恢复最后的重建结果。其中的Inference network是一个递归网络，即数据循环地通过该层多次。将这个循环进行展开，等效于使用同一组参数的多个串联的卷积层，如下图所示。</p>
+<p>![image-20230106201919859](D:\坚果云\Alec - backup files\typora pictures\image-20230106201919859.png)</p>
+<p>其中的H1到HD是D个共享参数的卷积层。DRCN将每一层的卷积结果都通过同一个Reconstruction Net得到一个重建结果，从而共得到D个重建结果，再把它们加权平均得到最终的输出。另外，受到ResNet的启发，DRCN通过skip connection将输入图像与H_d的输出相加后再作为Reconstruction Net的输入，相当于使Inference Net去学习高分辨率图像与低分辨率图像的差，即恢复图像的高频部分。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>上面这个非线性的推理部分，递归的将输入（输出）不断的输入相同参数的网络中，一共输入D次。并且将每一次（共D次）的输出全部加权相加平均得到最后的输出，并且通过直连边相连，实现残差连接。使得递归部分直接学习高频残差，使得网络的学习过程更加的高效。</li>
+</ul>
+</blockquote>
+<h6 id="2-3-9-RED"><a href="#2-3-9-RED" class="headerlink" title="2.3.9 - RED"></a>2.3.9 - RED</h6><p>Image Restoration Using Convolutional Auto-encoders with Symmetric Skip Connections, NIPS2016</p>
+<p>这篇文章提出了由对称的卷积层-反卷积层构成的网络结构，作为一个编码-解码框架，可以学习由低质图像到原始图像端到端的映射。网络结构如下图所示。</p>
+<p>![image-20230106202338972](D:\坚果云\Alec - backup files\typora pictures\image-20230106202338972.png)</p>
+<p>RED网络的结构是对称的，每个卷积层都有对应的反卷积层。卷积层用来获取图像的抽象内容，反卷积层用来放大特征尺寸并且恢复图像细节。卷积层将输入图像尺寸减小后，再通过反卷积层上采样变大，使得输入输出的尺寸一样。每一组镜像对应的卷积层和反卷积层有着跳线连接结构，将两部分具有同样尺寸的特征(要输入卷积层的特征和对应的反卷积层输出的特征)做相加操作(ResNet那样的操作)后再输入到下一个反卷积层，操作过程如下图所示。</p>
+<p>![image-20230106202959173](D:\坚果云\Alec - backup files\typora pictures\image-20230106202959173.png)</p>
+<p>这样的结构能够让反向传播信号能够直接传递到底层，解决了梯度消失问题，同时能将卷积层的细节传递给反卷积层，能够恢复出更干净的图片。可以看到，网络中有一条线是将输入的图像连接到后面与最后的一层反卷积层的输出相加，也是VDSR中用到的方式，因此RED中间的卷积层和反卷积层学习的特征是目标图像和低质图像之间的残差。RED的网络深度为30层，损失函数用的均方误差。</p>
+<h6 id="2-3-10-DRRN（深度递归残差网络，2017）"><a href="#2-3-10-DRRN（深度递归残差网络，2017）" class="headerlink" title="2.3.10 - DRRN（深度递归残差网络，2017）"></a>2.3.10 - DRRN（深度递归残差网络，2017）</h6><p>Image Super-Resolution via Deep Recursive Residual Network, CVPR2017</p>
+<p>DRRN的论文应该是受到了ResNet、VDSR和DRCN的启发，采用了更深的网络结构来获取性能的提升。论文也在文中用图片示例比较了DRRN与上述三个网络的区别，比较示例图如下所示。</p>
+<p>![image-20230106203311464](D:\坚果云\Alec - backup files\typora pictures\image-20230106203311464.png)</p>
+<p>DRRN中的每个残差单元都共同拥有一个相同的输入，即递归块中的第一个卷积层的输出。每个残差单元都包含2个卷积层。在一个递归块内，每个残差单元内对应位置相同的卷积层参数都共享(图中DRRN的浅绿色块或浅红色块)。论文列出了ResNet、VDSR、DRCN和DRRN四者的主要策略。ResNet是链模式的局部残差学习。VDSR是全局残差学习。DRCN是全局残差学习+单权重的递归学习+多目标优化。DRRN是多路径模式的局部残差学习+全局残差学习+多权重的递归学习。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>resnet是局部残差学习、VDSR是全局残差学习、DRCN主要是递归学习、DRRN是局部残差学习 + 全局残差学习 + 多权重的递归学习。</li>
+</ul>
+</blockquote>
+<p>文章中比较了不同的递归块和残差单元数量的实验结果，最终选用的是1个递归块和25个残差单元，深度为52层的网络结构。总之，DRRN是通过对之前已有的ResNet等结构进行调整，采取更深的网络结构得到结果的提升。</p>
+<h6 id="2-3-11-SRDenseNet（密集连接，2017）"><a href="#2-3-11-SRDenseNet（密集连接，2017）" class="headerlink" title="2.3.11 - SRDenseNet（密集连接，2017）"></a>2.3.11 - SRDenseNet（密集连接，2017）</h6><p>Image Super-Resolution Using Dense Skip Connections, ICCV2017</p>
+<p>DenseNet是CVPR2017的best papaer获奖论文。DenseNet在稠密块(dense block)中将每一层的特征都输入给之后的所有层，使所有层的特征都串联(concatenate)起来，而不是像ResNet那样直接相加。这样的结构给整个网络带来了减轻梯度消失问题、加强特征传播、支持特征复用、减少参数数量的优点。一个稠密块的结构如下图所示。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>稠密块，将每一层的特征都输给之后的所有层。并且是将所有层的特征concatenate起来，而不是像resnet一样直接相加。相加是对应位置直接相加，通道数不变；而concat则是将特征图叠放到一起，通道数增加。</li>
+</ul>
+</blockquote>
+<p>![image-20230106204107764](D:\坚果云\Alec - backup files\typora pictures\image-20230106204107764.png)</p>
+<p>SRDenseNet将稠密块结构应用到了超分辨率问题上，取得了不错的效果。网络结构如下图所示。</p>
+<p>![image-20230106204141018](D:\坚果云\Alec - backup files\typora pictures\image-20230106204141018.png)</p>
+<p>SRDenseNet可以分成四个部分。首先是用一个卷积层学习低层的特征，接着用多个稠密块学习高层的特征，然后通过几个反卷积层学到上采样滤波器参数，最后通过一个卷积层生成高分辨率输出。</p>
+<p>文章中针对用于最后重建的输入内容不同，设计了三种结构并做了比较。一是反卷积层只输入最顶层稠密块的输出。二是添加了一个跳跃连接，将最底层卷积层的输出特征和最顶层稠密块的输出特征串联起来，再输入反卷积层。三是添加了稠密跳跃连接，是把稠密块看成一个整体，第一个卷积层的输出以及每个稠密块的输出，都输入给在之后的所有稠密块，像是把在反卷积层之前的整个网络也设计成像稠密块那样的结构。由于这样做，所有的特征都串联起来，这样直接输入反卷积层会产生巨大的计算开销，因此添加了一个核大小为1×1的卷积层来减小特征数量，这个卷积层被称为瓶颈层。最后的结论是越复杂的越好。文章中分析的是，受益于低层特征和高层特征的结合，超分辨率重建的性能得到了提升。像第三种结构把所有深度层的特征都串联起来，得到了最佳的结果，说明不同深度层的特征之间包含的信息是互补的。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>上图中三种结构对比，最终的实验结果显示是越复杂效果越好。单个的稠密块内部是稠密连接，然后多个稠密块之间也采用了稠密连接。</li>
+</ul>
+</blockquote>
+<h6 id="2-3-12-FALSR（快速、精确和轻量的超分）"><a href="#2-3-12-FALSR（快速、精确和轻量的超分）" class="headerlink" title="2.3.12 - FALSR（快速、精确和轻量的超分）"></a>2.3.12 - FALSR（快速、精确和轻量的超分）</h6><p>Fast, Accurate and Lightweight Super-Resolution with Neural Architecture Search.</p>
+<p>这篇论文基于弹性搜索（宏观+微观）在超分辨率问题上取得了非常好的结果。这种架构搜索在相当的 FLOPS 下生成了多个模型，结果完胜 ECCV 2018 明星模型 CARN。</p>
+<p>论文最主要的贡献可以总结为以下四点：</p>
+<ol>
+<li><p>发布了几种快速、准确和轻量级的超分辨率架构和模型，它们与最近的当前最优方法效果相当；</p>
+</li>
+<li><p>通过在 cell 粒度上结合宏观和微观空间来提升弹性搜索能力；</p>
+</li>
+<li><p>将超分辨率建模为受限多目标优化问题，并应用混合型控制器来平衡探索（exploration）和利用（exploitation）。</p>
+</li>
+<li><p>生成高质量模型，其可在单次运行中满足给定约束条件下的各种要求。</p>
+</li>
+</ol>
+<h2 id="三、超分辨率技术的问题"><a href="#三、超分辨率技术的问题" class="headerlink" title="三、超分辨率技术的问题"></a>三、超分辨率技术的问题</h2><h4 id="3-1-图像配准"><a href="#3-1-图像配准" class="headerlink" title="3.1 - 图像配准"></a>3.1 - 图像配准</h4><p>图像配准对于多帧SR重建的成功至关重要，其中融合了HR图像的互补空间采样。图像配准是一个众所周知的不适定的基本图像处理问题。在SR设置中问题更加困难，其中观察是具有大的混叠伪像的低分辨率图像。随着观察的分辨率下降，标准图像配准算法的性能降低，导致更多的配准误差。这些配准误差会引起的非常严重的伪像。传统的SR重建通常将图像配准视为与HR图像估计不同的过程。因此，恢复的HR图像质量在很大程度上取决于前一步骤的图像配准精度。</p>
+<p>目前有的配准方法主要采用贝叶斯方法通过边缘化未知高分辨率图像来估计配准和模糊参数或将HR图像估计与图像配准相关联的随机方法。但是局部运动估计的测量不足使得这些算法容易出错。另一种有希望的SR重建方法是非参数方法，它试图绕过显式运动估计。然而这些方法多有计算量大，匹配率低的问题。并且受到运动模型的限制。</p>
+<h4 id="3-2-计算效率"><a href="#3-2-计算效率" class="headerlink" title="3.2 - 计算效率"></a>3.2 - 计算效率</h4><p>限制SR重建的实际应用的另一个难点是由于大量未知数而导致的密集计算，这需要昂贵的矩阵操作。实际应用总是要求SR重建的效率以具有实用性，例如，在视频场景中，人们期望SR重建是实时的。</p>
+<p>目前的算法大多数只能有效地处理简单的运动模型，远非真实复杂视频场景中的应用。对计算性能的要求也使得超分辨率重建难以在可移动设备上进行实现。</p>
+<h4 id="3-3-算法的稳健性和可迁移性"><a href="#3-3-算法的稳健性和可迁移性" class="headerlink" title="3.3 - 算法的稳健性和可迁移性"></a>3.3 - 算法的稳健性和可迁移性</h4><p>目前的超分辨率重建技术多争对某一特定类型的图片，没有一个通过的模型可以胜任所有类型图像的超分辨率工作。同时由于运动误差、不准确的模糊模型、噪声、运动物体、运动模糊等，传统的SR技术容易受到异常值的影响。这些不准确的模型误差不能像高斯噪声一样被视为具有l2重建残差的通常假设。SR的稳健性是令人感兴趣的，因为不能完美地估计图像劣化模型参数，并且对异常值的敏感性可能导致视觉上令人不安的伪像，这在许多应用中（例如视频标准转换）是不可容忍的。</p>
+<h4 id="3-4-评价标准缺失"><a href="#3-4-评价标准缺失" class="headerlink" title="3.4 - 评价标准缺失"></a>3.4 - 评价标准缺失</h4><p>和许多图像任务一样，超分辨率重建的效果很难进行客观的量化。这其实限制了深度学习在超分辨率领域内的应用。因为深度学习的实质其实是损失函数的优化，没有客观有效的评价指标，意味着损失函数难以选取。现存的评价指标如MSE和PSNR，有时甚至会出现评价结果与人眼完全相反的情况。如果能找到一个普适的评价指标，也许超分辨率重建的效果会有跨越式的增长。</p>
+<h2 id="四、实验"><a href="#四、实验" class="headerlink" title="四、实验"></a>四、实验</h2><p>我用目前比较成熟也比较具有代表性的NE方法对一副图像进行了超分辨率复原。采用的原图和降采样图像分为如下：</p>
+<p>![image-20230106212035965](D:\坚果云\Alec - backup files\typora pictures\image-20230106212035965.png)</p>
+<p>采用的matlab代码见附录。采用的训练集为set5-image_SRF_3，只有5组图像。生成的超分辨率复原图像如下：</p>
+<p>![image-20230106212103126](D:\坚果云\Alec - backup files\typora pictures\image-20230106212103126.png)</p>
+<p>可以看到，由于算法比较简单，数据集也很小，超分辨复原的效果非常一般。</p>
+<h2 id="五、参考"><a href="#五、参考" class="headerlink" title="五、参考"></a>五、参考</h2><p>[1]<a href="https://link.zhihu.com/?target=https://blog.csdn.net/weixin_37583170/article/details/78978482">https://blog.csdn.net/weixin_37583170&#x2F;article&#x2F;details&#x2F;78978482</a></p>
+<p>[2]<a href="https://link.zhihu.com/?target=https://blog.csdn.net/ch07013224/article/details/80324312">https://blog.csdn.net/ch07013224/article/details/80324312</a></p>
+<p>[3]<a href="https://link.zhihu.com/?target=https://blog.csdn.net/wenwenbalala/article/details/53033448">https://blog.csdn.net/wenwenbalala/article/details/53033448</a></p>
+<p>[4]<a href="https://link.zhihu.com/?target=http://www.sohu.com/a/157790222_465975">http://www.sohu.com/a/157790222_465975</a></p>
+<p>[5]<a href="https://link.zhihu.com/?target=https://blog.csdn.net/shenziheng1/article/details/72818588/">https://blog.csdn.net/shenzihen</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-chain-item">文章学习</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>006 - 文章阅读笔记：图像超分辨率技术-简介 - 知乎 - 三维视觉与SLAM - deimo</div>
+      <div>http://example.com/posts/2409935524/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年1月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/2904148576/" title="007 - 文章阅读笔记：图像超分辨率：盲超分总结 - 知乎 - 桃川京夏">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">007 - 文章阅读笔记：图像超分辨率：盲超分总结 - 知乎 - 桃川京夏</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/873487138/" title="005 - 文章阅读笔记：综述  基于深度学习的人脸超分辨率：全面调研 - 知乎 - CVer计算机视觉">
+                        <span class="hidden-mobile">005 - 文章阅读笔记：综述  基于深度学习的人脸超分辨率：全面调研 - 知乎 - CVer计算机视觉</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

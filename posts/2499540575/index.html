@@ -1,0 +1,1203 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="[√] 第二章 机器学习概述机器学习（Machine Learning，ML）就是让计算机从数据中进行自动学习，得到某种知识（或规律）。作为一门学科，机器学习通常指一类问题以及解决这类问题的方法，即如何从观测数据（样本）中寻找规律，并利用学习到的规律（模型）对未知或无法观测的数据进行预测。 在学习本章内容前，建议您先阅读《神经网络与深度学习》第 2 章：机器学习概述的相关内容，关键知识点如图2.1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第2章 - 机器学习概述">
+<meta property="og:url" content="http://example.com/posts/2499540575/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="[√] 第二章 机器学习概述机器学习（Machine Learning，ML）就是让计算机从数据中进行自动学习，得到某种知识（或规律）。作为一门学科，机器学习通常指一类问题以及解决这类问题的方法，即如何从观测数据（样本）中寻找规律，并利用学习到的规律（模型）对未知或无法观测的数据进行预测。 在学习本章内容前，建议您先阅读《神经网络与深度学习》第 2 章：机器学习概述的相关内容，关键知识点如图2.1">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221211220940535.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221211210937929.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212164136707.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212165459211.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212165722946.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221211213007230.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212173347233.png">
+<meta property="og:image" content="https://ai-studio-static-online.cdn.bcebos.com/fdb656daadb349a78560fa464b0de5fa5d63423fc2234adfac48e6ff020a6d60">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212173220360.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212173523825.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212165145316.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212173925680.png">
+<meta property="article:published_time" content="2022-12-18T10:17:59.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:39:37.915Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221211220940535.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>第2章 - 机器学习概述 - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">第2章 - 机器学习概述</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-12-18 18:17" pubdate>
+          2022年12月18日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          31k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          259 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">第2章 - 机器学习概述</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：14 分钟前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="√-第二章-机器学习概述"><a href="#√-第二章-机器学习概述" class="headerlink" title="[√] 第二章 机器学习概述"></a>[√] 第二章 机器学习概述</h2><p><strong>机器学习</strong>（Machine Learning，ML）就是让计算机从数据中进行自动学习，得到某种知识（或规律）。作为一门学科，机器学习通常指一类问题以及解决这类问题的方法，即如何从观测数据（样本）中寻找规律，并利用学习到的规律（模型）对未知或无法观测的数据进行预测。</p>
+<p>在学习本章内容前，建议您先阅读《神经网络与深度学习》第 2 章：机器学习概述的相关内容，关键知识点如<strong>图2.1</strong>所示，以便更好的理解和掌握相应的理论知识，及其在实践中的应用方法。</p>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221211220940535.png" srcset="/img/loading.gif" lazyload alt="image-20221211210937929"></p>
+<p>本章内容基于《神经网络与深度学习》第 2 章：机器学习概述 相关内容进行设计，主要包含两部分：</p>
+<ul>
+<li><strong>模型解读</strong>：介绍机器学习实践五要素（数据、模型、学习准则、优化算法、评估指标）的原理剖析和相应的代码实现。通过理论和代码的结合，加深对机器学习的理解；</li>
+<li><strong>案例实践</strong>：基于机器学习线性回归方法，通过数据处理、模型构建、训练配置、组装训练框架Runner、模型训练和模型预测等过程完成波士顿房价预测任务。</li>
+</ul>
+<h3 id="√-2-1-机器学习实践五要素"><a href="#√-2-1-机器学习实践五要素" class="headerlink" title="[√] 2.1 - 机器学习实践五要素"></a>[√] 2.1 - 机器学习实践五要素</h3><p>要通过机器学习来解决一个特定的任务时，我们需要准备5个方面的要素：</p>
+<ol>
+<li>数据集：收集任务相关的数据集用来进行模型训练和测试，可分为训练集、验证集和测试集；</li>
+<li>模型：实现输入到输出的映射，通常为可学习的函数；</li>
+<li>学习准则：模型优化的目标，通常为损失函数和正则化项的加权组合；</li>
+<li>优化算法：根据学习准则优化机器学习模型的参数；</li>
+<li>评价指标：用来评价学习到的机器学习模型的性能．</li>
+</ol>
+<p><strong>图2.2</strong>给出实现一个完整的机器学习系统的主要环节和要素。从流程角度看，实现机器学习系统可以分为两个阶段：训练阶段和评价阶段。训练阶段需要用到训练集、验证集、待学习的模型、损失函数、优化算法，输出学习到的模型；评价阶段也称为测试阶段，需要用到测试集、学习到的模型、评价指标体系，得到模型的性能评价。<strong>图2.2</strong>给出实现一个完整的机器学习系统的主要环节和要素。从流程角度看，实现机器学习系统可以分为两个阶段：训练阶段和评价阶段。训练阶段需要用到训练集、验证集、待学习的模型、损失函数、优化算法，输出学习到的模型；评价阶段也称为测试阶段，需要用到测试集、学习到的模型、评价指标体系，得到模型的性能评价。</p>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221211210937929.png" srcset="/img/loading.gif" lazyload alt="image-20221211213007230"></p>
+<p>在本节中，我们分别对这五个要素进行简单的介绍。</p>
+<hr>
+<p>《神经网络与深度学习》第 2.2 节详细介绍了机器学习的三个基本要素：“模型”、“学习准则”和“优化算法”．在机器学习实践中，“数据”和“评价指标”也非常重要．因此，本书将机器学习在实践中的主要元素归结为五要素．</p>
+<h4 id="√-2-1-1-数据"><a href="#√-2-1-1-数据" class="headerlink" title="[√] 2.1.1 - 数据"></a>[√] 2.1.1 - 数据</h4><p>在实践中，数据的质量会很大程度上影响模型最终的性能，通常数据预处理是完成机器学习实践的第一步，噪音越少、规模越大、覆盖范围越广的数据集往往能够训练出性能更好的模型。数据预处理可分为两个环节：先对收集到的数据进行基本的预处理，如基本的统计、特征归一化和异常值处理等；再将数据划分为训练集、验证集（开发集）和测试集。</p>
+<ul>
+<li><strong>训练集</strong>：用于模型训练时调整模型的参数，在这份数据集上的误差被称为训练误差；</li>
+<li><strong>验证集（开发集）</strong>：对于复杂的模型，常常有一些超参数需要调节，因此需要尝试多种超参数的组合来分别训练多个模型，然后对比它们在验证集上的表现，选择一组相对最好的超参数，最后才使用这组参数下训练的模型在测试集上评估测试误差。</li>
+<li><strong>测试集</strong>：模型在这份数据集上的误差被称为测试误差。训练模型的目的是为了通过从训练数据中找到规律来预测未知数据，因此测试误差是更能反映出模型表现的指标。</li>
+</ul>
+<p>数据划分时要考虑到两个因素：更多的训练数据会降低参数估计的方差，从而得到更可信的模型；而更多的测试数据会降低测试误差的方差，从而得到更可信的测试误差。如果给定的数据集没有做任何划分，我们一般可以大致按照7:3或者8:2的比例划分训练集和测试集，再根据7:3或者8:2的比例从训练集中再次划分出训练集和验证集。</p>
+<p>需要强调的是，测试集只能用来评测模型最终的性能，在整个模型训练过程中不能有测试集的参与。</p>
+<hr>
+<h4 id="√-2-1-2-模型"><a href="#√-2-1-2-模型" class="headerlink" title="[√] 2.1.2 模型"></a>[√] 2.1.2 模型</h4><p>有了数据后，我们可以用数据来训练模型。我们希望能让计算机从一个函数集合 $\mathcal{F} &#x3D; {f_1(\boldsymbol{x}), f_2(\boldsymbol{x}), \cdots }$中<br>自动寻找一个“最优”的函数$f^∗(\boldsymbol{x})$ 来近似每个样本的特征向量 $\boldsymbol{x}$ 和标签 $y$ 之间<br>的真实映射关系，实际上这个函数集合也被称为<strong>假设空间</strong>，在实际问题中，假设空间$\mathcal{F}$通常为一个参数化的函数族<br>$$<br>\mathcal{F}&#x3D;\left{f(\boldsymbol{x} ; \theta) \mid \theta \in \mathbb{R}^{D}\right}, (2.1)<br>$$<br>其中$f(\boldsymbol{x} ; \theta)$是参数为$\theta$的函数，也称为模型，𝐷 为参数的数量。</p>
+<p>常见的假设空间可以分为线性和非线性两种，对应的模型 $f$ 也分别称为线性模型和非线性模型。<strong>线性模型</strong>的假设空间为一个参数化的线性函数族，即：<br>$$<br>f(\boldsymbol{x} ; \theta)&#x3D;\boldsymbol{w}^{\top} \boldsymbol{x}+b, (2.2)<br>$$<br>其中参数$\theta$ 包含了权重向量$\boldsymbol{w}$和偏置$b$。</p>
+<p>线性模型可以由<strong>非线性基函数</strong>$\phi(\boldsymbol{x})$变为<strong>非线性模型</strong>，从而增强模型能力:</p>
+<p>$$<br>f(\boldsymbol{x} ; \theta)&#x3D;\boldsymbol{w}^{\top} \phi(\boldsymbol{x})+b, (2.3)<br>$$<br>其中$\phi(\boldsymbol{x})&#x3D;\left[\phi_{1}(\boldsymbol{x}), \phi_{2}(\boldsymbol{x}), \cdots, \phi_{K}(\boldsymbol{x})\right]^{\top}$为𝐾 个非线性基函数组成的向量，参数 $\theta$ 包含了权重向量$\boldsymbol{w}$和偏置$b$。</p>
+<hr>
+<h4 id="√-2-1-3-学习准则"><a href="#√-2-1-3-学习准则" class="headerlink" title="[√] 2.1.3 学习准则"></a>[√] 2.1.3 学习准则</h4><p>为了衡量一个模型的好坏，我们需要定义一个损失函数$\mathcal{L}(\boldsymbol{y},f(\boldsymbol{x};\theta))$。损失函数是一个非负实数函数，用来量化模型预测标签和真实标签之间的差异。常见的损失函数有 0-1 损失、平方损失函数、交叉熵损失函数等。</p>
+<p>机器学习的目标就是找到最优的模型$𝑓(𝒙;\theta^∗)$在真实数据分布上损失函数的期望最小。然而在实际中，我们无法获得真实数据分布，通常会用在训练集上的平均损失替代。</p>
+<p>一个模型在训练集$\mathcal{D}&#x3D;{(\boldsymbol{x}^{(n)},y^{(n)})}_{n&#x3D;1}^N$上的平均损失称为<strong>经验风险</strong>{Empirical Risk}，即:</p>
+<p>$$<br>\mathcal{R}^{emp}<em>\mathcal{D}(\theta)&#x3D;\frac{1}{N}\sum</em>{n&#x3D;1}^{N}\mathcal{L}(y^{(n)},f({x}^{(n)};\theta))。 (2.4)<br>$$</p>
+<p>$\mathcal{L}(\boldsymbol{y},f(\boldsymbol{x};\theta))$为损失函数。损失函数是一个非负实数函数，用来量化模型预测和真实标签之间的差异。常见的损失函数有0-1损失、平方损失函数、交叉熵损失函数等。</p>
+<p>在通常情况下，我们可以通过使得<strong>经验风险最小化</strong>来获得具有预测能力的模型。然而，当模型比较复杂或训练数据量比较少时，经验风险最小化获得的模型在测试集上的效果比较差。而模型在测试集上的性能才是我们真正关心的指标．当一个模型在训练集错误率很低，而在测试集上错误率较高时，通常意味着发生了<strong>过拟合</strong>（Overfitting）现象。为了缓解模型的过拟合问题，我们通常会在经验损失上加上一定的正则化项来限制模型能力。</p>
+<p>过拟合通常是由于模型复杂度比较高引起的。在实践中，最常用的正则化方式有对模型的参数进行约束，比如$\ell_1$或者$\ell_2$范数约束。这样，我们就得到了结构风险（Structure Risk）。<br>$$<br>\mathcal{R}^{struct}<em>{\mathcal{D}}(\theta)&#x3D;\mathcal{R}^{emp}</em>{\mathcal{D}}(\theta)+\lambda \ell_p(\theta), (2.5)<br>$$</p>
+<p>其中$\lambda$为正则化系数，$p&#x3D;1$或$2$表示$\ell_1$或者$\ell_2$范数。</p>
+<hr>
+<h4 id="√-2-1-4-优化算法"><a href="#√-2-1-4-优化算法" class="headerlink" title="[√] 2.1.4 优化算法"></a>[√] 2.1.4 优化算法</h4><p>在有了优化目标之后，机器学习问题就转化为优化问题，我们可以利用已知的优化算法来学习最优的参数。当优化函数为凸函数时，我们可以令参数的偏导数等于0来计算最优参数的解析解。当优化函数为非凸函数时，我们可以用一阶的优化算法来进行优化。</p>
+<p>目前机器学习中最常用的优化算法是<strong>梯度下降法</strong>(Gradient Descent Method)。<br>当使用梯度下降法进行参数优化时，还可以利用验证集来<strong>早停法</strong>(Early-Stop)来中止模型的优化过程，避免模型在训练集上过拟合。早停法也是一种常用并且十分有效的正则化方法。</p>
+<hr>
+<h4 id="√-2-1-5-评估指标"><a href="#√-2-1-5-评估指标" class="headerlink" title="[√] 2.1.5 评估指标"></a>[√] 2.1.5 评估指标</h4><p><strong>评估指标</strong>(Metric)用于评价模型效果，即给定一个测试集，用模型对测试集中的每个样本进行预测，并根据预测结果计算评价分数。回归任务的评估指标一般有预测值与真实值的均方差，分类任务的评估指标一般有准确率、召回率、F1值等。</p>
+<p>对于一个机器学习任务，一般会先确定任务类型，再确定任务的评价指标，再根据评价指标来建立模型，选择学习准则。由于评价指标不可微等问题有时候学习准则并不能完全和评价指标一致，我们往往会选择一定的损失函数使得两者尽可能一致。</p>
+<hr>
+<h3 id="√-2-2-实现一个简单的线性回归模型"><a href="#√-2-2-实现一个简单的线性回归模型" class="headerlink" title="[√] 2.2 - 实现一个简单的线性回归模型"></a>[√] 2.2 - 实现一个简单的线性回归模型</h3><p><strong>回归任务</strong>是一类典型的监督机器学习任务，对自变量和因变量之间关系进行建模分析，其预测值通常为一个连续值，比如房屋价格预测、电源票房预测等。<strong>线性回归</strong>(Linear Regression)是指一类利用线性函数来对自变量和因变量之间关系进行建模的回归任务，是机器学习和统计学中最基础和最广泛应用的模型。</p>
+<p>在本节中，我们动手实现一个简单的线性回归模型，并使用最小二乘法来求解参数，以对机器学习任务有更直观的认识。</p>
+<hr>
+<h4 id="√-2-2-1-数据集构建"><a href="#√-2-2-1-数据集构建" class="headerlink" title="[√] 2.2.1 - 数据集构建"></a>[√] 2.2.1 - 数据集构建</h4><p>首先，我们构造一个小的回归数据集。假设输入特征和输出标签的维度都为 1，需要被拟合的函数定义为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 真实函数的参数缺省值为 w=1.2，b=0.5</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">linear_func</span>(<span class="hljs-params">x,w=<span class="hljs-number">1.2</span>,b=<span class="hljs-number">0.5</span></span>):<br>    y = w*x + b<br>    <span class="hljs-keyword">return</span> y<br></code></pre></td></tr></table></figure>
+
+<p>然后，使用<code>paddle.rand()</code>函数来进行随机采样输入特征xx<em>x</em>，并代入上面函数得到输出标签𝑦𝑦<em>y</em>。为了模拟真实环境中样本通常包含噪声的问题，我们采样过程中加入高斯噪声和异常点。</p>
+<p>生成样本数据的函数<code>create_toy_data</code>实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> paddle<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">create_toy_data</span>(<span class="hljs-params">func, interval, sample_num, noise = <span class="hljs-number">0.0</span>, add_outlier = <span class="hljs-literal">False</span>, outlier_ratio = <span class="hljs-number">0.001</span></span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    根据给定的函数，生成样本</span><br><span class="hljs-string">    输入：</span><br><span class="hljs-string">       - func：函数</span><br><span class="hljs-string">       - interval： x的取值范围</span><br><span class="hljs-string">       - sample_num： 样本数目</span><br><span class="hljs-string">       - noise： 噪声均方差</span><br><span class="hljs-string">       - add_outlier：是否生成异常值</span><br><span class="hljs-string">       - outlier_ratio：异常值占比</span><br><span class="hljs-string">    输出：</span><br><span class="hljs-string">       - X: 特征数据，shape=[n_samples,1]</span><br><span class="hljs-string">       - y: 标签数据，shape=[n_samples,1]</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br><br>    <span class="hljs-comment"># 均匀采样</span><br>    <span class="hljs-comment"># 使用paddle.rand在生成sample_num个随机数</span><br>    X = paddle.rand(shape = [sample_num]) * (interval[<span class="hljs-number">1</span>]-interval[<span class="hljs-number">0</span>]) + interval[<span class="hljs-number">0</span>]<br>    y = func(X)<br><br>    <span class="hljs-comment"># 生成高斯分布的标签噪声</span><br>    <span class="hljs-comment"># 使用paddle.normal生成0均值，noise标准差的数据</span><br>    epsilon = paddle.normal(<span class="hljs-number">0</span>,noise,paddle.to_tensor(y.shape[<span class="hljs-number">0</span>]))<br>    y = y + epsilon<br>    <span class="hljs-keyword">if</span> add_outlier:     <span class="hljs-comment"># 生成额外的异常点</span><br>        outlier_num = <span class="hljs-built_in">int</span>(<span class="hljs-built_in">len</span>(y)*outlier_ratio)<br>        <span class="hljs-keyword">if</span> outlier_num != <span class="hljs-number">0</span>:<br>            <span class="hljs-comment"># 使用paddle.randint生成服从均匀分布的、范围在[0, len(y))的随机Tensor</span><br>            outlier_idx = paddle.randint(<span class="hljs-built_in">len</span>(y),shape = [outlier_num])<br>            y[outlier_idx] = y[outlier_idx] * <span class="hljs-number">5</span><br>    <span class="hljs-keyword">return</span> X, y<br></code></pre></td></tr></table></figure>
+
+<p>利用上面的生成样本函数，生成 150 个带噪音的样本，其中 100 个训练样本，50 个测试样本，并打印出训练数据的可视化分布。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> matplotlib <span class="hljs-keyword">import</span> pyplot <span class="hljs-keyword">as</span> plt <span class="hljs-comment"># matplotlib 是 Python 的绘图库</span><br><br>func = linear_func<br>interval = (-<span class="hljs-number">10</span>,<span class="hljs-number">10</span>)<br>train_num = <span class="hljs-number">100</span> <span class="hljs-comment"># 训练样本数目</span><br>test_num = <span class="hljs-number">50</span> <span class="hljs-comment"># 测试样本数目</span><br>noise = <span class="hljs-number">2</span><br>X_train, y_train = create_toy_data(func=func, interval=interval, sample_num=train_num, noise = noise, add_outlier = <span class="hljs-literal">False</span>)<br>X_test, y_test = create_toy_data(func=func, interval=interval, sample_num=test_num, noise = noise, add_outlier = <span class="hljs-literal">False</span>)<br><br>X_train_large, y_train_large = create_toy_data(func=func, interval=interval, sample_num=<span class="hljs-number">5000</span>, noise = noise, add_outlier = <span class="hljs-literal">False</span>)<br><br><span class="hljs-comment"># paddle.linspace返回一个Tensor，Tensor的值为在区间start和stop上均匀间隔的num个值，输出Tensor的长度为num</span><br>X_underlying = paddle.linspace(interval[<span class="hljs-number">0</span>],interval[<span class="hljs-number">1</span>],train_num) <br>y_underlying = linear_func(X_underlying)<br><br><span class="hljs-comment"># 绘制数据</span><br>plt.scatter(X_train, y_train, marker=<span class="hljs-string">&#x27;*&#x27;</span>, facecolor=<span class="hljs-string">&quot;none&quot;</span>, edgecolor=<span class="hljs-string">&#x27;#e4007f&#x27;</span>, s=<span class="hljs-number">50</span>, label=<span class="hljs-string">&quot;train data&quot;</span>)<br>plt.scatter(X_test, y_test, facecolor=<span class="hljs-string">&quot;none&quot;</span>, edgecolor=<span class="hljs-string">&#x27;#f19ec2&#x27;</span>, s=<span class="hljs-number">50</span>, label=<span class="hljs-string">&quot;test data&quot;</span>)<br>plt.plot(X_underlying, y_underlying, c=<span class="hljs-string">&#x27;#000000&#x27;</span>, label=<span class="hljs-string">r&quot;underlying distribution&quot;</span>)<br>plt.legend(fontsize=<span class="hljs-string">&#x27;x-large&#x27;</span>) <span class="hljs-comment"># 给图像加图例</span><br>plt.savefig(<span class="hljs-string">&#x27;ml-vis.pdf&#x27;</span>) <span class="hljs-comment"># 保存图像到PDF文件中</span><br>plt.show()<br></code></pre></td></tr></table></figure>
+
+<img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212164136707.png" srcset="/img/loading.gif" lazyload alt="image-20221211220940535" style="zoom: 50%;" />
+
+
+
+
+
+
+
+<hr>
+<h4 id="√-2-2-2-模型构建"><a href="#√-2-2-2-模型构建" class="headerlink" title="[√] 2.2.2 - 模型构建"></a>[√] 2.2.2 - 模型构建</h4><p>在线性回归中，自变量为样本的特征向量$\boldsymbol{x}\in \mathbb{R}^D$(每一维对应一个自变量)，因变量是连续值的标签$y\in R$。</p>
+<p>线性模型定义为：<br>$$<br>f(\boldsymbol{x};\boldsymbol{w},b)&#x3D;\boldsymbol{w}^T\boldsymbol{x}+b。 (2.6)<br>$$</p>
+<p>其中权重向量$\boldsymbol{w}\in \mathbb{R}^D$和偏置$b\in \mathbb{R}$都是可学习的参数。</p>
+<hr>
+<p>注意：《神经网络与深度学习》中为了表示的简洁性，使用<strong>增广权重向量</strong>来定义模型。而在本书中，为了和代码实现保持一致，我们使用非增广向量的形式来定义模型。</p>
+<hr>
+<p>在实践中，为了提高预测样本的效率，我们通常会将$N$样本归为一组进行成批地预测，这样可以更好地利用GPU设备的并行计算能力。</p>
+<p>$$<br>\boldsymbol{y} &#x3D;\boldsymbol{X} \boldsymbol{w} + b, (2.7)<br>$$</p>
+<p>其中$\boldsymbol{X}\in \mathbb{R}^{N\times D}$为$N$个样本的特征矩阵，$\boldsymbol{y}\in \mathbb{R}^N$为$N$个预测值组成的列向量。</p>
+<hr>
+<p>注意：在实践中，样本的矩阵$\boldsymbol{X}$是由$N$个$\boldsymbol{x}$的<strong>行向量</strong>组成。而原教材中$\boldsymbol{x}$为列向量，其特征矩阵与本书中的特征矩阵刚好为转置关系。</p>
+<hr>
+<h5 id="√-2-2-2-1-线性算子"><a href="#√-2-2-2-1-线性算子" class="headerlink" title="[√] 2.2.2.1 - 线性算子"></a>[√] 2.2.2.1 - 线性算子</h5><p>实现公式(2.7)中的线性函数非常简单，我们直接利用如下张量运算来实现。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># X: tensor, shape=[N,D]</span><br><span class="hljs-comment"># y_pred: tensor, shape=[N]</span><br><span class="hljs-comment"># w: shape=[D,1]</span><br><span class="hljs-comment"># b: shape=[1]</span><br>y_pred = paddle.matmul(X,w)+b<br></code></pre></td></tr></table></figure>
+
+<p>使用飞桨构建一个线性回归模型，代码如下：</p>
+<p><strong>说明</strong></p>
+<p>在飞桨框架中，可以直接调用模型的<code>forward()</code>方法进行前向执行，也可以调用<code>__call__()</code>，从而执行在 <code>forward()</code> 当中定义的前向计算逻辑。</p>
+<p>在飞桨框架中，模型一般继承<a target="_blank" rel="noopener" href="https://www.paddlepaddle.org.cn/documentation/docs/en/api/paddle/nn/Layer_en.html">nn.Layer</a>，在成员函数<code>forward()</code>中执行模型的前向运算。由于本案例较简单，所以没有继承<code>nn.Layer</code>，但是保留了在<code>forward()</code>函数中执行模型的前向运算的过程。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> paddle<br><span class="hljs-keyword">from</span> nndl.op <span class="hljs-keyword">import</span> Op<br><br>paddle.seed(<span class="hljs-number">10</span>) <span class="hljs-comment">#设置随机种子</span><br><br><span class="hljs-comment"># 线性算子</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Linear</span>(<span class="hljs-title class_ inherited__">Op</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, input_size</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        输入：</span><br><span class="hljs-string">           - input_size:模型要处理的数据特征向量长度</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br><br>        self.input_size = input_size<br><br>        <span class="hljs-comment"># 模型参数</span><br>        self.params = &#123;&#125;<br>        self.params[<span class="hljs-string">&#x27;w&#x27;</span>] = paddle.randn(shape=[self.input_size,<span class="hljs-number">1</span>],dtype=<span class="hljs-string">&#x27;float32&#x27;</span>) <br>        self.params[<span class="hljs-string">&#x27;b&#x27;</span>] = paddle.zeros(shape=[<span class="hljs-number">1</span>],dtype=<span class="hljs-string">&#x27;float32&#x27;</span>)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__call__</span>(<span class="hljs-params">self, X</span>):<br>        <span class="hljs-keyword">return</span> self.forward(X)<br><br>    <span class="hljs-comment"># 前向函数</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, X</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        输入：</span><br><span class="hljs-string">           - X: tensor, shape=[N,D]</span><br><span class="hljs-string">           注意这里的X矩阵是由N个x向量的转置拼接成的，与原教材行向量表示方式不一致</span><br><span class="hljs-string">        输出：</span><br><span class="hljs-string">           - y_pred： tensor, shape=[N]</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br><br>        N,D = X.shape<br><br>        <span class="hljs-keyword">if</span> self.input_size==<span class="hljs-number">0</span>:<br>            <span class="hljs-keyword">return</span> paddle.full(shape=[N,<span class="hljs-number">1</span>], fill_value=self.params[<span class="hljs-string">&#x27;b&#x27;</span>])<br>        <br>        <span class="hljs-keyword">assert</span> D==self.input_size <span class="hljs-comment"># 输入数据维度合法性验证</span><br><br>        <span class="hljs-comment"># 使用paddle.matmul计算两个tensor的乘积</span><br>        y_pred = paddle.matmul(X,self.params[<span class="hljs-string">&#x27;w&#x27;</span>])+self.params[<span class="hljs-string">&#x27;b&#x27;</span>]<br>        <br>        <span class="hljs-keyword">return</span> y_pred<br><br><span class="hljs-comment"># 注意这里我们为了和后面章节统一，这里的X矩阵是由N个x向量的转置拼接成的，与原教材行向量表示方式不一致</span><br>input_size = <span class="hljs-number">3</span><br>N = <span class="hljs-number">2</span><br>X = paddle.randn(shape=[N, input_size],dtype=<span class="hljs-string">&#x27;float32&#x27;</span>) <span class="hljs-comment"># 生成2个维度为3的数据</span><br>model = Linear(input_size)<br>y_pred = model(X)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;y_pred:&quot;</span>,y_pred) <span class="hljs-comment">#输出结果的个数也是2个</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros">y_pred: Tensor(shape=[2, 1], <span class="hljs-attribute">dtype</span>=float32, <span class="hljs-attribute">place</span>=CPUPlace, <span class="hljs-attribute">stop_gradient</span>=<span class="hljs-literal">True</span>,<br>       [[0.54838145],<br>        [2.03063798]])<br></code></pre></td></tr></table></figure>
+
+<h4 id="√-2-2-3-损失函数"><a href="#√-2-2-3-损失函数" class="headerlink" title="[√] 2.2.3 - 损失函数"></a>[√] 2.2.3 - 损失函数</h4><p>回归任务是对<strong>连续值</strong>的预测，希望模型能根据数据的特征输出一个连续值作为预测值。因此回归任务中常用的评估指标是<strong>均方误差</strong>。</p>
+<p>令$\boldsymbol{y}\in \mathbb{R}^N$，$\hat{\boldsymbol{y}}\in \mathbb{R}^N$分别为$N$个样本的真实标签和预测标签，均方误差的定义为：</p>
+<p>$$<br>\mathcal{L}(\boldsymbol{y},\hat{\boldsymbol{y}})&#x3D;\frac{1}{2N}|\boldsymbol{y}-\hat{\boldsymbol{y}}|^2&#x3D;\frac{1}{2N}|\boldsymbol{X}\boldsymbol{w}+\boldsymbol{b}-\boldsymbol{y}|^2, (2.8)<br>$$<br>其中$\boldsymbol{b}$为$N$维向量，所有元素取值都为$b$。</p>
+<p>均方误差的代码实现如下:</p>
+<blockquote>
+<p>注意：代码实现中没有除2。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> paddle<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">mean_squared_error</span>(<span class="hljs-params">y_true, y_pred</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    输入：</span><br><span class="hljs-string">       - y_true: tensor，样本真实标签</span><br><span class="hljs-string">       - y_pred: tensor, 样本预测标签</span><br><span class="hljs-string">    输出：</span><br><span class="hljs-string">       - error: float，误差值</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br><br>    <span class="hljs-keyword">assert</span> y_true.shape[<span class="hljs-number">0</span>] == y_pred.shape[<span class="hljs-number">0</span>]<br>    <br>    <span class="hljs-comment"># paddle.square计算输入的平方值</span><br>    <span class="hljs-comment"># paddle.mean沿 axis 计算 x 的平均值，默认axis是None，则对输入的全部元素计算平均值。</span><br>    error = paddle.mean(paddle.square(y_true - y_pred))<br><br>    <span class="hljs-keyword">return</span> error<br><br><br><span class="hljs-comment"># 构造一个简单的样例进行测试:[N,1], N=2</span><br>y_true= paddle.to_tensor([[-<span class="hljs-number">0.2</span>],[<span class="hljs-number">4.9</span>]],dtype=<span class="hljs-string">&#x27;float32&#x27;</span>)<br>y_pred = paddle.to_tensor([[<span class="hljs-number">1.3</span>],[<span class="hljs-number">2.5</span>]],dtype=<span class="hljs-string">&#x27;float32&#x27;</span>)<br><br>error = mean_squared_error(y_true=y_true, y_pred=y_pred).item()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;error:&quot;</span>,error)<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">error: <span class="hljs-number">4.005000114440918</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="√-2-2-4-模型优化"><a href="#√-2-2-4-模型优化" class="headerlink" title="[√] 2.2.4 - 模型优化"></a>[√] 2.2.4 - 模型优化</h4><p>采用<strong>经验风险最小化</strong>，线性回归可以通过最小二乘法求出参数$\boldsymbol{w}$和$b$的解析解。计算公式(2.8)中均方误差对参数$b$的偏导数，得到<br>$$<br>\frac{\partial \mathcal{L}(\boldsymbol{y},\hat{\boldsymbol{y}})}{\partial b} &#x3D; \mathbf{1}^T (\boldsymbol{X}\boldsymbol{w}+\boldsymbol{b}-\boldsymbol{y}), (2.9)<br>$$</p>
+<p>其中$\mathbf{1}$为$N$维的全1向量。<strong>这里为了简单起见省略了均方误差的系数$\frac{1}{N}$，并不影响最后的结果</strong>。</p>
+<p>令上式等于0，得到<br>$$<br>b^* &#x3D;\bar{y}-\bar{\boldsymbol{x}}^T \boldsymbol{w},(2.10)<br>$$</p>
+<p>其中$\bar{y} &#x3D; \frac{1}{N}\mathbf{1}^T\boldsymbol{y}$为所有标签的平均值，$\bar{\boldsymbol{x}} &#x3D; \frac{1}{N}(\mathbf{1}^T \boldsymbol{X})^T$ 为所有特征向量的平均值。将$b^*$代入公式(2.8)中均方误差对参数$\boldsymbol{w}$的偏导数，得到<br>$$<br>\frac{\partial \mathcal{L}(\boldsymbol{y},\hat{\boldsymbol{y}})}{\partial \boldsymbol{w}} &#x3D; (\boldsymbol{X}-\bar{\boldsymbol{x}}^T)^T \Big((\boldsymbol{X}-\bar{\boldsymbol{x}}^T)\boldsymbol{w}-(\boldsymbol{y}-\bar{y})\Big).(2.11)<br>$$<br>令上式等于0，得到最优的参数为<br>$$<br>\boldsymbol{w}^*&#x3D;\Big((\boldsymbol{X}-\bar{\boldsymbol{x}}^T)^T(\boldsymbol{X}-\bar{\boldsymbol{x}}^T)\Big)^{\mathrm{-}1}(\boldsymbol{X}-\bar{\boldsymbol{x}}^T)^T (\boldsymbol{y}-\bar{y}),(2.12)<br>$$</p>
+<p>$$<br>b^* &#x3D;  \bar{y}-\bar{\boldsymbol{x}}^T \boldsymbol{w}^*.(2.13)<br>$$</p>
+<p>若对参数$\boldsymbol{w}$加上$\ell_2$正则化，则最优的$\boldsymbol{w}^*$变为<br>$$<br>\boldsymbol{w}^*&#x3D;\Big((\boldsymbol{X}-\bar{\boldsymbol{x}}^T)^T(\boldsymbol{X}-\bar{\boldsymbol{x}}^T)+\lambda \boldsymbol{I}\Big)^{\mathrm{-}1}(\boldsymbol{X}-\bar{\boldsymbol{x}}^T)^T (\boldsymbol{y}-\bar{y}),(2.14)<br>$$</p>
+<p>其中$\lambda&gt;0$为预先设置的正则化系数，$\boldsymbol{I}\in \mathbb{R}^{D\times D}$为单位矩阵。</p>
+<p>尝试验证公式(2.14)。</p>
+<p>&#x3D;&#x3D;通过最小二乘法优化参数&#x3D;&#x3D;</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">optimizer_lsm</span>(<span class="hljs-params">model, X, y, reg_lambda=<span class="hljs-number">0</span></span>):<br>  <span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">    输入：</span><br><span class="hljs-string">       - model: 模型</span><br><span class="hljs-string">       - X: tensor, 特征数据，shape=[N,D]</span><br><span class="hljs-string">       - y: tensor,标签数据，shape=[N]</span><br><span class="hljs-string">       - reg_lambda: float, 正则化系数，默认为0</span><br><span class="hljs-string">    输出：</span><br><span class="hljs-string">       - model: 优化好的模型</span><br><span class="hljs-string">   &#x27;&#x27;&#x27;</span><br><br>  N, D = X.shape<br><br>  <span class="hljs-comment"># 对输入特征数据所有特征向量求平均</span><br>  x_bar_tran = paddle.mean(X,axis=<span class="hljs-number">0</span>).T <br>  <br>  <span class="hljs-comment"># 求标签的均值,shape=[1]</span><br>  y_bar = paddle.mean(y)<br>  <br>  <span class="hljs-comment"># paddle.subtract通过广播的方式实现矩阵减向量</span><br>  x_sub = paddle.subtract(X,x_bar_tran)<br><br>  <span class="hljs-comment"># 使用paddle.all判断输入tensor是否全0</span><br>  <span class="hljs-keyword">if</span> paddle.<span class="hljs-built_in">all</span>(x_sub==<span class="hljs-number">0</span>):<br>    model.params[<span class="hljs-string">&#x27;b&#x27;</span>] = y_bar<br>    model.params[<span class="hljs-string">&#x27;w&#x27;</span>] = paddle.zeros(shape=[D])<br>    <span class="hljs-keyword">return</span> model<br>  <br>  <span class="hljs-comment"># paddle.inverse求方阵的逆</span><br>  tmp = paddle.inverse(paddle.matmul(x_sub.T,x_sub)+<br>          reg_lambda*paddle.eye(num_rows = (D)))<br><br>  w = paddle.matmul(paddle.matmul(tmp,x_sub.T),(y-y_bar))<br>  <br>  b = y_bar-paddle.matmul(x_bar_tran,w)<br>  <br>  model.params[<span class="hljs-string">&#x27;b&#x27;</span>] = b<br>  model.params[<span class="hljs-string">&#x27;w&#x27;</span>] = paddle.squeeze(w,axis=-<span class="hljs-number">1</span>)<br><br>  <span class="hljs-keyword">return</span> model<br><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<hr>
+<h4 id="√-2-2-5-模型训练"><a href="#√-2-2-5-模型训练" class="headerlink" title="[√] 2.2.5 - 模型训练"></a>[√] 2.2.5 - 模型训练</h4><p>在准备了数据、模型、损失函数和参数学习的实现之后，我们开始模型的训练。</p>
+<p>在回归任务中，模型的评价指标和损失函数一致，都为均方误差。</p>
+<p>通过上文实现的线性回归类来拟合训练数据，并输出模型在训练集上的损失。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">input_size = <span class="hljs-number">1</span><br>model = Linear(input_size)<br>model = optimizer_lsm(model,X_train.reshape([-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]),y_train.reshape([-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;w_pred:&quot;</span>,model.params[<span class="hljs-string">&#x27;w&#x27;</span>].item(), <span class="hljs-string">&quot;b_pred: &quot;</span>, model.params[<span class="hljs-string">&#x27;b&#x27;</span>].item())<br><br>y_train_pred = model(X_train.reshape([-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>])).squeeze()<br>train_error = mean_squared_error(y_true=y_train, y_pred=y_train_pred).item()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;train error: &quot;</span>,train_error)<br></code></pre></td></tr></table></figure>
+
+<p># 真实函数的参数缺省值为 w&#x3D;1.2，b&#x3D;0.5</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">w_pred: <span class="hljs-number">1.200244426727295</span> b_pred:  <span class="hljs-number">0.41967445611953735</span><br>train error:  <span class="hljs-number">3.8776581287384033</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">model_large = Linear(input_size)<br>model_large = optimizer_lsm(model_large,X_train_large.reshape([-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]),y_train_large.reshape([-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;w_pred large:&quot;</span>,model_large.params[<span class="hljs-string">&#x27;w&#x27;</span>].item(), <span class="hljs-string">&quot;b_pred large: &quot;</span>, model_large.params[<span class="hljs-string">&#x27;b&#x27;</span>].item())<br><br>y_train_pred_large = model_large(X_train_large.reshape([-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>])).squeeze()<br>train_error_large = mean_squared_error(y_true=y_train_large, y_pred=y_train_pred_large).item()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;train error large: &quot;</span>,train_error_large)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">w_pred large: <span class="hljs-number">1.1942962408065796</span> b_pred large:  <span class="hljs-number">0.5079830884933472</span><br>train error large:  <span class="hljs-number">4.086254119873047</span><br></code></pre></td></tr></table></figure>
+
+<p>从输出结果看，预测结果与真实值$\boldsymbol{w}&#x3D;1.2$，$b&#x3D;0.5$有一定的差距。</p>
+<hr>
+<h4 id="√-2-2-6-模型评估"><a href="#√-2-2-6-模型评估" class="headerlink" title="[√] 2.2.6 - 模型评估"></a>[√] 2.2.6 - 模型评估</h4><p>下面用训练好的模型预测一下测试集的标签，并计算在测试集上的损失。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">y_test_pred = model(X_test.reshape([-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>])).squeeze()<br>test_error = mean_squared_error(y_true=y_test, y_pred=y_test_pred).item()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;test error: &quot;</span>,test_error)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">test error:  <span class="hljs-number">4.075982570648193</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">y_test_pred_large = model_large(X_test.reshape([-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>])).squeeze()<br>test_error_large = mean_squared_error(y_true=y_test, y_pred=y_test_pred_large).item()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;test error large: &quot;</span>,test_error_large)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">test error large:  <span class="hljs-number">4.081584453582764</span><br></code></pre></td></tr></table></figure>
+
+<p>动手练习:</p>
+<p>为了加深对机器学习模型的理解，请自己动手完成以下实验：</p>
+<p>（1） 调整训练数据的样本数量，由 100 调整到 5000，观察对模型性能的影响。</p>
+<p>（2） 调整正则化系数，观察对模型性能的影响。</p>
+<p>（1）训练集数量5000，测试集数量1000</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">w_pred: <span class="hljs-number">1.2003157138824463</span> b_pred:  <span class="hljs-number">0.5225465893745422</span><br>train error:  <span class="hljs-number">4.16726541519165</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">test error:  <span class="hljs-number">3.9572794437408447</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">test error large:  <span class="hljs-number">3.96787428855896</span><br></code></pre></td></tr></table></figure>
+
+<p>模型的错误率有所下降</p>
+<hr>
+<h3 id="√-2-3-多项式回归"><a href="#√-2-3-多项式回归" class="headerlink" title="[√] 2.3 - 多项式回归"></a>[√] 2.3 - 多项式回归</h3><p>多项式回归是回归任务的一种形式，其中自变量和因变量之间的关系是$M$次多项式的一种线性回归形式，即：<br>$$<br>f(\boldsymbol{x};\boldsymbol{w})&#x3D;w_1x+w_2x^2+…+w_Mx^M+b&#x3D;\boldsymbol{w}^T\phi(x)+b, （2.10）<br>$$<br>其中$M$为多项式的阶数，$\boldsymbol{w}&#x3D;[w_1,…,w_M]^T$为多项式的系数，$\phi(x)&#x3D;[x,x^2,\cdots,x^M]^T$为多项式基函数，将原始特征$x$映射为$M$维的向量。当$M&#x3D;0$时，$f(\boldsymbol{x};\boldsymbol{w})&#x3D;b$。</p>
+<p>公式（2.10）展示的是特征维度为1的多项式表达，当特征维度大于1时，存在不同特征之间交互的情况，这是线性回归无法实现。公式（2.11）展示的是当特征维度为2，多项式阶数为2时的多项式回归：</p>
+<p>$$<br>f(\boldsymbol{x};\boldsymbol{w})&#x3D;w_1x_1+w_2x_2+w_3x_1^2+w_4x_1x_2+w_5x_2^2+b, （2.11）<br>$$</p>
+<p>当自变量和因变量之间并不是线性关系时，我们可以定义非线性基函数对特征进行变换，从而可以使得线性回归算法实现非线性的曲线拟合。</p>
+<p>接下来我们基于特征维度为1的自变量介绍多项式回归实验。</p>
+<hr>
+<h4 id="√-2-3-1-数据集构建"><a href="#√-2-3-1-数据集构建" class="headerlink" title="[√] 2.3.1 - 数据集构建"></a>[√] 2.3.1 - 数据集构建</h4><p>假设我们要拟合的非线性函数为一个缩放后的sin函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> math<br><br><span class="hljs-comment"># sin函数: sin(2 * pi * x)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">sin</span>(<span class="hljs-params">x</span>):<br>    y = paddle.sin(<span class="hljs-number">2</span> * math.pi * x)<br>    <span class="hljs-keyword">return</span> y<br></code></pre></td></tr></table></figure>
+
+<p>这里仍然使用前面定义的<code>create_toy_data</code>函数来构建训练和测试数据，其中训练数样本 15 个，测试样本 10 个，高斯噪声标准差为 0.1，自变量范围为 (0,1)。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 生成数据</span><br>func = sin<br>interval = (<span class="hljs-number">0</span>,<span class="hljs-number">1</span>)<br>train_num = <span class="hljs-number">15</span><br>test_num = <span class="hljs-number">10</span><br>noise = <span class="hljs-number">0.1</span> <span class="hljs-comment">#0.5 </span><br>X_train, y_train = create_toy_data(func=func, interval=interval, sample_num=train_num, noise = noise)<br>X_test, y_test = create_toy_data(func=func, interval=interval, sample_num=test_num, noise = noise)<br><br>X_underlying = paddle.linspace(interval[<span class="hljs-number">0</span>],interval[<span class="hljs-number">1</span>],num=<span class="hljs-number">100</span>)<br>y_underlying = sin(X_underlying)<br><br><span class="hljs-comment"># 绘制图像</span><br>plt.rcParams[<span class="hljs-string">&#x27;figure.figsize&#x27;</span>] = (<span class="hljs-number">8.0</span>, <span class="hljs-number">6.0</span>)<br>plt.scatter(X_train, y_train, facecolor=<span class="hljs-string">&quot;none&quot;</span>, edgecolor=<span class="hljs-string">&#x27;#e4007f&#x27;</span>, s=<span class="hljs-number">50</span>, label=<span class="hljs-string">&quot;train data&quot;</span>)<br><span class="hljs-comment">#plt.scatter(X_test, y_test, facecolor=&quot;none&quot;, edgecolor=&quot;r&quot;, s=50, label=&quot;test data&quot;)</span><br>plt.plot(X_underlying, y_underlying, c=<span class="hljs-string">&#x27;#000000&#x27;</span>, label=<span class="hljs-string">r&quot;$\sin(2\pi x)$&quot;</span>)<br>plt.legend(fontsize=<span class="hljs-string">&#x27;x-large&#x27;</span>)<br>plt.savefig(<span class="hljs-string">&#x27;ml-vis2.pdf&#x27;</span>)<br>plt.show()<br></code></pre></td></tr></table></figure>
+
+<img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212165459211.png" srcset="/img/loading.gif" lazyload alt="image-20221212164136707" style="zoom:33%;" />
+
+
+
+
+
+<hr>
+<h4 id="√-2-3-2-模型构建"><a href="#√-2-3-2-模型构建" class="headerlink" title="[√] 2.3.2 - 模型构建"></a>[√] 2.3.2 - 模型构建</h4><p>通过多项式的定义可以看出，多项式回归和线性回归一样，同样学习参数$\boldsymbol{w}$，只不过需要对输入特征$\phi(x)$根据多项式阶数进行变换。因此，我们可以套用求解线性回归参数的方法来求解多项式回归参数。</p>
+<p>首先，我们实现<strong>多项式基函数</strong><code>polynomial_basis_function</code>对原始特征$x$进行转换。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 多项式转换</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">polynomial_basis_function</span>(<span class="hljs-params">x, degree = <span class="hljs-number">2</span></span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    输入：</span><br><span class="hljs-string">       - x: tensor, 输入的数据，shape=[N,1]</span><br><span class="hljs-string">       - degree: int, 多项式的阶数</span><br><span class="hljs-string">       example Input: [[2], [3], [4]], degree=2</span><br><span class="hljs-string">       example Output: [[2^1, 2^2], [3^1, 3^2], [4^1, 4^2]]</span><br><span class="hljs-string">       注意：本案例中,在degree&gt;=1时不生成全为1的一列数据；degree为0时生成形状与输入相同，全1的Tensor</span><br><span class="hljs-string">    输出：</span><br><span class="hljs-string">       - x_result： tensor</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <br>    <span class="hljs-keyword">if</span> degree==<span class="hljs-number">0</span>:<br>        <span class="hljs-keyword">return</span> paddle.ones(shape = x.shape,dtype=<span class="hljs-string">&#x27;float32&#x27;</span>) <br><br>    x_tmp = x<br>    x_result = x_tmp<br><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">2</span>, degree+<span class="hljs-number">1</span>):<br>        x_tmp = paddle.multiply(x_tmp,x) <span class="hljs-comment"># 逐元素相乘</span><br>        x_result = paddle.concat((x_result,x_tmp),axis=-<span class="hljs-number">1</span>)<br><br>    <span class="hljs-keyword">return</span> x_result<br><br><span class="hljs-comment"># 简单测试</span><br>data = [[<span class="hljs-number">2</span>], [<span class="hljs-number">3</span>], [<span class="hljs-number">4</span>]]<br>X = paddle.to_tensor(data = data,dtype=<span class="hljs-string">&#x27;float32&#x27;</span>)<br>degree = <span class="hljs-number">3</span><br>transformed_X = polynomial_basis_function(X,degree=degree)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;转换前：&quot;</span>,X)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;阶数为&quot;</span>,degree,<span class="hljs-string">&quot;转换后：&quot;</span>,transformed_X)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">转换前： Tensor(shape=[<span class="hljs-number">3</span>, <span class="hljs-number">1</span>], dtype=float32, place=CPUPlace, stop_gradient=<span class="hljs-literal">True</span>,<br>       [[<span class="hljs-number">2.</span>],<br>        [<span class="hljs-number">3.</span>],<br>        [<span class="hljs-number">4.</span>]])<br>阶数为 <span class="hljs-number">3</span> 转换后： Tensor(shape=[<span class="hljs-number">3</span>, <span class="hljs-number">3</span>], dtype=float32, place=CPUPlace, stop_gradient=<span class="hljs-literal">True</span>,<br>       [[<span class="hljs-number">2.</span> , <span class="hljs-number">4.</span> , <span class="hljs-number">8.</span> ],<br>        [<span class="hljs-number">3.</span> , <span class="hljs-number">9.</span> , <span class="hljs-number">27.</span>],<br>        [<span class="hljs-number">4.</span> , <span class="hljs-number">16.</span>, <span class="hljs-number">64.</span>]])<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="√-2-3-3-模型训练"><a href="#√-2-3-3-模型训练" class="headerlink" title="[√] 2.3.3 - 模型训练"></a>[√] 2.3.3 - 模型训练</h4><p>对于多项式回归，我们可以同样使用前面线性回归中定义的<code>LinearRegression</code>算子、训练函数<code>train</code>、均方误差函数<code>mean_squared_error</code>。拟合训练数据的目标是最小化损失函数，同线性回归一样，也可以通过矩阵运算直接求出$\boldsymbol{w}$的值。</p>
+<p>我们设定不同的多项式阶，$M$的取值分别为0、1、3、8，之前构造的训练集上进行训练，观察样本数据对$\sin$曲线的拟合结果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python">plt.rcParams[<span class="hljs-string">&#x27;figure.figsize&#x27;</span>] = (<span class="hljs-number">12.0</span>, <span class="hljs-number">8.0</span>)<br><br><span class="hljs-keyword">for</span> i, degree <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>([<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">8</span>]): <span class="hljs-comment"># []中为多项式的阶数</span><br>    model = Linear(degree)<br>    X_train_transformed = polynomial_basis_function(X_train.reshape([-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]), degree)<br>    X_underlying_transformed = polynomial_basis_function(X_underlying.reshape([-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]), degree)<br>    <br>    model = optimizer_lsm(model,X_train_transformed,y_train.reshape([-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>])) <span class="hljs-comment">#拟合得到参数</span><br><br>    y_underlying_pred = model(X_underlying_transformed).squeeze()<br><br>    <span class="hljs-built_in">print</span>(model.params)<br>    <br>    <span class="hljs-comment"># 绘制图像</span><br>    plt.subplot(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, i + <span class="hljs-number">1</span>)<br>    plt.scatter(X_train, y_train, facecolor=<span class="hljs-string">&quot;none&quot;</span>, edgecolor=<span class="hljs-string">&#x27;#e4007f&#x27;</span>, s=<span class="hljs-number">50</span>, label=<span class="hljs-string">&quot;train data&quot;</span>)<br>    plt.plot(X_underlying, y_underlying, c=<span class="hljs-string">&#x27;#000000&#x27;</span>, label=<span class="hljs-string">r&quot;$\sin(2\pi x)$&quot;</span>)<br>    plt.plot(X_underlying, y_underlying_pred, c=<span class="hljs-string">&#x27;#f19ec2&#x27;</span>, label=<span class="hljs-string">&quot;predicted function&quot;</span>)<br>    plt.ylim(-<span class="hljs-number">2</span>, <span class="hljs-number">1.5</span>)<br>    plt.annotate(<span class="hljs-string">&quot;M=&#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(degree), xy=(<span class="hljs-number">0.95</span>, -<span class="hljs-number">1.4</span>))<br><br><span class="hljs-comment">#plt.legend(bbox_to_anchor=(1.05, 0.64), loc=2, borderaxespad=0.)</span><br>plt.legend(loc=<span class="hljs-string">&#x27;lower left&#x27;</span>, fontsize=<span class="hljs-string">&#x27;x-large&#x27;</span>)<br>plt.savefig(<span class="hljs-string">&#x27;ml-vis3.pdf&#x27;</span>)<br>plt.show()<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python">&#123;<span class="hljs-string">&#x27;w&#x27;</span>: Tensor(shape=[<span class="hljs-number">1</span>], dtype=float32, place=CPUPlace, stop_gradient=<span class="hljs-literal">True</span>,<br>       [<span class="hljs-number">0.</span>]), <span class="hljs-string">&#x27;b&#x27;</span>: Tensor(shape=[<span class="hljs-number">1</span>], dtype=float32, place=CPUPlace, stop_gradient=<span class="hljs-literal">True</span>,<br>       [<span class="hljs-number">0.06668118</span>])&#125;<br>&#123;<span class="hljs-string">&#x27;w&#x27;</span>: Tensor(shape=[<span class="hljs-number">1</span>], dtype=float32, place=CPUPlace, stop_gradient=<span class="hljs-literal">True</span>,<br>       [-<span class="hljs-number">1.34165502</span>]), <span class="hljs-string">&#x27;b&#x27;</span>: Tensor(shape=[<span class="hljs-number">1</span>], dtype=float32, place=CPUPlace, stop_gradient=<span class="hljs-literal">True</span>,<br>       [<span class="hljs-number">0.74084926</span>])&#125;<br>&#123;<span class="hljs-string">&#x27;w&#x27;</span>: Tensor(shape=[<span class="hljs-number">3</span>], dtype=float32, place=CPUPlace, stop_gradient=<span class="hljs-literal">True</span>,<br>       [ <span class="hljs-number">11.50885582</span>, -<span class="hljs-number">33.70772171</span>,  <span class="hljs-number">22.45395279</span>]), <span class="hljs-string">&#x27;b&#x27;</span>: Tensor(shape=[<span class="hljs-number">1</span>], dtype=float32, place=CPUPlace, stop_gradient=<span class="hljs-literal">True</span>,<br>       [-<span class="hljs-number">0.17524421</span>])&#125;<br>&#123;<span class="hljs-string">&#x27;w&#x27;</span>: Tensor(shape=[<span class="hljs-number">8</span>], dtype=float32, place=CPUPlace, stop_gradient=<span class="hljs-literal">True</span>,<br>       [ <span class="hljs-number">6.39199781</span>  ,  <span class="hljs-number">38.72201538</span> , -<span class="hljs-number">377.10943604</span>,  <span class="hljs-number">912.26202393</span>,<br>        -<span class="hljs-number">1013.89459229</span>,  <span class="hljs-number">374.96646118</span>,  <span class="hljs-number">198.60220337</span>, -<span class="hljs-number">150.03273010</span>]), <span class="hljs-string">&#x27;b&#x27;</span>: Tensor(shape=[<span class="hljs-number">1</span>], dtype=float32, place=CPUPlace, stop_gradient=<span class="hljs-literal">True</span>,<br>       [<span class="hljs-number">3.29901624</span>])&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212165722946.png" srcset="/img/loading.gif" lazyload alt="image-20221212165145316"></p>
+<p>观察可视化结果，红色的曲线表示不同阶多项式分布拟合数据的结果：</p>
+<ul>
+<li>当 $M&#x3D;0$ 或 $M&#x3D;1$ 时，拟合曲线较简单，模型欠拟合；</li>
+<li>当 $M&#x3D;8$ 时，拟合曲线较复杂，模型过拟合；</li>
+<li>当 $M&#x3D;3$ 时，模型拟合最为合理。</li>
+</ul>
+<hr>
+<h4 id="√-2-3-4-模型评估"><a href="#√-2-3-4-模型评估" class="headerlink" title="[√] 2.3.4 - 模型评估"></a>[√] 2.3.4 - 模型评估</h4><p>下面通过均方误差来衡量训练误差、测试误差以及在没有噪音的加入下<code>sin</code>函数值与多项式回归值之间的误差，更加真实地反映拟合结果。多项式分布阶数从0到8进行遍历。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 训练误差和测试误差</span><br>training_errors = []<br>test_errors = []<br>distribution_errors = []<br><br><span class="hljs-comment"># 遍历多项式阶数</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">9</span>):<br>    model = Linear(i)<br><br>    X_train_transformed = polynomial_basis_function(X_train.reshape([-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]), i) <br>    X_test_transformed = polynomial_basis_function(X_test.reshape([-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]), i) <br>    X_underlying_transformed = polynomial_basis_function(X_underlying.reshape([-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]), i)<br>    <br>    optimizer_lsm(model,X_train_transformed,y_train.reshape([-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]))<br>    <br>    y_train_pred = model(X_train_transformed).squeeze()<br>    y_test_pred = model(X_test_transformed).squeeze()<br>    y_underlying_pred = model(X_underlying_transformed).squeeze()<br><br>    train_mse = mean_squared_error(y_true=y_train, y_pred=y_train_pred).item()<br>    training_errors.append(train_mse)<br><br>    test_mse = mean_squared_error(y_true=y_test, y_pred=y_test_pred).item()<br>    test_errors.append(test_mse)<br><br>    <span class="hljs-comment">#distribution_mse = mean_squared_error(y_true=y_underlying, y_pred=y_underlying_pred).item()</span><br>    <span class="hljs-comment">#distribution_errors.append(distribution_mse)</span><br><br><span class="hljs-built_in">print</span> (<span class="hljs-string">&quot;train errors: \n&quot;</span>,training_errors)<br><span class="hljs-built_in">print</span> (<span class="hljs-string">&quot;test errors: \n&quot;</span>,test_errors)<br><span class="hljs-comment">#print (&quot;distribution errors: \n&quot;, distribution_errors)</span><br><br><span class="hljs-comment"># 绘制图片</span><br>plt.rcParams[<span class="hljs-string">&#x27;figure.figsize&#x27;</span>] = (<span class="hljs-number">8.0</span>, <span class="hljs-number">6.0</span>)<br>plt.plot(training_errors, <span class="hljs-string">&#x27;-.&#x27;</span>, mfc=<span class="hljs-string">&quot;none&quot;</span>, mec=<span class="hljs-string">&#x27;#e4007f&#x27;</span>, ms=<span class="hljs-number">10</span>, c=<span class="hljs-string">&#x27;#e4007f&#x27;</span>, label=<span class="hljs-string">&quot;Training&quot;</span>)<br>plt.plot(test_errors, <span class="hljs-string">&#x27;--&#x27;</span>, mfc=<span class="hljs-string">&quot;none&quot;</span>, mec=<span class="hljs-string">&#x27;#f19ec2&#x27;</span>, ms=<span class="hljs-number">10</span>, c=<span class="hljs-string">&#x27;#f19ec2&#x27;</span>, label=<span class="hljs-string">&quot;Test&quot;</span>)<br><span class="hljs-comment">#plt.plot(distribution_errors, &#x27;-&#x27;, mfc=&quot;none&quot;, mec=&quot;#3D3D3F&quot;, ms=10, c=&quot;#3D3D3F&quot;, label=&quot;Distribution&quot;)</span><br>plt.legend(fontsize=<span class="hljs-string">&#x27;x-large&#x27;</span>)<br>plt.xlabel(<span class="hljs-string">&quot;degree&quot;</span>)<br>plt.ylabel(<span class="hljs-string">&quot;MSE&quot;</span>)<br>plt.savefig(<span class="hljs-string">&#x27;ml-mse-error.pdf&#x27;</span>)<br>plt.show()<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">train errors: <br> [<span class="hljs-number">0.4672910273075104</span>, <span class="hljs-number">0.2713072597980499</span>, <span class="hljs-number">0.25924286246299744</span>, <span class="hljs-number">0.007656396366655827</span>, <span class="hljs-number">0.007648141589015722</span>, <span class="hljs-number">0.004982923157513142</span>, <span class="hljs-number">0.055855292826890945</span>, <span class="hljs-number">0.01697038859128952</span>, <span class="hljs-number">13.178251266479492</span>]<br>test errors: <br> [<span class="hljs-number">0.48431509733200073</span>, <span class="hljs-number">0.20496585965156555</span>, <span class="hljs-number">0.22155332565307617</span>, <span class="hljs-number">0.02112610451877117</span>, <span class="hljs-number">0.021505268290638924</span>, <span class="hljs-number">0.009555519558489323</span>, <span class="hljs-number">0.07138563692569733</span>, <span class="hljs-number">0.014405457302927971</span>, <span class="hljs-number">8.89521312713623</span>]<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221211213007230.png" srcset="/img/loading.gif" lazyload alt="image-20221212165459211"></p>
+<p>观察可视化结果：</p>
+<ul>
+<li>当阶数较低的时候，模型的表示能力有限，训练误差和测试误差都很高，代表模型欠拟合；</li>
+<li>当阶数较高的时候，模型表示能力强，但将训练数据中的噪声也作为特征进行学习，一般情况下训练误差继续降低而测试误差显著升高，代表模型过拟合。</li>
+</ul>
+<blockquote>
+<p>此处多项式阶数大于等于5时，训练误差并没有下降，尤其是在多项式阶数为7时，训练误差变得非常大，请思考原因？提示：请从幂函数特性角度思考。</p>
+</blockquote>
+<p>对于模型过拟合的情况，可以引入正则化方法，通过向误差函数中添加一个<strong>惩罚项</strong>来避免系数倾向于较大的取值。下面加入$\mathcal{l_{2}}$正则化项，查看拟合结果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs python">degree = <span class="hljs-number">8</span> <span class="hljs-comment"># 多项式阶数</span><br>reg_lambda = <span class="hljs-number">0.0001</span> <span class="hljs-comment"># 正则化系数</span><br><br>X_train_transformed = polynomial_basis_function(X_train.reshape([-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]), degree)<br>X_test_transformed = polynomial_basis_function(X_test.reshape([-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]), degree)<br>X_underlying_transformed = polynomial_basis_function(X_underlying.reshape([-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]), degree)<br><br>model = Linear(degree) <br><br>optimizer_lsm(model,X_train_transformed,y_train.reshape([-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]))<br><br>y_test_pred=model(X_test_transformed).squeeze()<br>y_underlying_pred=model(X_underlying_transformed).squeeze()<br><br>model_reg = Linear(degree) <br><br>optimizer_lsm(model_reg,X_train_transformed,y_train.reshape([-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>]),reg_lambda=reg_lambda)<br><br>y_test_pred_reg=model_reg(X_test_transformed).squeeze()<br>y_underlying_pred_reg=model_reg(X_underlying_transformed).squeeze()<br><br>mse = mean_squared_error(y_true = y_test, y_pred = y_test_pred).item()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;mse:&quot;</span>,mse)<br>mes_reg = mean_squared_error(y_true = y_test, y_pred = y_test_pred_reg).item()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;mse_with_l2_reg:&quot;</span>,mes_reg)<br><br><span class="hljs-comment"># 绘制图像</span><br>plt.scatter(X_train, y_train, facecolor=<span class="hljs-string">&quot;none&quot;</span>, edgecolor=<span class="hljs-string">&quot;#e4007f&quot;</span>, s=<span class="hljs-number">50</span>, label=<span class="hljs-string">&quot;train data&quot;</span>)<br>plt.plot(X_underlying, y_underlying, c=<span class="hljs-string">&#x27;#000000&#x27;</span>, label=<span class="hljs-string">r&quot;$\sin(2\pi x)$&quot;</span>)<br>plt.plot(X_underlying, y_underlying_pred, c=<span class="hljs-string">&#x27;#e4007f&#x27;</span>, linestyle=<span class="hljs-string">&quot;--&quot;</span>, label=<span class="hljs-string">&quot;$deg. = 8$&quot;</span>)<br>plt.plot(X_underlying, y_underlying_pred_reg, c=<span class="hljs-string">&#x27;#f19ec2&#x27;</span>, linestyle=<span class="hljs-string">&quot;-.&quot;</span>, label=<span class="hljs-string">&quot;$deg. = 8, \ell_2 reg$&quot;</span>)<br>plt.ylim(-<span class="hljs-number">1.5</span>, <span class="hljs-number">1.5</span>)<br>plt.annotate(<span class="hljs-string">&quot;lambda=&#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(reg_lambda), xy=(<span class="hljs-number">0.82</span>, -<span class="hljs-number">1.4</span>))<br>plt.legend(fontsize=<span class="hljs-string">&#x27;large&#x27;</span>)<br>plt.savefig(<span class="hljs-string">&#x27;ml-vis4.pdf&#x27;</span>)<br>plt.show()<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">mse: <span class="hljs-number">8.89521312713623</span><br>mse_with_l2_reg: <span class="hljs-number">0.009005023166537285</span><br></code></pre></td></tr></table></figure>
+
+<img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212173347233.png" srcset="/img/loading.gif" lazyload alt="image-20221212165722946" style="zoom: 50%;" />
+
+<p>观察可视化结果，其中黄色曲线为加入$\mathcal{l_{2}}$正则后多项式分布拟合结果，红色曲线为未加入$\mathcal{l_{2}}$正则的拟合结果，黄色曲线的拟合效果明显好于红色曲线。</p>
+<hr>
+<h3 id="√-2-4-Runner类介绍"><a href="#√-2-4-Runner类介绍" class="headerlink" title="[√] 2.4 - Runner类介绍"></a>[√] 2.4 - Runner类介绍</h3><p>通过上面的实践，我们可以看到，在一个任务上应用机器学习方法的流程基本上包括：数据集构建、模型构建、损失函数定义、优化器、模型训练、模型评价、模型预测等环节。</p>
+<p>为了更方便地将上述环节规范化，我们将机器学习模型的基本要素封装成一个<strong>Runner</strong>类。除上述提到的要素外，再加上模型保存、模型加载等功能。</p>
+<p><strong>Runner</strong>类的成员函数定义如下：</p>
+<ul>
+<li>__init__函数：实例化<strong>Runner</strong>类时默认调用，需要传入模型、损失函数、优化器和评价指标等；</li>
+<li>train函数：完成模型训练，指定模型训练需要的训练集和验证集；</li>
+<li>evaluate函数：通过对训练好的模型进行评价，在验证集或测试集上查看模型训练效果；</li>
+<li>predict函数：选取一条数据对训练好的模型进行预测；</li>
+<li>save_model函数：模型在训练过程和训练结束后需要进行保存；</li>
+<li>load_model函数：调用加载之前保存的模型。</li>
+</ul>
+<p><code>Runner</code>类的框架定义如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Runner</span>(<span class="hljs-title class_ inherited__">object</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, model, optimizer, loss_fn, metric</span>):<br>        self.model = model         <span class="hljs-comment"># 模型</span><br>        self.optimizer = optimizer <span class="hljs-comment"># 优化器</span><br>        self.loss_fn = loss_fn     <span class="hljs-comment"># 损失函数   </span><br>        self.metric = metric       <span class="hljs-comment"># 评估指标</span><br><br>    <span class="hljs-comment"># 模型训练</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">train</span>(<span class="hljs-params">self, train_dataset, dev_dataset=<span class="hljs-literal">None</span>, **kwargs</span>):<br>        <span class="hljs-keyword">pass</span><br><br>    <span class="hljs-comment"># 模型评价</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">evaluate</span>(<span class="hljs-params">self, data_set, **kwargs</span>):<br>        <span class="hljs-keyword">pass</span><br><br>    <span class="hljs-comment"># 模型预测</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">predict</span>(<span class="hljs-params">self, x, **kwargs</span>):<br>        <span class="hljs-keyword">pass</span><br><br>    <span class="hljs-comment"># 模型保存</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">save_model</span>(<span class="hljs-params">self, save_path</span>):<br>        <span class="hljs-keyword">pass</span><br><br>    <span class="hljs-comment"># 模型加载</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">load_model</span>(<span class="hljs-params">self, model_path</span>):<br>        <span class="hljs-keyword">pass</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>Runner</strong>类的流程如<strong>图2.8</strong>所示，可以分为 4 个阶段：</p>
+<ol>
+<li>初始化阶段：传入模型、损失函数、优化器和评价指标。</li>
+<li>模型训练阶段：基于训练集调用<code>train()</code>函数训练模型，基于验证集通过<code>evaluate()</code>函数验证模型。通过<code>save_model()</code>函数保存模型。</li>
+<li>模型评价阶段：基于测试集通过<code>evaluate()</code>函数得到指标性能。</li>
+<li>模型预测阶段：给定样本，通过<code>predict()</code>函数得到该样本标签。</li>
+</ol>
+<center><img src="https://ai-studio-static-online.cdn.bcebos.com/fdb656daadb349a78560fa464b0de5fa5d63423fc2234adfac48e6ff020a6d60" srcset="/img/loading.gif" lazyload width=700 ></img></center>
+
+<center>图2.8 Runner类</center>
+
+
+
+<hr>
+<h3 id="√-2-5-基于线性回归的波士顿房价预测"><a href="#√-2-5-基于线性回归的波士顿房价预测" class="headerlink" title="[√] 2.5 - 基于线性回归的波士顿房价预测"></a>[√] 2.5 - 基于线性回归的波士顿房价预测</h3><p>在本节中，我们使用线性回归来对马萨诸塞州波士顿郊区的房屋进行预测。实验流程主要包含如下5个步骤：</p>
+<ul>
+<li>数据处理：包括数据清洗（缺失值和异常值处理）、数据集划分，以便数据可以被模型正常读取，并具有良好的泛化性;</li>
+<li>模型构建：定义线性回归模型类；</li>
+<li>训练配置:训练相关的一些配置，如：优化算法、评价指标等；</li>
+<li>组装训练框架Runner:<code>Runner</code>用于管理模型训练和测试过程；</li>
+<li>模型训练和测试:利用<code>Runner</code>进行模型训练和测试。</li>
+</ul>
+<hr>
+<h4 id="√-2-5-1-数据处理"><a href="#√-2-5-1-数据处理" class="headerlink" title="[√] 2.5.1 - 数据处理"></a>[√] 2.5.1 - 数据处理</h4><h5 id="√-2-5-1-1-数据集介绍"><a href="#√-2-5-1-1-数据集介绍" class="headerlink" title="[√] 2.5.1.1 - 数据集介绍"></a>[√] 2.5.1.1 - 数据集介绍</h5><p>本实验使用波士顿房价预测数据集，共506条样本数据，每条样本包含了12种可能影响房价的因素和该类房屋价格的中位数，各字段含义如<strong>表2.1</strong>所示：</p>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212173220360.png" srcset="/img/loading.gif" lazyload alt="image-20221212173220360"></p>
+<p>预览前5条数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd <span class="hljs-comment"># 开源数据分析和操作工具</span><br><br><span class="hljs-comment"># 利用pandas加载波士顿房价的数据集</span><br>data=pd.read_csv(<span class="hljs-string">&quot;/home/aistudio/work/boston_house_prices.csv&quot;</span>)<br><span class="hljs-comment"># 预览前5行数据</span><br>data.head()<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212173523825.png" srcset="/img/loading.gif" lazyload alt="image-20221212173347233"></p>
+<hr>
+<h5 id="√-2-5-1-2-数据清洗"><a href="#√-2-5-1-2-数据清洗" class="headerlink" title="[√] 2.5.1.2 - 数据清洗"></a>[√] 2.5.1.2 - 数据清洗</h5><p>对数据集中的缺失值或异常值等情况进行分析和处理，保证数据可以被模型正常读取。</p>
+<ul>
+<li><strong>缺失值分析</strong></li>
+</ul>
+<p>通过<code>isna()</code>方法判断数据中各元素是否缺失，然后通过<code>sum()</code>方法统计每个字段缺失情况，代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 查看各字段缺失值统计情况</span><br>data.isna().<span class="hljs-built_in">sum</span>()<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212165145316.png" srcset="/img/loading.gif" lazyload alt="image-20221212173523825"></p>
+<p>可以看出不存在缺失数据的情况</p>
+<ul>
+<li><strong>异常值处理</strong></li>
+</ul>
+<p>通过箱线图直观的显示数据分布，并观测数据中的异常值。箱线图一般由五个统计值组成：最大值、上四分位、中位数、下四分位和最小值。一般来说，观测到的数据大于最大估计值或者小于最小估计值则判断为异常值，其中<br>$$<br>最大估计值 &#x3D; 上四分位 + 1.5 * (上四分位 - 下四分位)\<br>最小估计值&#x3D;下四分位 - 1.5 * (上四分位 - 下四分位)<br>$$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt <span class="hljs-comment"># 可视化工具</span><br><br><span class="hljs-comment"># 箱线图查看异常值分布</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">boxplot</span>(<span class="hljs-params">data, fig_name</span>):<br>    <span class="hljs-comment"># 绘制每个属性的箱线图</span><br>    data_col = <span class="hljs-built_in">list</span>(data.columns)<br>    <br>    <span class="hljs-comment"># 连续画几个图片</span><br>    plt.figure(figsize=(<span class="hljs-number">5</span>, <span class="hljs-number">5</span>), dpi=<span class="hljs-number">300</span>)<br>    <span class="hljs-comment"># 子图调整</span><br>    plt.subplots_adjust(wspace=<span class="hljs-number">0.6</span>)<br>    <span class="hljs-comment"># 每个特征画一个箱线图</span><br>    <span class="hljs-keyword">for</span> i, col_name <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(data_col):<br>        plt.subplot(<span class="hljs-number">3</span>, <span class="hljs-number">5</span>, i+<span class="hljs-number">1</span>)<br>        <span class="hljs-comment"># 画箱线图</span><br>        plt.boxplot(data[col_name], <br>                    showmeans=<span class="hljs-literal">True</span>, <br>                    meanprops=&#123;<span class="hljs-string">&quot;markersize&quot;</span>:<span class="hljs-number">1</span>,<span class="hljs-string">&quot;marker&quot;</span>:<span class="hljs-string">&quot;D&quot;</span>,<span class="hljs-string">&quot;markeredgecolor&quot;</span>:<span class="hljs-string">&quot;#C54680&quot;</span>&#125;, <span class="hljs-comment"># 均值的属性</span><br>                    medianprops=&#123;<span class="hljs-string">&quot;color&quot;</span>:<span class="hljs-string">&quot;#946279&quot;</span>&#125;, <span class="hljs-comment"># 中位数线的属性</span><br>                    whiskerprops=&#123;<span class="hljs-string">&quot;color&quot;</span>:<span class="hljs-string">&quot;#8E004D&quot;</span>, <span class="hljs-string">&quot;linewidth&quot;</span>:<span class="hljs-number">0.4</span>, <span class="hljs-string">&#x27;linestyle&#x27;</span>:<span class="hljs-string">&quot;--&quot;</span>&#125;,<br>                    flierprops=&#123;<span class="hljs-string">&quot;markersize&quot;</span>:<span class="hljs-number">0.4</span>&#125;,<br>                    ) <br>        <span class="hljs-comment"># 图名</span><br>        plt.title(col_name, fontdict=&#123;<span class="hljs-string">&quot;size&quot;</span>:<span class="hljs-number">5</span>&#125;, pad=<span class="hljs-number">2</span>)<br>        <span class="hljs-comment"># y方向刻度</span><br>        plt.yticks(fontsize=<span class="hljs-number">4</span>, rotation=<span class="hljs-number">90</span>)<br>        plt.tick_params(pad=<span class="hljs-number">0.5</span>)<br>        <span class="hljs-comment"># x方向刻度</span><br>        plt.xticks([])<br>    plt.savefig(fig_name)<br>    plt.show()<br><br>boxplot(data, <span class="hljs-string">&#x27;ml-vis5.pdf&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>箱线图的具体含义：</p>
+<p><img src="https://raw.githubusercontent.com/alec-97/alec-s-images-cloud/master/img2/image-20221212173925680.png" srcset="/img/loading.gif" lazyload alt="image-20221212173925680"></p>
+<p>从输出结果看，数据中存在较多的异常值（图中上下边缘以外的空心小圆圈）。</p>
+<p>使用四分位值筛选出箱线图中分布的异常值，并将这些数据视为噪声，其将被临界值取代，代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 四分位处理异常值</span><br>num_features=data.select_dtypes(exclude=[<span class="hljs-string">&#x27;object&#x27;</span>,<span class="hljs-string">&#x27;bool&#x27;</span>]).columns.tolist()<br><br><span class="hljs-keyword">for</span> feature <span class="hljs-keyword">in</span> num_features:<br>    <span class="hljs-keyword">if</span> feature ==<span class="hljs-string">&#x27;CHAS&#x27;</span>:<br>        <span class="hljs-keyword">continue</span><br>    <br>    Q1  = data[feature].quantile(q=<span class="hljs-number">0.25</span>) <span class="hljs-comment"># 下四分位</span><br>    Q3  = data[feature].quantile(q=<span class="hljs-number">0.75</span>) <span class="hljs-comment"># 上四分位</span><br>    <br>    IQR = Q3-Q1 <br>    top = Q3+<span class="hljs-number">1.5</span>*IQR <span class="hljs-comment"># 最大估计值</span><br>    bot = Q1-<span class="hljs-number">1.5</span>*IQR <span class="hljs-comment"># 最小估计值</span><br>    values=data[feature].values<br>    values[values &gt; top] = top <span class="hljs-comment"># 临界值取代噪声</span><br>    values[values &lt; bot] = bot <span class="hljs-comment"># 临界值取代噪声</span><br>    data[feature] = values.astype(data[feature].dtypes)<br><br><span class="hljs-comment"># 再次查看箱线图，异常值已被临界值替换（数据量较多或本身异常值较少时，箱线图展示会不容易体现出来）</span><br>boxplot(data, <span class="hljs-string">&#x27;ml-vis6.pdf&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>从输出结果看，经过异常值处理后，箱线图中异常值得到了改善。</p>
+<hr>
+<h5 id="√-2-5-1-3-数据集划分"><a href="#√-2-5-1-3-数据集划分" class="headerlink" title="[√] 2.5.1.3 - 数据集划分"></a>[√] 2.5.1.3 - 数据集划分</h5><p>由于本实验比较简单，将数据集划分为两份：训练集和测试集，不包括验证集。</p>
+<p>具体代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> paddle<br><br>paddle.seed(<span class="hljs-number">10</span>)<br><br><span class="hljs-comment"># 划分训练集和测试集</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">train_test_split</span>(<span class="hljs-params">X, y, train_percent=<span class="hljs-number">0.8</span></span>):<br>    n = <span class="hljs-built_in">len</span>(X)<br>    shuffled_indices = paddle.randperm(n) <span class="hljs-comment"># 返回一个数值在0到n-1、随机排列的1-D Tensor</span><br>    train_set_size = <span class="hljs-built_in">int</span>(n*train_percent)<br>    train_indices = shuffled_indices[:train_set_size]<br>    test_indices = shuffled_indices[train_set_size:]<br><br>    X = X.values<br>    y = y.values<br><br>    X_train=X[train_indices]<br>    y_train = y[train_indices]<br>    <br>    X_test = X[test_indices]<br>    y_test = y[test_indices]<br><br>    <span class="hljs-keyword">return</span> X_train, X_test, y_train, y_test <br><br><br>X = data.drop([<span class="hljs-string">&#x27;MEDV&#x27;</span>], axis=<span class="hljs-number">1</span>)<br>y = data[<span class="hljs-string">&#x27;MEDV&#x27;</span>]<br><br>X_train, X_test, y_train, y_test = train_test_split(X,y)<span class="hljs-comment"># X_train每一行是个样本，shape[N,D]</span><br><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h5 id="√-2-5-1-4-特征工程"><a href="#√-2-5-1-4-特征工程" class="headerlink" title="[√] 2.5.1.4 - 特征工程"></a>[√] 2.5.1.4 - 特征工程</h5><p>为了消除纲量对数据特征之间影响，在模型训练前，需要对特征数据进行归一化处理，将数据缩放到[0, 1]区间内，使得不同特征之间具有可比性。</p>
+<p>代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> paddle<br><br>X_train = paddle.to_tensor(X_train,dtype=<span class="hljs-string">&#x27;float32&#x27;</span>)<br>X_test = paddle.to_tensor(X_test,dtype=<span class="hljs-string">&#x27;float32&#x27;</span>)<br>y_train = paddle.to_tensor(y_train,dtype=<span class="hljs-string">&#x27;float32&#x27;</span>)<br>y_test = paddle.to_tensor(y_test,dtype=<span class="hljs-string">&#x27;float32&#x27;</span>)<br><br>X_min = paddle.<span class="hljs-built_in">min</span>(X_train,axis=<span class="hljs-number">0</span>)<br>X_max = paddle.<span class="hljs-built_in">max</span>(X_train,axis=<span class="hljs-number">0</span>)<br><br>X_train = (X_train-X_min)/(X_max-X_min)<br><br>X_test  = (X_test-X_min)/(X_max-X_min)<br><br><span class="hljs-comment"># 训练集构造</span><br>train_dataset=(X_train,y_train)<br><span class="hljs-comment"># 测试集构造</span><br>test_dataset=(X_test,y_test)<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<hr>
+<h4 id="√-2-5-2-模型构建"><a href="#√-2-5-2-模型构建" class="headerlink" title="[√] 2.5.2 - 模型构建"></a>[√] 2.5.2 - 模型构建</h4><p>实例化一个线性回归模型，特征维度为 12:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> nndl.op <span class="hljs-keyword">import</span> Linear<br><br><span class="hljs-comment"># 模型实例化</span><br>input_size = <span class="hljs-number">12</span><br>model=Linear(input_size)<br></code></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h4 id="√-2-5-3-完善Runner类"><a href="#√-2-5-3-完善Runner类" class="headerlink" title="[√] 2.5.3 - 完善Runner类"></a>[√] 2.5.3 - 完善Runner类</h4><p>模型定义好后，围绕模型需要配置损失函数、优化器、评估、测试等信息，以及模型相关的一些其他信息（如模型存储路径等）。</p>
+<p>在本章中使用的<strong>Runner</strong>类为V1版本。其中训练过程通过直接求解解析解的方式得到模型参数，没有模型优化及计算损失函数过程，模型训练结束后保存模型参数。</p>
+<p>训练配置中定义:</p>
+<ul>
+<li>训练环境，如GPU还是CPU，本案例不涉及；</li>
+<li>优化器，本案例不涉及；</li>
+<li>损失函数，本案例通过平方损失函数得到模型参数的解析解；</li>
+<li>评估指标，本案例利用MSE评估模型效果。</li>
+</ul>
+<p>在测试集上使用MSE对模型性能进行评估。本案例利用飞桨框架提供的<a target="_blank" rel="noopener" href="https://www.paddlepaddle.org.cn/documentation/docs/zh/api/paddle/nn/MSELoss_cn.html">MSELoss API</a>实现。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> paddle.nn <span class="hljs-keyword">as</span> nn<br>mse_loss = nn.MSELoss()<br></code></pre></td></tr></table></figure>
+
+<p>具体实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> paddle<br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">from</span> nndl.opitimizer <span class="hljs-keyword">import</span> optimizer_lsm<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Runner</span>(<span class="hljs-title class_ inherited__">object</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, model, optimizer, loss_fn, metric</span>):<br>        <span class="hljs-comment"># 优化器和损失函数为None,不再关注</span><br><br>        <span class="hljs-comment"># 模型</span><br>        self.model=model<br>        <span class="hljs-comment"># 评估指标</span><br>        self.metric = metric<br>        <span class="hljs-comment"># 优化器</span><br>        self.optimizer = optimizer<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">train</span>(<span class="hljs-params">self,dataset,reg_lambda,model_dir</span>):<br>        X,y = dataset<br>        self.optimizer(self.model,X,y,reg_lambda)<br><br>        <span class="hljs-comment"># 保存模型</span><br>        self.save_model(model_dir)<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">evaluate</span>(<span class="hljs-params">self, dataset, **kwargs</span>):<br>        X,y = dataset<br><br>        y_pred = self.model(X)<br>        result = self.metric(y_pred, y)<br><br>        <span class="hljs-keyword">return</span> result<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">predict</span>(<span class="hljs-params">self, X, **kwargs</span>):<br>        <span class="hljs-keyword">return</span> self.model(X)<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">save_model</span>(<span class="hljs-params">self, model_dir</span>):<br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.exists(model_dir):<br>            os.makedirs(model_dir)<br>        <br>        params_saved_path = os.path.join(model_dir,<span class="hljs-string">&#x27;params.pdtensor&#x27;</span>)<br>        paddle.save(model.params,params_saved_path)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">load_model</span>(<span class="hljs-params">self, model_dir</span>):<br>        params_saved_path = os.path.join(model_dir,<span class="hljs-string">&#x27;params.pdtensor&#x27;</span>)<br>        self.model.params=paddle.load(params_saved_path)<br><br>optimizer = optimizer_lsm<br><br><span class="hljs-comment"># 实例化Runner</span><br>runner = Runner(model, optimizer=optimizer,loss_fn=<span class="hljs-literal">None</span>, metric=mse_loss)<br></code></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h4 id="√-2-5-4-模型训练"><a href="#√-2-5-4-模型训练" class="headerlink" title="[√] 2.5.4 - 模型训练"></a>[√] 2.5.4 - 模型训练</h4><p>在组装完成<code>Runner</code>之后，我们将开始进行模型训练、评估和测试。首先，我们先实例化<code>Runner</code>，然后开始进行装配训练环境，接下来就可以开始训练了，相关代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 模型保存文件夹</span><br>saved_dir = <span class="hljs-string">&#x27;/home/aistudio/work/models&#x27;</span><br><br><span class="hljs-comment"># 启动训练</span><br>runner.train(train_dataset,reg_lambda=<span class="hljs-number">0</span>,model_dir=saved_dir)<br></code></pre></td></tr></table></figure>
+
+<p>打印出训练得到的权重：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">columns_list = data.columns.to_list()<br>weights = runner.model.params[<span class="hljs-string">&#x27;w&#x27;</span>].tolist()<br>b = runner.model.params[<span class="hljs-string">&#x27;b&#x27;</span>].item()<br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(weights)):<br>    <span class="hljs-built_in">print</span>(columns_list[i],<span class="hljs-string">&quot;weight:&quot;</span>,weights[i])<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;b:&quot;</span>,b)<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python">CRIM weight: -<span class="hljs-number">6.7268967628479</span><br>ZN weight: <span class="hljs-number">1.28081214427948</span><br>INDUS weight: -<span class="hljs-number">0.4696650803089142</span><br>CHAS weight: <span class="hljs-number">2.235346794128418</span><br>NOX weight: -<span class="hljs-number">7.0105814933776855</span><br>RM weight: <span class="hljs-number">9.76220417022705</span><br>AGE weight: -<span class="hljs-number">0.8556219339370728</span><br>DIS weight: -<span class="hljs-number">9.265738487243652</span><br>RAD weight: <span class="hljs-number">7.973038673400879</span><br>TAX weight: -<span class="hljs-number">4.365403175354004</span><br>PTRATIO weight: -<span class="hljs-number">7.105883598327637</span><br>LSTAT weight: -<span class="hljs-number">13.165120124816895</span><br>b: <span class="hljs-number">32.1007522583008</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="√-2-5-5-模型测试"><a href="#√-2-5-5-模型测试" class="headerlink" title="[√] 2.5.5 - 模型测试"></a>[√] 2.5.5 - 模型测试</h4><p>加载训练好的模型参数，在测试集上得到模型的MSE指标。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 加载模型权重</span><br>runner.load_model(saved_dir)<br><br>mse = runner.evaluate(test_dataset)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;MSE:&#x27;</span>, mse.item())<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">MSE</span>: <span class="hljs-number">12</span>.<span class="hljs-number">345974922180176</span><br></code></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h4 id="√-2-5-6-模型预测"><a href="#√-2-5-6-模型预测" class="headerlink" title="[√] 2.5.6 - 模型预测"></a>[√] 2.5.6 - 模型预测</h4><p>使用<code>Runner</code>中<code>load_model</code>函数加载保存好的模型，使用<code>predict</code>进行模型预测，代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">runner.load_model(saved_dir)<br>pred = runner.predict(X_test[:<span class="hljs-number">1</span>])<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;真实房价：&quot;</span>,y_test[:<span class="hljs-number">1</span>].item())<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;预测的房价：&quot;</span>,pred.item())<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs">真实房价： 33.099998474121094<br>预测的房价： 33.04654312133789<br></code></pre></td></tr></table></figure>
+
+<hr>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AE%9E%E8%B7%B5%E5%AD%A6%E4%B9%A0/" class="category-chain-item">实践学习</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AE%9E%E8%B7%B5%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%EF%BC%9A%E6%A1%88%E4%BE%8B%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E9%A3%9E%E6%A1%A8-%E9%82%B1%E9%94%A1%E9%B9%8F/" class="category-chain-item">神经网络与深度学习：案例与实践 - 飞桨 - 邱锡鹏</a>
+  
+  
+
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>第2章 - 机器学习概述</div>
+      <div>http://example.com/posts/2499540575/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年12月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/2701885837/" title="6 - 循环神经网络">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">6 - 循环神经网络</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/3952900717/" title="第5章 - 卷积神经网络实践：ResNet18图像分类">
+                        <span class="hidden-mobile">第5章 - 卷积神经网络实践：ResNet18图像分类</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

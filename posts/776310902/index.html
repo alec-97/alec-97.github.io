@@ -1,0 +1,994 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="原文链接： 底层任务超详细解读 (六)：无成对训练数据的真实世界场景超分解决方案：CinCGAN - 知乎 - 底层任务日积月累 - 清华大学自动化系硕士在读 - 科技猛兽 发布于 2022-09-29 16:33 ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。   整理    alec：  【CinC-GAN1】">
+<meta property="og:type" content="article">
+<meta property="og:title" content="067 - 文章阅读：底层任务超详细解读 (六)：无成对训练数据的真实世界场景超分解决方案：CinCGAN - 知乎 - 底层任务日积月累 - 清华大学自动化系硕士在读 - 科技猛兽">
+<meta property="og:url" content="http://example.com/posts/776310902/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="原文链接： 底层任务超详细解读 (六)：无成对训练数据的真实世界场景超分解决方案：CinCGAN - 知乎 - 底层任务日积月累 - 清华大学自动化系硕士在读 - 科技猛兽 发布于 2022-09-29 16:33 ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。   整理    alec：  【CinC-GAN1】">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132245361.jpg">
+<meta property="article:published_time" content="2023-02-13T06:53:34.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.449Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="盲超分">
+<meta property="article:tag" content="超分辨率重建">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132245361.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>067 - 文章阅读：底层任务超详细解读 (六)：无成对训练数据的真实世界场景超分解决方案：CinCGAN - 知乎 - 底层任务日积月累 - 清华大学自动化系硕士在读 - 科技猛兽 - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">067 - 文章阅读：底层任务超详细解读 (六)：无成对训练数据的真实世界场景超分解决方案：CinCGAN - 知乎 - 底层任务日积月累 - 清华大学自动化系硕士在读 - 科技猛兽</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-02-13 14:53" pubdate>
+          2023年2月13日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          49 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">067 - 文章阅读：底层任务超详细解读 (六)：无成对训练数据的真实世界场景超分解决方案：CinCGAN - 知乎 - 底层任务日积月累 - 清华大学自动化系硕士在读 - 科技猛兽</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>原文链接：</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/471483181">底层任务超详细解读 (六)：无成对训练数据的真实世界场景超分解决方案：CinCGAN - 知乎 - 底层任务日积月累 - 清华大学自动化系硕士在读 - 科技猛兽</a></p>
+<p>发布于 2022-09-29 16:33</p>
+<p>ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。</p>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> 整理</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>alec：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249346.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>【CinC-GAN1】</p>
+<p>这个第一个CycleGAN的目的是生成不含噪声的LR图像，然后再通过第二个CycleGAN进行超分。</p>
+<p>（和Degradation的不同之处在于，后者是生成大量含有真实噪声的图像，从而让超分模型能够拟合降噪真实噪声的能力。而这里则是将LR图像去掉真实噪声，然后再超分。后者是希望SR模型能够降噪，而这里的CycleGAN则是希望G1先降噪，然后再超分。）</p>
+<p>【CinC-GAN2】</p>
+<p>（1）GAN loss：</p>
+<p>用来判别得到的HR图像是否是真实的还是伪造的</p>
+<p>（2）Cycle Consistency Loss：</p>
+<p>CycleGAN 的 <strong>Cycle Consistency Loss</strong> 保证不成对数据也能有效训练：即LR变成SR，然后再变成LR’，这样LR’和LR做监督，进行训练。</p>
+<p>（3）Identity Loss：</p>
+<p>这个损失用来训练SR模型，训练方式是将干净的HR图像z，通过双三次插值得到z’，然后用配对的Z和Z’来进行预定义的配对的训练。用来使得SR模型具有合理的SR能力。</p>
+<p>（4）Total Variation (TV) Loss：</p>
+<p>对超分得到的HR进行计算，帮助增加空间平滑度。</p>
+<p>真实世界场景由于下采样和退化函数复杂且相互耦合，因此很难像传统的盲超分那样进行精确估计。而且真实世界场景 HR 图片是未知的，没有 HR 图片作为训练集。我们就没法构造真实世界的 HR-LR 数据对进行有监督训练。利用循环一致性的特性，作者提出了一种 Cycle-in-Cycle GAN (CinCGAN) 来解决无成对训练数据的真实世界场景超分问题。整个方法包含两套 CycleGAN，第一套把输入的带有未知且复杂的退化作用的 LR 图片转化为干净的 LR 图片；第二套把输入的干净的 LR 图片用 CycleGAN 的方式超分成干净的 HR 图片。作者的方法实现了与最先进的有监督 CNN 的算法相当的性能。</p>
+</blockquote>
+<h2 id="√-本文目录"><a href="#√-本文目录" class="headerlink" title="[√] 本文目录"></a>[√] 本文目录</h2><hr>
+<p><strong>6 无成对训练数据的真实世界场景超分解决方案：CinCGAN</strong><br>6.1 真实世界场景超分任务介绍<br>6.2 使用不成对的数据训练盲超分模型<br>6.3 CinCGAN 方法训练数据<br>6.4 第一套 CycleGAN<br>6.5 第二套 CycleGAN<br>6.6 模型架构<br>6.7 CinCGAN 训练过程<br>6.8 CinCGAN 实验结果</p>
+<h2 id="√-文章信息"><a href="#√-文章信息" class="headerlink" title="[√] 文章信息"></a>[√] 文章信息</h2><hr>
+<ul>
+<li>中文标题：无成对训练数据的真实世界场景超分解决方案：CinCGAN</li>
+<li>论文名称：Unsupervised Image Super-Resolution using Cycle-in-Cycle Generative Adversarial Networks (CVPRW 2018)</li>
+<li>论文地址：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1809.00437">https://arxiv.org/abs/1809.00437</a></li>
+<li>论文代码：<a target="_blank" rel="noopener" href="https://github.com/sangyun884/CinCGAN-pytorch%EF%BC%88%E9%9D%9E%E5%AE%98%E6%96%B9%EF%BC%89">https://github.com/sangyun884/CinCGAN-pytorch（非官方）</a></li>
+</ul>
+<h2 id="√-1-真实世界场景超分任务介绍"><a href="#√-1-真实世界场景超分任务介绍" class="headerlink" title="[√] 1.真实世界场景超分任务介绍"></a>[√] 1.真实世界场景超分任务介绍</h2><hr>
+<p>作为基本的 low-level 视觉问题，单图像超分辨率 (SISR) 越来越受到人们的关注。SISR 的目标是从其低分辨率观测中重建高分辨率目前已经提出了基于深度学习的方法的多种网络架构和超分网络的训练策略来改善 SISR 的性能。顾名思义，SISR 任务需要两张图片，一张高分辨率的 HR 图和一张低分辨率的 LR 图。超分模型的目的是根据后者生成前者，而退化模型的目的是根据前者生成后者。经典超分任务 SISR 认为：<strong>低分辨率的 LR 图是由高分辨率的 HR 图经过某种退化作用得到的，这种退化核预设为一个双三次下采样的模糊核 (downsampling blur kernel)。</strong>也就是说，这个下采样的模糊核是预先定义好的。但是，在实际应用中，这种退化作用十分复杂，不但表达式未知，而且难以简单建模。 双三次下采样的训练样本和真实图像之间存在一个域差。以双三次下采样为模糊核训练得到的网络在实际应用时，这种域差距将导致比较糟糕的性能。这种**退化核未知的超分任务我们称之为盲超分任务 (Blind Super Resolution)**。</p>
+<p>盲超分任务的退化方式有很多种，比如<strong>模糊 (blur)<strong>，</strong>噪声 (noise)</strong> 或者<strong>下采样 (downsampling)</strong> 等。令 x 和 z 分别代表 HR 和 LR 图片，退化模型为：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249347.png" srcset="/img/loading.gif" lazyload alt="image-20230213155034019"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249348.png" srcset="/img/loading.gif" lazyload alt="image-20230213155059066"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249349.png" srcset="/img/loading.gif" lazyload alt="image-20230213155653795"></p>
+<h2 id="√-2-使用不成对的数据训练盲超分模型"><a href="#√-2-使用不成对的数据训练盲超分模型" class="headerlink" title="[√] 2.使用不成对的数据训练盲超分模型"></a>[√] 2.使用不成对的数据训练盲超分模型</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249350.png" srcset="/img/loading.gif" lazyload alt="image-20230213160100547"></p>
+<p>缺点是，DualGAN 和 CycleGAN 都处理相同大小的输入和输出图像，而超分任务要求输出图像比输入图像大几倍。利用循环一致性的特性，作者提出了一种 Cycle-in-Cycle GAN (CinCGAN) 来解决无成对训练数据的真实世界场景超分问题。作者的方法实现了与最先进的有监督 CNN 的算法相当的性能。</p>
+<p><strong>问1：为什么要使用无监督方式训练真实世界超分模型？</strong></p>
+<p><strong>答：</strong>由于下采样和退化函数复杂且相互耦合，因此很难像传统的盲超分那样进行精确估计。而且真实世界场景 HR 图片是未知的，没有 HR 图片作为训练集。我们就没法构造真实世界的 HR-LR 数据对进行有监督训练。</p>
+<p><strong>问2：SR 任务和图像翻译任务有什么区别？</strong></p>
+<p><strong>答：</strong> SR 接受 LR 图像并输出分辨率高得多的 HR 图像。 此外，SR 要求输出是高质量的，而不仅仅是不同的风格。如果我们直接应用图像到图像的转换方法，我们需要首先通过插值对 LR 图像进行上采样得到高分辨率的图像，但这也将放大噪声。 直接套用 CycleGAN 之类的现有方法无法去除这种被放大的噪声，训练变得非常不稳定。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>作者的方法实现了与最先进的有监督 CNN 的算法相当的性能。</li>
+<li>缺点是，DualGAN 和 CycleGAN 都处理相同大小的输入和输出图像，而超分任务要求输出图像比输入图像大几倍。利用循环一致性的特性，作者提出了一种 Cycle-in-Cycle GAN (CinCGAN) 来解决无成对训练数据的真实世界场景超分问题。</li>
+</ul>
+</blockquote>
+<h2 id="√-3-CinCGAN-方法训练数据"><a href="#√-3-CinCGAN-方法训练数据" class="headerlink" title="[√] 3.CinCGAN 方法训练数据"></a>[√] 3.CinCGAN 方法训练数据</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249351.png" srcset="/img/loading.gif" lazyload alt="image-20230213160627144"><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249352.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h2 id="√-4-第一套-CycleGAN"><a href="#√-4-第一套-CycleGAN" class="headerlink" title="[√] 4.第一套 CycleGAN"></a>[√] 4.第一套 CycleGAN</h2><hr>
+<p>模型组成：G1 G2 D1</p>
+<p>功能：把输入的带有未知且复杂的退化作用的 LR 图片转化为干净的 LR 图片。</p>
+<p>分析：由于真实世界场景的输入图片一般带有未知的退化作用，所以我们需要首先想办法把退化作用去掉。但是又受限于没有成对的训练数据，所以只能以 CycleGAN 的方式来学习生成器 G1 完成去退化 (Degredation) 的作用。根据 CycleGAN 的原理，我们同时还需要生成器 G2 的对称设计来辅助 G1 的训练。同时，判别器 D1 用来判断输入判别器的图片是否有退化的作用。</p>
+<p>运行过程：给定输入图像 x ，生成器 G1 学习生成干净的 LR 图像 y ，以欺骗判别器 D1 。同时， D1 学习区分生成的样本 G1(x) 和真实的样本 y 。</p>
+<p><strong>GAN Loss:</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249353.png" srcset="/img/loading.gif" lazyload alt="image-20230213162727779"></p>
+<p>CycleGAN 的 <strong>Cycle Consistency Loss</strong> 保证不成对数据也能有效训练：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249354.png" srcset="/img/loading.gif" lazyload alt="image-20230213162820961"></p>
+<p>CycleGAN 中，作者引入了一个 <strong>Identity Loss</strong>，以保持输入和输出图像之间的颜色组成。作者发现，Identity Loss 可以帮助保存输入图像的颜色。所以这里作者也添加了 Identity Loss 来避免输出的颜色变化：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249355.png" srcset="/img/loading.gif" lazyload alt="image-20230213162840567"></p>
+<p><strong>Total Variation (TV) Loss</strong> 帮助增加空间平滑度：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249356.png" srcset="/img/loading.gif" lazyload alt="image-20230213162920301"></p>
+<p>式中， ∇ℎ 和 ∇w 分别用来计算 G1(xi) 的水平和垂直梯度。</p>
+<p><strong>第一套 CycleGAN 总的损失函数：</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249357.png" srcset="/img/loading.gif" lazyload alt="image-20230213163002763"></p>
+<p>式中， w1,w2,w3 是不同损失的权重。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>第一套cycleGAN的G1用来生成没有退化的LR图像</li>
+</ul>
+</blockquote>
+<h2 id="√-5-第二套-CycleGAN"><a href="#√-5-第二套-CycleGAN" class="headerlink" title="[√] 5.第二套 CycleGAN"></a>[√] 5.第二套 CycleGAN</h2><hr>
+<p><strong>模型组成：</strong>G1,SR,G3,D2。</p>
+<p><strong>功能：</strong>把输入的干净的 LR 图片用 CycleGAN 的方式超分成干净的 HR 图片。</p>
+<p><strong>分析：</strong>第二套 CycleGAN 里面， G1,SR 相当于是第一个 Generator， G3 相当于是第二个 Generator。同时，判别器 D2 用来判断输入判别器的 HR 图片是否有退化的作用。</p>
+<p><strong>问：为什么要以 CycleGAN 的方式超分成干净的 HR 图片，而不是以普通 GAN 的方式超分成干净的 HR 图片？</strong></p>
+<p><strong>答：</strong>普通 GAN 方式需要成对的训练数据，真实世界超分场景是没有的。</p>
+<p><strong>GAN Loss：</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249358.png" srcset="/img/loading.gif" lazyload alt="image-20230213164246544"></p>
+<p>CycleGAN 的 <strong>Cycle Consistency Loss</strong> 保证不成对数据也能有效训练：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249359.png" srcset="/img/loading.gif" lazyload alt="image-20230213164335322"></p>
+<p>对于 <strong>Identity Loss</strong>，作者考虑确保 SR 网络可以生成足够质量的超分辨率图像，而不是保持输入和输出之间的色调一致性，所以将新的 Identity Loss 定义为:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249360.png" srcset="/img/loading.gif" lazyload alt="image-20230213164553374"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249361.png" srcset="/img/loading.gif" lazyload alt="image-20230213180625902"></p>
+<p><strong>Total Variation (TV) Loss</strong> 帮助增加空间平滑度：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249362.png" srcset="/img/loading.gif" lazyload alt="image-20230213180911466"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249363.png" srcset="/img/loading.gif" lazyload alt="image-20230213180837564"></p>
+<p><strong>第二套 CycleGAN 总的损失函数：</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249364.png" srcset="/img/loading.gif" lazyload alt="image-20230213180939349"></p>
+<p>式中， λ1,λ2,λ3 是不同损失的权重。</p>
+<h2 id="√-6-模型架构"><a href="#√-6-模型架构" class="headerlink" title="[√] 6.模型架构"></a>[√] 6.模型架构</h2><hr>
+<p>生成器 G1,G2,G3 和判别器 D1,D2 的架构如下图2所示，与 CycleGAN 结构相似。Conv 代表卷积层， k,n,s 分别指的是是 kernel size，number of filters 和 stride。</p>
+<p>对于生成器 G1 和 G2 ，作者在头部和尾部使用3个卷积层，在中间使用6个残差块。生成器 G3 的架构与生成器 G1 和 G2的相同，只是第二和第三卷积层的 stride 设置为2，以执行下采样。</p>
+<p>对于判别器 D1 和 D2 ，作者使用了70×70的 PatchGAN，70×70的 PatchGAN 的意思是：把输入图像处理为有重叠的70x70的 patches，然后每个 patch 被处理为标量，最终输出结果是30x30x1。</p>
+<p>LR 图片和 HR 图片的大小分别是32×32和128×128， D1 的前三层卷积 stride 设为1。这样一来，判别器 D1 的感受野就是16×16，判别器 D2 的感受野就是70×70。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249365.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h2 id="√-7-CinCGAN-训练过程"><a href="#√-7-CinCGAN-训练过程" class="headerlink" title="[√] 7.CinCGAN 训练过程"></a>[√] 7.CinCGAN 训练过程</h2><hr>
+<p><strong>数据集：</strong>NTIRE2018 track 2 dataset。</p>
+<ul>
+<li><p>track 2 数据集从 DIV2K 数据集退化得到，DIV2K包含800张 HR 的训练数据 和 100张 HR 的验证集。track 2 数据集的退化方式包含下采样 (Down-sampling), 模糊 (Blurring), 像素偏移 (Pixel shifting) 和 噪声 (Noises)。尽管退化算子的参数对于所有图像都是固定的，但是模糊核是随机生成的，并且它们所产生的像素偏移因图像而异。因此，track 2 数据集中图像的退化核是未知且多样的。</p>
+</li>
+<li><p>由于作者的目的是在没有成对的 LR-HR 数据的情况下无监督地训练网络，所以作者从训练 LR 集中取前400幅图像 (编号从1到400) 作为输入图像 X ，从 HR 集中取另外400幅图像 (编号从401到800) 作为要求的 HR 图像 Z 。图像 Y 直接从 HR 图像 Z 经过双三次下采样得到。 注意，尽管 DIV2K 包含成对的训练数据集，但作者依然不使用成对的数据进行监督训练。</p>
+</li>
+<li><p>训练的过程一共分为2步：</p>
+</li>
+</ul>
+<p><strong>第1步：</strong>训练第一套 CycleGAN，即： G1,G2,D1 。完成 LR → clean LR 的训练。</p>
+<p>使用 Adam 优化器， β1&#x3D;0.5,β2&#x3D;0.999,$\epsilon $&#x3D;10−8 超参数设置为 w1&#x3D;10,w2&#x3D;5,w3&#x3D;0.5 。</p>
+<p>学习率初始值为 2×10−4 ，按照每 40000 iteration 衰减一倍，一共训练 400000 iterations。</p>
+<p><strong>第2步：</strong>同时训练第一套 CycleGAN 和第二套 CycleGAN。完成 LR → HR 的训练。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249366.png" srcset="/img/loading.gif" lazyload alt="image-20230213204723666"></p>
+<h2 id="√-8-CinCGAN-实验结果"><a href="#√-8-CinCGAN-实验结果" class="headerlink" title="[√] 8.CinCGAN 实验结果"></a>[√] 8.CinCGAN 实验结果</h2><hr>
+<ul>
+<li>作者将提出的 CinCGAN 模型的性能与几种最先进的 SISR 方法进行了比较：FSRCNN，EDSR 和 SRGAN。</li>
+<li>我们使用公开可用的 FSRCNN 和 EDSR 模型，它们用成对的 LR 和 HR 图像训练，其中输入是从 HR 图像向下采样的干净的 LR 图像。</li>
+<li>为了使结果更具可比性，我们还用配对的 track 2 数据集微调了 EDSR 和 SRGAN (分别标记为EDSR+ 和 SRGAN+)。</li>
+<li>为了强调 CinCGAN 结构的有效性，作者还尝试首先对输入的 LR 图像进行去噪，然后对去噪后的图像进行超分辨率处理以进行比较。</li>
+<li>BM3D 是目前最先进的图像去噪方法之一，是一种高效而强大的去噪工具。因此，我们首先使用 BM3D 预处理测试 LR 图像，然后使用 EDSR (标记为 BM3D+EDSR) 进行超分辨率处理，结果如下图3所示。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249367.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>图3显示了不同的模型在 NTIRE 2018 track 2 dataset 上的实验结果的 PSNR 和 SSIM 值。结果表明：</p>
+<ul>
+<li>如果模糊和噪声在训练过程中未知，FSRCNN 和 EDSR 就不能很好地完成任务。在通过成对的 track 2 数据集进行微调之后，EDSR+ 和 SRGAN+ 结果有了改进，但是这个改进是建立在有成对训练数据的情况下的。</li>
+<li>CinCGAN 可以在没有成对的训练数据的情况下在 PSNR 和 SSIM 方面与 SRGAN+ 性能相当。</li>
+<li>虽然 BM3D 模型可以去除噪声，但它也会过度平滑输入图像。BM3D+EDSR 的 PSNR 和 SSIM 值低于所提出的方法。</li>
+</ul>
+<p>不同方法超分可视化的结果如下图4所示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249368.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><strong>对比实验：</strong></p>
+<p>为了验证 CinCGAN 结构的有效性，作者尝试了3种不同的训练范式：</p>
+<p>第1种训练的范式仅使用一个 CycleGAN 将 LR 图像 X 恢复为 HR 图像 Z ，即同时对 LR 图像进行去噪、去模糊和超分。直接去优化 $L_{total}^{HR}$ 。但是在训练过程中发现，结果 $\tilde{z}$ 总是不稳定，并且存在许多不期望的伪像，这说明单个网络很难同时去噪、去模糊和超分任务，尤其是当退化核因图像而异时，以及在无监督学习的情况下。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249369.png" srcset="/img/loading.gif" lazyload alt="image-20230213224032809"></p>
+<p>第2种训练的范式在 CinCGAN 的基础上去掉 D2 和 G3 ，先使用第一套 CycleGAN 把退化的 LR 图转化为 clean 的 LR 图，即对 LR 图像进行去噪、去模糊。再直接通过 SR 模型进行超分。但是结果发现这样做会放大一些噪声，并且会进一步被 SR 模型放大，影响了视觉质量。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249370.png" srcset="/img/loading.gif" lazyload alt="image-20230213224138772"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302132249371.png" srcset="/img/loading.gif" lazyload alt="image-20230213224248424"></p>
+<h2 id="√-总结"><a href="#√-总结" class="headerlink" title="[√] 总结"></a>[√] 总结</h2><hr>
+<p>真实世界场景由于下采样和退化函数复杂且相互耦合，因此很难像传统的盲超分那样进行精确估计。而且真实世界场景 HR 图片是未知的，没有 HR 图片作为训练集。我们就没法构造真实世界的 HR-LR 数据对进行有监督训练。利用循环一致性的特性，作者提出了一种 Cycle-in-Cycle GAN (CinCGAN) 来解决无成对训练数据的真实世界场景超分问题。整个方法包含两套 CycleGAN，第一套把输入的带有未知且复杂的退化作用的 LR 图片转化为干净的 LR 图片；第二套把输入的干净的 LR 图片用 CycleGAN 的方式超分成干净的 HR 图片。作者的方法实现了与最先进的有监督 CNN 的算法相当的性能。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-chain-item">文章学习</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>
+      
+        <a href="/tags/%E7%9B%B2%E8%B6%85%E5%88%86/">#盲超分</a>
+      
+        <a href="/tags/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/">#超分辨率重建</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>067 - 文章阅读：底层任务超详细解读 (六)：无成对训练数据的真实世界场景超分解决方案：CinCGAN - 知乎 - 底层任务日积月累 - 清华大学自动化系硕士在读 - 科技猛兽</div>
+      <div>http://example.com/posts/776310902/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年2月13日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/1927094832/" title="文章阅读笔记：【2018-SRMD】论文笔记：2018 SRMD 在超分辨网络中融入模糊核和噪声水平 - 知乎 - 名字越长越开心">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">文章阅读笔记：【2018-SRMD】论文笔记：2018 SRMD 在超分辨网络中融入模糊核和噪声水平 - 知乎 - 名字越长越开心</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/4080784311/" title="066 - 文章阅读笔记：盲图像超分辨综述 - CSDN - AD--gai">
+                        <span class="hidden-mobile">066 - 文章阅读笔记：盲图像超分辨综述 - CSDN - AD--gai</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

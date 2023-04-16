@@ -1,0 +1,1174 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="[√] 7.4 参数初始化  alec：  神经网络的参数学习是一个非凸优化问题。 当使用梯度下降法来进行网络参数优化时，参数初始值的选取十分关键，关系到网络的优化效率和泛化能力。（神经网络的初始参数值非常重要） 此外，由于神经网络优化时出现的对称权重现象（参见第4.4.1节），神经网络的参数不能初始化为相同的值，需要有一定的差异性。（神经网络的参数初始值不能初始化为相同的值）   常用的参数初始">
+<meta property="og:type" content="article">
+<meta property="og:title" content="7 - 网络优化与正则化 - 书籍2">
+<meta property="og:url" content="http://example.com/posts/2864444717/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="[√] 7.4 参数初始化  alec：  神经网络的参数学习是一个非凸优化问题。 当使用梯度下降法来进行网络参数优化时，参数初始值的选取十分关键，关系到网络的优化效率和泛化能力。（神经网络的初始参数值非常重要） 此外，由于神经网络优化时出现的对称权重现象（参见第4.4.1节），神经网络的参数不能初始化为相同的值，需要有一定的差异性。（神经网络的参数初始值不能初始化为相同的值）   常用的参数初始">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312348.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312349.png">
+<meta property="article:published_time" content="2022-12-25T09:58:17.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.391Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312348.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>7 - 网络优化与正则化 - 书籍2 - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">7 - 网络优化与正则化 - 书籍2</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-12-25 17:58" pubdate>
+          2022年12月25日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          22k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          183 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">7 - 网络优化与正则化 - 书籍2</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="√-7-4-参数初始化"><a href="#√-7-4-参数初始化" class="headerlink" title="[√] 7.4 参数初始化"></a>[√] 7.4 参数初始化</h2><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>神经网络的参数学习是一个非凸优化问题。</li>
+<li>当使用梯度下降法来进行网络参数优化时，参数初始值的选取十分关键，关系到网络的优化效率和泛化能力。（神经网络的初始参数值非常重要）</li>
+<li>此外，由于神经网络优化时出现的对称权重现象（参见第4.4.1节），神经网络的参数不能初始化为相同的值，需要有一定的差异性。（神经网络的参数初始值不能初始化为相同的值）</li>
+</ul>
+<hr>
+<p>常用的参数初始化的方式通常有以下三种：</p>
+<ul>
+<li>随机初始化：最常用的参数初始化策略，通过一个随机采样函数来生成每个参数的初始值。</li>
+<li>预训练初始化：一种在实践中经常使用的初始化策略，如果目标任务的训练数据不足，可以使用一个已经在大规模数据上训练过的模型作为参数初始值。预训练模型在目标任务上的学习过程也称为精调Fine-Tuning。</li>
+<li>固定值初始化：对于神经网络中的某些重要参数，可以根据先验知识来初始化。比如对于使用ReLU激活函数的全连接层，其偏置通常可以设为比较小的正数（比如0.01），从而确保这一层的神经元的梯度不为0，避免死亡ReLU现象。</li>
+</ul>
+<hr>
+<ul>
+<li>tune，调整、微调</li>
+</ul>
+<hr>
+<p>虽然预训练初始化通常具有更好的收敛性和泛化性，但是灵活性不够，不能在目标任务上任意地调整网络结构。因此，好的随机初始化方法对训练神经网络模型来说依然十分重要。在本节我们主要介绍两种随机初始化方法：基于固定方差的参数初始化和基于方差缩放的参数初始化。</p>
+</blockquote>
+<h4 id="√-7-4-1-基于固定方差的参数初始化"><a href="#√-7-4-1-基于固定方差的参数初始化" class="headerlink" title="[√] 7.4.1 基于固定方差的参数初始化"></a>[√] 7.4.1 基于固定方差的参数初始化</h4><hr>
+<p>一种最简单的随机初始化方法是从一个固定均值(通常为 0)和方差$\sigma^2$的分布中采样来生成参数的初始值。基于固定方差的参数初始化方法主要有高斯分布初始化和均匀分布初始化两种：</p>
+<ul>
+<li>高斯分布初始化：使用一个高斯分布$\mathscr{N}(0, \sigma^2)$对每个参数进行随机初始化。</li>
+<li>均匀分布初始化：在一个给定的区间$[-r, r]$内采用均匀分布来初始化。</li>
+</ul>
+<p>高斯分布和均匀分布初始化的实现方式可以参考第4.4.1节参数初始化代码。</p>
+<h4 id="√-7-4-2-基于方差缩放的参数初始化"><a href="#√-7-4-2-基于方差缩放的参数初始化" class="headerlink" title="[√] 7.4.2 基于方差缩放的参数初始化"></a>[√] 7.4.2 基于方差缩放的参数初始化</h4><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>初始化一个深度网络时，为了缓解梯度消失或爆炸问题，我们尽可能保持每个神经元的输入和输出的方差一致。</li>
+<li>根据神经元的连接数量来自适应地调整初始化分布的方差，这类方法称为方差缩放（Variance Scaling）。</li>
+<li>Xavier初始化是参数初始化中常用的方法，根据每层的神经元数量来自动计算初始化参数方差。</li>
+<li>在计算出参数的理想方差后，可以通过高斯分布或均匀分布来随机初始化参数。</li>
+<li>在计算出参数的理想方差后，可以通过高斯分布或均匀分布来随机初始化参数。若神经元采用Tanh函数，并采用高斯分布来随机初始化参数，连接权重$w_i^{(l)}$可以按$\mathscr{N}(0, \frac{2}{M_{l-1} + M_l})$的高斯分布进行初始化，其中$M_{l-1}$是第$l-1$层神经元个数。</li>
+</ul>
+</blockquote>
+<h6 id="√-7-4-2-1-模型构建"><a href="#√-7-4-2-1-模型构建" class="headerlink" title="[√] 7.4.2.1 模型构建"></a>[√] 7.4.2.1 模型构建</h6><hr>
+<p>首先定义xavier_normal_std函数，根据$l$层和$l-1$层神经元的数量计算理想标准差。值得注意的是，在paddle.normal API中，通过指定标准差的值来生成符合正态分布的张量，因此，这里需要计算标准差。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 计算标准差</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">xavier_normal_std</span>(<span class="hljs-params">input_size, output_size</span>):<br>    <span class="hljs-keyword">return</span> np.sqrt(<span class="hljs-number">2</span> / (input_size + output_size))<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>Xavier初始化就是基于方差缩放的参数初始化，根据每层的神经元数量自动计算用于初始化参数的方差。</li>
+<li>Xavier初始化适用于Logistic激活函数和Tanh激活函数。</li>
+<li>对于不同激活函数，高斯分布的方差和均匀分布的$r$值计算是不同的。</li>
+<li>xavier_normal_std定义针对Tanh激活函数的情况。</li>
+</ul>
+</blockquote>
+<p>定义一个全连接前馈网络（即多层感知器）MLP算子，实例化网络时可以通过layers_size指定网络每层神经元的数量，通过init_fn_name指定网络中参数初始化方法(Xavier高斯分布初始化、Xavier均匀分布初始化或$\mathscr{N}(0, 1)$高斯分布初始化)，init_fn指定计算初始化时均值或数值范围的函数，act_fn指定激活函数。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MLP</span>(nn.Layer):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, layers_size, init_fn_name, init_fn, act_fn</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        多层网络初始化</span><br><span class="hljs-string">        输入：</span><br><span class="hljs-string">            - layers_size: 每层神经元的数量</span><br><span class="hljs-string">            - init_fn_name: 网络中参数初始化方法，可以为 &#x27;normal&#x27;或&#x27;uniform&#x27;</span><br><span class="hljs-string">            - init_fn: 函数，用来计算高斯分布标准差或均匀分布r值</span><br><span class="hljs-string">            - act_fn: 激活函数</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-built_in">super</span>(MLP, self).__init__()<br>        self.linear = nn.Sequential()<br>        self.num_layers = <span class="hljs-built_in">len</span>(layers_size) - <span class="hljs-number">1</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(self.num_layers):<br>            input_size, output_size = layers_size[i], layers_size[i + <span class="hljs-number">1</span>]<br>            <span class="hljs-comment"># 计算高斯分布的初始化参数</span><br>            <span class="hljs-keyword">if</span> init_fn_name == <span class="hljs-string">&#x27;normal&#x27;</span>:<br>                <span class="hljs-comment"># Xavier高斯分布初始化，计算方差</span><br>                self.linear.add_sublayer(<span class="hljs-built_in">str</span>(i), nn.Linear(input_size, output_size,<br>                                           weight_attr=nn.initializer.Normal(mean=<span class="hljs-number">0</span>, std=init_fn(input_size, output_size))))<br>            <span class="hljs-keyword">elif</span> init_fn_name == <span class="hljs-string">&#x27;uniform&#x27;</span>:<br>                r = init_fn(input_size, output_size)<br>                self.linear.add_sublayer(<span class="hljs-built_in">str</span>(i), nn.Linear(input_size, output_size, weight_attr=nn.initializer.Uniform(low=-r, high=r)))<br>            <span class="hljs-keyword">else</span>:<br>                self.linear.add_sublayer(<span class="hljs-built_in">str</span>(i), nn.Linear(input_size, output_size, weight_attr=nn.initializer.Normal()))<br>        self.act_fn = act_fn()<br>        self.z = &#123;&#125;<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__call__</span>(<span class="hljs-params">self, X</span>):<br>        <span class="hljs-keyword">return</span> self.forward(X)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, X</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        前向计算</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        y = X<br>        <span class="hljs-keyword">for</span> num_layer <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(self.num_layers):<br>            y = self.linear[num_layer](y)<br>            <span class="hljs-keyword">if</span> num_layer != self.num_layers - <span class="hljs-number">1</span>:<br>                y = self.act_fn(y)<br>            self.z[num_layer] = y<br>        <span class="hljs-keyword">return</span> y<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h6 id="√-7-4-2-2-观察模型神经元的方差变化"><a href="#√-7-4-2-2-观察模型神经元的方差变化" class="headerlink" title="[√] 7.4.2.2 观察模型神经元的方差变化"></a>[√] 7.4.2.2 观察模型神经元的方差变化</h6><hr>
+<h6 id="√-高斯分布初始化"><a href="#√-高斯分布初始化" class="headerlink" title="[√] 高斯分布初始化"></a>[√] 高斯分布初始化</h6><hr>
+<p>定义网络每层神经元的数量，指定激活函数和参数初始化方式，通过Xavier高斯分布初始化网络。代码实现如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python">paddle.seed(<span class="hljs-number">0</span>)<br><br><span class="hljs-comment"># 定义网络每层神经元的数量</span><br>layers_size = [<span class="hljs-number">100</span>, <span class="hljs-number">200</span>, <span class="hljs-number">400</span>, <span class="hljs-number">300</span>, <span class="hljs-number">200</span>, <span class="hljs-number">100</span>]<br><span class="hljs-comment"># 指定激活函数</span><br>activate_fn = paddle.nn.Tanh<br><span class="hljs-comment"># 指定参数初始化方式</span><br>init_fn_name = <span class="hljs-string">&#x27;normal&#x27;</span><br><br>model = MLP(layers_size, init_fn_name, init_fn=xavier_normal_std, act_fn=activate_fn)<br>inputs = paddle.normal(shape=[<span class="hljs-number">1</span>, <span class="hljs-number">100</span>], std=<span class="hljs-number">0.1</span>)<br>y = model(inputs)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">运行时长: <span class="hljs-number">11</span>毫秒<br>结束时间: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">24</span> <span class="hljs-number">16</span>:<span class="hljs-number">17</span>:09<br></code></pre></td></tr></table></figure>
+
+<p>打印每层神经元输出的方差，观察每层的方差值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(model.z) - <span class="hljs-number">1</span>):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;layer %d: , %f&#x27;</span>%(i, model.z[i].numpy().var()))<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">layer <span class="hljs-number">0</span>: , <span class="hljs-number">0.005416</span><br>layer <span class="hljs-number">1</span>: , <span class="hljs-number">0.003292</span><br>layer <span class="hljs-number">2</span>: , <span class="hljs-number">0.003820</span><br>layer <span class="hljs-number">3</span>: , <span class="hljs-number">0.004489</span><br></code></pre></td></tr></table></figure>
+
+<p>从输出结果看，Xavier初始化可以尽量保持每个神经元的输入和输出方差一致。</p>
+<h6 id="√-均匀分布初始化"><a href="#√-均匀分布初始化" class="headerlink" title="[√] 均匀分布初始化"></a>[√] 均匀分布初始化</h6><hr>
+<p>若采用区间为$[-r, r]$的均匀分布来初始化$w_i^{(l)}$，则$r$的取值为$\sqrt{\frac{6}{M_{l-1} + M_l}}$。定义xavier_uniform_r，计算均匀分布$r$的值。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">xavier_uniform_r</span>(<span class="hljs-params">input_size, output_size</span>):<br>    <span class="hljs-keyword">return</span> np.sqrt(<span class="hljs-number">6</span> / (input_size + output_size))<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">运行时长: <span class="hljs-number">4</span>毫秒<br>结束时间: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">24</span> <span class="hljs-number">16</span>:<span class="hljs-number">19</span>:<span class="hljs-number">38</span><br></code></pre></td></tr></table></figure>
+
+<p>定义网络每层神经元的数量，通过Xavier均匀分布初始化网络。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">paddle.seed(<span class="hljs-number">0</span>)<br><br><span class="hljs-comment"># 指定激活函数</span><br>activate_fn = paddle.nn.Tanh<br><span class="hljs-comment"># 指定参数初始化方式</span><br>init_fn_name = <span class="hljs-string">&#x27;uniform&#x27;</span><br><br>model = MLP(layers_size, init_fn_name, init_fn=xavier_uniform_r, act_fn=activate_fn)<br>inputs = paddle.normal(shape=[<span class="hljs-number">1</span>, <span class="hljs-number">100</span>], std=<span class="hljs-number">0.1</span>)<br>y = model(inputs)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">运行时长: <span class="hljs-number">11</span>毫秒<br>结束时间: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">24</span> <span class="hljs-number">16</span>:<span class="hljs-number">20</span>:<span class="hljs-number">26</span><br></code></pre></td></tr></table></figure>
+
+<p>打印每层神经元输出的方差，观察每层的方差值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(model.z) - <span class="hljs-number">1</span>):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;layer %d: , %f&#x27;</span>%(i, model.z[i].numpy().var()))<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">layer <span class="hljs-number">0</span>: , <span class="hljs-number">0.005596</span><br>layer <span class="hljs-number">1</span>: , <span class="hljs-number">0.003397</span><br>layer <span class="hljs-number">2</span>: , <span class="hljs-number">0.004084</span><br>layer <span class="hljs-number">3</span>: , <span class="hljs-number">0.005171</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h6 id="√-7-4-2-3-观察模型训练收敛性"><a href="#√-7-4-2-3-观察模型训练收敛性" class="headerlink" title="[√] 7.4.2.3 观察模型训练收敛性"></a>[√] 7.4.2.3 观察模型训练收敛性</h6><hr>
+<p>为了进一步验证Xavier初始化的效果，我们在一个简单的二分类任务上来训练MLP模型，并观察模型收敛情况。</p>
+<p><strong>构建数据集</strong> 这里使用在第3.1.1中定义的make_moons函数构建一个简单的二分类数据集。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> nndl <span class="hljs-keyword">import</span> make_moons<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MoonsDataset</span>(io.Dataset):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, mode=<span class="hljs-string">&#x27;train&#x27;</span>, num_samples=<span class="hljs-number">300</span>, num_train=<span class="hljs-number">200</span></span>):<br>        <span class="hljs-built_in">super</span>(MoonsDataset, self).__init__()<br>        X, y = make_moons(n_samples=num_samples, shuffle=<span class="hljs-literal">True</span>, noise=<span class="hljs-number">0.5</span>)<br>        <span class="hljs-keyword">if</span> mode == <span class="hljs-string">&#x27;train&#x27;</span>:<br>            self.X, self.y = X[:num_train], y[:num_train]<br>        <span class="hljs-keyword">else</span>:<br>            self.X, self.y = X[num_train:], y[num_train:]<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__getitem__</span>(<span class="hljs-params">self, idx</span>):<br>        <span class="hljs-keyword">return</span> self.X[idx], self.y[idx]<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__len__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">len</span>(self.y)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">运行时长: <span class="hljs-number">6</span>毫秒<br>结束时间: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">24</span> <span class="hljs-number">16</span>:<span class="hljs-number">22</span>:<span class="hljs-number">13</span><br></code></pre></td></tr></table></figure>
+
+<p>创建训练和验证集，构建DataLoader。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">paddle.seed(<span class="hljs-number">0</span>)<br>train_dataset = MoonsDataset(mode=<span class="hljs-string">&#x27;train&#x27;</span>)<br>dev_dataset = MoonsDataset(mode=<span class="hljs-string">&#x27;dev&#x27;</span>)<br>train_loader = io.DataLoader(train_dataset, batch_size=<span class="hljs-number">10</span>, shuffle=<span class="hljs-literal">True</span>)<br>dev_loader = io.DataLoader(dev_dataset, batch_size=<span class="hljs-number">10</span>, shuffle=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">运行时长: <span class="hljs-number">890</span>毫秒<br>结束时间: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">24</span> <span class="hljs-number">16</span>:<span class="hljs-number">22</span>:<span class="hljs-number">59</span><br></code></pre></td></tr></table></figure>
+
+<p>定义五层MLP，分别以Xavier初始化和标准高斯分布初始化方式对网络进行初始化，训练100回合，对比两个模型的训练损失变化情况。代码实现如下：</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>Xavier高斯分布初始化 和 标准高斯分布初始化 的参数分布都是高斯分布的，但是Xavier高斯分布初始化的方差是由网络结构中的神经元的数量决定的，标准高斯分布初始化是固定的自定义均值和方差。一个和网络结构耦合，一个和网络结构无关。</li>
+<li>SGD优化器的参数，只有一个学习率，是最基本的优化器。</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> nndl<br><br>paddle.seed(<span class="hljs-number">0</span>)<br>np.random.seed(<span class="hljs-number">0</span>)<br><br><span class="hljs-comment"># 定义网络每层神经元的数量</span><br>layers_size = [<span class="hljs-number">2</span>, <span class="hljs-number">300</span>, <span class="hljs-number">500</span>, <span class="hljs-number">700</span>, <span class="hljs-number">400</span>, <span class="hljs-number">1</span>]<br><span class="hljs-comment"># 指定激活函数</span><br>activate_fn = paddle.nn.Tanh<br><br><span class="hljs-comment"># 指定参数初始化方式为Xavier高斯分布初始化</span><br>init_fn_name = <span class="hljs-string">&#x27;normal&#x27;</span><br>model1 = MLP(layers_size, init_fn_name, init_fn=xavier_normal_std, act_fn=activate_fn)<br>opt1 = optimizer.SGD(learning_rate=<span class="hljs-number">0.005</span>, parameters=model1.parameters())<br>loss_fn = F.binary_cross_entropy_with_logits<br>m = nndl.Accuracy(is_logist=<span class="hljs-literal">True</span>)<br>runner1 = RunnerV3(model1, opt1, loss_fn, m)<br>runner1.train(train_loader, dev_loader, num_epochs=<span class="hljs-number">100</span>, eval_steps=<span class="hljs-number">400</span>, log_steps=<span class="hljs-number">0</span>)<br><br><span class="hljs-comment"># 指定参数初始化方式为N(0, 1)高斯分布初始化</span><br>init_fn_name = <span class="hljs-string">&#x27;basic&#x27;</span><br>model2 = MLP(layers_size, init_fn_name, <span class="hljs-literal">None</span>, act_fn=activate_fn)<br>opt2 = optimizer.SGD(learning_rate=<span class="hljs-number">0.005</span>, parameters=model2.parameters())<br>runner2 = RunnerV3(model2, opt2, loss_fn, m)<br>runner2.train(train_loader, dev_loader, num_epochs=<span class="hljs-number">100</span>, eval_steps=<span class="hljs-number">400</span>, log_steps=<span class="hljs-number">0</span>)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python">[Evaluate]  dev score: <span class="hljs-number">0.81000</span>, dev loss: <span class="hljs-number">0.42877</span><br>[Evaluate] best accuracy performence has been updated: <span class="hljs-number">0.00000</span> --&gt; <span class="hljs-number">0.81000</span><br>[Evaluate]  dev score: <span class="hljs-number">0.83000</span>, dev loss: <span class="hljs-number">0.42839</span><br>[Evaluate] best accuracy performence has been updated: <span class="hljs-number">0.81000</span> --&gt; <span class="hljs-number">0.83000</span><br>[Evaluate]  dev score: <span class="hljs-number">0.83000</span>, dev loss: <span class="hljs-number">0.42997</span><br>[Evaluate]  dev score: <span class="hljs-number">0.83000</span>, dev loss: <span class="hljs-number">0.42962</span><br>[Evaluate]  dev score: <span class="hljs-number">0.83000</span>, dev loss: <span class="hljs-number">0.42941</span><br>[Train] Training done!<br>[Evaluate]  dev score: <span class="hljs-number">0.75000</span>, dev loss: <span class="hljs-number">3.23409</span><br>[Evaluate] best accuracy performence has been updated: <span class="hljs-number">0.00000</span> --&gt; <span class="hljs-number">0.75000</span><br>[Evaluate]  dev score: <span class="hljs-number">0.72000</span>, dev loss: <span class="hljs-number">3.07022</span><br>[Evaluate]  dev score: <span class="hljs-number">0.70000</span>, dev loss: <span class="hljs-number">3.35328</span><br>[Evaluate]  dev score: <span class="hljs-number">0.75000</span>, dev loss: <span class="hljs-number">2.08153</span><br>[Evaluate]  dev score: <span class="hljs-number">0.73000</span>, dev loss: <span class="hljs-number">2.73204</span><br>[Train] Training done!<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">fig, ax = plt.subplots()<br>plt.plot(runner1.train_epoch_losses, label=<span class="hljs-string">&#x27;xavier initializer&#x27;</span>, c=<span class="hljs-string">&#x27;#e4007f&#x27;</span>, linestyle=<span class="hljs-string">&#x27;--&#x27;</span>)<br>plt.plot(runner2.train_epoch_losses, label=<span class="hljs-string">&#x27;N(0,1) initializer&#x27;</span>, c=<span class="hljs-string">&#x27;#f19ec2&#x27;</span>)<br>ax.set_xlabel(<span class="hljs-string">&#x27;epoch&#x27;</span>)<br>ax.set_ylabel(<span class="hljs-string">&#x27;loss&#x27;</span>)<br>plt.legend(fontsize=<span class="hljs-string">&#x27;large&#x27;</span>)<br>plt.savefig(<span class="hljs-string">&#x27;opti-xavier.pdf&#x27;</span>)<br>plt.show()<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312348.png" srcset="/img/loading.gif" lazyload alt="image-20221224162933545"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>从输出结果看，使用基于网络结构数量进行方差缩放的Xavier初始化，模型的损失相对较小，模型效果更好。</li>
+</ul>
+</blockquote>
+<h2 id="√-7-5-逐层规范化"><a href="#√-7-5-逐层规范化" class="headerlink" title="[√] 7.5 逐层规范化"></a>[√] 7.5 逐层规范化</h2><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>逐层规范化（Layer-wise Normalization）是将传统机器学习中的数据规范化方法应用到深度神经网络中</li>
+<li>对神经网络中隐藏层的输入进行规范化，从而使得网络更容易训练。</li>
+<li>（规范化是将隐藏层的输入和输出进行规范化，从而使得网络训练更加容易）</li>
+<li>在DNN中，如果一个神经层的输入数据的分布状况发生了变化，从机器学习的角度来看，这个网络的之前学习的参数无效，需要重新学习。这叫内部协变量偏移。为了解决这个问题，那么就在训练之前，就设置一定的方法，让神经网络中每层的输入都是符合某种稳定分布的规划数据。这个动作叫做规范化。需要对每一层都进行输入数据的规范化，这个动作加逐层规范化。</li>
+</ul>
+</blockquote>
+<p>逐层规范化（Layer-wise Normalization）是将传统机器学习中的数据规范化方法应用到深度神经网络中，对神经网络中隐藏层的输入进行规范化，从而使得网络更容易训练。</p>
+<p>在深度神经网络中，一个神经层的输入是之前神经层的输出。给定一个神经层$l$，它之前的神经层$(1, \cdots, l-1$)的参数变化会导致其输入的分布发生较大的改变。从机器学习角度来看，如果一个神经层的输入分布发生了改变，那么其参数需要重新学习，这种现象叫作内部协变量偏移（Internal Covariate Shift）。 为了缓解这个问题，我们可以对每一个神经层的输入进行规范化操作，使其分布保持稳定。</p>
+<h4 id="√-7-5-1-批量规范化"><a href="#√-7-5-1-批量规范化" class="headerlink" title="[√] 7.5.1 批量规范化"></a>[√] 7.5.1 批量规范化</h4><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li><p>对于一个深度神经网络，为了提高优化效率，要使第$l$层的净输入$z^{(l)}$的分布一致，比如都规范化到标准正态分布。</p>
+</li>
+<li><p>实际中，一般在线性层和激活函数之间使用规范化操作。</p>
+</li>
+<li><p>只有分布统一的数据，才能训练处有效的网络参数，因此需要对每一层的数据先规范化，然后再训练。</p>
+</li>
+<li><p>而为了提高规范化效率，一般使用标准化将净输入$z^{(l)}$的每一维都规范化到标准正态分布。</p>
+</li>
+<li><p>$$<br>  \hat{z}^{(l)} &#x3D; \frac{z^{(l)} - \mu_{\mathcal B}}{\sqrt{\sigma_{\mathcal B}^2 + \epsilon}},<br>  $$<br>  其中$\mu_{\mathcal B}$、$ \sigma_{\mathcal B}^2$为小批量样本的均值和方差。</p>
+</li>
+<li><p>使用小批量样本的均值和方差来规范化数据，使得数据符合标准正态分布。</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li><p>对净输入$ z^{(l)}$的标准规范化会使得其取值集中到0附近，如果使用Sigmoid型激活函数时，这个取值区间刚好是接近线性变换的区间，减弱了神经网络的非线性性质。这样就导致激活函数的非线性作用微弱了，导致网络的表示能力减弱。</p>
+</li>
+<li><p>因此，为了使得规范化不对网络的表示能力造成负面影响，可以通过一个附加的缩放和平移变换改变取值区间。则有：</p>
+<ul>
+<li><p>$$<br>  \hat{\ z}^{(l)} \triangleq BN_{ \gamma, v \beta}( z^{(l)}) &#x3D; \frac{ z^{(l)} -  \mu_{\mathcal B}}{\sqrt{ \sigma_{\mathcal B}^2 + \epsilon}} \odot  \gamma +  \beta.<br>  $$</p>
+</li>
+<li><p>右边的γ和β是用来进行缩放和平移的，让规范化之后的数据远离0附近。</p>
+</li>
+</ul>
+</li>
+<li><p>上面的这种规划化操作，叫做批量规范化，即BatchNorm，BN层，通常在线性层和激活层之间，目的是统一每层输入数据的分布，从而使得网络训练出来的参数有效。</p>
+</li>
+<li><p>其中，指定的γ和β是数据最终规划化之后的均值和方差。</p>
+</li>
+</ul>
+</blockquote>
+<h6 id="√-7-5-1-1-BatchNorm算子"><a href="#√-7-5-1-1-BatchNorm算子" class="headerlink" title="[√] 7.5.1.1 BatchNorm算子"></a>[√] 7.5.1.1 BatchNorm算子</h6><hr>
+<p>下面定义BatchNorm算子，实现批量规范化。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>在实现批量规范化时，在训练过程中的均值和方差可以动态计算，但在测试时需要保存固定，否则模型输出就会受到同一批次中其他样本的影响。</li>
+</ul>
+</blockquote>
+<p>因此，在训练时需要将每一批次样本的均值和方差以移动平均值的方式记录下来，预测时使用整个训练集上的均值和方差（也就是保存的移动平均值）进行规范化。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">BatchNorm</span>(nn.Layer):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, num_features, eps=<span class="hljs-number">1e-7</span>, momentum=<span class="hljs-number">0.9</span>, gamma=<span class="hljs-number">1.0</span>, beta=<span class="hljs-number">0.0</span></span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        批量规范化初始化</span><br><span class="hljs-string">        输入:</span><br><span class="hljs-string">            - num_features: 输入特征数</span><br><span class="hljs-string">            - eps: 保持数值稳定性而设置的常数</span><br><span class="hljs-string">            - momentum: 用于计算移动平均值</span><br><span class="hljs-string">            - gamma: 缩放的参数</span><br><span class="hljs-string">            - beta: 平移的参数</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-built_in">super</span>(BatchNorm, self).__init__()<br>        shape = (<span class="hljs-number">1</span>, num_features)<br>        self.gamma = paddle.to_tensor(gamma, dtype=<span class="hljs-string">&#x27;float32&#x27;</span>)<br>        self.beta = paddle.to_tensor(beta, dtype=<span class="hljs-string">&#x27;float32&#x27;</span>)<br>        self.moving_mean = paddle.zeros(shape)<br>        self.moving_variance = paddle.ones(shape)<br>        self.eps = eps<br>        self.momentum = momentum<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__call__</span>(<span class="hljs-params">self, X, train_mode=<span class="hljs-literal">True</span></span>):<br>        <span class="hljs-keyword">return</span> self.forward(X, train_mode)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, X, train_mode=<span class="hljs-literal">True</span></span>):<br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> train_mode:<br>            X = (X - self.moving_mean) / paddle.sqrt(self.moving_variance + self.eps)<br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-keyword">assert</span> <span class="hljs-built_in">len</span>(X.shape) <span class="hljs-keyword">in</span> (<span class="hljs-number">2</span>, <span class="hljs-number">4</span>)<br>            <span class="hljs-comment"># alec：线性层，只有两个维度</span><br>            <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(X.shape) == <span class="hljs-number">2</span>:<br>                <span class="hljs-comment"># 对于Linear层</span><br>                <span class="hljs-comment"># alec：计算当前批次数据的均值和方差</span><br>                mean = paddle.mean(X, axis=<span class="hljs-number">0</span>)<br>                var = ((X - mean) ** <span class="hljs-number">2</span>).mean(axis=<span class="hljs-number">0</span>)<br>            <span class="hljs-comment"># alec：卷积层，有三个或四个维度</span><br>            <span class="hljs-keyword">else</span>:<br>                <span class="hljs-comment"># 对于卷积层</span><br>                <span class="hljs-comment"># alec：计算当前批次数据的均值和方差</span><br>                mean = paddle.mean(X, axis=[<span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], keepdim=<span class="hljs-literal">True</span>)<br>                var = ((X - mean) ** <span class="hljs-number">2</span>).mean(axis=[<span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], keepdim=<span class="hljs-literal">True</span>)<br>            <span class="hljs-comment"># alec：进行当前批次数据的规范化</span><br>            X = (X - mean) / paddle.sqrt(var, self.eps)<br>            <span class="hljs-comment"># 保存均值和方差的移动平均值</span><br>            self.moving_mean = self.momentum * self.moving_mean + (<span class="hljs-number">1.</span> - self.momentum) * mean<br>            self.moving_variance = self.momentum * self.moving_variance + (<span class="hljs-number">1.</span> - self.momentum) * var<br>        <span class="hljs-comment"># 缩放和平移</span><br>        y = self.gamma * X + self.beta<br>        <span class="hljs-keyword">return</span> y<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">运行时长: <span class="hljs-number">10</span>毫秒<br>结束时间: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">24</span> <span class="hljs-number">17</span>:<span class="hljs-number">30</span>:<span class="hljs-number">55</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>BN的过程，就是计算当前批次数据的均值和方差，然后进行规范化操作，同时记录均值和方差的移动平均值，并进行缩放和移动来防止规范化后的数据落在0周围导致激活函数的非线性作用减弱进而导致网络的表示能力减弱</li>
+</ul>
+</blockquote>
+<h6 id="√-7-5-1-2-支持逐层规范化的MLP算子"><a href="#√-7-5-1-2-支持逐层规范化的MLP算子" class="headerlink" title="[√] 7.5.1.2 支持逐层规范化的MLP算子"></a>[√] 7.5.1.2 支持逐层规范化的MLP算子</h6><hr>
+<p>重新定义MLP算子，加入逐层规范化功能。初始化网络时新增三个参数：norm_name指定使用哪一种逐层规范化（默认为None）、gamma和beta为缩放和平移变换的参数。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MLP</span>(nn.Layer):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, layers_size, init_fn_name, init_fn, act_fn, norm_name=<span class="hljs-literal">None</span>, gamma=<span class="hljs-literal">None</span>, beta=<span class="hljs-literal">None</span></span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        多层网络初始化</span><br><span class="hljs-string">        输入：</span><br><span class="hljs-string">            - layers_size: 每层神经元的数量</span><br><span class="hljs-string">            - init_fn_name: 网络中参数初始化方法</span><br><span class="hljs-string">            - init_fn: 计算高斯分布标准差或均匀分布r值</span><br><span class="hljs-string">            - act_fn: 激活函数</span><br><span class="hljs-string">            - norm_name: 使用哪一种逐层规范化</span><br><span class="hljs-string">            - gamma、beta: 缩放和平移变换的参数</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-built_in">super</span>(MLP, self).__init__()<br>        self.linear = paddle.nn.Sequential()<br>        self.normalization = &#123;&#125;<br>        self.num_layers = <span class="hljs-built_in">len</span>(layers_size) - <span class="hljs-number">1</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(self.num_layers):<br>            input_size, output_size = layers_size[i], layers_size[i + <span class="hljs-number">1</span>]<br>            <span class="hljs-comment"># alec：根据当前层神经元的数量进行参数初始化</span><br>            <span class="hljs-keyword">if</span> init_fn_name == <span class="hljs-string">&#x27;normal&#x27;</span>:<br>                <span class="hljs-comment"># Xavier高斯分布初始化，计算方差</span><br>                self.linear.add_sublayer(<span class="hljs-built_in">str</span>(i), nn.Linear(input_size, output_size,<br>                                           weight_attr=nn.initializer.Normal(mean=<span class="hljs-number">0</span>, std=init_fn(input_size, output_size))))<br>            <span class="hljs-keyword">elif</span> init_fn_name == <span class="hljs-string">&#x27;uniform&#x27;</span>:<br>                r = init_fn(input_size, output_size)<br>                self.linear.add_sublayer(<span class="hljs-built_in">str</span>(i), nn.Linear(input_size, output_size, weight_attr=nn.initializer.Uniform(low=-r, high=r)))<br>            <span class="hljs-keyword">else</span>:<br>            <span class="hljs-comment"># alec：都不是的话，则使用一般的固定值初始化参数</span><br>                self.linear.add_sublayer(<span class="hljs-built_in">str</span>(i), nn.Linear(input_size, output_size, weight_attr=nn.initializer.Normal()))<br>            <span class="hljs-comment"># 判断是否使用逐层规范化，以及使用哪一种逐层规范化</span><br>            <span class="hljs-keyword">if</span> norm_name == <span class="hljs-string">&#x27;bn&#x27;</span>:<br>                self.normalization[i] = BatchNorm(output_size, gamma=gamma[i], beta=beta[i])<br>            <span class="hljs-keyword">elif</span> norm_name == <span class="hljs-string">&#x27;ln&#x27;</span>:<br>             <span class="hljs-comment"># LayerNorm：对一个中间层的所有神经元进行规范化</span><br>                self.normalization[i] = LayerNorm(gamma=gamma[i], beta=beta[i])<br>        self.act_fn = act_fn()<br>        self.norm_name = norm_name<br>        self.z = &#123;&#125;<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__call__</span>(<span class="hljs-params">self, X, train_mode=<span class="hljs-literal">True</span></span>):<br>        <span class="hljs-keyword">return</span> self.forward(X, train_mode)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, X, train_mode=<span class="hljs-literal">True</span></span>):<br>        y = X<br>        <span class="hljs-keyword">for</span> num_layer <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(self.num_layers):<br>            y = self.linear[num_layer](y)<br>            <span class="hljs-keyword">if</span> num_layer != self.num_layers - <span class="hljs-number">1</span>:<br>                <span class="hljs-comment"># alec：先通过线性层，然后进行BN，最后通过激活函数</span><br>                <span class="hljs-keyword">if</span> self.norm_name == <span class="hljs-string">&#x27;bn&#x27;</span>:<br>                    y = self.normalization[num_layer](y, train_mode)<br>                <span class="hljs-keyword">elif</span> self.norm_name == <span class="hljs-string">&#x27;ln&#x27;</span>:<br>                    y = self.normalization[num_layer](y)<br>                <span class="hljs-comment"># 为了展示逐层规范化后的输出的均值和方差，使用z[num_layer]进行记录</span><br>                self.z[num_layer] = y<br>                y = self.act_fn(y)<br>        <span class="hljs-keyword">return</span> y<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">运行时长: <span class="hljs-number">13</span>毫秒<br>结束时间: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">24</span> <span class="hljs-number">17</span>:<span class="hljs-number">41</span>:<span class="hljs-number">15</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>为批量规范化是对一个中间层的单个神经元进行规范化操作</li>
+<li>批量规范化的时候，小批量样本的数量不能太小，否则难以计算单个神经元的统计信息</li>
+</ul>
+</blockquote>
+<p>因为批量规范化是对一个中间层的单个神经元进行规范化操作，所以要求小批量样本的数量不能太小，否则难以计算单个神经元的统计信息。所以我们使用paddle.randn随机生成一组形状为(200, 100)的数据, 打印数据送入网络前的均值与标准差。再分别定义使用批量规范化和不使用批量规范化的五层线性网络，分别打印网络第四层的均值与标准差，对比结果。</p>
+<h6 id="√-7-5-1-3-内部协变量偏移实验"><a href="#√-7-5-1-3-内部协变量偏移实验" class="headerlink" title="[√] 7.5.1.3 内部协变量偏移实验"></a>[√] 7.5.1.3 内部协变量偏移实验</h6><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>内部协变量偏移实验，其实就是指的数据进行批量规范化和没有进行批量规范化的区别和影响。</li>
+</ul>
+</blockquote>
+<p>下面我们构建两个模型：model1不使用批量规范化，model2使用批量规范化，观察批量规范化是否可以缓解内部协变量偏移问题。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs python">paddle.seed(<span class="hljs-number">0</span>)<br><br><span class="hljs-comment"># 定义网络每层神经元的数量</span><br>layers_size = [<span class="hljs-number">100</span>, <span class="hljs-number">200</span>, <span class="hljs-number">400</span>, <span class="hljs-number">300</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>]<br><br>data = paddle.randn(shape=[<span class="hljs-number">200</span>, <span class="hljs-number">100</span>])<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;data mean: &#x27;</span>, data.numpy().mean())<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;data std: &#x27;</span>, data.numpy().std())<br><br>activate_fn = paddle.nn.Tanh<br>model1 = MLP(layers_size, <span class="hljs-string">&#x27;basic&#x27;</span>, <span class="hljs-literal">None</span>, act_fn=activate_fn)<br>output = model1(data)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;no batch normalization: &#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;model output mean: &#x27;</span>, model1.z[<span class="hljs-number">3</span>].numpy().mean(axis=<span class="hljs-number">0</span>))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;model output std:&#x27;</span>, model1.z[<span class="hljs-number">3</span>].numpy().std(axis=<span class="hljs-number">0</span>))<br><br>gamma = [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>]<br>beta = [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]<br>model2 = MLP(layers_size, <span class="hljs-string">&#x27;basic&#x27;</span>, <span class="hljs-literal">None</span>, act_fn=activate_fn, norm_name=<span class="hljs-string">&#x27;bn&#x27;</span>, gamma=gamma, beta=beta)<br>output = model2(data)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;with batch normalization: &#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;model output mean: &#x27;</span>, model2.z[<span class="hljs-number">3</span>].numpy().mean(axis=<span class="hljs-number">0</span>))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;model output std:&#x27;</span>, model2.z[<span class="hljs-number">3</span>].numpy().std(axis=<span class="hljs-number">0</span>))<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">data mean:  <span class="hljs-number">0.001138683</span><br>data std:  <span class="hljs-number">1.0084993</span><br>no batch normalization: <br>model output mean:  [ <span class="hljs-number">0.6876077</span> -<span class="hljs-number">0.8056189</span>]<br>model output std: [<span class="hljs-number">18.348772</span> <span class="hljs-number">15.487542</span>]<br><span class="hljs-keyword">with</span> batch normalization: <br>model output mean:  [-<span class="hljs-number">4.9173834e-09</span> -<span class="hljs-number">8.0466274e-09</span>]<br>model output std: [<span class="hljs-number">1.0000002</span> <span class="hljs-number">1.</span>       ]<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>从输出结果看，在经过多层网络后，网络输出的均值和标准差已经发生偏移。而当我们指定批量规范化的均值和标准差为0,1时，网络输出的均值和标准差就会变为0,1。</li>
+<li>当我们指定$\gamma$和$ \beta$时，网络输出的标准差和均值就变为$ \gamma$和$ \beta$的值。</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python">paddle.seed(<span class="hljs-number">0</span>)<br><br>gamma = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>, <span class="hljs-number">4</span>]<br>beta = [<span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>]<br>model3 = MLP(layers_size, <span class="hljs-string">&#x27;basic&#x27;</span>, <span class="hljs-literal">None</span>, act_fn=activate_fn, norm_name=<span class="hljs-string">&#x27;bn&#x27;</span>, gamma=gamma, beta=beta)<br>output = model3(data)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;batch normalization with different gamma and beta for different layer: &#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;output means with bn 0: &#x27;</span>, model3.z[<span class="hljs-number">0</span>].numpy().mean())<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;output stds with bn 0: &#x27;</span>, model3.z[<span class="hljs-number">0</span>].numpy().std())<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;output means with bn 3: &#x27;</span>, model3.z[<span class="hljs-number">3</span>].numpy().mean())<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;output stds with bn 3: &#x27;</span>, model3.z[<span class="hljs-number">3</span>].numpy().std())<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>gamma &#x3D; [1, 2, 3, 5, 4]、beta &#x3D; [3, 2, 1, 2, 2]，这两个list是用来指定神经网络5层中每一层的均值和方差</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">batch normalization <span class="hljs-keyword">with</span> different gamma <span class="hljs-keyword">and</span> beta <span class="hljs-keyword">for</span> different layer: <br>output means <span class="hljs-keyword">with</span> bn <span class="hljs-number">0</span>:  <span class="hljs-number">3.0</span><br>output stds <span class="hljs-keyword">with</span> bn <span class="hljs-number">0</span>:  <span class="hljs-number">1.0</span><br>output means <span class="hljs-keyword">with</span> bn <span class="hljs-number">3</span>:  <span class="hljs-number">2.0</span><br>output stds <span class="hljs-keyword">with</span> bn <span class="hljs-number">3</span>:  <span class="hljs-number">5.0</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>该实验说明，没有进行BN的话，那么数据的分布就会改变；进行了BN，那么每层数据的分布都会按照指定的均值和方差来分布，也就是按照缩放和偏移量进行分布。</li>
+<li>因此BN对于数据的分布控制是有效的，从而能够网络高效的进行参数计算。</li>
+</ul>
+</blockquote>
+<h6 id="√-7-5-1-4-均值和方差的移动平均计算实验"><a href="#√-7-5-1-4-均值和方差的移动平均计算实验" class="headerlink" title="[√] 7.5.1.4 均值和方差的移动平均计算实验"></a>[√] 7.5.1.4 均值和方差的移动平均计算实验</h6><hr>
+<p>下面测试批量规范化中训练样本均值和方差的移动平均值计算。使网络前向迭代50个回合，这个前向计算并不涉及网络训练与梯度更新，只是模拟网络训练时批量规范化中训练样本的均值和方差用移动平均计算的过程。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">paddle.seed(<span class="hljs-number">0</span>)<br><br>epochs = <span class="hljs-number">50</span><br><span class="hljs-keyword">for</span> epoch <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(epochs):<br>    inputs = paddle.randn(shape=[<span class="hljs-number">200</span>, <span class="hljs-number">100</span>])<br>    output = model3(data)<br><br><span class="hljs-comment"># 打印批量规范化中训练样本均值和方差的移动平均值</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;batch norm 3 moving mean: &#x27;</span>, model3.normalization[<span class="hljs-number">3</span>].moving_mean.numpy())<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;batch norm 3 moving variance: &#x27;</span>, model3.normalization[<span class="hljs-number">3</span>].moving_variance.numpy())<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">batch norm <span class="hljs-number">3</span> moving mean:  [[-<span class="hljs-number">0.63306284</span>  <span class="hljs-number">0.17639302</span>]]<br>batch norm <span class="hljs-number">3</span> moving variance:  [[<span class="hljs-number">149.98349</span> <span class="hljs-number">267.1632</span> ]]<br></code></pre></td></tr></table></figure>
+
+<p>开启测试模式，使用训练集的移动平均值作为测试集批量规范化的均值和标准差。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">paddle.seed(<span class="hljs-number">0</span>)<br><br>inputs_test = paddle.randn(shape=[<span class="hljs-number">5</span>, <span class="hljs-number">100</span>])<br>output = model3(inputs_test, train_mode=<span class="hljs-literal">False</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+<h6 id="√-7-5-1-5-在MNIST数据集上使用带批量规范化的卷积网络"><a href="#√-7-5-1-5-在MNIST数据集上使用带批量规范化的卷积网络" class="headerlink" title="[√] 7.5.1.5 在MNIST数据集上使用带批量规范化的卷积网络"></a>[√] 7.5.1.5 在MNIST数据集上使用带批量规范化的卷积网络</h6><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>批量规范化的提出是为了解决内部协方差偏移问题，但后来发现其主要优点是更平滑的优化地形，以及使梯度变得更加稳定，从而提高收敛速度。</li>
+</ul>
+</blockquote>
+<p>为验证批量规范化的有效性，本节使用飞桨API快速搭建一个多层卷积神经网络。在MNIST数据集上，观察使用批量规范化的网络是否相对于没有使用批量规范化的网络收敛速度更快。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> paddle.nn <span class="hljs-keyword">import</span> Conv2D, MaxPool2D, Linear, BatchNorm2D<br><br><span class="hljs-comment"># 多层卷积神经网络实现</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MultiConvLayerNet</span>(nn.Layer):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, use_bn=<span class="hljs-literal">False</span></span>):<br>        <span class="hljs-built_in">super</span>(MultiConvLayerNet, self).__init__()<br><br>        <span class="hljs-comment"># 定义卷积层，输出特征通道out_channels设置为20，卷积核的大小kernel_size为5，卷积步长stride=1，padding=2</span><br>        self.conv1 = Conv2D(in_channels=<span class="hljs-number">1</span>, out_channels=<span class="hljs-number">20</span>, kernel_size=<span class="hljs-number">5</span>, stride=<span class="hljs-number">1</span>, padding=<span class="hljs-number">2</span>)<br>        <span class="hljs-comment"># 定义汇聚层，窗口的大小为2，步长为2</span><br>        self.max_pool1 = MaxPool2D(kernel_size=<span class="hljs-number">2</span>, stride=<span class="hljs-number">2</span>)<br>        <span class="hljs-comment"># 定义卷积层，输出特征通道out_channels设置为20，卷积核的大小kernel_size为5，卷积步长stride=1，padding=2</span><br>        self.conv2 = Conv2D(in_channels=<span class="hljs-number">20</span>, out_channels=<span class="hljs-number">20</span>, kernel_size=<span class="hljs-number">5</span>, stride=<span class="hljs-number">1</span>, padding=<span class="hljs-number">2</span>)<br>        <span class="hljs-comment"># 定义汇聚层，窗口的大小为2，步长为2</span><br>        self.max_pool2 = MaxPool2D(kernel_size=<span class="hljs-number">2</span>, stride=<span class="hljs-number">2</span>)<br>        <span class="hljs-comment"># 定义一层全连接层，输出维度是10</span><br>        self.fc = Linear(<span class="hljs-number">980</span>, <span class="hljs-number">10</span>)<br>        <span class="hljs-keyword">if</span> use_bn:<br>            <span class="hljs-comment"># 定义批量规范化层</span><br>            <span class="hljs-comment"># alec：批量规范化层，参数为通道的数量</span><br>            self.batch_norm1 = BatchNorm2D(num_features=<span class="hljs-number">20</span>)<br>            self.batch_norm2 = BatchNorm2D(num_features=<span class="hljs-number">20</span>)<br>        self.use_bn = use_bn<br><br>    <span class="hljs-comment"># 定义网络前向计算过程</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, inputs</span>):<br>        <span class="hljs-comment"># 卷积、BN、ReLU、汇聚、卷积、BN、ReLU、汇聚、reshape、fc</span><br>        x = self.conv1(inputs)<br>        <span class="hljs-keyword">if</span> self.use_bn:<br>            x = self.batch_norm1(x)<br>        x = F.relu(x)<br>        x = self.max_pool1(x)<br>        x = self.conv2(x)<br>        <span class="hljs-keyword">if</span> self.use_bn:<br>            x = self.batch_norm2(x)<br>        x = F.relu(x)<br>        x = self.max_pool2(x)<br>        x = paddle.reshape(x, [x.shape[<span class="hljs-number">0</span>], <span class="hljs-number">980</span>])<br>        x = self.fc(x)<br>        <span class="hljs-keyword">return</span> x<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">运行时长: <span class="hljs-number">8</span>毫秒<br>结束时间: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">24</span> <span class="hljs-number">21</span>:<span class="hljs-number">12</span>:<span class="hljs-number">17</span><br></code></pre></td></tr></table></figure>
+
+<p>实例化网络并进行训练。model1不使用批量规范化，model2使用批量规范化。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> nndl <span class="hljs-keyword">import</span> Accuracy<br><br>paddle.seed(<span class="hljs-number">0</span>)<br><span class="hljs-comment"># 确保从paddle.vision.datasets.MNIST中加载的图像数据是np.ndarray类型</span><br>paddle.vision.image.set_image_backend(<span class="hljs-string">&#x27;cv2&#x27;</span>)<br><br><span class="hljs-comment"># 使用MNIST数据集</span><br>train_dataset = MNIST(mode=<span class="hljs-string">&#x27;train&#x27;</span>, transform=transform)<br>train_loader = io.DataLoader(train_dataset, batch_size=<span class="hljs-number">64</span>, shuffle=<span class="hljs-literal">True</span>)<br>dev_dataset = MNIST(mode=<span class="hljs-string">&#x27;test&#x27;</span>, transform=transform)<br>dev_loader = io.DataLoader(train_dataset, batch_size=<span class="hljs-number">64</span>)<br>model1 = MultiConvLayerNet(use_bn=<span class="hljs-literal">False</span>)<br>opt1 = paddle.optimizer.Adam(learning_rate=<span class="hljs-number">0.01</span>, parameters=model1.parameters())<br>loss_fn = F.cross_entropy<br>metric = Accuracy()<br>runner1 = RunnerV3(model1, opt1, loss_fn, metric)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;train network without batch normalization&#x27;</span>)<br>runner1.train(train_loader, dev_loader, num_epochs=<span class="hljs-number">5</span>, log_steps=<span class="hljs-number">0</span>, eval_steps=<span class="hljs-number">300</span>)<br><br>model2 = MultiConvLayerNet(use_bn=<span class="hljs-literal">True</span>)<br>opt2 = paddle.optimizer.Adam(learning_rate=<span class="hljs-number">0.01</span>, parameters=model2.parameters())<br>runner2 = RunnerV3(model2, opt2, loss_fn, metric)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;train network with batch normalization&#x27;</span>)<br>runner2.train(train_loader, dev_loader, num_epochs=<span class="hljs-number">5</span>, log_steps=<span class="hljs-number">0</span>, eval_steps=<span class="hljs-number">300</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+<p>对比model1和model2在验证集上损失和准确率的变化情况。从输出结果看，使用批量规范化的网络收敛速度会更好。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python">plt.figure(figsize=(<span class="hljs-number">10</span>, <span class="hljs-number">4</span>))<br>ax1 = plt.subplot(<span class="hljs-number">121</span>)<br>ax1.plot(np.array(runner1.dev_losses)[:, <span class="hljs-number">1</span>], label=<span class="hljs-string">&#x27;no bn&#x27;</span>, c=<span class="hljs-string">&#x27;#e4007f&#x27;</span>, linestyle=<span class="hljs-string">&#x27;--&#x27;</span>)<br>ax1.plot(np.array(runner2.dev_losses)[:, <span class="hljs-number">1</span>], label=<span class="hljs-string">&#x27;with bn&#x27;</span>, c=<span class="hljs-string">&#x27;#f19ec2&#x27;</span>)<br>ax1.set_xlabel(<span class="hljs-string">&#x27;step&#x27;</span>)<br>ax1.set_ylabel(<span class="hljs-string">&#x27;loss&#x27;</span>)<br>plt.legend(fontsize=<span class="hljs-string">&#x27;x-large&#x27;</span>)<br>ax2 = plt.subplot(<span class="hljs-number">122</span>)<br>ax2.plot(runner1.dev_scores, label=<span class="hljs-string">&#x27;no bn&#x27;</span>, c=<span class="hljs-string">&#x27;#e4007f&#x27;</span>, linestyle=<span class="hljs-string">&#x27;--&#x27;</span>)<br>ax2.plot(runner2.dev_scores, label=<span class="hljs-string">&#x27;with bn&#x27;</span>, c=<span class="hljs-string">&#x27;#f19ec2&#x27;</span>)<br>ax2.set_xlabel(<span class="hljs-string">&#x27;step&#x27;</span>)<br>ax2.set_ylabel(<span class="hljs-string">&#x27;accuracy&#x27;</span>)<br>plt.legend(fontsize=<span class="hljs-string">&#x27;x-large&#x27;</span>)<br>plt.savefig(<span class="hljs-string">&#x27;opti-acc.pdf&#x27;</span>)<br>plt.show()<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312349.png" srcset="/img/loading.gif" lazyload alt="image-20221224212956409"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>可以看出，使用批量规范化的模型收敛速度和效果会更好</li>
+</ul>
+</blockquote>
+<h4 id="√-7-5-2-层规范化"><a href="#√-7-5-2-层规范化" class="headerlink" title="[√] 7.5.2 层规范化"></a>[√] 7.5.2 层规范化</h4><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>层规范化（Layer Normalization）和批量规范化是非常类似的方法</li>
+<li>它们的区别在于批量规范化对中间层的单个神经元进行规范化操作，而层规范化对一个中间层的所有神经元进行规范化</li>
+</ul>
+<hr>
+<p>层规范化定义为<br>$$<br>\begin{aligned}<br>\hat{ z}^{(l)} &amp;&#x3D; \frac{ z^{(l)} - \mu^{(l)}}{\sqrt{\sigma^{(l)^2} + \epsilon}} \odot  \gamma +  \beta,  \<br>&amp;\triangleq LN_{ \gamma,  \beta}( z^{(l)}),<br>\end{aligned}<br>$$</p>
+<p>其中$ z^{(l)}$为第$l$层神经元的净输入， $ \gamma$和$ \beta$分别代表缩放和平移的参数向量，和$ z^{(l)}$维数相同。$\mu^{(l)}$和$\sigma^{(l)^2}$分别为$ z^{(l)}$的均值和方差。</p>
+<hr>
+<p>根据上面的公式可以看出，对于$K$个样本的一个小批量合集$z^{(l)} &#x3D; [ z^{(1, l)}; …;  z^{(K, l)}]$，层规范化是对矩阵$ z^{(l)}$的每一列进行规范化，而批量规范化是对每一行进行规范化。一般而言，批量规范化是一种更好的选择。当小批量样本数量比较小时，可以选择层规范化。</p>
+<hr>
+<p>一般而言，批量规范化是一种更好的选择</p>
+</blockquote>
+<h6 id="√-7-5-2-1-LayerNorm算子"><a href="#√-7-5-2-1-LayerNorm算子" class="headerlink" title="[√] 7.5.2.1 LayerNorm算子"></a>[√] 7.5.2.1 LayerNorm算子</h6><hr>
+<p>定义LayerNorm实现层规范化算子。与批量规范化不同，层规范化对每个样本的所有特征进行规范化。代码实现如下：</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>批规范化对一个batch的样本，对相同的一个特征进行规范化</li>
+<li>层规范化，对单个样本，所有的通道特征进行规范化</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 层规范化</span><br><span class="hljs-comment"># axis=[1, 2, 3] 就表示对一个图像的所有的特征进行规范化，而不是对多个图像的单个特征进行规范化</span><br>            mean = paddle.mean(X, axis=[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], keepdim=<span class="hljs-literal">True</span>)<br>            var = ((X - mean) ** <span class="hljs-number">2</span>).mean(axis=[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], keepdim=<span class="hljs-literal">True</span>)<br><br><span class="hljs-comment"># 批规范化</span><br><span class="hljs-comment"># axis=[0, 2, 3] 就表示对一批图像的单个特征图进行规范化</span><br>        mean = paddle.mean(X, axis=[<span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], keepdim=<span class="hljs-literal">True</span>)<br>        var = ((X - mean) ** <span class="hljs-number">2</span>).mean(axis=[<span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], keepdim=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">LayerNorm</span>(nn.Layer):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, eps=<span class="hljs-number">1e-7</span>,  gamma=<span class="hljs-number">1.0</span>, beta=<span class="hljs-number">0.0</span></span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        层规范化初始化</span><br><span class="hljs-string">        输入:</span><br><span class="hljs-string">            - eps: 保持数值稳定性而设置的常数</span><br><span class="hljs-string">            - gamma: 缩放的参数</span><br><span class="hljs-string">            - beta: 平移的参数</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-built_in">super</span>().__init__(self.__class__.__name__)<br>        self.gamma = paddle.to_tensor(gamma, dtype=<span class="hljs-string">&#x27;float32&#x27;</span>)<br>        self.beta = paddle.to_tensor(beta, dtype=<span class="hljs-string">&#x27;float32&#x27;</span>)<br>        self.eps = eps<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, X</span>):<br>        <span class="hljs-comment"># 层规范化对每个样本的每个特征进行规范化</span><br>        <span class="hljs-keyword">assert</span> <span class="hljs-built_in">len</span>(X.shape) <span class="hljs-keyword">in</span> (<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>)<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(X.shape) == <span class="hljs-number">4</span>:<br>            <span class="hljs-comment"># axis=[1, 2, 3] 就表示对一个图像的所有的特征进行规范化，而不是对多个图像的单个特征进行规范化</span><br>            mean = paddle.mean(X, axis=[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], keepdim=<span class="hljs-literal">True</span>)<br>            var = ((X - mean) ** <span class="hljs-number">2</span>).mean(axis=[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], keepdim=<span class="hljs-literal">True</span>)<br>        <span class="hljs-keyword">else</span>:<span class="hljs-comment">#全连接的话，直接对第二维进行均值和方差求值</span><br>            mean = paddle.mean(X, axis=-<span class="hljs-number">1</span>, keepdim=<span class="hljs-literal">True</span>)<br>            var = ((X - mean) ** <span class="hljs-number">2</span>).mean(axis=-<span class="hljs-number">1</span>, keepdim=<span class="hljs-literal">True</span>)<br>        X = (X - mean) / paddle.sqrt(var, self.eps)<span class="hljs-comment"># 规范化</span><br>        y = self.gamma * X + self.beta<span class="hljs-comment"># 缩放和平移</span><br>        <span class="hljs-keyword">return</span> y<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<h6 id="√-7-5-2-2-层规范化的验证实验"><a href="#√-7-5-2-2-层规范化的验证实验" class="headerlink" title="[√] 7.5.2.2 层规范化的验证实验"></a>[√] 7.5.2.2 层规范化的验证实验</h6><hr>
+<p>随机初始化一组形状为（10，100）的数据，输入带有层规范化的前馈神经网络中，得到网络输出并打印输出的标准差和均值。指定$ \gamma$和$ \beta$，从输出结果看，网络输出的标准差和均值变为$ \gamma$和$ \beta$的值。代码实现如下：</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>bn是批量规范化、ln是层规范化，bn是在单个特征图、一批图像上规范化、ln是在单个图像、一层的特征图上做规范化</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python">paddle.seed(<span class="hljs-number">0</span>)<br><br><span class="hljs-comment"># 定义网络每层神经元的数量</span><br>layers_size = [<span class="hljs-number">100</span>, <span class="hljs-number">200</span>, <span class="hljs-number">400</span>, <span class="hljs-number">300</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>]<br><br><span class="hljs-comment"># 随机生成数据</span><br>data = paddle.randn(shape=[<span class="hljs-number">10</span>, <span class="hljs-number">100</span>])<br>activate_fn = paddle.nn.Tanh<br>gamma = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>, <span class="hljs-number">4</span>]<br>beta = [<span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>]<br>model = MLP(layers_size, <span class="hljs-string">&#x27;basic&#x27;</span>, <span class="hljs-literal">None</span>, act_fn=activate_fn, norm_name=<span class="hljs-string">&#x27;ln&#x27;</span>, gamma=gamma, beta=beta)<br>output = model(data)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;layer normalization with different gamma and beta for different layer: &#x27;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;output means with ln 0: &#x27;</span>, model.z[<span class="hljs-number">0</span>].numpy().mean(axis=-<span class="hljs-number">1</span>))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;output stds with ln 0: &#x27;</span>, model.z[<span class="hljs-number">0</span>].numpy().std(axis=-<span class="hljs-number">1</span>))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;output means with ln 1: &#x27;</span>, model.z[<span class="hljs-number">3</span>].numpy().mean(axis=-<span class="hljs-number">1</span>))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;output stds with ln 1: &#x27;</span>, model.z[<span class="hljs-number">3</span>].numpy().std(axis=-<span class="hljs-number">1</span>))<br></code></pre></td></tr></table></figure>
+
+<p>因为层规范化是对每个样本的每个通道做规范化，不需要存储训练数据的均值和方差的移动平均值，所以这里不需要多轮迭代累计移动平均值再做测试。而随机生成测试数据经过带层规范化的神经网络和上述代码实现方式相同，这里不再重复展示。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AE%9E%E8%B7%B5%E5%AD%A6%E4%B9%A0/" class="category-chain-item">实践学习</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AE%9E%E8%B7%B5%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%EF%BC%9A%E6%A1%88%E4%BE%8B%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E9%A3%9E%E6%A1%A8-%E9%82%B1%E9%94%A1%E9%B9%8F/" class="category-chain-item">神经网络与深度学习：案例与实践 - 飞桨 - 邱锡鹏</a>
+  
+  
+
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>7 - 网络优化与正则化 - 书籍2</div>
+      <div>http://example.com/posts/2864444717/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年12月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/3720136123/" title="7 - 网络优化与正则化 - 书籍3">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">7 - 网络优化与正则化 - 书籍3</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/867345559/" title="7 - 网络优化与正则化 - 书籍1">
+                        <span class="hidden-mobile">7 - 网络优化与正则化 - 书籍1</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

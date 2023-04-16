@@ -1,0 +1,991 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="原文链接： DASR: 盲超分两大流派集成大者！ - 微信公众号 - AIWalker  2022-03-29 22:00 ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。   【本文要点】 对每个输入图像自适应估计其退化信息 点1：退化自适应预测网络 - 采用一个很小的回归网络预测输入图像的退化参数 点2：带多专家">
+<meta property="og:type" content="article">
+<meta property="og:title" content="055 - 文章阅读笔记：【DASR】盲超分两大流派集成大者！- 微信公众号 - AIWalker">
+<meta property="og:url" content="http://example.com/posts/266288220/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="原文链接： DASR: 盲超分两大流派集成大者！ - 微信公众号 - AIWalker  2022-03-29 22:00 ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。   【本文要点】 对每个输入图像自适应估计其退化信息 点1：退化自适应预测网络 - 采用一个很小的回归网络预测输入图像的退化参数 点2：带多专家">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051406174.jpg">
+<meta property="article:published_time" content="2023-02-04T10:26:49.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.441Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="人工智能">
+<meta property="article:tag" content="盲超分">
+<meta property="article:tag" content="图像处理">
+<meta property="article:tag" content="超分辨率重建">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051406174.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>055 - 文章阅读笔记：【DASR】盲超分两大流派集成大者！- 微信公众号 - AIWalker - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">055 - 文章阅读笔记：【DASR】盲超分两大流派集成大者！- 微信公众号 - AIWalker</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-02-04 18:26" pubdate>
+          2023年2月4日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          34 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">055 - 文章阅读笔记：【DASR】盲超分两大流派集成大者！- 微信公众号 - AIWalker</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>原文链接：</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651688180&idx=1&sn=99eb47d0bde2320ac677e438b5f823d8&chksm=f3c9c2d9c4be4bcfb588c5d0cb6fbe19c441e7896ea41cd215174afac4403b1dede763432915&scene=178&cur_album_id=1338480951000727554#rd">DASR: 盲超分两大流派集成大者！ - 微信公众号 - AIWalker</a></p>
+<p> 2022-03-29 22:00</p>
+<p>ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。</p>
+</blockquote>
+<blockquote>
+<p>【本文要点】</p>
+<p>对每个输入图像自适应估计其退化信息</p>
+<p>点1：退化自适应预测网络 - 采用一个很小的回归网络预测输入图像的退化参数</p>
+<p>点2：带多专家知识的超分网络 - 骨干部分采用了类似CondConv的”多专家”方案进行处理</p>
+</blockquote>
+<h2 id="√-文章信息"><a href="#√-文章信息" class="headerlink" title="[√] 文章信息"></a>[√] 文章信息</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409765.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>论文标题：DASR：Efficient and Degradation-Adaptive Network for Real-World Image Super-Resolution</p>
+<p>中文标题：DASR：用于真实世界图像超分辨率的高效和退化自适应网络</p>
+<p>论文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2203.14216">https://arxiv.org/abs/2203.14216</a></p>
+<p>论文代码：<a target="_blank" rel="noopener" href="https://github.com/csjliang/dasr">https://github.com/csjliang/dasr</a></p>
+<p>论文刊登：ECCV 2022</p>
+<hr>
+<p>真实场景图像未知且复杂的退化机制、实际应用中的有限计算资源等问题导致高效且实用的RealSR仍是一个极具挑战性的任务。</p>
+<p>尽管近期的一些RealSR通过关于退化空间的建模取得极大的进展(比如BSRGAN、Real-ESRGAN)，但这些方案严重依赖于<strong>重骨干网络</strong>(比如RRDB)，对于处理不同退化强度的图像不够灵活(内容自适应性不足)。</p>
+<p>本文提出一种高效且实用的方案DASR，<strong>它对每个输入图像自适应估计其退化信息并用于网络参数调制</strong>。</p>
+<p>具体来说，<strong>它采用一个很小的回归网络预测输入图像的退化参数，同时骨干部分采用了类似CondConv的”多专家”方案进行处理</strong>。</p>
+<p>这种”多专家”与退化自适应联合优化能够大幅扩展模型容量以处理不同强度的退化，同时保持高效的推理。</p>
+<p>实验结果表明：相比有方案，在处理不同退化强度的真实场景图像时，所提方案不仅更有效，同时部署更高效。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>RealSR的挑战：退化未知、计算资源有限</li>
+<li>显示建模的盲超分的不足：严重依赖于重骨干网络，处理不同退化程度的图像不够灵活</li>
+</ul>
+</blockquote>
+<h2 id="√-1-Method"><a href="#√-1-Method" class="headerlink" title="[√] 1 Method"></a>[√] 1 Method</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409766.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上图为本文所提DASR整体架构示意图，它包含如下两部分：(1) 退化预测网络; (2)带多专家知识的超分网络。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>理解：给退化预测网络输入LR图像，预测出降质特征向量，然后将该预测向量输入到多专家网络，获得专家知识。在SR的时候，给自适应SR网络分别输入LR图像和专家知识，然后获得SR。</li>
+<li>其中降质预测网络能够预测出降质分布，用于辅助SR过程。将降质分布向量输入到专家知识网络获得专家知识，用于辅助SR。因为不同的图像的降质类型是不同的，所以SR网络成为基于专家知识的自适应SR网络。</li>
+</ul>
+<hr>
+<ul>
+<li>现在的问题是：<ul>
+<li>如何预测降质</li>
+<li>专家知识网络如何根据降质得到专家知识</li>
+<li>专家知识是如何帮助SR过程的</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h4 id="√-DASR"><a href="#√-DASR" class="headerlink" title="[√] DASR"></a>[√] DASR</h4><hr>
+<p>为达成高效且退化自适应图像超分，我们采用回归网络<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409767.png" srcset="/img/loading.gif" lazyload alt="image-20230204214830403">对每个输入x预测其退化参数<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409768.png" srcset="/img/loading.gif" lazyload alt="image-20230204214537976">。为使得该估计过程更高效，我们设计了一种轻量型网络：它包含6个后接LeakyReLU的卷积以及全局均值池化。在参数优化方面，我们引入了回归损失，定义如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409769.png" srcset="/img/loading.gif" lazyload alt="image-20230204214844682"></p>
+<p>为达成高效且实用Real-ISR，我们提出了一种退化自适应超分网络，它通过MoE(Mixture of Experts)策略提升模型容量。具体来说，我们采用N个”卷积专家”(Convolutional Experts)，表示为<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409770.png" srcset="/img/loading.gif" lazyload alt="image-20230205130330199">，每个”专家”<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409771.png" srcset="/img/loading.gif" lazyload alt="image-20230205130340373">均是一个轻量型超分网络（比如EDSR-M）且具有相同的架构，同时采用相同的损失进行优化。<strong>我们初衷是期望通过隐式训练使得每个专家能处理退化子空间的图像，然后通过多专家协同处理整个退化空间的图像</strong>。</p>
+<p>用于多专家融合的加权因子<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409772.png" srcset="/img/loading.gif" lazyload alt="image-20230205130705127">具有退化自适应特性，我们采用另一个小网络<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409773.png" srcset="/img/loading.gif" lazyload alt="image-20230205130716676">(它仅包含两个全连接层)对回归网络的预测<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409774.png" srcset="/img/loading.gif" lazyload alt="image-20230205130734332">进行处理得到：<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409776.png" srcset="/img/loading.gif" lazyload alt="image-20230205130745541">。</p>
+<p>基于前述多专家$E$与自适应权值因子$a$，我们能够以非线性方式进行混合:</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409777.png" srcset="/img/loading.gif" lazyload alt="image-20230205130915198"></p>
+<p>也就是说，**我们可以对所有专家网络进行自适应融合并到一个自适应网络E<del>A</del>**。</p>
+<p>需要注意的是：在经典的动态卷积(如DyConv、CondConv)中，每一层的权值因子需要通过一个独立的网络预测，这会导致不可忽视的计算量；而在这里，<strong>我们对所有层学习相同的加权因子</strong>，故更为高效。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>退化自适应超分网络 &#x3D; 降质预测 + MOE（专家混合知识）</li>
+</ul>
+</blockquote>
+<h4 id="√-Degradation-Modeling"><a href="#√-Degradation-Modeling" class="headerlink" title="[√] Degradation Modeling"></a>[√] Degradation Modeling</h4><hr>
+<p>由于不对齐因素，真实场景的高质量HR-LR数据对难以收集，而退化模型对Real-ISR的训练又是那么重要。</p>
+<p><strong>我们设计了一个退化空间S进行训练数据对制作与退化自适应优化，该退化空间S由退化参数<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409778.png" srcset="/img/loading.gif" lazyload alt="image-20230205131754810">控制，<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409779.png" srcset="/img/loading.gif" lazyload alt="image-20230205131813145">表示退化类型或者退化参数</strong>。注：在DASR方案中，$v$同样作为GT对退化预测网络进行训练优化。</p>
+<p>在退化方面，我们引入了如下退化操作：</p>
+<ul>
+<li>模糊：包含各项异性高斯模糊、各项同性高斯模糊；</li>
+<li>resizing：包含由area、bilinear以及bicubic构成的上采样和下采样；</li>
+<li>noise：包含加性高斯噪声、泊松噪声；</li>
+<li>JPEG压缩。</li>
+</ul>
+<p>在退化参数$v$中，<strong>我们采用对退化类型采用one-hot编码，对退化强度进行归一化处理编码</strong>，比如，对于模糊退化参数，我们采用核尺寸s、标准差<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409780.png" srcset="/img/loading.gif" lazyload alt="image-20230205132057860">以及旋转角度θ等进行量化。</p>
+<p>通过这种处理，退化参数更具可解释性。</p>
+<p>此外，<strong>受益于该可解释性与退化空间的紧致性(33个参数)，我们可以在推理阶段显式控制退化参数</strong>。</p>
+<p>尽管BSRGAN的退化置换与Real-ESRGAN的二阶退化可以构建一个非常大的退化空间，但它们<strong>无法训练出一个能够自适应处理不同强度退化图像的超分模型</strong>。</p>
+<p>我们期望：<strong>通过让不同专家处理不同的强度的退化输入，进而利用DASR的多专家混合机制使其能够处理非常宽泛的真实输入</strong>。</p>
+<p>为此，我们通过指定退化参数将整个退化空间拆分为3个层次<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409781.png" srcset="/img/loading.gif" lazyload alt="image-20230205132445429">，<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409782.png" srcset="/img/loading.gif" lazyload alt="image-20230205132454891">分别表示小参数范围和大参数范围的一阶退化，<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409783.png" srcset="/img/loading.gif" lazyload alt="image-20230205132503486">表示二阶退化。更详细的退化参数信息见下表。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409784.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>二阶退化即两阶段退化，先退化一次、然后再退化一次</li>
+</ul>
+</blockquote>
+<h4 id="√-Training-Losses"><a href="#√-Training-Losses" class="headerlink" title="[√] Training Losses"></a>[√] Training Losses</h4><hr>
+<p>所提DASR包含三个子网络[$E,P,A$]，前面提到的回归损失用于对$P$进行优化，为优化整体架构，我们构建了如下损失：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409785.png" srcset="/img/loading.gif" lazyload alt="image-20230205133801971"></p>
+<p>注：在本文实验中，<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409786.png" srcset="/img/loading.gif" lazyload alt="image-20230205133815936">。</p>
+<h2 id="√-2-Experiments"><a href="#√-2-Experiments" class="headerlink" title="[√] 2 Experiments"></a>[√] 2 Experiments</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409787.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>需要注意的是，本文所设计的退化空间比BSRGAN、Real-ESRGAN的多样性还要强，既包含轻度的退化，也包含重度退化。上图给出了不同程度的退化示意图(更多示意图可查看原文)，包含最基本的Bicubic退化，也包含轻度一阶退化，还包含重度一阶退化与重度二阶退化。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409788.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上表给出了不同方案在不同退化强度下的性能对比，从中可以看到：</p>
+<ul>
+<li><strong>已有方案仅能处理特定类型的退化</strong>，如RRDB、ESRGAN只能处理bicubic退化；Real-ESRGAN、BSRGAN、Real-SwinIR对于重度退化数据效果很好，但在轻度退化数据上的效果出现了严重下降。</li>
+<li>相比其他方案，<strong>在三种类型退化数据上，所提DASR取得稳定且显著性能提升</strong>。这说明，<strong>所提DASR对不同的退化具有极强的泛化性能</strong>。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409789.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>为验证所提退化自适应策略的有效性，我们基于所构建退化空间对不同骨干进行了重训练，结果见上表，可以看到：</p>
+<ul>
+<li><strong>当采用相同骨干SRResNet时，所提方案取得大幅性能提升</strong>，比如bicubic退化数据上的0.5dB、Level-II退化数据上的5%LPIPS。这说明：退化自适应混合机制可以极大扩展模型容量，同时保持推理高效性。</li>
+<li><strong>相比RRDB与SwinIR，所提DASR所需计算资源更少</strong>，约为RRDB的1&#x2F;3, SwinRI的1&#x2F;12；同时，DASR具有更优的重建质量。这进一步证实了其退化自适应的有效性与部署高效性。</li>
+<li>在推理效率方面，RRDB比SRResNet的FLOPs高7倍，推理速度慢4倍；SwinIR具有可接受的FLOPs与Params，但其实际推理速度反而最慢(attention与IO的缘故)。相反，<strong>所提DASR具有超优异性能的同时具有非常快的推理速度、低FLOPs与参数量</strong>。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409790.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上图给出了不同方案在不同退化下的重建效果对比，从中可以看到：<strong>DASR能够更为稳定的重建锐利而真实的纹理</strong>；而BSRGAN与Real-ESRGAN对于轻度退化数据无法生成令人满意的纹理细节。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051409791.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>前面也提到了，DASR一个有意义的优势在于：<strong>受益于可解释性与退化表达的紧致性，在推理阶段，所提DASR支持用户交互</strong>。上图给出了一个用户交互调制效果对比，可以看到：**当把模糊相关的参数手动调大后，重建结果更为锐利(见Fig5-c)；当对噪声相关的参数进行调制时可以更灵活的处理细节与噪声之间的均衡(见Fig5-e，Fig5-f)**。</p>
+<h2 id="√-3-个人理解"><a href="#√-3-个人理解" class="headerlink" title="[√] 3 个人理解"></a>[√] 3 个人理解</h2><hr>
+<ul>
+<li><p>这篇论文可谓把盲图像超分的两个流派(IKC流派显示进行退化核建模和BSRGAN流派进行隐式建模)给打通，兼具两大盲超分流派的优势：</p>
+<ul>
+<li>IKC流派的数据自适应性</li>
+<li>BSRGAN流派的超大退化核空间。</li>
+</ul>
+</li>
+<li><p>此外，DASR还具备两者所不具备的退化信息人工交互调制性，而这这种退化核支持交互调制的方案最早可追溯到SRMD一文。</p>
+</li>
+<li><p>此外，SRMD、DASR这种支持人工交互调整超分结果的机制使其在图像编辑领域极具价值；同时对于某些特定无HR数据的领域，该方案非常适合用于制作数据。</p>
+</li>
+<li><p>总而言之，这篇论文非常值得称道，将BSRGAN类方案的重骨干做成了轻量型，为进一步的轻量型盲超分探索打开了一扇门。</p>
+</li>
+</ul>
+<h2 id="√-4-推荐阅读"><a href="#√-4-推荐阅读" class="headerlink" title="[√] 4 推荐阅读"></a>[√] 4 推荐阅读</h2><hr>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651683607&idx=1&sn=2df5fd9f30b52321fa7a8786f7ba8b35&scene=21#wechat_redirect">CVPR2021|超分性能不变，计算量降低50%，董超等人提出用于low-level加速的ClassSR</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651687062&idx=1&sn=98cdf4f017c15f94b71db69b5ad64810&scene=21#wechat_redirect">让Dropout在图像超分领域重焕光彩！</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651682108&idx=1&sn=a29346042bf42730a48901bac00ef317&scene=21#wechat_redirect">图像增强领域大突破！以1.66ms的速度处理4K图像，港理工提出图像自适应的3DLUT</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651683889&idx=1&sn=a602e3cdb44ea2901dd506630b5e3b70&scene=21#wechat_redirect">ETH开源业内首个广义盲图像超分退化模型，性能效果绝佳</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651686061&idx=1&sn=3b2ca0b46d95a1d393449b8db8161581&scene=21#wechat_redirect">ICCV2021 FBCNN: 超灵活且强度可控的盲压缩伪影移除新思路</a></li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-chain-item">文章学习</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>
+      
+        <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">#人工智能</a>
+      
+        <a href="/tags/%E7%9B%B2%E8%B6%85%E5%88%86/">#盲超分</a>
+      
+        <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">#图像处理</a>
+      
+        <a href="/tags/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/">#超分辨率重建</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>055 - 文章阅读笔记：【DASR】盲超分两大流派集成大者！- 微信公众号 - AIWalker</div>
+      <div>http://example.com/posts/266288220/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年2月4日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/2499736958/" title="9 - fluid添加看板娘">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">9 - fluid添加看板娘</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/2751332562/" title="054 - 文章阅读笔记：GhostSR|针对图像超分的特征冗余，华为诺亚&amp;北大联合提出GhostSRepVGG - 微信公众号 - AIWalker">
+                        <span class="hidden-mobile">054 - 文章阅读笔记：GhostSR|针对图像超分的特征冗余，华为诺亚&amp;北大联合提出GhostSRepVGG - 微信公众号 - AIWalker</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,1523 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="[√] 7.0 - 网络优化与正则化   alec：  为了模型能够在未知的数据上效果更好，我们希望模型的泛化错误更小。 为了提高模型的泛化能力，我们通常会对模型的复杂度进行约束，也就是正则化。 优化和正则化是一对矛盾体，就希望好，有希望不要太好。正则化会使训练集上的误差升高，但是会降低训练集和测试集的差别。 正则化用来提高模型的泛化能力。    [√] 7.1 - 神经网络优化的特点 [√] 神">
+<meta property="og:type" content="article">
+<meta property="og:title" content="7 - 网络优化与正则化">
+<meta property="og:url" content="http://example.com/posts/1207574521/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="[√] 7.0 - 网络优化与正则化   alec：  为了模型能够在未知的数据上效果更好，我们希望模型的泛化错误更小。 为了提高模型的泛化能力，我们通常会对模型的复杂度进行约束，也就是正则化。 优化和正则化是一对矛盾体，就希望好，有希望不要太好。正则化会使训练集上的误差升高，但是会降低训练集和测试集的差别。 正则化用来提高模型的泛化能力。    [√] 7.1 - 神经网络优化的特点 [√] 神">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121157.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121158.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121159.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121160.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121161.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121162.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121163.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121164.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121165.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121166.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121167.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121168.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121169.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121170.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121171.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121172.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121173.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121174.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121175.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121176.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121177.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121178.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121179.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121180.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121181.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121182.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121183.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121184.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121186.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121187.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121188.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121189.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121190.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121191.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121192.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121193.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121194.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121195.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121196.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121197.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121198.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121199.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121200.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121201.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121202.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121203.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121204.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121205.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121206.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121207.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121208.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121209.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121210.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121211.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121212.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121213.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121214.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121215.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121216.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121217.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121218.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121219.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121220.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121221.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121222.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121223.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121224.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121225.png">
+<meta property="article:published_time" content="2022-12-25T15:15:56.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:38:22.547Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121157.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>7 - 网络优化与正则化 - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">7 - 网络优化与正则化</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-12-25 23:15" pubdate>
+          2022年12月25日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          54 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">7 - 网络优化与正则化</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：15 分钟前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="√-7-0-网络优化与正则化"><a href="#√-7-0-网络优化与正则化" class="headerlink" title="[√] 7.0 - 网络优化与正则化"></a>[√] 7.0 - 网络优化与正则化</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121157.png" srcset="/img/loading.gif" lazyload alt="image-20221225232700332"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>为了模型能够在未知的数据上效果更好，我们希望模型的泛化错误更小。</li>
+<li>为了提高模型的泛化能力，我们通常会对模型的复杂度进行约束，也就是正则化。</li>
+<li>优化和正则化是一对矛盾体，就希望好，有希望不要太好。正则化会使训练集上的误差升高，但是会降低训练集和测试集的差别。</li>
+<li>正则化用来提高模型的泛化能力。</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121158.png" srcset="/img/loading.gif" lazyload alt="image-20221225233110361"></p>
+<h2 id="√-7-1-神经网络优化的特点"><a href="#√-7-1-神经网络优化的特点" class="headerlink" title="[√] 7.1 - 神经网络优化的特点"></a>[√] 7.1 - 神经网络优化的特点</h2><hr>
+<h4 id="√-神经网络优化的难点"><a href="#√-神经网络优化的难点" class="headerlink" title="[√] 神经网络优化的难点"></a>[√] 神经网络优化的难点</h4><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>结构差异大<ul>
+<li>网络类型多样，没有通用的优化算法</li>
+<li>超参数非常多</li>
+</ul>
+</li>
+<li>非凸优化问题<ul>
+<li>参数初始化（不同的参数初始化可能导致不同的局部最优解）</li>
+<li>非凸优化问题，存在局部最优解，如何逃离局部最优问题（到达梯度为0的鞍点，如何逃出去？）</li>
+</ul>
+</li>
+<li>梯度消失、梯度爆炸问题<ul>
+<li>网络非常深的时候，深层的梯度，要么为0、要么非常大</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>两个角度解决，一方面找到更好的算法、另一方面改进网络结构（例如加上批量规范化，提高网络优化的能力）</li>
+</ul>
+</blockquote>
+<h4 id="√-高维空间的非凸优化问题"><a href="#√-高维空间的非凸优化问题" class="headerlink" title="[√] 高维空间的非凸优化问题"></a>[√] 高维空间的非凸优化问题</h4><hr>
+<h6 id="√-鞍点"><a href="#√-鞍点" class="headerlink" title="[√] 鞍点"></a>[√] 鞍点</h6><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121159.png" srcset="/img/loading.gif" lazyload alt="image-20221225234745311"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>在高维空间要解决的问题，不是如何逃离局部最优点，而是如何逃离鞍点</li>
+<li>在高维空间，在鞍点中，一个点是局部最低点和局部最高点的比例基本上1:1的，所以在一个D维的空间中，一个点是驻点（所有的维度上都是最小的）的概率大约是二分之一的D次方，这个概率是非常小的，因此在高维空间中，大部分的鞍点都不是驻点，鞍点是驻点的概率是二分之一的N次方，所以高维空间中，鞍点（非驻点）的概率是非常高的。所以在高维空间中，非凸优化问题变成了如何逃离鞍点。</li>
+</ul>
+</blockquote>
+<h6 id="√-平坦最小值（Flat-Minima）"><a href="#√-平坦最小值（Flat-Minima）" class="headerlink" title="[√] 平坦最小值（Flat Minima）"></a>[√] 平坦最小值（Flat Minima）</h6><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121160.png" srcset="/img/loading.gif" lazyload alt="image-20221225235108441"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>高维空间中，大部分的局部最优解对应的损失可能非常接近于全局最优解，这个损失已经足够小了，所以有时候我们不需要找到全局最优解，找到一个足够小的局部最优解就够了。而且找到全局最优解，意味着可能就会过拟合了。</li>
+<li>正则化的作用也是让NN找足够合适的局部最优解，而不是找可能过拟合的全局最优点。因为数据不可能做到百分之百完备，那么找到的全局最优解，就会是过拟合的。月满则亏，水满则溢。</li>
+</ul>
+</blockquote>
+<h4 id="√-优化地形-Optimization-Landscape-的可视化"><a href="#√-优化地形-Optimization-Landscape-的可视化" class="headerlink" title="[√] 优化地形(Optimization Landscape)的可视化"></a>[√] 优化地形(Optimization Landscape)的可视化</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121161.png" srcset="/img/loading.gif" lazyload alt="image-20221226114830605"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>加上残差连接之后，地形就变得非常光滑，因此这个网络更加的好优化。</li>
+<li>残差连接的作用1：残差连接可以缓解梯度消失问题，通过残差连接可以让梯度一直+1</li>
+<li>残差连接的作用2：使得优化地形更加的平滑，从而使得优化的效率更高</li>
+</ul>
+</blockquote>
+<h4 id="√-神经网络优化的改善方法"><a href="#√-神经网络优化的改善方法" class="headerlink" title="[√] 神经网络优化的改善方法"></a>[√] 神经网络优化的改善方法</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121162.png" srcset="/img/loading.gif" lazyload alt="image-20221226115201369"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>修改网络结构的目的是为了得到更好的优化地形，是优化神经网络的方法之一</li>
+<li>神经网络优化的思路：<ul>
+<li>更有效的优化算法：学习率调整、梯度估计调整（此处的优化算法指的是狭义的优化算法，即通过梯度下降进行参数更新的算法）</li>
+<li>参数初始化、数据预处理</li>
+<li>修改网络结构：更好的优化地形</li>
+<li>更好的超参数优化方法</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h2 id="√-7-2-优化算法改进"><a href="#√-7-2-优化算法改进" class="headerlink" title="[√] 7.2 - 优化算法改进"></a>[√] 7.2 - 优化算法改进</h2><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>更有效的优化算法：学习率调整、梯度估计调整（此处的优化算法指的是狭义的优化算法，即通过梯度下降进行参数更新的算法）</li>
+</ul>
+</blockquote>
+<h4 id="√-优化算法：随机梯度下降"><a href="#√-优化算法：随机梯度下降" class="headerlink" title="[√] 优化算法：随机梯度下降"></a>[√] 优化算法：随机梯度下降</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121163.png" srcset="/img/loading.gif" lazyload alt="image-20221226115550160"></p>
+<h4 id="√-优化算法：小批量随机梯度下降-MiniBatch"><a href="#√-优化算法：小批量随机梯度下降-MiniBatch" class="headerlink" title="[√] 优化算法：小批量随机梯度下降(MiniBatch)"></a>[√] 优化算法：小批量随机梯度下降(MiniBatch)</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121164.png" srcset="/img/loading.gif" lazyload alt="image-20221226115905740"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>为了改进优化的效率，通常使用小批量随机梯度下降</li>
+<li>更加充分的利用GPU的并行计算能力</li>
+<li>小批量梯度下降中每个批次计算出来的梯度，带有随机性，因此并不是最优的</li>
+<li>优化优化算法的三个考虑角度：<ul>
+<li>批量K </li>
+<li>梯度</li>
+<li>学习率</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h4 id="√-批量大小-Batch-Size"><a href="#√-批量大小-Batch-Size" class="headerlink" title="[√] 批量大小(Batch Size)"></a>[√] 批量大小(Batch Size)</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121165.png" srcset="/img/loading.gif" lazyload alt="image-20221226120505346"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>批量小的时候，随机性更高，因此要设置更小的学习率。因此学习率和批量大小要成正相关。</li>
+<li>K和α的关系：线性缩放原则</li>
+<li><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121166.png" srcset="/img/loading.gif" lazyload alt="image-20221226120411577"></li>
+<li>如图所示，二者线性关系的话，每一步走的距离大体上是不变的</li>
+<li>（此处存疑）</li>
+</ul>
+</blockquote>
+<h4 id="√-批量大小对收敛的影响"><a href="#√-批量大小对收敛的影响" class="headerlink" title="[√] 批量大小对收敛的影响"></a>[√] 批量大小对收敛的影响</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121167.png" srcset="/img/loading.gif" lazyload alt="image-20221226121517533"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li><p>从作图可以看出，批量越大，越稳定，计算的方向越正确，下降的越明显。</p>
+</li>
+<li><p>批量的选择考虑：</p>
+<ul>
+<li>（1）效率角度：批量K尽可能的大，充分的利用GPU的算力</li>
+<li>（2）但是批量大的话，从优化的角度上讲，反而慢</li>
+<li>（3）泛化的角度：批量越小，随机性越强，因此这可能就起到了正则化的作用，从而使模型的泛华能力更好</li>
+</ul>
+</li>
+<li><p>批量具体选择多大，要看实验而定。总的来说，当训练样本非常多的时候，这个时候已经不用考虑过拟合问题了，因此这个时候批量越大越好。不需要考虑泛化问题。当样本量不是很大的时候，泛化性是比效率更重要的指标，这个时候批量大小就不用很大了。</p>
+</li>
+</ul>
+</blockquote>
+<h4 id="√-如何改进？"><a href="#√-如何改进？" class="headerlink" title="[√] 如何改进？"></a>[√] 如何改进？</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121168.png" srcset="/img/loading.gif" lazyload alt="image-20221226121722064"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>adam算法，既是自适应学习率，也是考虑动量的方法。ada + m。</li>
+<li>所以通常来讲，可以考虑默认使用adam作为优化算法，优化<code>学习率</code>和<code>梯度</code>这两个点。</li>
+</ul>
+</blockquote>
+<h4 id="√-本节总结："><a href="#√-本节总结：" class="headerlink" title="[√] 本节总结："></a>[√] 本节总结：</h4><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>优化算法的考虑角度有三点：批量K、学习率α、梯度</li>
+<li>批量K，数据量充分的时候，K尽可能大；数据量一般的时候，批量不要太大</li>
+<li>综合学习率和梯度的是adam算法，学习率方法随着迭代次数的增多，学习率慢慢减小；且梯度是使用的移动加权平均，从而更加的稳定。</li>
+</ul>
+</blockquote>
+<h2 id="√-7-3-动态学习率"><a href="#√-7-3-动态学习率" class="headerlink" title="[√] 7.3 - 动态学习率"></a>[√] 7.3 - 动态学习率</h2><hr>
+<h4 id="√-学习率的影响"><a href="#√-学习率的影响" class="headerlink" title="[√] 学习率的影响"></a>[√] 学习率的影响</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121169.png" srcset="/img/loading.gif" lazyload alt="image-20221226122910777"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>（1）学习率太小，效率很低；学习率太大，步长太大，从而跳过最优点</li>
+<li>（2）学习率一般和批量K成正比</li>
+<li>综合1、2，学习率设置要使用，批量也不能过大</li>
+<li>一个好的学习率，通常是自适应的。</li>
+</ul>
+</blockquote>
+<h4 id="√-学习率衰减"><a href="#√-学习率衰减" class="headerlink" title="[√] 学习率衰减"></a>[√] 学习率衰减</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121170.png" srcset="/img/loading.gif" lazyload alt="image-20221226123023031"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121171.png" srcset="/img/loading.gif" lazyload alt="image-20221226123304869"></p>
+<h4 id="√-周期性学习率调整-Cyclical-Learning-Rates"><a href="#√-周期性学习率调整-Cyclical-Learning-Rates" class="headerlink" title="[√] 周期性学习率调整(Cyclical Learning Rates)"></a>[√] 周期性学习率调整(Cyclical Learning Rates)</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121172.png" srcset="/img/loading.gif" lazyload alt="image-20221226123649601"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121173.png" srcset="/img/loading.gif" lazyload alt="image-20221226124935178"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>周期性的，不是一直递减的</li>
+<li>为什么要做这种局部的衰减呢？<ul>
+<li>目的是为了跳出局部最优，或者是跳出鞍点，找到一个更好的局部最优解</li>
+<li>通常来讲，会找到一个平坦的局部最优，从而提高模型的鲁棒性</li>
+</ul>
+</li>
+<li>alec思考：周期性的调整学习率，不断地找局部最优，是否会错过最好的一个局部最优？<ul>
+<li>解决方法是，找到一个最好的局部最优，就保存此次的参数，在这种情况下，即使最后停留的位置不是最好的位置，也没关系。反而这种周期性的学习率，给了模型更多的机会去寻找更多的可能性。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h4 id="√-其它学习率调整方法"><a href="#√-其它学习率调整方法" class="headerlink" title="[√] 其它学习率调整方法"></a>[√] 其它学习率调整方法</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121174.png" srcset="/img/loading.gif" lazyload alt="image-20221226125431575"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>增大批量大小：一般来讲，学习率和批量大小成正比。当我们固定学习率，增大批量大小，其实就是变相的意味着减小了学习率。</li>
+<li>学习率预热：这个目前已经成为训练神经网络的一个标配了。（alec mark）<ul>
+<li>一开始的时候，参数的初始值不一定是特别好，因此这个时候如果学习率也很大的话，那么可能就走的很乱。因此一开始的时候，可以让学习率小一点，慢慢预热，然后再减小。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h4 id="√-自适应的学习率"><a href="#√-自适应的学习率" class="headerlink" title="[√] 自适应的学习率"></a>[√] 自适应的学习率</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121175.png" srcset="/img/loading.gif" lazyload alt="image-20221226130836317"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>AdaGrad中，分母是一直递增的，学习率是不断减小的</li>
+<li>RMSprop算法中，分母部分是移动平均，这样分母整体不是一直递增的，因此不会导致随着时间的推移梯度就消失了。这种方式从而就避免了AdaGrad的缺点</li>
+<li>Adadelta是对RMSprop的进一步改进。这种的好处是，分子中的α也是不固定的。当某个方向的梯度大的时候，这个学习率也大。梯度大意味着这个方向还没有学好，学习的不充分。因为学习率对应也大，这样学习的更加充分，从而收敛效率也更大</li>
+</ul>
+</blockquote>
+<h2 id="√-7-4-梯度估计修正"><a href="#√-7-4-梯度估计修正" class="headerlink" title="[√] 7.4 - 梯度估计修正"></a>[√] 7.4 - 梯度估计修正</h2><hr>
+<h4 id="√-梯度估计修正"><a href="#√-梯度估计修正" class="headerlink" title="[√] 梯度估计修正"></a>[√] 梯度估计修正</h4><hr>
+<h6 id="√-动量法-Momentum-Method"><a href="#√-动量法-Momentum-Method" class="headerlink" title="[√] 动量法(Momentum Method)"></a>[√] 动量法(Momentum Method)</h6><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121176.png" srcset="/img/loading.gif" lazyload alt="image-20221226140406945"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>因为随机梯度下降的原因，每次的参数减去梯度，具有非常大的随机性。因此可以用之前累计的动量来代替真正的梯度。</li>
+</ul>
+</blockquote>
+<h4 id="√-梯度方向优化"><a href="#√-梯度方向优化" class="headerlink" title="[√] 梯度方向优化"></a>[√] 梯度方向优化</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121177.png" srcset="/img/loading.gif" lazyload alt="image-20221226140637736"></p>
+<h4 id="√-梯度方向优化-自适应学习率（adam优化算法）"><a href="#√-梯度方向优化-自适应学习率（adam优化算法）" class="headerlink" title="[√] 梯度方向优化+自适应学习率（adam优化算法）"></a>[√] 梯度方向优化+自适应学习率（adam优化算法）</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121178.png" srcset="/img/loading.gif" lazyload alt="image-20221226141456028"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>为什么要修正？<ul>
+<li><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121179.png" srcset="/img/loading.gif" lazyload alt="image-20221226141338934" style="zoom:50%;" /></li>
+<li>因为当t&#x3D;1的时候，M1 &#x3D; （1-β）g1，这个时候的M1是不对的，因为梯度值实际上是g1，而不是（1-β）g1，所以t&#x3D;1的时候，要给分母除以一个（1-β）。</li>
+<li>使得在开头的几步，这个移动平均梯度估计的更准</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h4 id="√-优化"><a href="#√-优化" class="headerlink" title="[√] 优化"></a>[√] 优化</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121180.png" srcset="/img/loading.gif" lazyload alt="image-20221226141619193"></p>
+<p>可以看出，带动量的，相对比较容易走出鞍点。</p>
+<h4 id="√-梯度截断"><a href="#√-梯度截断" class="headerlink" title="[√] 梯度截断"></a>[√] 梯度截断</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121181.png" srcset="/img/loading.gif" lazyload alt="image-20221226141934083"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>梯度太大了，容易跳过局部最优点</li>
+<li>因此如果梯度太大了，就将梯度截断</li>
+</ul>
+</blockquote>
+<h4 id="√-优化算法改进小结"><a href="#√-优化算法改进小结" class="headerlink" title="[√] 优化算法改进小结"></a>[√] 优化算法改进小结</h4><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>目前大部分能够用来优化神经网络的大部分算法↓</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121182.png" srcset="/img/loading.gif" lazyload alt="image-20221226142200421"></p>
+<h2 id="√-7-5-参数初始化"><a href="#√-7-5-参数初始化" class="headerlink" title="[√] 7.5 - 参数初始化"></a>[√] 7.5 - 参数初始化</h2><hr>
+<h4 id="√-参数初始化"><a href="#√-参数初始化" class="headerlink" title="[√] 参数初始化"></a>[√] 参数初始化</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121183.png" srcset="/img/loading.gif" lazyload alt="image-20221226143520102"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>参数不能初始化为0</li>
+</ul>
+<hr>
+<ul>
+<li>初始化方法中的预训练初始化，在预训练的网络上，在不同的下游微调就可以了。其中，预训练的网络，成为backbone</li>
+<li>backbone，脊柱、脊骨</li>
+</ul>
+<hr>
+<p>固定值初始化</p>
+<ul>
+<li>比如bias通常用0来初始化</li>
+<li>RNN中的，forget gate，通常让这个偏置大一点，让这个门一直打开</li>
+</ul>
+<hr>
+<ul>
+<li>这三种初始化的方法，也可以混着用</li>
+<li>特别是在NLP领域，很多的embedding通常都是预训练的，一些骨干网络可能也是预训练的，上面的一些任务特定层可能是随机初始化</li>
+</ul>
+</blockquote>
+<h4 id="√-随机初始化"><a href="#√-随机初始化" class="headerlink" title="[√] 随机初始化"></a>[√] 随机初始化</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121184.png" srcset="/img/loading.gif" lazyload alt="image-20221226143852262"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>问题：高斯分布的均值和方差是多少？均匀初始化，那么r是多少？</li>
+<li>比如，不能用很大的初始值，比如如果很大的话，我们使用饱和性的激活函数，数值很大的话，激活函数立马就饱和了</li>
+<li>例如可以根据所用的激活函数，让初始化之后，线性部分的取值在激活函数的线性部分</li>
+</ul>
+</blockquote>
+<h6 id="√-范数保持性"><a href="#√-范数保持性" class="headerlink" title="[√] 范数保持性"></a>[√] 范数保持性</h6><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121186.png" srcset="/img/loading.gif" lazyload alt="image-20221226144148598"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>我们希望在参数初始化的时候，最终参数W的范数，能够是单位阵。</li>
+<li>实现上述的方法可以是：（1）基于方差缩放的参数初始化（2）正交初始化</li>
+</ul>
+</blockquote>
+<h4 id="√-基于方差缩放的参数初始化"><a href="#√-基于方差缩放的参数初始化" class="headerlink" title="[√] 基于方差缩放的参数初始化"></a>[√] 基于方差缩放的参数初始化</h4><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>我们希望在方差缩放初始化之后，整个网络的神经元的活性值保持一致，从而让梯度不会消失或者爆炸</li>
+</ul>
+</blockquote>
+<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121187.png" srcset="/img/loading.gif" lazyload alt="image-20221226144612841" style="zoom:67%;" />
+
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>如上图，通过推导，我们希望第L层的参数的方差，等于1&#x2F;M^l-1^</li>
+<li>其中，M为第L-1层的神经元的数量</li>
+<li>通过上述的推导，我们知道第L层的参数初始化的均值和方差能够通过第L-1层的神经元数量退出来</li>
+<li>每层的初始化参数W的方法能够知道，跟随者每个上一层的神经元数量变化，因为这种参数初始化的方法叫做基于方差缩放的参数初始化。这种参数初始化的最终目的是希望不会产生梯度消失或者梯度爆炸问题</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121188.png" srcset="/img/loading.gif" lazyload alt="image-20221226145140586"></p>
+<h4 id="√-正交初始化"><a href="#√-正交初始化" class="headerlink" title="[√] 正交初始化"></a>[√] 正交初始化</h4><hr>
+<p>正交初始化的方法：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121189.png" srcset="/img/loading.gif" lazyload alt="image-20221226145254794"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>正交初始化通常用在循环神经网络中，用在RNN的hidden state到hidden state。因为RNN要不断的迭代，很容易发生梯度爆炸或者梯度消失问题。</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121190.png" srcset="/img/loading.gif" lazyload alt="image-20221226145351049"></p>
+<h2 id="√-7-6-数据预处理和逐层规范化"><a href="#√-7-6-数据预处理和逐层规范化" class="headerlink" title="[√] 7.6 - 数据预处理和逐层规范化"></a>[√] 7.6 - 数据预处理和逐层规范化</h2><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>参数初始化，是对每一层的参数做处理，从而使得网络的性能更优</li>
+<li>逐层规范化，是对神经元的值进行处理，从而使得网络的性能更优</li>
+<li>数据预处理的依据有尺度不变性</li>
+</ul>
+</blockquote>
+<h4 id="√-尺度不变性（Scale-Invariance）"><a href="#√-尺度不变性（Scale-Invariance）" class="headerlink" title="[√] 尺度不变性（Scale Invariance）"></a>[√] 尺度不变性（Scale Invariance）</h4><hr>
+<h6 id="√-尺度不变性"><a href="#√-尺度不变性" class="headerlink" title="[√] 尺度不变性"></a>[√] 尺度不变性</h6><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121191.png" srcset="/img/loading.gif" lazyload alt="image-20221226150240649"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>有些方法，具有尺度不变性</li>
+<li>有些不可以，比如KNN最近邻分类器</li>
+</ul>
+<hr>
+<ul>
+<li>不同输入特征的尺度差异比较大时会有哪些问题？<ul>
+<li>（1）参数初始化的问题</li>
+<li><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121192.png" srcset="/img/loading.gif" lazyload alt="image-20221226150202500" style="zoom:50%;" /></li>
+<li>（2）也会对优化产生影响</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h4 id="√-数据规范化对梯度的影响"><a href="#√-数据规范化对梯度的影响" class="headerlink" title="[√] 数据规范化对梯度的影响"></a>[√] 数据规范化对梯度的影响</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121193.png" srcset="/img/loading.gif" lazyload alt="image-20221226150923948"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>规范的数据，更加有利于训练</li>
+</ul>
+</blockquote>
+<h4 id="√-规范化-Normalization"><a href="#√-规范化-Normalization" class="headerlink" title="[√] 规范化(Normalization)"></a>[√] 规范化(Normalization)</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121194.png" srcset="/img/loading.gif" lazyload alt="image-20221226151635062"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>规范化也叫归一化</li>
+<li>PCA方法，把不同特征之间的相关性也去掉，这是一种更好的数据规范化方法</li>
+<li>但是因为PCA的计算复杂度通常比较高，因此在实际的应用中，我们通常用标准化方法更多，标准化方法就够了。</li>
+</ul>
+</blockquote>
+<h2 id="√-7-7-逐层规范化"><a href="#√-7-7-逐层规范化" class="headerlink" title="[√] 7.7 - 逐层规范化"></a>[√] 7.7 - 逐层规范化</h2><hr>
+<h4 id="√-逐层规范化"><a href="#√-逐层规范化" class="headerlink" title="[√] 逐层规范化"></a>[√] 逐层规范化</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121195.png" srcset="/img/loading.gif" lazyload alt="image-20221226153518754"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>逐层规范化，是目前在神经网络中或者深层神经网络中非常流行的方法</li>
+<li>既然规范化具有好的作用，因此我们可以把这种方法应用到每一层，这种叫逐层规范化</li>
+<li>我们希望第L-1层的输出的激活后的神经元的值，送到第L层，也是规范化的</li>
+<li>也不一定每一层都规范化，也可以每间隔几层规范化</li>
+</ul>
+<hr>
+<p>什么叫协变量偏移？</p>
+<ul>
+<li>机器学习的前提是数据都是满足独立同分布的</li>
+<li>如果数据不一致的话，就产生了协变量偏移，也就是说中间每一层的激活值，随着参数的变化，激活值的分布会变化。</li>
+<li>通过逐层规范化，可以让数据分布保持不变</li>
+<li>比如迁移学习，就是解决协变量偏移问题</li>
+</ul>
+<hr>
+<p>其中，BN-批量规范化，是比较常用的规范化</p>
+</blockquote>
+<h4 id="√-批量规范化"><a href="#√-批量规范化" class="headerlink" title="[√] 批量规范化"></a>[√] 批量规范化</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121196.png" srcset="/img/loading.gif" lazyload alt="image-20221226154404808"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>BN就是在每层中，对一个批次的数据计算均值和方差</li>
+</ul>
+<hr>
+<ul>
+<li>注意，BN计算的是在计算出线性值Z之后，进入激活层计算激活值a之前的均值和方差，然后对Z进行BN</li>
+<li>计算出均值和方差之后，让所有的Z减去均值，除以方差。同时为了稳定，在分母加入保护参数。同时对数据进行缩放和平移，避免数据都挤在零值附近，从而无法利用激活函数的非线性。</li>
+<li>通过BN中的缩放和平移操作，就能看出我们是在进入激活层之前进行BN的。</li>
+<li>γ和β都是可学习的参数</li>
+<li>这个BN可以作为NN的一层，直接接到NN中</li>
+</ul>
+</blockquote>
+<h4 id="√-批量规范化的优缺点"><a href="#√-批量规范化的优缺点" class="headerlink" title="[√] 批量规范化的优缺点"></a>[√] 批量规范化的优缺点</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121197.png" srcset="/img/loading.gif" lazyload alt="image-20221226154654987"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>缺点：<ul>
+<li>使用BN的时候，B的大小不能太小，否则就没有统计意义了</li>
+<li>不能用到RNN</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h4 id="√-层规范化"><a href="#√-层规范化" class="headerlink" title="[√] 层规范化"></a>[√] 层规范化</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121198.png" srcset="/img/loading.gif" lazyload alt="image-20221226154918033"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>注意区分逐层规范化和层规范化</li>
+<li>BN是在单个神经元上对一个batch的数据进行规范化</li>
+<li>层规范化是对单个数据，一层的全部神经元进行规范化，全部神经元表示数据的不同的特征</li>
+</ul>
+</blockquote>
+<h4 id="√-批量规范化VS层规范化"><a href="#√-批量规范化VS层规范化" class="headerlink" title="[√] 批量规范化VS层规范化"></a>[√] 批量规范化VS层规范化</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121199.png" srcset="/img/loading.gif" lazyload alt="image-20221226154958333"></p>
+<p>二者效果类似</p>
+<p>在CV上，CNN方面，用BN多一点；但是总体来说，用层归一化用的更多</p>
+<h4 id="√-更多的规范化"><a href="#√-更多的规范化" class="headerlink" title="[√] 更多的规范化"></a>[√] 更多的规范化</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121200.png" srcset="/img/loading.gif" lazyload alt="image-20221226155222346"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>问题：<ul>
+<li>训练的时候，均值和方差能够计算</li>
+<li>在测试的时候，均值和方差怎么拿到？</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121201.png" srcset="/img/loading.gif" lazyload alt="image-20221226155317918"></p>
+<h2 id="√-7-8-超参数优化"><a href="#√-7-8-超参数优化" class="headerlink" title="[√] 7.8 - 超参数优化"></a>[√] 7.8 - 超参数优化</h2><h4 id="√-超参数优化"><a href="#√-超参数优化" class="headerlink" title="[√] 超参数优化"></a>[√] 超参数优化</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121202.png" srcset="/img/loading.gif" lazyload alt="image-20221226155639505"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>在训练之前，需要实现确定的参数叫超参数</li>
+<li>这些超参数无法学习得到，必须通过经验来调整</li>
+</ul>
+</blockquote>
+<h4 id="√-网格搜索-Grid-Search"><a href="#√-网格搜索-Grid-Search" class="headerlink" title="[√] 网格搜索(Grid Search)"></a>[√] 网格搜索(Grid Search)</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121203.png" srcset="/img/loading.gif" lazyload alt="image-20221226160120751"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>网格搜索，就是所有的超参数，对每个超参数根据经验确定几个取值，然后排序排列组合一个个试试</li>
+</ul>
+</blockquote>
+<h4 id="√-随机搜索"><a href="#√-随机搜索" class="headerlink" title="[√] 随机搜索"></a>[√] 随机搜索</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121204.png" srcset="/img/loading.gif" lazyload alt="image-20221226160423071"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>有些时候，有些参数的重要性比较大</li>
+<li>改进方法就是每个参数的取值都是随机取的</li>
+</ul>
+</blockquote>
+<h4 id="√-一些高级的超参数优化方法"><a href="#√-一些高级的超参数优化方法" class="headerlink" title="[√] 一些高级的超参数优化方法"></a>[√] 一些高级的超参数优化方法</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121205.png" srcset="/img/loading.gif" lazyload alt="image-20221226160602346"></p>
+<h2 id="√-7-9-网络正则化"><a href="#√-7-9-网络正则化" class="headerlink" title="[√] 7.9 - 网络正则化"></a>[√] 7.9 - 网络正则化</h2><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>网络的正则化指的是对网络的能力进行限制，防止网络过拟合训练集</li>
+<li>generalization是泛化、normalization是标准化、归一化</li>
+</ul>
+</blockquote>
+<h4 id="√-重新思考泛化性"><a href="#√-重新思考泛化性" class="headerlink" title="[√] 重新思考泛化性"></a>[√] 重新思考泛化性</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121206.png" srcset="/img/loading.gif" lazyload alt="image-20221226160926398"></p>
+<h4 id="√-正则化-regularization"><a href="#√-正则化-regularization" class="headerlink" title="[√] 正则化(regularization)"></a>[√] 正则化(regularization)</h4><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>所有损害优化的方法都是正则化。</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121207.png" srcset="/img/loading.gif" lazyload alt="image-20221226161214359"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121208.png" srcset="/img/loading.gif" lazyload alt="image-20221226161249612"></p>
+<h4 id="√-早停法-Eary-Stop"><a href="#√-早停法-Eary-Stop" class="headerlink" title="[√] 早停法(Eary-Stop)"></a>[√] 早停法(Eary-Stop)</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121209.png" srcset="/img/loading.gif" lazyload alt="image-20221226161345365"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>通常来讲，神经网络优先记住一般性的规范，然后再记住难的规则</li>
+<li>因此可以早期停止</li>
+</ul>
+</blockquote>
+<h4 id="√-权重衰减-Weight-Decay"><a href="#√-权重衰减-Weight-Decay" class="headerlink" title="[√] 权重衰减(Weight Decay)"></a>[√] 权重衰减(Weight Decay)</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121210.png" srcset="/img/loading.gif" lazyload alt="image-20221226161820523"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>权重衰减和L_2范式的正则化，存在关联</li>
+<li>权重衰减和动量法存在关联，动量法是δ梯度，群众衰减是梯度</li>
+</ul>
+</blockquote>
+<h2 id="√-7-10-两种正则化方法：L-1和L-2正则化"><a href="#√-7-10-两种正则化方法：L-1和L-2正则化" class="headerlink" title="[√] 7.10 - 两种正则化方法：L_1和L_2正则化"></a>[√] 7.10 - 两种正则化方法：L_1和L_2正则化</h2><hr>
+<h4 id="√-L1和L2正则化"><a href="#√-L1和L2正则化" class="headerlink" title="[√] L1和L2正则化"></a>[√] L1和L2正则化</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121211.png" srcset="/img/loading.gif" lazyload alt="image-20221226203449734"></p>
+<h4 id="√-神经网络示例"><a href="#√-神经网络示例" class="headerlink" title="[√] 神经网络示例"></a>[√] 神经网络示例</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121212.png" srcset="/img/loading.gif" lazyload alt="image-20221226203540497"></p>
+<p>可以看出，隐藏层的神经元数量越多， 模型越复杂，可能会过拟合</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121213.png" srcset="/img/loading.gif" lazyload alt="image-20221226203633854"></p>
+<p>可以看出，正则化的系数越大，越能缓解过拟合的现象</p>
+<h4 id="√-L2正则化与权重衰减"><a href="#√-L2正则化与权重衰减" class="headerlink" title="[√] L2正则化与权重衰减"></a>[√] L2正则化与权重衰减</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121214.png" srcset="/img/loading.gif" lazyload alt="image-20221226203909133"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>上式是带L2正则化项的参数更新公式。可以看出，正则化项相当于对上一次的参数做了一个αλ倍的衰减。</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121215.png" srcset="/img/loading.gif" lazyload alt="image-20221226204050965"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>这种做法就和权重衰减一样了</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121216.png" srcset="/img/loading.gif" lazyload alt="image-20221226204204394"></p>
+<h2 id="√-7-11-暂退法（dropout）"><a href="#√-7-11-暂退法（dropout）" class="headerlink" title="[√] 7.11 - 暂退法（dropout）"></a>[√] 7.11 - 暂退法（dropout）</h2><hr>
+<h4 id="√-暂退法"><a href="#√-暂退法" class="headerlink" title="[√] 暂退法"></a>[√] 暂退法</h4><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>同一层的所有神经元，一起增大一起减小，这样可能鲁棒性不好，因此可以随机的暂退一些神经元</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121217.png" srcset="/img/loading.gif" lazyload alt="image-20221226205424544"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>暂退法存在的问题：训练的时候暂退一些神经元，测试的时候用全部的神经元，导致训练的时候和测试的时候网络不一样。因此需要想办法解决这个问题。</li>
+<li>方法是：暂退的时候，以概率P暂退。因此测试的时候，不是以概率p的暂退了，而是把每个神经元的活性值变为原来的P倍。</li>
+</ul>
+<hr>
+<ul>
+<li>神经网络的每一层，所有的神经元，不是指的参数，而是指的通道特征图。网络的连接权重，体现在层与层之间的连接上。</li>
+</ul>
+</blockquote>
+<h4 id="√-Dropout意义"><a href="#√-Dropout意义" class="headerlink" title="[√] Dropout意义"></a>[√] Dropout意义</h4><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>暂退法，是一种正则化方法。能够提高网络的能力，就是提高所谓的泛化性。</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121218.png" srcset="/img/loading.gif" lazyload alt="image-20221226205805632"></p>
+<h4 id="√-循环神经网络上的暂退"><a href="#√-循环神经网络上的暂退" class="headerlink" title="[√] 循环神经网络上的暂退"></a>[√] 循环神经网络上的暂退</h4><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>当在循环神经网络上应用暂退法，不能直接对每个时刻的隐状态进行随机暂退，这样会损害循环网络在时间维度上记忆能力。</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121219.png" srcset="/img/loading.gif" lazyload alt="image-20221226205913541"></p>
+<h4 id="√-变分Dropout"><a href="#√-变分Dropout" class="headerlink" title="[√] 变分Dropout"></a>[√] 变分Dropout</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121220.png" srcset="/img/loading.gif" lazyload alt="image-20221226210037624"></p>
+<h2 id="√-7-12-数据增强和总结"><a href="#√-7-12-数据增强和总结" class="headerlink" title="[√] 7.12 - 数据增强和总结"></a>[√] 7.12 - 数据增强和总结</h2><hr>
+<h4 id="√-数据增强-Data-Augmentation"><a href="#√-数据增强-Data-Augmentation" class="headerlink" title="[√] 数据增强(Data Augmentation)"></a>[√] 数据增强(Data Augmentation)</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121221.png" srcset="/img/loading.gif" lazyload alt="image-20221226210325438"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121222.png" srcset="/img/loading.gif" lazyload alt="image-20221226210752711"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>文本数据增强，因为都要把单词转为向量，因此还有一些方法在隐式的向量空间做数据增强。</li>
+</ul>
+</blockquote>
+<h4 id="√-标签平滑-Label-Smoothing"><a href="#√-标签平滑-Label-Smoothing" class="headerlink" title="[√] 标签平滑(Label Smoothing)"></a>[√] 标签平滑(Label Smoothing)</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121223.png" srcset="/img/loading.gif" lazyload alt="image-20221226211017256"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>标签的平滑，可以让网络的鲁棒性更高。</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121224.png" srcset="/img/loading.gif" lazyload alt="image-20221226211259721"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>假设标签yi和yj二者的概率是比较近的。如何让这两个标签在标签向量上有关联性呢？</li>
+<li>一种方法是知识蒸馏：我们可以在一个大模型上预训练这个数据集，数据集经过大模型之后，输出的Y’蕴含了某种语义相关性，然后将Y’再用到小模型上，从而可以指导小模型的训练</li>
+</ul>
+</blockquote>
+<h2 id="√-7-13-小结"><a href="#√-7-13-小结" class="headerlink" title="[√] 7.13 - 小结"></a>[√] 7.13 - 小结</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212262121225.png" srcset="/img/loading.gif" lazyload alt="image-20221226212001539"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/" class="category-chain-item">视频学习</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E9%A3%9E%E6%A1%A8-%E5%A4%8D%E6%97%A6%E5%A4%A7%E5%AD%A6-%E9%82%B1%E9%94%A1%E9%B9%8F%EF%BC%88NNDL%E8%92%B2%E5%85%AC%E8%8B%B1%E4%B9%A6%EF%BC%89/" class="category-chain-item">神经网络与深度学习 - 飞桨 - 复旦大学 - 邱锡鹏（NNDL蒲公英书）</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E9%A3%9E%E6%A1%A8-%E5%A4%8D%E6%97%A6%E5%A4%A7%E5%AD%A6-%E9%82%B1%E9%94%A1%E9%B9%8F%EF%BC%88NNDL%E8%92%B2%E5%85%AC%E8%8B%B1%E4%B9%A6%EF%BC%89/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>7 - 网络优化与正则化</div>
+      <div>http://example.com/posts/1207574521/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年12月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/3380835339/" title="7 - 网络优化与正则化 - 视频">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">7 - 网络优化与正则化 - 视频</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/3720136123/" title="7 - 网络优化与正则化 - 书籍3">
+                        <span class="hidden-mobile">7 - 网络优化与正则化 - 书籍3</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

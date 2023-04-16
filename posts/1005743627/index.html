@@ -1,0 +1,980 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="原文链接： 针对真实图像退化的盲图像超分辨率BSRGAN复现 - CSDN - AI Studio 于 2022-08-08 20:40:22 发布 ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。   alec： BSRGAN：Designing a Practical Degradation Model for">
+<meta property="og:type" content="article">
+<meta property="og:title" content="064 - 文章阅读笔记：【BSRGAN】针对真实图像退化的盲图像超分辨率BSRGAN复现 - CSDN - AI Studio">
+<meta property="og:url" content="http://example.com/posts/1005743627/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="原文链接： 针对真实图像退化的盲图像超分辨率BSRGAN复现 - CSDN - AI Studio 于 2022-08-08 20:40:22 发布 ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。   alec： BSRGAN：Designing a Practical Degradation Model for">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302112337562.png">
+<meta property="article:published_time" content="2023-02-11T10:00:43.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.447Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="计算机视觉">
+<meta property="article:tag" content="人工智能">
+<meta property="article:tag" content="盲超分">
+<meta property="article:tag" content="超分辨率重建">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302112337562.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>064 - 文章阅读笔记：【BSRGAN】针对真实图像退化的盲图像超分辨率BSRGAN复现 - CSDN - AI Studio - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">064 - 文章阅读笔记：【BSRGAN】针对真实图像退化的盲图像超分辨率BSRGAN复现 - CSDN - AI Studio</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-02-11 18:00" pubdate>
+          2023年2月11日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          56 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">064 - 文章阅读笔记：【BSRGAN】针对真实图像退化的盲图像超分辨率BSRGAN复现 - CSDN - AI Studio</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>原文链接：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_63642362/article/details/126235539">针对真实图像退化的盲图像超分辨率BSRGAN复现 - CSDN - AI Studio</a></p>
+<p>于 2022-08-08 20:40:22 发布</p>
+<p>ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。</p>
+</blockquote>
+<blockquote>
+<p>alec：</p>
+<p><strong>BSRGAN：Designing a Practical Degradation Model for Deep Blind Image Super-Resolution（ICCV 2021）</strong></p>
+<p>【痛点】</p>
+<p>现有的方法是针对某一种特定的退化方式，模型对于广泛的退化类型无法适应，导致模型在对非训练集的数据做测试的时候，效果不好。</p>
+<p>【创新点】</p>
+<p>作者选择对图像退化方式进行创新，手工设计了尽量能模拟真实世界中图像退化的退化模型，应用该退化模型处理高分辨率数据以生成成对的数据进行训练。</p>
+<p>现有的方法大多是对某一特定的退化类型有效，本文的出发点是如何设计一个模型能够处理范围更广的退化呢？</p>
+<p>解决思路是随机安排3种退化方式的顺序，同时每种退化方式设置几种不同的方法（比如下采样可以采用：双三次、最近邻、双线性等等）。这些顺序和因子的随机选取能够保证最终模型组成更加广义的退化模型。</p>
+<ul>
+<li><p>实现的步骤如下：</p>
+</li>
+<li><ul>
+<li>将模糊，降采样和噪声复杂化（实用化）。模糊：采用两种模糊，分别是各向同性高斯模糊和各向异性高斯模糊；降采样：nearest、bilinear、bicubic以及up-down scaling；噪声：3D高斯噪声、JPEG噪声、相机噪声。<ul>
+<li>随机打乱模糊，降采样和噪声的顺序</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h2 id="√-1-项目背景"><a href="#√-1-项目背景" class="headerlink" title="[√] 1.项目背景"></a>[√] 1.项目背景</h2><hr>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87&spm=1001.2101.3001.7020">超分辨率</a>模型大家应该都不会陌生，从董超老师等人2014年发表的深度学习做超分的模型SRCNN已经有8年了，期间有许多优秀的作品发表。本项目讲解的是张凯老师(超分与降噪方向知名DnCNN、IRCNN、FFDNet、SRMD、DPSR、USRNet、DPIR等极具影响力文章的作者)等人在ICCV2021上发表的论文<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2103.14006">《Designing a Practical Degradation Model for Deep Blind Image Super-Resolution》</a></li>
+<li>该论文提出的超分辨率模型BSRGAN，目的是想构建一个能够<strong>实际应用的超分模型</strong>，作者选择对<strong>图像退化方式</strong>进行创新，手工设计了尽量能模拟真实世界中图像退化的退化模型，应用该退化模型处理高分辨率数据以生成成对的数据进行训练</li>
+<li><strong>本项目复现了手工设计的退化模型以及超分模型</strong>，将pytorch训练好的BSRGAN权重转为paddle的权重，超分辨率的效果如下：</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302112340810.png" srcset="/img/loading.gif" lazyload alt="image-20230211181721812"></p>
+<ul>
+<li><strong>效果是不是挺好的</strong>？来看看这是怎么做到的吧！</li>
+</ul>
+<h2 id="√-2-BSRGAN解读"><a href="#√-2-BSRGAN解读" class="headerlink" title="[√] 2.BSRGAN解读"></a>[√] 2.BSRGAN解读</h2><hr>
+<ul>
+<li>注：这部分内容参考<ul>
+<li>论文作者张凯老师本人的解读：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/364062784">一种手工设计的广义盲图像超分退化模型</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/379876494">BSRGAN超分辨网络</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cvmart.net/community/detail/4546">业界首个针对广义盲图像超分的人工设计退化模型</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="√-2-1-BSRGAN论文出发点"><a href="#√-2-1-BSRGAN论文出发点" class="headerlink" title="[√] 2.1 BSRGAN论文出发点"></a>[√] 2.1 BSRGAN论文出发点</h4><hr>
+<ul>
+<li>通常图像退化模型的定义公式为：</li>
+</ul>
+<p>$$<br>y &#x3D; (x \otimes k)↓_s + n<br>$$</p>
+<p>其中，$k$为模糊核，$↓_s$代表下采样，而$n$则是表示噪声。近年来已经有很多学者意识到<strong>图像退化模型</strong>对超分辨率的重要性，涌现出基于更广泛的退化模型的盲超分辨方法、基于不成对数据的超分辨方法、以及基于相机采集的成对训练数据的超分辨方法，但是<strong>现有的方法大多只针对某一特定退化类型的图像有效</strong>。</p>
+<ul>
+<li>因此，文章的出发点是如何设计一个模型能够处理范围更广的退化呢？</li>
+</ul>
+<h4 id="√-2-2-解决思路"><a href="#√-2-2-解决思路" class="headerlink" title="[√] 2.2 解决思路"></a>[√] 2.2 解决思路</h4><hr>
+<ul>
+<li>解决的思路依然是从图像退化模型的公式出发，围绕着上述退化模型的3个因子：$k、 ↓_s、 n$，随机安排各因子的执行顺序，同时，每个因子又有不同的方法（例如：$↓_s$可以采用以下任一种方式：双三次、最近邻、双线性等等），可以<strong>从这些方法中为每个因子随机选取一种组成更广义的退化模型</strong></li>
+</ul>
+<h4 id="√-2-3-退化模型"><a href="#√-2-3-退化模型" class="headerlink" title="[√] 2.3 退化模型"></a>[√] 2.3 退化模型</h4><hr>
+<ul>
+<li>退化模型如下图所示：</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302112340811.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<ul>
+<li>实现的步骤如下：<ul>
+<li>将模糊，降采样和噪声复杂化（实用化）。模糊：采用两种模糊，分别是各向同性高斯模糊和各向异性高斯模糊；降采样：nearest、bilinear、bicubic以及up-down scaling；噪声：3D高斯噪声、JPEG噪声、相机噪声。</li>
+<li>随机打乱模糊，降采样和噪声的顺序</li>
+</ul>
+</li>
+</ul>
+<h4 id="√-2-4-超分网络"><a href="#√-2-4-超分网络" class="headerlink" title="[√] 2.4 超分网络"></a>[√] 2.4 超分网络</h4><hr>
+<ul>
+<li><p><strong>超分模型并不是BSRGAN的核心</strong>，现有的超分辨率模型均可以作为训练退化模型生成的图像的选择。</p>
+</li>
+<li><p>选择了ESRGAN作为基线模型</p>
+<p>  ，并做了几点改动:</p>
+<ul>
+<li>由于本文的目的是：在未知退化前提下，解决更广义的盲图像超分。训练数据方面采用DIV2K、Flickr2K、WED以及源自FFHQ的2000人脸图</li>
+<li>采用了更大的图像块72×72</li>
+<li>损失方面采用了L1、VGG感知、PatchGAN三个损失的组合，组合系数1,1,0.1</li>
+</ul>
+</li>
+<li><p>在训练超参方面，优化器为Adam，batch&#x3D;48，固定学习率1e-5，<strong>整个训练在4块V100上大约花费10天</strong></p>
+</li>
+</ul>
+<h2 id="√-3-手工设计的退化模型复现"><a href="#√-3-手工设计的退化模型复现" class="headerlink" title="[√] 3.手工设计的退化模型复现"></a>[√] 3.手工设计的退化模型复现</h2><hr>
+<ul>
+<li>退化模型相关代码已经用paddle复现了，放在<code>BSRGAN/utils/utils_blindsr.py</code>文件中，<strong>接近800行</strong>，所以不在notebook中展示，感兴趣自行查看源码</li>
+<li>本项目这部分展示如何使用退化模型，将高分辨率生成低分辨率图像</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">%cd /home/aistudio/BSRGAN/<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">/home/aistudio/BSRGAN<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> utils.utils_blindsr <span class="hljs-keyword">import</span> *<br><span class="hljs-keyword">import</span> os<br><br>imgPath = <span class="hljs-string">r&quot;../work/GT/TJ.jpg&quot;</span> <span class="hljs-comment"># 高分辨率图像，同济大学樱花</span><br>save_dir = <span class="hljs-string">r&quot;../work/LQ&quot;</span> <span class="hljs-comment"># 保存图像的文件夹</span><br><span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> os.path.isdir(save_dir):<br>    os.mkdir(save_dir)<br><br>img = imread_uint(imgPath, <span class="hljs-number">3</span>) <br>img = uint2single(img)<br>sf = <span class="hljs-number">4</span> <span class="hljs-comment">#尺度</span><br>    <br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>):<br>    img_lq, img_hq = degradation_bsrgan(img, sf=sf, lq_patchsize=<span class="hljs-number">72</span>)<br>    <span class="hljs-built_in">print</span>(i)<br>    lq_nearest =  cv2.resize(single2uint(img_lq), (<span class="hljs-built_in">int</span>(sf*img_lq.shape[<span class="hljs-number">1</span>]), <span class="hljs-built_in">int</span>(sf*img_lq.shape[<span class="hljs-number">0</span>])), interpolation=<span class="hljs-number">0</span>)<br>    img_concat = np.concatenate([lq_nearest, single2uint(img_hq)], axis=<span class="hljs-number">1</span>)<span class="hljs-comment">#将LQ和HQ水平拼接，然后存储</span><br>    imsave(img_concat, os.path.join(save_dir,<span class="hljs-built_in">str</span>(i)+<span class="hljs-string">&#x27;.png&#x27;</span>))<br><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>lq &#x3D; LQ &#x3D; low quality?</p>
+<p>hq &#x3D; HQ &#x3D; high quality?</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 展示部分结果，左边为低分辨率图像，右边是高分辨率图像</span><br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br>%matplotlib inline<br><br><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image<br><br>imgPath = <span class="hljs-string">r&quot;../work/LQ/9.png&quot;</span><br>img = Image.<span class="hljs-built_in">open</span>(imgPath)<br>plt.figure(figsize=(<span class="hljs-number">8</span>,<span class="hljs-number">6</span>))<br>plt.imshow(img)<br>plt.axis(<span class="hljs-string">&quot;off&quot;</span>)<br>plt.show()<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302112340813.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="√-4-直接体验BSRGAN"><a href="#√-4-直接体验BSRGAN" class="headerlink" title="[√] 4.直接体验BSRGAN"></a>[√] 4.直接体验BSRGAN</h2><hr>
+<ul>
+<li>由于训练十分消耗时间，4张V100训练10天才行，所以本项目就不复现和训练有关的代码了，提供转换的权重，直接体验BSRGAN，感受<strong>真实世界低分辨率图像超分重建的快感</strong></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> os.path<br><span class="hljs-keyword">import</span> logging<br><span class="hljs-keyword">import</span> paddle<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> cv2<br><br><span class="hljs-keyword">from</span> utils <span class="hljs-keyword">import</span> utils_logger<br><span class="hljs-keyword">from</span> utils <span class="hljs-keyword">import</span> utils_image <span class="hljs-keyword">as</span> util<br><span class="hljs-keyword">from</span> models.network_rrdbnet <span class="hljs-keyword">import</span> RRDBNet <span class="hljs-keyword">as</span> net<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><code class="hljs python"> <span class="hljs-keyword">def</span> <span class="hljs-title function_">bsrgan_predictor</span>(<span class="hljs-params">model_path, L_path</span>):<br>    save_results = <span class="hljs-literal">True</span><br>    sf = <span class="hljs-number">4</span><br>    utils_logger.logger_info(<span class="hljs-string">&#x27;blind_sr_log&#x27;</span>, log_path=<span class="hljs-string">&#x27;blind_sr_log.log&#x27;</span>)<br>    logger = logging.getLogger(<span class="hljs-string">&#x27;blind_sr_log&#x27;</span>)<br>    <span class="hljs-comment"># --------------------------------</span><br>    <span class="hljs-comment"># define network and load model</span><br>    <span class="hljs-comment"># --------------------------------</span><br>    model = net(in_nc=<span class="hljs-number">3</span>, out_nc=<span class="hljs-number">3</span>, nf=<span class="hljs-number">64</span>, nb=<span class="hljs-number">23</span>, gc=<span class="hljs-number">32</span>, scale=sf)  <span class="hljs-comment"># define network</span><br><br>    model.set_state_dict(paddle.load(model_path))<br>    model.<span class="hljs-built_in">eval</span>()<br>    testset_L = os.path.basename(L_path)<br>    testsets = os.path.dirname(L_path)<br><br>    E_path = os.path.join(testsets, testset_L+<span class="hljs-string">&#x27;_results_x&#x27;</span>+<span class="hljs-built_in">str</span>(sf))<br>    util.mkdir(E_path)<br><br>    logger.info(<span class="hljs-string">&#x27;&#123;:&gt;16s&#125; : &#123;:s&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(<span class="hljs-string">&#x27;Input Path&#x27;</span>, L_path))<br>    logger.info(<span class="hljs-string">&#x27;&#123;:&gt;16s&#125; : &#123;:s&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(<span class="hljs-string">&#x27;Output Path&#x27;</span>, E_path))<br>    idx = <span class="hljs-number">0</span><br>    model_name = os.path.basename(model_path)<br>    <span class="hljs-keyword">for</span> img <span class="hljs-keyword">in</span> util.get_image_paths(L_path):<br><br>        <span class="hljs-comment"># --------------------------------</span><br>        <span class="hljs-comment"># (1) img_L</span><br>        <span class="hljs-comment"># --------------------------------</span><br>        idx += <span class="hljs-number">1</span><br>        img_name, ext = os.path.splitext(os.path.basename(img))<br>        logger.info(<span class="hljs-string">&#x27;&#123;:-&gt;4d&#125; --&gt; &#123;:&lt;s&#125; --&gt; x&#123;:&lt;d&#125;--&gt; &#123;:&lt;s&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(idx, model_name, sf, img_name+ext))<br><br>        img = cv2.imread(img, cv2.IMREAD_UNCHANGED)<br><br>        h_input, w_input = img.shape[<span class="hljs-number">0</span>:<span class="hljs-number">2</span>]<br><span class="hljs-comment"># img: numpy</span><br>        img = img.astype(np.float32)<br>        <span class="hljs-keyword">if</span> np.<span class="hljs-built_in">max</span>(img) &gt; <span class="hljs-number">256</span>:  <span class="hljs-comment"># 16-bit image</span><br>            max_range = <span class="hljs-number">65535</span><br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;\tInput is a 16-bit image&#x27;</span>)<br>        <span class="hljs-keyword">else</span>:<br>            max_range = <span class="hljs-number">255</span><br>        img = img / max_range<br><br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(img.shape) == <span class="hljs-number">2</span>:  <span class="hljs-comment"># gray image</span><br>            img_mode = <span class="hljs-string">&#x27;L&#x27;</span><br>            img = cv2.cvtColor(img, cv2.COLOR_GRAY2RGB)<br>        <span class="hljs-keyword">else</span>:<br>            img_mode = <span class="hljs-string">&#x27;RGB&#x27;</span><br>            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)<br><br>        img = img.astype(np.float32)<br>        img = paddle.Tensor(np.transpose(img, (<span class="hljs-number">2</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>)))<br>        img = img.unsqueeze(<span class="hljs-number">0</span>)<br><br>        <span class="hljs-comment"># ------------------- process image (without the alpha channel) ------------------- #</span><br>        <span class="hljs-keyword">with</span> paddle.no_grad():<br>            output = model(img)<br>        output_img = output.squeeze().numpy().clip(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>)<br>        output_img = np.transpose(output_img[[<span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>], :, :], (<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">0</span>))<br><br>        <span class="hljs-keyword">if</span> img_mode == <span class="hljs-string">&#x27;L&#x27;</span>:<br>            output_img = cv2.cvtColor(output_img, cv2.COLOR_BGR2GRAY)<br>            <span class="hljs-comment"># ------------------------------ return ------------------------------ #</span><br>        <span class="hljs-keyword">if</span> max_range == <span class="hljs-number">65535</span>:  <span class="hljs-comment"># 16-bit image</span><br>            output_img = (output_img * <span class="hljs-number">65535.0</span>).<span class="hljs-built_in">round</span>().astype(np.uint16)<br>            output_img = cv2.cvtColor(output_img, cv2.COLOR_BGR2RGB)<br>        <span class="hljs-keyword">else</span>:<br>            output_img = (output_img * <span class="hljs-number">255.0</span>).<span class="hljs-built_in">round</span>().astype(np.uint8)<br>            output_img = cv2.cvtColor(output_img, cv2.COLOR_BGR2RGB)<br>        <span class="hljs-keyword">if</span> save_results:<br>            util.imsave(output_img, os.path.join(E_path, img_name+<span class="hljs-string">&#x27;_&#x27;</span>+model_name+<span class="hljs-string">&#x27;.png&#x27;</span>))<br><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>指定低分辨率图像所在文件夹，以及BSRGAN权重所在路径，即可以预测</li>
+<li>预测图像保存在低分辨率图像所在文件夹的同一根目录下</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 若想预测自己的低分辨率图像，修改img_dir即可</span><br>img_dir = <span class="hljs-string">r&quot;./testsets/RealSRSet&quot;</span> <span class="hljs-comment"># 待预测的低分辨率图像所在文件夹</span><br>model_path = <span class="hljs-string">r&quot;./model_zoo/BSRGAN.pdparams&quot;</span><br><br>bsrgan_predictor(model_path, img_dir)<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 可视化展示结果</span><br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br>%matplotlib inline<br><br><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image<br><br>lq_path = <span class="hljs-string">r&quot;./testsets/RealSRSet/frog.png&quot;</span><br>sr_path = <span class="hljs-string">r&quot;./testsets/RealSRSet_results_x4/frog_BSRGAN.pdparams.png&quot;</span><br>SR = Image.<span class="hljs-built_in">open</span>(sr_path)<br>LQ = Image.<span class="hljs-built_in">open</span>(lq_path)<br><br>plt.figure(figsize=(<span class="hljs-number">15</span>,<span class="hljs-number">10</span>))<br>plt.subplot(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>)<br>plt.imshow(LQ)<br>plt.title(<span class="hljs-string">&#x27;LQ&#x27;</span>)<br>plt.axis(<span class="hljs-string">&#x27;off&#x27;</span>)<br>plt.subplot(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>)<br>plt.imshow(SR)<br>plt.title(<span class="hljs-string">&#x27;SR&#x27;</span>)<br>plt.axis(<span class="hljs-string">&#x27;off&#x27;</span>)<br>plt.show()<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302112340814.png" srcset="/img/loading.gif" lazyload alt="image-20230211233449099"></p>
+<h2 id="√-5-总结"><a href="#√-5-总结" class="headerlink" title="[√] 5.总结"></a>[√] 5.总结</h2><hr>
+<ul>
+<li>本项目展示了BSRGAN用于训练数据的退化模型，而退化模型也是BSRGAN成功的关键</li>
+<li>提供了BSRGAN的paddle模型权重，不需要训练即可体验针对真实图像退化的盲超分辨率重建模型</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-chain-item">文章学习</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>
+      
+        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">#计算机视觉</a>
+      
+        <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">#人工智能</a>
+      
+        <a href="/tags/%E7%9B%B2%E8%B6%85%E5%88%86/">#盲超分</a>
+      
+        <a href="/tags/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/">#超分辨率重建</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>064 - 文章阅读笔记：【BSRGAN】针对真实图像退化的盲图像超分辨率BSRGAN复现 - CSDN - AI Studio</div>
+      <div>http://example.com/posts/1005743627/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年2月11日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/1100682133/" title="065 - 文章阅读笔记：BSRGAN超分辨网络 - 知乎 - CV论文分析 - 无为">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">065 - 文章阅读笔记：BSRGAN超分辨网络 - 知乎 - CV论文分析 - 无为</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/255740200/" title="2023年2月9日 - 文章阅读笔记：【理想L8 Pro】8 天 6 人 4000 公里后，这是我对理想 L8 Pro 的购买建议 - 少数派 - 老麦">
+                        <span class="hidden-mobile">2023年2月9日 - 文章阅读笔记：【理想L8 Pro】8 天 6 人 4000 公里后，这是我对理想 L8 Pro 的购买建议 - 少数派 - 老麦</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

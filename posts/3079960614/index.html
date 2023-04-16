@@ -1,0 +1,1055 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="原文链接： （1）【√】每日五分钟一读# Image Super-Resolution - 知乎 - Andy（link） 发布于 2021-04-08 20:16 （2）【√】Unsupervised Degradation Representation Learning for Blind Super-Resolution（基于无监督退化表示学习的盲超分辨率处理） - CSDN - Clou">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文章阅读笔记：【2021 DRL-DASR】Unsupervised Degradation Representation Learning for Blind Super-Resolution">
+<meta property="og:url" content="http://example.com/posts/3079960614/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="原文链接： （1）【√】每日五分钟一读# Image Super-Resolution - 知乎 - Andy（link） 发布于 2021-04-08 20:16 （2）【√】Unsupervised Degradation Representation Learning for Blind Super-Resolution（基于无监督退化表示学习的盲超分辨率处理） - CSDN - Clou">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302272159312.jpg">
+<meta property="article:published_time" content="2023-02-27T13:23:35.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.462Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="计算机视觉">
+<meta property="article:tag" content="人工智能">
+<meta property="article:tag" content="盲超分">
+<meta property="article:tag" content="无监督">
+<meta property="article:tag" content="卷积神经网络">
+<meta property="article:tag" content="图像处理">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302272159312.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>文章阅读笔记：【2021 DRL-DASR】Unsupervised Degradation Representation Learning for Blind Super-Resolution - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">文章阅读笔记：【2021 DRL-DASR】Unsupervised Degradation Representation Learning for Blind Super-Resolution</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-02-27 21:23" pubdate>
+          2023年2月27日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          68 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">文章阅读笔记：【2021 DRL-DASR】Unsupervised Degradation Representation Learning for Blind Super-Resolution</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>原文链接：</p>
+<p>（1）【√】每日五分钟一读# Image Super-Resolution - 知乎 - Andy（<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/363216181">link</a>）</p>
+<p>发布于 2021-04-08 20:16</p>
+<p>（2）【√】Unsupervised Degradation Representation Learning for Blind Super-Resolution（基于无监督退化表示学习的盲超分辨率处理） - CSDN - Cloudeeeee（<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43972154/article/details/119327182">link</a>）</p>
+<p>于 2021-08-04 10:33:25 发布</p>
+<p>ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。</p>
+</blockquote>
+<h1 id="√-文章信息"><a href="#√-文章信息" class="headerlink" title="[√] 文章信息"></a>[√] 文章信息</h1><hr>
+<p>论文标题：Unsupervised Degradation Representation Learning for Blind Super-Resolution</p>
+<p>中文标题：用于盲超分的无监督降质表示学习</p>
+<p>论文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2104.00416">https://arxiv.org/pdf/2104.00416</a></p>
+<p>论文代码：<a target="_blank" rel="noopener" href="https://github.com/LongguangWang/DASR">https://github.com/LongguangWang/DASR</a></p>
+<p>论文发表：CVPR 2021</p>
+<h1 id="√-文章1"><a href="#√-文章1" class="headerlink" title="[√] 文章1"></a>[√] 文章1</h1><hr>
+<blockquote>
+<p>【本文思想】</p>
+<ul>
+<li>与上述显性地估计LR图像退化因素不同，本文基于对比学习，提出了一种无监督的隐性退化因素估计方法，并将其用于指导图像SR。</li>
+</ul>
+<p>【本文贡献】</p>
+<ol>
+<li>我们提出了一种非监督的LR图像退化估计方法，用于学习抽象的退化因素表征。我们假设退化表征是由输入图像确定的，不同于其他图像；同时，同一张图像的图像块必须是相似的，而与其他图像的图像块却是不同的。</li>
+<li>本文提出了一种退化感知的SR方法，可以灵活适应不同的退化；</li>
+<li>通过广泛的实验证明，所提出的网络可以在具有各种退化的合成图像和真实图像上产生令人满意的结果。</li>
+</ol>
+<p>【网络结构】</p>
+<p>{总体结构}</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139445.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>{无监督对比学习}</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139446.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>【可以用于自己论文的话】</p>
+<ul>
+<li>用于多重退化的现有的SR网络通常将退化表示与图像特征连接，并将它们馈送到CNN以利用退化信息。然而，由于退化表示和图像特征之间存在域间隙（domain gap），直接使用卷积将它们作为一个整体进行处理会引入干扰。</li>
+<li>与这些网络不同的是，我们的网络模型通过学习基于退化的表示来预测卷积核和调制系数，我们的DASR可以很好地利用退化信息来适应特定的退化。我们的DASR得益于DA卷积，能够以更好的SR性能实现对各种退化的灵活适应。</li>
+</ul>
+<p>【可以用于自己论文的idea】</p>
+<p>【问题记录】</p>
+<p>【零碎点】</p>
+<ul>
+<li>现有的退化估计方法旨在估计像素级别的退化（这个退化通常是模糊核），也就是说，这些方法提取的是退化的完整表示。这些方法因为在估计退化时需要多次迭代，因此非常耗时，例如，KernelGAN在测试期间进行网络训练，单个图像需要60秒以上的时间。与这些方法不同的是，我们的目标是学习一个“好的”抽象表示来区分特定的退化，而不是显式地估计退化。在4.2节中，我们的方法被证明是有效的，并且可以在一次退化估计推测中就获得具有判别性表示。此外，我们的方法不需要真实退化的监督，即可以在无监督环境下进行。</li>
+</ul>
+</blockquote>
+<h2 id="√-引言"><a href="#√-引言" class="headerlink" title="[√] 引言"></a>[√] 引言</h2><hr>
+<p>Unsupervised Degradation Representation Learning for Blind Super-Resolution</p>
+<p>论文地址：<a href="https://link.zhihu.com/?target=https://arxiv.org/pdf/2104.00416">https://arxiv.org/pdf/2104.00416</a></p>
+<p>代码地址：<a href="https://link.zhihu.com/?target=https://github.com/LongguangWang/">https://github.com/LongguangWang/ DASR.</a></p>
+<p>关键词：图像超分、非监督、退化模型表征</p>
+<h2 id="√-解决的问题：-如何实现真实世界中多样化退化模型的图像超分"><a href="#√-解决的问题：-如何实现真实世界中多样化退化模型的图像超分" class="headerlink" title="[√] 解决的问题： 如何实现真实世界中多样化退化模型的图像超分"></a>[√] 解决的问题： 如何实现真实世界中多样化退化模型的图像超分</h2><hr>
+<p>—&gt; 图像超分的目的是从低分辨率(LR)图像恢复出高分辨率(HR)图像。</p>
+<p>—&gt;最近深度学习成功用于图像超分问题。目前许多方法都是假设低分辨率图像的退化模型是固定且已知的，但这种方法难以推广到真实退化情形。此外，利用多种退化因素组合构成训练集对模型进行训练，以期待模型具有更强的泛化能力，但这些非盲SR方法还是难以适应 那些训练集中未出现的退化情形。更进一步的，利用非盲SR方法，提供退化估计，进而解决真实图像SR问题，但这种方法对退化估计效果十分敏感，并且测试阶段需要较大的计算成本。</p>
+<p>—&gt;与上述显性地估计LR图像退化因素不同，本文基于对比学习，提出了一种无监督的隐性退化因素估计方法，并将其用于指导图像SR。</p>
+<h2 id="√-论文的贡献"><a href="#√-论文的贡献" class="headerlink" title="[√] 论文的贡献"></a>[√] 论文的贡献</h2><hr>
+<ol>
+<li>我们提出了一种非监督的LR图像退化估计方法，用于学习抽象的退化因素表征。我们假设退化表征是由输入图像确定的，不同于其他图像；同时，同一张图像的图像块必须是相似的，而与其他图像的图像块却是不同的。</li>
+<li>本文提出了一种退化感知的SR方法，可以灵活适应不同的退化；</li>
+<li>通过广泛的实验证明，所提出的网络可以在具有各种退化的合成图像和真实图像上产生令人满意的结果。</li>
+</ol>
+<h2 id="√-所提出网络框架"><a href="#√-所提出网络框架" class="headerlink" title="[√] 所提出网络框架"></a>[√] 所提出网络框架</h2><hr>
+<p>首先研究具有各向同性高斯核的无噪声退化模型，然后研究具有各向异性高斯核和噪声的更一般的退化模型，最后研究真实世界的退化模型</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139447.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h4 id="√-1、退化表征学习"><a href="#√-1、退化表征学习" class="headerlink" title="[√] 1、退化表征学习"></a>[√] 1、退化表征学习</h4><hr>
+<p>图像退化模型如下所示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139448.png" srcset="/img/loading.gif" lazyload alt="image-20230227213658906"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139449.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>本文采用对比学习框架[<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/363216181#ref_1">1]</a> 学习退化表征。<br>给定一个图像块作为query，同张图像的其他图像块作为正样本；相反的，来自其他图像的其他图像块，作为负样本。 首先，利用六层CNN网络，对query、正样本、负样本进行编码，获得退化表征。接着，根据MoCo v2， 将上述退化表征喂入两层的多层感知器（MLP），获得投影x，x^+, x^-。最后，利用InfoNCE loss 度量上述投影的相似性：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139450.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<blockquote>
+<p>为了获得包含大量负样本的大型词典，在训练阶段，B张LR图像首先被随机选择，然后对每张照片随机裁剪成两张；接着，这2B张图像块被编码成 {��1,��2∈�256} (p_i^1来自第i张图像的第一个图像块)。对于第i张图像，把p_i^1作为query样本，把p_i^2作为正样本，则整体loss为：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139451.png" srcset="/img/loading.gif" lazyload alt="image-20230227214007850"></p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139452.png" srcset="/img/loading.gif" lazyload alt="image-20230227214015074"></p>
+<h4 id="√-2、退化感知的SR网络"><a href="#√-2、退化感知的SR网络" class="headerlink" title="[√] 2、退化感知的SR网络"></a>[√] 2、退化感知的SR网络</h4><hr>
+<p>主要结构为退化感知模块（DA-block），以及来自RCAN的高层结构。整体网络包含5个残差组，每个残差组包含5个DA-block。<br>对于每个DA-block，包含有两个DA卷积层，两个3\times3的卷积层。<br>对于DA卷积层，1）退化表征首先经过两个FC层，学习到基于退化表示的深度卷积核w，然后结合图像特征F，经过1*1卷积层，获得特征F1；2）受到CResMD[<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/363216181#ref_2">2]</a> 启发（使用控制变量来重新缩放不同的渠道以处理多种降级），退化表征通过两个FC层以及一个激活层后，生成逐通道调制系数v，结合图像特征F，获得特征F2。最后DAblock的输出由F1加上F2生成。</p>
+<h2 id="√-实验结果"><a href="#√-实验结果" class="headerlink" title="[√] 实验结果"></a>[√] 实验结果</h2><hr>
+<p><strong>训练数据：</strong> DIV2K、Flickr2K</p>
+<p>测试数据：Set5, Set14 , B100、 Urban100</p>
+<h4 id="√-1、对比实验"><a href="#√-1、对比实验" class="headerlink" title="[√] 1、对比实验"></a>[√] 1、对比实验</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139453.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139454.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139455.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139456.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139457.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139458.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h4 id="√-2、附带实验"><a href="#√-2、附带实验" class="headerlink" title="[√] 2、附带实验"></a>[√] 2、附带实验</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139460.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139461.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139462.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h1 id="√-文章2"><a href="#√-文章2" class="headerlink" title="[√] 文章2"></a>[√] 文章2</h1><hr>
+<blockquote>
+<p>总结：</p>
+<p>【本文思想】</p>
+<ul>
+<li>与上述显性地估计LR图像退化因素不同，本文基于对比学习，提出了一种无监督的隐性退化因素估计方法，并将其用于指导图像SR。</li>
+</ul>
+<p>【本文贡献】</p>
+<ol>
+<li>我们提出了一种非监督的LR图像退化估计方法，用于学习抽象的退化因素表征。我们假设退化表征是由输入图像确定的，不同于其他图像；同时，同一张图像的图像块必须是相似的，而与其他图像的图像块却是不同的。</li>
+<li>本文提出了一种退化感知的SR方法，可以灵活适应不同的退化；</li>
+<li>通过广泛的实验证明，所提出的网络可以在具有各种退化的合成图像和真实图像上产生令人满意的结果。</li>
+</ol>
+<p>【网络结构】</p>
+<p>{总体结构}</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139463.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>{无监督对比学习}</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139464.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>【可以用于自己论文的话】</p>
+<ul>
+<li>用于多重退化的现有的SR网络通常将退化表示与图像特征连接，并将它们馈送到CNN以利用退化信息。然而，由于退化表示和图像特征之间存在域间隙（domain gap），直接使用卷积将它们作为一个整体进行处理会引入干扰。</li>
+<li>与这些网络不同的是，我们的网络模型通过学习基于退化的表示来预测卷积核和调制系数，我们的DASR可以很好地利用退化信息来适应特定的退化。我们的DASR得益于DA卷积，能够以更好的SR性能实现对各种退化的灵活适应。</li>
+</ul>
+<p>【可以用于自己论文的idea】</p>
+<p>【问题记录】</p>
+<p>【零碎点】</p>
+<ul>
+<li>现有的退化估计方法旨在估计像素级别的退化（这个退化通常是模糊核），也就是说，这些方法提取的是退化的完整表示。这些方法因为在估计退化时需要多次迭代，因此非常耗时，例如，KernelGAN在测试期间进行网络训练，单个图像需要60秒以上的时间。与这些方法不同的是，我们的目标是学习一个“好的”抽象表示来区分特定的退化，而不是显式地估计退化。在4.2节中，我们的方法被证明是有效的，并且可以在一次退化估计推测中就获得具有判别性表示。此外，我们的方法不需要真实退化的监督，即可以在无监督环境下进行。</li>
+</ul>
+</blockquote>
+<h2 id="√-Abstract-摘要"><a href="#√-Abstract-摘要" class="headerlink" title="[√] Abstract(摘要)"></a>[√] Abstract(摘要)</h2><hr>
+<h4 id="√-gap"><a href="#√-gap" class="headerlink" title="[√] gap"></a>[√] gap</h4><hr>
+<p>目前的SR方法大多是基于固定且已知的一种下采样方法，如双三次下采样，但是当真实图片的情况与假设的方法不同时，即真实的图片因为各种各样的不确定性因素，图像有多重降质（含有下采样、模糊、噪声等等）的情况，此时网络结构的性能与在理想情况下相比会产生很大的误差。因此，如何使网络结构能够处理多重降质的情况，是一个重要的研究方向。</p>
+<h4 id="√-本文提出的方法"><a href="#√-本文提出的方法" class="headerlink" title="[√] 本文提出的方法"></a>[√] 本文提出的方法</h4><hr>
+<ol>
+<li>提出了一种无监督退化表示学习方案，具体的说，我们学习抽象表示来区分表示空间的各种退化，而不是像素空间的显式估计；</li>
+<li>引入了一个退化感知（Degradation-Aware）网络DASR网络。</li>
+</ol>
+<h4 id="√-结论"><a href="#√-结论" class="headerlink" title="[√] 结论"></a>[√] 结论</h4><hr>
+<ol>
+<li>我们的退化表示学习策略能够提取有判别力的表征来获得具体的退化信息；</li>
+<li>实验表明，我们的网络在盲超分任务中能够取得state-of-the-art的性能。</li>
+</ol>
+<h2 id="√-1-Introduction"><a href="#√-1-Introduction" class="headerlink" title="[√] 1.Introduction"></a>[√] 1.Introduction</h2><hr>
+<p>图像超分辨率作为一个典型的逆问题，SR与退化模型是高度耦合的，现有的大多数基于CNN的方法都是在假设退化是已知且固定的（如双三次下采样），然而当现实情况不同时，这些网络会遭受严重的性能下降，为了处理实际过程中遇到的各种退化问题，以前的研究已经提出了几种非盲的SR问题，即使用一组退化（如高斯模糊、运动模糊+噪声的不同组合）用于训练，并假设测试的LR图像的退化情况是已知的。然而这些非盲的方法只能在提前已知正确的退化时产生预期的效果。</p>
+<p>为了对未知退化的图像进行超分辨率，需要执行退化估计来为非盲SR网络提供退化信息。然而这些非盲方法对退化估计很敏感，SR网络会进一步放大估计误差，导致明显的伪影。为了解决这一问题，Gu等人提出了一种迭代校正退化，可以产生无伪影的结果。由于基于退化估计的方法非常耗时，以及IKC方法在测试时需要多次迭代，因此这些方法非常耗时。</p>
+<p><strong>我们提出的方法</strong><br>通过学习退化表示来区分潜在退化和其他退化，受<strong>对比学习</strong>的最新进展的启发，对比损失常被用于在潜在空间中对比正负对来进行无监督退化表示学习，退化表示学习的优点有两个：</p>
+<ol>
+<li>与提取完整的表示来估计退化相比，学习抽象表示来区分不同的退化更容易，因此我们可以获得可区分的退化表示，以在单个推理中提供准确的退化信息；</li>
+<li>退化表示学习不需要基础事实退化的监督，因此它是一种非监督式学习方法，它更适用于具有未知退化特质的真实世界的图片。<br> 在本文中，我们引入了一种无监督式降质表示的盲超分方法，具体的说，我们假设退化在图像中是相同的，但对于不同的图像，退化可以不同。即在同一个图像中的不同图像块，它们的退化是相同的。不同图像间的退化可以没有相关性。我们提出了一种基于表示学习的退化感知网络，DASR，它能够灵活地适应不同的退化信息。<br> 具体的说，我们的DASR结合了退化信息，通过从退化表示中得到的预测卷积核和信道调制系数来执行特质自适应。<br> 实验结果表明，该网络能够有效地处理各种退化问题，在盲环境下对合成图像和真实图像都能取得较好的效果。</li>
+</ol>
+<h2 id="√-2-Related-Work"><a href="#√-2-Related-Work" class="headerlink" title="[√] 2.Related Work"></a>[√] 2.Related Work</h2><hr>
+<h4 id="√-2-1-Single-Image-Super-Resolution"><a href="#√-2-1-Single-Image-Super-Resolution" class="headerlink" title="[√] 2.1 Single Image Super-Resolution"></a>[√] 2.1 Single Image Super-Resolution</h4><hr>
+<p><strong>单一退化图像超分辨率</strong><br>SRCNN —&gt; ResNet —&gt; EDSR —&gt; RDN —&gt; RRDN —&gt; RCAN —&gt; SAN（二阶通道注意网络）</p>
+<p><strong>多重降质超分辨率</strong><br>单一退化图像超分辨率的图像只有双三次下采样，没有其他的降质处理手段，因此，当这些模型遇到现实情况的多种降质（模糊、噪声、下采样的组合等等）时，性能就会大打折扣。因此，为了解决这个问题，研究者们提出了各种各样的多重降质模型：<br>SRMD —&gt; UDVD —&gt; USRnet —&gt; 闭合式校正滤波器 —&gt; ZSSR —&gt; MZSR</p>
+<p>其中，SRMD是将多重降质后的图片输入模型，以获得能够处理不同降质的网络结构；UDVD将动态卷积合并到SRMD中，获得了比SRMD更好的性能；USRnet通过交替解决数据的子问题（sub-problem）和先验子问题（prior sub-problem）来处理不同的降质；侯赛因等人引入了闭合式校正滤波器来改变LR图像使得其余双三次退化所生成的LR图像相匹配，然后使用基于双三次下采样的网络来对该LR图像进行超分辨率处理；ZSSR使用退化图像和LR图像作为其输入进行训练，因此网络可以适应给定的降级，但是ZSSR的收敛非常耗时，在MZSR中，作者通过使用基于优化的元学习方法使得网络在给定的退化环境下，在几次迭代内就能收敛。<br><strong>但是</strong>，以上方法都基于给定的退化情况，即它们都是非盲的，因此它们高度依赖于盲SR的退化估计方法，只有估计出图片的退化，才能进行相应的SR。但是，退化估计误差会导致伪影的产生，为了解决这个问题，Gu等人提出了一种迭代校正核—IKC，通过观察以前的SR结果来校正估计的退化。Luo等人通过迭代估计退化和恢复SR图像进一步提出了DAN，深层交替网络（Deep Alternating Network）。</p>
+<h4 id="√-2-2-Contrastive-Learning（对比学习）"><a href="#√-2-2-Contrastive-Learning（对比学习）" class="headerlink" title="[√] 2.2 Contrastive Learning（对比学习）"></a>[√] 2.2 Contrastive Learning（对比学习）</h4><hr>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/141172794?ivk_sa=1024320u">对比学习的相关背景见此链接</a><br>对比学习在无监督表征学习中已经被证明其有效性。以前的方法通常通过最小化输出图像与原图像之间的差异来进行表示学习。对比学习不使用预先定义的固定的目标，而是通过最大化表征空间中相同的信息进行训练。具体的说，所研究的图像的表征应该吸引其相对应的部分，而排斥不对应的部分。其相对应的部分可以是输入的转换版本（transformed versions of the input）、输入的不同视图（multiple views of the input ）和同一副图像的不同图像块（neighboring patches in the same image ）。本文将退化程度相同的图像块视为其相对应的部分，进行对比学习来获得内容不变的退化表示（content-invariant degradation representations）,如图1所示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139465.png" srcset="/img/loading.gif" lazyload alt="图1"></p>
+<h2 id="√-3-Methodology（方法论）"><a href="#√-3-Methodology（方法论）" class="headerlink" title="[√] 3.Methodology（方法论）"></a>[√] 3.Methodology（方法论）</h2><hr>
+<h4 id="√-3-1-Problem-Formulation"><a href="#√-3-1-Problem-Formulation" class="headerlink" title="[√] 3.1 Problem Formulation"></a>[√] 3.1 Problem Formulation</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139466.png" srcset="/img/loading.gif" lazyload alt="image-20230228104907399"></p>
+<p>其中IHR是HR图像，k是模糊核，⊗表示卷积运算，↓S表示具有比例因子s的下采样运算，n通常表示加性高斯白噪声。我们使用双三次下采样作为下采样操作。本文首先研究了具有各向同性高斯核的无噪声退化模型，然后研究了具有各向异性高斯核和噪声的更一般的退化模型。最后，我们在真实世界的降质上测试我们的网络。</p>
+<h4 id="√-3-2-Our-Method"><a href="#√-3-2-Our-Method" class="headerlink" title="[√] 3.2 Our Method"></a>[√] 3.2 Our Method</h4><hr>
+<p>我们的盲SR框架由退化编码器和退化感知SR网络组成，如图所示。首先，将LR图像馈送到退化编码器A中以获得退化表示。然后，将该表示合并到降级感知SR网络B中以产生SR结果。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139467.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>图2</p>
+<h6 id="√-3-2-1-Degradation-Representation-Learning（退化表示学习）"><a href="#√-3-2-1-Degradation-Representation-Learning（退化表示学习）" class="headerlink" title="[√] 3.2.1 Degradation Representation Learning（退化表示学习）"></a>[√] 3.2.1 Degradation Representation Learning（退化表示学习）</h6><hr>
+<p>退化表示学习是以无监督的方式从LR图像中提取出有判别力的表征，如图1 所示，我们使用对比学习的框架进行退化表征学习。并假设每个图像中的退化是相同的，并且不同图像之间的退化是不同的。</p>
+<p><strong>本文网络的构思</strong></p>
+<p>给定一个图像块（图1中橙色框标注）作为疑问块（query patch）。从同一LR图像提取的其他块(例如，用红框标注的图像块)可以被认为是正样本。相反，来自其他LR图像的块(例如，用蓝框标注的块)可以被称为负样本。然后，我们使用具有六层的卷积网络将疑问块、正样本块和负样本块编码成退化表示(图2(A))。</p>
+<p>如SimCLR和MoCo v2中所建议的，，所得到的表示进一步送到两层多层感知器（MLP）投影头以获得x、x+、x-。鼓励x与x+相同，而与x-不同。在MoCo之后，用InfoNCE损失来衡量相似性。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139468.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>其中，N为负样本数，τ是温度超参数（temperature hyper-parameter），· 表示两个向量之间的点积。<br>正如现有的对比学习方法所强调的，覆盖丰富的负样本对良好的表示学习至关重要。通过维护具有各种内容和退化样本的队列来获得内容不变的退化表示。在训练过程中，首先需要随机选择B个LR图像（即B个不同的退化），然后从每个图像中随机裁剪两个图像块，然后使用我们的退化编码器将这2B个图像块编码成<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139469.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述">，其中pi1是来自该图像的第一个块的嵌入，对于这幅图像，我们将pi1和pi2分别视为疑问样本和正样本，总的损失定义为：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139470.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>其中，Nqueue是队列中的样本数，Pjqueue表示第j个负样本。</p>
+<p><strong>讨论</strong></p>
+<p>现有的退化估计方法旨在估计像素级别的退化（这个退化通常是模糊核），也就是说，这些方法提取的是退化的完整表示。这些方法因为在估计退化时需要多次迭代，因此非常耗时，例如，KernelGAN在测试期间进行网络训练，单个图像需要60秒以上的时间。与这些方法不同的是，我们的目标是学习一个“好的”抽象表示来区分特定的退化，而不是显式地估计退化。在4.2节中，我们的方法被证明是有效的，并且可以在一次退化估计推测中就获得具有判别性表示。此外，我们的方法不需要真实退化的监督，即可以在无监督环境下进行。</p>
+<h6 id="√-3-2-2-Degradation-Aware-SR-Network"><a href="#√-3-2-2-Degradation-Aware-SR-Network" class="headerlink" title="[√] 3.2.2 Degradation-Aware SR Network"></a>[√] 3.2.2 Degradation-Aware SR Network</h6><hr>
+<p>通过退化表示学习，我们提出了退化感知SR网络（DASR）来使用所得到的退化表示对LR图像进行超分辨率重建。如图2（B）所示。</p>
+<p><strong>网络架构</strong></p>
+<p>图2(B)显示了我们的DASR网络的架构。该网络使用退化感知块(DA块)作为基础块，并采用RCAN的高层结构。我们的DASR网络由5个残差组组成，每个组由5个DA块组成。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139471.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>如图2（C）所示，在每个DA块中，使用两个DA卷积层来基于A输入的退化表示适配特征。由于观察到不同重建等级训练的模型的卷积核具有相似的模式但具有不同的统计量，我们的DA卷积层学习在退化表示的条件下预测深度卷积的核。具体的说，A产生的退化表示R被送到两个全连接层（FC）和重塑层（reshape layer）以产生卷积核<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139472.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>。然后对输入特征F使用卷积核w进行3<em>3卷积运算和1</em>1卷积运算，产生F1。</p>
+<p>此外，受CResMD(使用控制变量对不同信道进行重缩放以处理多个退化)的启发，我们的DA卷积层还学习基于退化表示来生成调制系数以执行信道特征自适应。具体的说，R被传递到另外两个FC层和Sigmoid层以生成信道方式的调制系数v。然后，v被用来对F中的不同信道分量进行重新调节，从而得到F2。最后，将F1与F2相加，并馈送到后续层以产生输出特征Fout。</p>
+<p><strong>讨论</strong></p>
+<p>用于多重退化的现有的SR网络通常将退化表示与图像特征连接，并将它们馈送到CNN以利用退化信息。然而，由于退化表示和图像特征之间存在域间隙（domain gap），直接使用卷积将它们作为一个整体进行处理会引入干扰。与这些网络不同的是，我们的网络模型通过学习基于退化的表示来预测卷积核和调制系数，我们的DASR可以很好地利用退化信息来适应特定的退化。我们的DASR得益于DA卷积，能够以更好的SR性能实现对各种退化的灵活适应。</p>
+<h2 id="√-4-Experiments"><a href="#√-4-Experiments" class="headerlink" title="[√] 4.Experiments"></a>[√] 4.Experiments</h2><hr>
+<h4 id="√-4-1-Datasets-and-Implementation-Details"><a href="#√-4-1-Datasets-and-Implementation-Details" class="headerlink" title="[√] 4.1 Datasets and Implementation Details"></a>[√] 4.1 Datasets and Implementation Details</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139473.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h4 id="√-4-2-Experiments-on-Noise-Free-Degradations-with"><a href="#√-4-2-Experiments-on-Noise-Free-Degradations-with" class="headerlink" title="[√] 4.2 Experiments on Noise-Free Degradations with"></a>[√] 4.2 Experiments on Noise-Free Degradations with</h4><hr>
+<p>Isotropic Gaussian Kernels</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139474.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139475.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139476.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139477.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139478.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139479.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302281139480.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h2 id="√-5-Conclusion"><a href="#√-5-Conclusion" class="headerlink" title="[√] 5.Conclusion"></a>[√] 5.Conclusion</h2><hr>
+<h4 id="√-一些问题"><a href="#√-一些问题" class="headerlink" title="[√] 一些问题"></a>[√] 一些问题</h4><hr>
+<ol>
+<li>为什么作者要使用对比学习，对比学习在这篇文章里的作用是什么？</li>
+<li>本文具体解决了哪些问题？怎么解决的？</li>
+<li>本文的网络结构是如何解决多重退化的问题的？</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E7%9B%B2%E8%B6%85%E5%88%86/" class="category-chain-item">盲超分</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>
+      
+        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">#计算机视觉</a>
+      
+        <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">#人工智能</a>
+      
+        <a href="/tags/%E7%9B%B2%E8%B6%85%E5%88%86/">#盲超分</a>
+      
+        <a href="/tags/%E6%97%A0%E7%9B%91%E7%9D%A3/">#无监督</a>
+      
+        <a href="/tags/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">#卷积神经网络</a>
+      
+        <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">#图像处理</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>文章阅读笔记：【2021 DRL-DASR】Unsupervised Degradation Representation Learning for Blind Super-Resolution</div>
+      <div>http://example.com/posts/3079960614/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年2月27日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/1137730746/" title="在python中import和from import的区别">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">在python中import和from import的区别</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/973933338/" title="文章阅读笔记：【2021 USR_DA】Unsupervised Real-World Super-Resolution：A Domain Adaptation Perspective">
+                        <span class="hidden-mobile">文章阅读笔记：【2021 USR_DA】Unsupervised Real-World Super-Resolution：A Domain Adaptation Perspective</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

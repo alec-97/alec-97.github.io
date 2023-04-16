@@ -1,0 +1,1165 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="[√] 5 - 课节5：卷积神经网络 [√] 5.0 - 卷积神经网络概述 卷积神经网络的信息也是单向传递的  [√] 全连接前馈神经网络   alec： 全连接很难提取图像上局部不变的特性 图像上的一些特征是平移、旋转、缩放等不变的   [√] 卷积神经网络   [√] 本章内容   [√] 5.1 - 卷积  ——&gt;[√] 卷积    alec： 卷积输出的长度为：N-K+1，N为数据长">
+<meta property="og:type" content="article">
+<meta property="og:title" content="5 - 卷积神经网络">
+<meta property="og:url" content="http://example.com/posts/2118395793/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="[√] 5 - 课节5：卷积神经网络 [√] 5.0 - 卷积神经网络概述 卷积神经网络的信息也是单向传递的  [√] 全连接前馈神经网络   alec： 全连接很难提取图像上局部不变的特性 图像上的一些特征是平移、旋转、缩放等不变的   [√] 卷积神经网络   [√] 本章内容   [√] 5.1 - 卷积  ——&gt;[√] 卷积    alec： 卷积输出的长度为：N-K+1，N为数据长">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212125963.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126522.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126523.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126524.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126525.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126526.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126527.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126529.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126530.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126531.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126532.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126533.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126534.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126535.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126536.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126537.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126538.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126539.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126540.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126541.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126542.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126543.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126544.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126545.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126546.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126547.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126548.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126549.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126550.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126551.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126552.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126553.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126554.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126555.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126556.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126557.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126558.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126559.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126560.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126561.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126562.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126563.png">
+<meta property="article:published_time" content="2022-12-19T05:00:56.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:38:04.788Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212125963.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>5 - 卷积神经网络 - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">5 - 卷积神经网络</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-12-19 13:00" pubdate>
+          2022年12月19日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          22 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">5 - 卷积神经网络</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：16 分钟前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="√-5-课节5：卷积神经网络"><a href="#√-5-课节5：卷积神经网络" class="headerlink" title="[√] 5 - 课节5：卷积神经网络"></a>[√] 5 - 课节5：卷积神经网络</h1><hr>
+<h2 id="√-5-0-卷积神经网络概述"><a href="#√-5-0-卷积神经网络概述" class="headerlink" title="[√] 5.0 - 卷积神经网络概述"></a>[√] 5.0 - 卷积神经网络概述</h2><hr>
+<p>卷积神经网络的信息也是单向传递的</p>
+<hr>
+<h4 id="√-全连接前馈神经网络"><a href="#√-全连接前馈神经网络" class="headerlink" title="[√] 全连接前馈神经网络"></a>[√] 全连接前馈神经网络</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212125963.png" srcset="/img/loading.gif" lazyload alt="image-20221218204030255"></p>
+<blockquote>
+<p>alec：</p>
+<p>全连接很难提取图像上局部不变的特性</p>
+<p>图像上的一些特征是平移、旋转、缩放等不变的</p>
+</blockquote>
+<hr>
+<h4 id="√-卷积神经网络"><a href="#√-卷积神经网络" class="headerlink" title="[√] 卷积神经网络"></a>[√] 卷积神经网络</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126522.png" srcset="/img/loading.gif" lazyload alt="image-20221218204239863"></p>
+<hr>
+<h4 id="√-本章内容"><a href="#√-本章内容" class="headerlink" title="[√] 本章内容"></a>[√] 本章内容</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126523.png" srcset="/img/loading.gif" lazyload alt="image-20221218204323550"></p>
+<hr>
+<h2 id="√-5-1-卷积"><a href="#√-5-1-卷积" class="headerlink" title="[√] 5.1 - 卷积"></a>[√] 5.1 - 卷积</h2><hr>
+<hr>
+<h4 id="——-gt-√-卷积"><a href="#——-gt-√-卷积" class="headerlink" title="——&gt;[√] 卷积"></a>——&gt;[√] 卷积</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126524.png" srcset="/img/loading.gif" lazyload alt="image-20221218205145546"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126525.png" srcset="/img/loading.gif" lazyload alt="image-20221218205436373"></p>
+<blockquote>
+<p>alec：</p>
+<p>卷积输出的长度为：N-K+1，N为数据长度、K为滤波器长度、</p>
+</blockquote>
+<hr>
+<h4 id="——-gt-√-卷积的作用"><a href="#——-gt-√-卷积的作用" class="headerlink" title="——&gt;[√] 卷积的作用"></a>——&gt;[√] 卷积的作用</h4><hr>
+<h6 id="——-gt-√-近似微分"><a href="#——-gt-√-近似微分" class="headerlink" title="——&gt;[√] 近似微分"></a>——&gt;[√] 近似微分</h6><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126526.png" srcset="/img/loading.gif" lazyload alt="image-20221218211717113"></p>
+<hr>
+<h6 id="——-gt-√-低通滤波-x2F-高通滤波"><a href="#——-gt-√-低通滤波-x2F-高通滤波" class="headerlink" title="——&gt;[√] 低通滤波&#x2F;高通滤波"></a>——&gt;[√] 低通滤波&#x2F;高通滤波</h6><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126527.png" srcset="/img/loading.gif" lazyload alt="image-20221218212013581"></p>
+<hr>
+<h4 id="——-gt-√-卷积扩展"><a href="#——-gt-√-卷积扩展" class="headerlink" title="——&gt;[√] 卷积扩展"></a>——&gt;[√] 卷积扩展</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126529.png" srcset="/img/loading.gif" lazyload alt="image-20221218212500156"></p>
+<blockquote>
+<p>alec：</p>
+<p>当想要卷积后尺寸不变的话，那么padding的长度为（k-1）&#x2F; 2，其中k为卷积核的长度</p>
+<p>卷积输出的长度为：</p>
+<p>L &#x3D; （M+2P-K）&#x2F; 2 + 1</p>
+</blockquote>
+<hr>
+<h4 id="——-gt-√-卷积类型"><a href="#——-gt-√-卷积类型" class="headerlink" title="——&gt;[√] 卷积类型"></a>——&gt;[√] 卷积类型</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126530.png" srcset="/img/loading.gif" lazyload alt="image-20221218212956189"></p>
+<hr>
+<h4 id="——-gt-√-二维卷积"><a href="#——-gt-√-二维卷积" class="headerlink" title="——&gt;[√] 二维卷积"></a>——&gt;[√] 二维卷积</h4><hr>
+<blockquote>
+<p>alec：</p>
+<p>将M-K+1记为1+M-K简单一些</p>
+</blockquote>
+<hr>
+<h4 id="——-gt-√-卷积作为特征提取器"><a href="#——-gt-√-卷积作为特征提取器" class="headerlink" title="——&gt;[√] 卷积作为特征提取器"></a>——&gt;[√] 卷积作为特征提取器</h4><hr>
+<blockquote>
+<p>alec：</p>
+<p>高斯滤波可以去噪，卷积核用周围点的信息来平均当前点的信息，使得图像更加的光滑</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126531.png" srcset="/img/loading.gif" lazyload alt="image-20221218213756588"></p>
+<p>提取高频信息</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126532.png" srcset="/img/loading.gif" lazyload alt="image-20221218213808571"></p>
+<p>针对性的提取有方向的边缘</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126533.png" srcset="/img/loading.gif" lazyload alt="image-20221218213827166"></p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126534.png" srcset="/img/loading.gif" lazyload alt="image-20221218213908134"></p>
+<hr>
+<h2 id="√-5-2-卷积神经网络"><a href="#√-5-2-卷积神经网络" class="headerlink" title="[√] 5.2 - 卷积神经网络"></a>[√] 5.2 - 卷积神经网络</h2><hr>
+<h4 id="√-卷积神经网络-1"><a href="#√-卷积神经网络-1" class="headerlink" title="[√] 卷积神经网络"></a>[√] 卷积神经网络</h4><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>全连接中，下一层的一个神经元信息是收集的前一层的所有神经元的信息</li>
+<li>卷积中，下一层的一个神经炎信息是收集的在前一层，卷积核当前所在位置对应的神经元信息的信息。即只收集了局部信息。</li>
+</ul>
+<hr>
+<ul>
+<li>卷积特性：在不同位置的上的参数都是相等的，因此参数量大大减小，且共享权重</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126535.png" srcset="/img/loading.gif" lazyload alt="image-20221218214556669"></p>
+<hr>
+<h4 id="√-互相关"><a href="#√-互相关" class="headerlink" title="[√] 互相关"></a>[√] 互相关</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126536.png" srcset="/img/loading.gif" lazyload alt="image-20221218214801016"></p>
+<hr>
+<h4 id="√-多个卷积核"><a href="#√-多个卷积核" class="headerlink" title="[√] 多个卷积核"></a>[√] 多个卷积核</h4><hr>
+<blockquote>
+<p>alec：</p>
+<p>单个卷积的参数量非常少，因此很自然的能力就会下降</p>
+<p>因此通过在一层放多个卷积核，提取不同的特征，来提高网络的能力</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126537.png" srcset="/img/loading.gif" lazyload alt="image-20221218215125765"></p>
+<hr>
+<h4 id="√-卷积层的映射关系"><a href="#√-卷积层的映射关系" class="headerlink" title="[√] 卷积层的映射关系"></a>[√] 卷积层的映射关系</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126538.png" srcset="/img/loading.gif" lazyload alt="image-20221218215458748"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126539.png" srcset="/img/loading.gif" lazyload alt="image-20221218215545076"></p>
+<blockquote>
+<p>alec:</p>
+<p>三个通道对应三组卷积核，每组卷积核中的卷积核不一定是相等的</p>
+</blockquote>
+<hr>
+<h4 id="√-卷积层"><a href="#√-卷积层" class="headerlink" title="[√] 卷积层"></a>[√] 卷积层</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126540.png" srcset="/img/loading.gif" lazyload alt="image-20221218215750018"></p>
+<hr>
+<h4 id="√-汇聚层"><a href="#√-汇聚层" class="headerlink" title="[√] 汇聚层"></a>[√] 汇聚层</h4><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>卷积层只是减少了连接的个数，但是神经元的个数并没有显著减少，下一层的神经元的个数是1+（M+2P-K）&#x2F; S</li>
+<li>引入汇聚层减少神经元的个数</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126541.png" srcset="/img/loading.gif" lazyload alt="image-20221218220234115"></p>
+<hr>
+<h4 id="√-卷积网络结构"><a href="#√-卷积网络结构" class="headerlink" title="[√] 卷积网络结构"></a>[√] 卷积网络结构</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126542.png" srcset="/img/loading.gif" lazyload alt="image-20221218220427623"></p>
+<hr>
+<h4 id="√-表示学习"><a href="#√-表示学习" class="headerlink" title="[√] 表示学习"></a>[√] 表示学习</h4><hr>
+<blockquote>
+<p>alec：</p>
+<p>卷积和表示学习是非常像的，用来学习特征。然后通过线性的分类器全连接网络进行特征的分类。</p>
+<p>卷积的深层的神经元，视野更宽。</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126543.png" srcset="/img/loading.gif" lazyload alt="image-20221218220659104"></p>
+<hr>
+<h2 id="√-5-3-其它卷积种类"><a href="#√-5-3-其它卷积种类" class="headerlink" title="[√] 5.3 - 其它卷积种类"></a>[√] 5.3 - 其它卷积种类</h2><hr>
+<h4 id="√-空洞卷积"><a href="#√-空洞卷积" class="headerlink" title="[√] 空洞卷积"></a>[√] 空洞卷积</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126544.png" srcset="/img/loading.gif" lazyload alt="image-20221218221051392"></p>
+<blockquote>
+<p>alec：</p>
+<p>空洞卷积的作用是增加感受野</p>
+</blockquote>
+<hr>
+<h4 id="√-微步卷积-x2F-转置卷积"><a href="#√-微步卷积-x2F-转置卷积" class="headerlink" title="[√] 微步卷积&#x2F;转置卷积"></a>[√] 微步卷积&#x2F;转置卷积</h4><hr>
+<blockquote>
+<p>alec：</p>
+<p>正常思路，随着卷积的进行，feature map会越来越小；当S&gt;&#x3D;1的是时候，输出会变小。因此当S≤1，输出就会变大。办法是对输入插0值，然后再卷积。</p>
+<p>当想要输出比输入更大的时候，按照相反的思路来就可以，比如可以给输入进行补零，放大输入，然后再卷积，这样就能得到大的输出</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126545.png" srcset="/img/loading.gif" lazyload alt="image-20221218221734175"></p>
+<hr>
+<h2 id="√-5-4-典型的卷积网络"><a href="#√-5-4-典型的卷积网络" class="headerlink" title="[√] 5.4 - 典型的卷积网络"></a>[√] 5.4 - 典型的卷积网络</h2><hr>
+<h4 id="√-LeNet-5"><a href="#√-LeNet-5" class="headerlink" title="[√] LeNet-5"></a>[√] LeNet-5</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126546.png" srcset="/img/loading.gif" lazyload alt="image-20221218222249336"></p>
+<hr>
+<h4 id="√-大规模视觉识别挑战"><a href="#√-大规模视觉识别挑战" class="headerlink" title="[√] 大规模视觉识别挑战"></a>[√] 大规模视觉识别挑战</h4><hr>
+<blockquote>
+<p>alec：</p>
+<p>2015年何凯明提出的resnet在这个上面的准确率降到了3.几%，这个准确率已经超过了人的准确率。因此后面这个分类比赛就停办了。</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126547.png" srcset="/img/loading.gif" lazyload alt="image-20221218222512024"></p>
+<hr>
+<h4 id="√-AlexNet"><a href="#√-AlexNet" class="headerlink" title="[√] AlexNet"></a>[√] AlexNet</h4><hr>
+<blockquote>
+<p>alec：</p>
+<p>卷积的起点就是AlexNet，Alex就是作者的名字</p>
+<p>使用Dropout来防止过拟合</p>
+<p>AlexNet是一个1000个分类的分类网络</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126548.png" srcset="/img/loading.gif" lazyload alt="image-20221218223103069"></p>
+<hr>
+<h4 id="√-CNN可视化：滤波器"><a href="#√-CNN可视化：滤波器" class="headerlink" title="[√] CNN可视化：滤波器"></a>[√] CNN可视化：滤波器</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126549.png" srcset="/img/loading.gif" lazyload alt="image-20221218223227492"></p>
+<hr>
+<h4 id="√-Inception网络"><a href="#√-Inception网络" class="headerlink" title="[√] Inception网络"></a>[√] Inception网络</h4><hr>
+<blockquote>
+<p>alec：</p>
+<p>Googlenet是属于inception网络的第一版</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126550.png" srcset="/img/loading.gif" lazyload alt="image-20221218223408237"></p>
+<hr>
+<h4 id="√-Inception模块V1"><a href="#√-Inception模块V1" class="headerlink" title="[√] Inception模块V1"></a>[√] Inception模块V1</h4><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>在卷积中，卷积核选择多大的尺寸是一个非常难的问题。因此在Inception中，在同一层卷积中，选择多个不同大小的卷积核放在同一层，这种模块成为Inception模块。</li>
+<li>同一层中不同尺寸的卷积核，卷积（等宽卷积）和最大汇聚后的特征图都是等宽的，因此在同一层之后，可以将特征图汇聚堆叠到一起，然后传给下一层。</li>
+<li>穷举各种大小的卷积核，极大的提高了特征的丰富程度。因此网络的能力会变得更强。</li>
+</ul>
+<hr>
+<ul>
+<li>1×1卷积其实就是在深度（通道数）这个方向对元素做了加权组合。看成是不同通道上的特征融合。1×1卷积不改变大小，因此不需要padding</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126551.png" srcset="/img/loading.gif" lazyload alt="image-20221218224424215"></p>
+<hr>
+<h4 id="√-Inception模块V3"><a href="#√-Inception模块V3" class="headerlink" title="[√] Inception模块V3"></a>[√] Inception模块V3</h4><hr>
+<blockquote>
+<p>alec：</p>
+<p>3×3的感受野小于5×5的感受野，但是3×3串联3×3，那么感受野就变大了。因此通过串联小卷积核替代大卷积核，这样可以减少参数量。</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126552.png" srcset="/img/loading.gif" lazyload alt="image-20221219113922887"></p>
+<hr>
+<h4 id="√-残差网络"><a href="#√-残差网络" class="headerlink" title="[√] 残差网络"></a>[√] 残差网络</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126553.png" srcset="/img/loading.gif" lazyload alt="image-20221219114121825"></p>
+<blockquote>
+<p>alec：</p>
+<p>当f（x）是一个恒等函数的时候，反而用卷积神经网络模拟非线性的函数很难逼近这个函数。因此通过残差网络直连边的方式，能够优化这个问题。</p>
+<p>h（x）&#x3D; x + f(x), x是线性部分，f（x）是非线性部分</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126554.png" srcset="/img/loading.gif" lazyload alt="image-20221219114721505"></p>
+<hr>
+<h4 id="√-残差单元"><a href="#√-残差单元" class="headerlink" title="[√] 残差单元"></a>[√] 残差单元</h4><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>残差单元，等宽卷积边和直连边相加之后，再激活</li>
+<li>一个block中的卷积怎么搭配，是一个非常灵活的事情</li>
+</ul>
+<hr>
+<p>为什么残差网络能够深度非常深？</p>
+<ul>
+<li>深层网络存在的一个问题是层数太深、梯度消失问题。残差网络的导数为（x+f（x））‘ &#x3D; 1 + f‘(x)</li>
+<li>因为这个1的存在，所以梯度不会变的很小，所以能够缓解梯度消失问题</li>
+<li><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126555.png" srcset="/img/loading.gif" lazyload alt="image-20221219115216001"></li>
+<li>因此，现在对于任意一个比较深的网络，即使不是残差网络，这种残差直连边的连接方式，已经成为了一种必不可少的技术</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126556.png" srcset="/img/loading.gif" lazyload alt="image-20221219115337588"></p>
+<hr>
+<h2 id="√-5-5-卷积网络的应用"><a href="#√-5-5-卷积网络的应用" class="headerlink" title="[√] 5.5 - 卷积网络的应用"></a>[√] 5.5 - 卷积网络的应用</h2><hr>
+<h4 id="√-AlphaGo"><a href="#√-AlphaGo" class="headerlink" title="[√] AlphaGo"></a>[√] AlphaGo</h4><hr>
+<blockquote>
+<p>alec：</p>
+<p>强化学习中决策网络，下棋相当于在19×19的棋盘中，确定棋盘中下棋的位置，相当于一个输入是一张图像，输出是一个19×19的分类问题。</p>
+<p>强化学习中的价值网络，用来判断走每一步对于后面的平均收益是多少。</p>
+<p>这两种网络都是通过卷积网络来实现的。</p>
+<hr>
+<p>等宽卷积：</p>
+<ul>
+<li>填充 P &#x3D; (K - 1)&#x2F;2</li>
+</ul>
+<hr>
+<p>等宽卷积的目的是为了适应残差网络中残差边和直连边的相加</p>
+<p>残差网络的目的是为了优化梯度消失问题</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126557.png" srcset="/img/loading.gif" lazyload alt="image-20221219123326383"></p>
+<hr>
+<h4 id="√-目标检测（Object-Detection）"><a href="#√-目标检测（Object-Detection）" class="headerlink" title="[√] 目标检测（Object Detection）"></a>[√] 目标检测（Object Detection）</h4><hr>
+<blockquote>
+<p>alec：</p>
+<p>目标检测中有自己专门的卷积网络：RCN、区域卷积网络</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126558.png" srcset="/img/loading.gif" lazyload alt="image-20221219123635743"></p>
+<hr>
+<h4 id="√-Mask-RCNN"><a href="#√-Mask-RCNN" class="headerlink" title="[√] Mask RCNN"></a>[√] Mask RCNN</h4><hr>
+<blockquote>
+<p>alec：</p>
+<p>更细粒度的，像素级的图像分割，将轮廓找出来。</p>
+<p>思想类似于讲图像中的某个区域拿出来，然后做像素级别的分类，从而找到目标轮廓。</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126559.png" srcset="/img/loading.gif" lazyload alt="image-20221219123918838"></p>
+<hr>
+<h4 id="√-OCR"><a href="#√-OCR" class="headerlink" title="[√] OCR"></a>[√] OCR</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126560.png" srcset="/img/loading.gif" lazyload alt="image-20221219124041049"></p>
+<hr>
+<h2 id="√-5-6-卷积网络应用到文本数据"><a href="#√-5-6-卷积网络应用到文本数据" class="headerlink" title="[√] 5.6 - 卷积网络应用到文本数据"></a>[√] 5.6 - 卷积网络应用到文本数据</h2><hr>
+<h4 id="√-Ngram特征与卷积"><a href="#√-Ngram特征与卷积" class="headerlink" title="[√] Ngram特征与卷积"></a>[√] Ngram特征与卷积</h4><hr>
+<blockquote>
+<p>alec：</p>
+<p>卷积是从信号序列提取特征，文本本身就是信号序列，因此使用卷积提取文本信息是自然的</p>
+<p>单个词语的提取，会丢失数据的顺序（unigrams）</p>
+<p>因此可以两个、三个词语的提取（bigrams、trigrams）</p>
+</blockquote>
+<hr>
+<h4 id="√-文本序列的卷积"><a href="#√-文本序列的卷积" class="headerlink" title="[√] 文本序列的卷积"></a>[√] 文本序列的卷积</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126561.png" srcset="/img/loading.gif" lazyload alt="image-20221219124952755"></p>
+<hr>
+<h4 id="√-基于卷积模型的句子表示"><a href="#√-基于卷积模型的句子表示" class="headerlink" title="[√] 基于卷积模型的句子表示"></a>[√] 基于卷积模型的句子表示</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126562.png" srcset="/img/loading.gif" lazyload alt="image-20221219125156850"></p>
+<hr>
+<h4 id="√-文本序列的卷积模型"><a href="#√-文本序列的卷积模型" class="headerlink" title="[√] 文本序列的卷积模型"></a>[√] 文本序列的卷积模型</h4><hr>
+<blockquote>
+<p>alec：</p>
+<p>卷积层是指的使用卷积核卷积前一层数据之后，得到的新的特征图，这些特征图是通过卷积得到的，所以叫卷积层；这一层是卷积的结果，而不是说这一层是进行卷积的过程。</p>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212212126563.png" srcset="/img/loading.gif" lazyload alt="image-20221219125434730"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/" class="category-chain-item">视频学习</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E9%A3%9E%E6%A1%A8-%E5%A4%8D%E6%97%A6%E5%A4%A7%E5%AD%A6-%E9%82%B1%E9%94%A1%E9%B9%8F%EF%BC%88NNDL%E8%92%B2%E5%85%AC%E8%8B%B1%E4%B9%A6%EF%BC%89/" class="category-chain-item">神经网络与深度学习 - 飞桨 - 复旦大学 - 邱锡鹏（NNDL蒲公英书）</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E9%A3%9E%E6%A1%A8-%E5%A4%8D%E6%97%A6%E5%A4%A7%E5%AD%A6-%E9%82%B1%E9%94%A1%E9%B9%8F%EF%BC%88NNDL%E8%92%B2%E5%85%AC%E8%8B%B1%E4%B9%A6%EF%BC%89/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>5 - 卷积神经网络</div>
+      <div>http://example.com/posts/2118395793/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年12月19日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/292348030/" title="3 - 线性分类">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">3 - 线性分类</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/2701885837/" title="6 - 循环神经网络">
+                        <span class="hidden-mobile">6 - 循环神经网络</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

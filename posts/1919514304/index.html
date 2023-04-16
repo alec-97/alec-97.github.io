@@ -1,0 +1,986 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="AIM2020-ESR 冠军方案解读：引入注意力模块 ESA，实现高效轻量的超分网络（附代码实现） - 极市平台 - ExtremeMart 2020-09-30  [√] 文章信息  本文首发自公众号极市平台（微信公众号ID：extrememart），作者 @Happy，转载需获授权。  导读：该文是南京大学提出的一种轻量&amp;高效图像超分网络，它获得了AIM20-ESR竞赛的冠军。它在I">
+<meta property="og:type" content="article">
+<meta property="og:title" content="039 - 文章阅读笔记：AIM2020-ESR 冠军方案解读：引入注意力模块 ESA，实现高效轻量的超分网络（附代码实现） - 极市平台 - ExtremeMart">
+<meta property="og:url" content="http://example.com/posts/1919514304/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="AIM2020-ESR 冠军方案解读：引入注意力模块 ESA，实现高效轻量的超分网络（附代码实现） - 极市平台 - ExtremeMart 2020-09-30  [√] 文章信息  本文首发自公众号极市平台（微信公众号ID：extrememart），作者 @Happy，转载需获授权。  导读：该文是南京大学提出的一种轻量&amp;高效图像超分网络，它获得了AIM20-ESR竞赛的冠军。它在I">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172240198.png">
+<meta property="article:published_time" content="2023-01-17T13:27:23.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.432Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="超分辨率重建">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172240198.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>039 - 文章阅读笔记：AIM2020-ESR 冠军方案解读：引入注意力模块 ESA，实现高效轻量的超分网络（附代码实现） - 极市平台 - ExtremeMart - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">039 - 文章阅读笔记：AIM2020-ESR 冠军方案解读：引入注意力模块 ESA，实现高效轻量的超分网络（附代码实现） - 极市平台 - ExtremeMart</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-17 21:27" pubdate>
+          2023年1月17日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          44 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">039 - 文章阅读笔记：AIM2020-ESR 冠军方案解读：引入注意力模块 ESA，实现高效轻量的超分网络（附代码实现） - 极市平台 - ExtremeMart</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.cvmart.net/community/detail/3417">AIM2020-ESR 冠军方案解读：引入注意力模块 ESA，实现高效轻量的超分网络（附代码实现） - 极市平台 - ExtremeMart</a></p>
+<p>2020-09-30</p>
+</blockquote>
+<h2 id="√-文章信息"><a href="#√-文章信息" class="headerlink" title="[√] 文章信息"></a>[√] 文章信息</h2><hr>
+<blockquote>
+<p>本文首发自公众号极市平台（微信公众号ID：extrememart），作者 <a target="_blank" rel="noopener" href="https://www.zhihu.com/people/6294b1ee941bd3258d1b11014dcf0b35">@Happy</a>，转载需获授权。</p>
+</blockquote>
+<p>导读：该文是南京大学提出的一种轻量&amp;高效图像超分网络，它获得了AIM20-ESR竞赛的冠军。它在IMDN的基础上提出了两点改进，并引入RFANet一种的ESA注意力模块。如果从结果出发来看RFDN看上去很简单，但每一步的改进却能看到内在的一些思考与尝试。值得初入图像复原领域的同学仔细研究一下该文。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172241439.png" srcset="/img/loading.gif" lazyload alt="image-20230117213719476"></p>
+<p>paper: <a href="https://link.zhihu.com/?target=https://arxiv.org/abs/2009.11551">https://arxiv.org/abs/2009.11551</a></p>
+<p>code: <a href="https://link.zhihu.com/?target=https://github.com/njulj/RFDN">https://github.com/njulj/RFDN</a>(预训练模型未开源)</p>
+<p>论文标题：用于轻量级图像超分的残差特征蒸馏网络</p>
+<h2 id="√-Abstract"><a href="#√-Abstract" class="headerlink" title="[√] Abstract"></a>[√] Abstract</h2><hr>
+<p>受益于CNN强大的拟合能力，图像超分取得了极大的进展。尽管基于CNN的方法取得了极好的性能与视觉效果，但是这些模型难以部署到端侧设备(高计算量、高内存占用)。</p>
+<p>为解决上述问题，已有各种不同的快速而轻量型的CNN模型提出，IDN(Information Distillation Network, IDN)是其中的佼佼者，它采用通道分离的方式提取蒸馏特征。然而，我们并不是很清晰的知道这个操作是如何有益于高效SISR的。</p>
+<p>该文提出一种等价于通道分离操作的特征蒸馏连接操作(Feature Distillation Connection, FDC)，它更轻量且更灵活。基于FDC，作者对IMDN(Information Multi Distillation Network, IMDN)进行了重思考并提出了一种称之为RFDN(Residual Feature Distillation Network, RFDN)的轻量型图像超分模型，RFDN采用多个FDC学习更具判别能力的特征。与此同时，作者还提出一种浅层残差模块SRB(Shallow Residual Block, SRB)作为RFDB的构件模块，SRB即可得益于残差学习，又足够轻量。</p>
+<p>最后作者通过实验表明：所提方法在性能与模型复杂度方面取得了更多的均衡。更进一步，增强型的RFDN(Enhanced RFDN, E-RFDN)获得了AIM2020 Efficient Super Resolution竞赛的冠军。</p>
+<p>该文的主要贡献包含以下几点：</p>
+<ul>
+<li>提出一种轻量型残差特征蒸馏网络用于图像超分并取得了SOTA性能，同时具有更少的参数量；</li>
+<li>系统的分析了IDM并对IMDN进行重思考，基于思考发现提出了FDC；</li>
+<li>提出了浅层残差模块，它无需引入额外参数即可提升超分性能。</li>
+</ul>
+<h2 id="√-Method"><a href="#√-Method" class="headerlink" title="[√] Method"></a>[√] Method</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172241440.png" srcset="/img/loading.gif" lazyload alt="image-20230117215813152"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>蒸馏操作中，将通道特征图分为两部分，一部分保留，直接在后端concat，另一部分则融入到下一阶段的蒸馏操作，递归的蒸馏。最后将所有的保留部分concat，即完成了渐进式蒸馏。</li>
+</ul>
+</blockquote>
+<p>上图a给出了IMDN的核心模块IMDB的网路架构图，它是一种渐进式模块(Progressive Refinement Module)，PRM部分(图中灰色背景区域)采用3<em>t<strong>im</strong>es</em>3卷积从输入特征通过多个蒸馏步骤提取特征。在每个步骤，采用通道分离操作将特征分成两部分：一部分保留，一个融入到下一阶段的蒸馏步骤。假设输入特征表示为<em>F**in</em>，该过程可以描述为：</p>
+<p>F_{distilled_1}, F_{coarse_1} &#x3D; Split_1(L_1(F_{in})) \$$\ F_{distilled_2}, F_{coarse_2} &#x3D; Split_2(L_2(F_{coarse_1})) \$$\ F_{distilled_3}, F_{coarse_3} &#x3D; Split_2(L_2(F_{coarse_2})) \$$\ F_{distilled_4} &#x3D; L_4(F_{coarse_3}) </p>
+<p>其中<em>L**j</em>表示第j个卷积模块(包含激活单元)，<em>Spl<strong>i</strong>t**j</em>表示第j个通道分离操作。最后所有的蒸馏特征通过<code>Concat</code>进行融合得到输出：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172241441.png" srcset="/img/loading.gif" lazyload alt="image-20230117220226252"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>RFDB的修改，也是将IMDB中的蒸馏模块的保留的那部分加上了一个1x1的卷积。</li>
+<li>然后又在RFDB中搞了一个所谓的浅层残差模块，也就是一个1层的残差连接，模块中有一个3x3的卷积。</li>
+</ul>
+</blockquote>
+<h4 id="√-Rethinking-the-IMDB"><a href="#√-Rethinking-the-IMDB" class="headerlink" title="[√] Rethinking the IMDB"></a>[√] Rethinking the IMDB</h4><hr>
+<p>尽管PRM获得显著的提升，但不够高效且因为通道分离操作引入了某些不灵活性。通过3×3卷积生成的特征存在许多冗余参数；而且特征蒸馏是通过通道分离达成，导致其无法有效利用恒等连接。作者对通道分离操作进行了重思考并提出了一种新的等价架构以避免上述问题。</p>
+<p>以Fig2b为例，3×3卷积后接通道分离可以拆解成两个3×3卷积DL和RL，此时改进的架构可以描述如下：</p>
+<p>F_{distilled_1}, F_{coarse_1} &#x3D; DL_1(F_{in}), RL_1(F_{in}) \$$\ F_{distilled_2}, F_{coarse_2} &#x3D; DL_2(F_{coarse_1}), RL_2(F_{coarse_1}) \$$\ F_{distilled_3}, F_{coarse_3} &#x3D; DL_3(F_{coarse_2}), RL_3(F_{coarse_2}) $$\ F_{distilled_4} &#x3D; DL_4(F_{coarse_3}) \</p>
+<p>也就是说每一次的通道分离操作可以视作两个卷积的协同作用，我们将这种改进称之为IMDB-R，它比IMDB更为灵活，且具有更好的解释性。</p>
+<h4 id="√-Residual-Feature-Distillation-Block"><a href="#√-Residual-Feature-Distillation-Block" class="headerlink" title="[√] Residual Feature Distillation Block"></a>[√] Residual Feature Distillation Block</h4><hr>
+<p>基于前述思考，作者引入该文的核心RFDB(见Fig2c)，一种比IMDB更轻量更强的模块。从Fig2可以看到:<strong>信息蒸馏操作是通过3×3卷积以一定比例压缩特征通道实现</strong>。在诸多CNN模型中，采用1×1卷积进行进行通道降维更为高效，故得到Fig2c中的1×1卷积设计，采用这种替换还可以进一步降低参数量。</p>
+<p>除了前面提到的改进外，作者还引入一种更细粒度的残差学习到RFDB。作者设计了一种浅层残差学习模块SRB(见Fig2d)，它仅包含一个3×3卷积核一个恒等连接分支以及一个激活单元。SRB在不引入额外参数的前提下，还可以从残差学习中受益。</p>
+<p>原始的IMDN仅仅包含一个粗粒度的残差连接，网络从残差连接的受益比较有限；而SRB可以耕细粒度的残差连接，可以更好的利用参数学习的能力。</p>
+<h6 id="√-Framework"><a href="#√-Framework" class="headerlink" title="[√] Framework"></a>[√] Framework</h6><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172241442.png" srcset="/img/loading.gif" lazyload alt="image-20230117222233342"></p>
+<p>上图给出了RFDN的全局网络架构图，很明显这是一种RDN的网络结构。它包含四个部分：特征提取、堆叠RFDB，特征融合，重建上采样。</p>
+<p>特征提取目前基本都是采用3×3卷积提取初始特征，该过程可以描述如下：</p>
+<p><em>F</em>0&#x3D;<em>h</em>(<em>x</em>)</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>特征提取目前基本都是采用一个3x3的卷积，来进行提取初始特征。</li>
+<li>所有的RFDB模块计算出来的特征图，最后有一个concat操作，然后通过1x1的卷积进行特征融合。</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172241443.png" srcset="/img/loading.gif" lazyload alt="image-20230117222557490"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>特征重建一般采用3x3的卷积和PixelShuffle操作相组合</li>
+</ul>
+</blockquote>
+<h2 id="√-Experiments"><a href="#√-Experiments" class="headerlink" title="[√] Experiments"></a>[√] Experiments</h2><hr>
+<p>训练数据：DIV2K；测试数据：Set5、Set14、BSD100、Urban100、Manga109。度量指标PSNR、SSIM。</p>
+<p>优化器Adam，初始学习率5×10−4，每200000次迭代折半，Batch&#x3D;64，随机水平、随机90度旋转。x2模型从头开始训练，其他尺度模型则以x2模型参数进行初始化。</p>
+<p>作者实现了两个尺寸的模型：RFDN和RFDN-L。RFDN的通道数为48，模块数为6；而RFDN-L的通道数为52，模块数为6。先来看所提方法与其他SOTA方法的对比，见下表。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172241444.png" srcset="/img/loading.gif" lazyload alt="image-20230117223023116"></p>
+<p>接下来，我们看一下消融实验部分的一些对比。为更好的说明RFDB的优势，作者设计了三组对标模块，见下图。其中FDC则是前述在IMDB之处的改进的一个版本。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172241445.png" srcset="/img/loading.gif" lazyload alt="image-20230117223126077"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>残差能够提升性能，且不会引入额外的参数</li>
+</ul>
+</blockquote>
+<p>下表给出了上述四个模块构成的模型的性能与参数量对比。可以看到：(1)相比标准卷积，<strong>SRB可以提升0.12dB模型性能，且不会引入额外参数</strong>；(2)在FDC与RFDB的对比中也可以看到类似的性能提升；(3)FDC模块可以提升0.19dB模型性能；(4)FDC与SRB的组合得到了0.27dB的性能提升。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>将提升性能的残差连接，替换原来的模块中的conv3x3，从而提升性能。</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172241446.png" srcset="/img/loading.gif" lazyload alt="image-20230117223434038"></p>
+<p>与此同时，作者探讨了蒸馏比例的影响，见下表。总而言之：从参数量与模型性能角度来看，<strong>蒸馏比例为0.5是一种比较的均衡</strong>。而这也是RFDN中采用的蒸馏比例，笔者在复现RFDN的过程中也曾疑惑过这个参数的设置，因为按照IMDN中的0.25设置的话无论如何都得不到竞赛中的那个参数量、FLOPs。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172241447.png" srcset="/img/loading.gif" lazyload alt="image-20230117223650400"></p>
+<p>最后，作者在RFDN的基础上进行了又一次改进，引入了ESA模块，称之为Enhanced RFDN(E-RFDN)。该模型获得了AIM2020 Efficient Super Resolution竞赛的冠军，见下表。需要注意的是：E-RFDN训练数据集为DF2K，模块数为4。从表中数据可以看到：所提方法以较大的优势超越其他参赛方案。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172241448.png" srcset="/img/loading.gif" lazyload alt="image-20230117223738815"></p>
+<p>全文到此结束，对该文感兴趣的同学建议去查看原文。</p>
+<h2 id="√-后记"><a href="#√-后记" class="headerlink" title="[√] 后记"></a>[√] 后记</h2><hr>
+<p>事实上，在这篇论文放出之前，笔者已经在尝试进行RFDN的复现工作。当然实现方面有一点点的出入，见下面的笔者实现code，注：ESA模块是源自作者RFANet一文的代码。笔者参照E-RFDN的网络结构进行的复现，在DIV2K-val上训练200000次迭代达到了PSNR：30.47dB(YCbCr)。也就是说，这个方法看起来简单，复现起来也非常简单，关键是轻量&amp;高效。为什么不去尝试一把呢？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">RFDB</span>(nn.Module):<br>    <span class="hljs-string">&quot;&quot;&quot; A little difference with the official code. &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, in_channels, distillation_rate=<span class="hljs-number">0.25</span></span>):<br>        <span class="hljs-built_in">super</span>(RFDB, self).__init__()<br>        distilled_channels = <span class="hljs-built_in">int</span>(in_channels * distillation_rate)<br>        remaining_channels = in_channels - distilled_channels * <span class="hljs-number">3</span><br><br>        self.d1 = nn.Conv2d(in_channels, distilled_channels, <span class="hljs-number">1</span>)<br>        self.c1 = SRB(in_channels)<br><br>        self.d2 = nn.Conv2d(in_channels, distilled_channels, <span class="hljs-number">1</span>)<br>        self.c2 = SRB(in_channels)<br><br>        self.d3 = nn.Conv2d(in_channels, distilled_channels, <span class="hljs-number">1</span>)<br>        self.c3 = SRB(in_channels)<br><br>        self.d4 = nn.Conv2d(in_channels, remaining_channels, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br><br>        self.act = nn.LeakyReLU(negative_slope=<span class="hljs-number">0.05</span>, inplace=<span class="hljs-literal">True</span>)<br>        self.fusion = nn.Conv2d(in_channels, in_channels, <span class="hljs-number">1</span>)<br>        self.esa = ESA(in_channels)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, inputs</span>):<br>        distilled_c1 = self.act(self.d1(inputs))<br>        remaining_c1 = self.act(self.c1(inputs))<br><br>        distilled_c2 = self.act(self.d2(remaining_c1))<br>        remaining_c2 = self.act(self.c2(remaining_c1))<br><br>        distilled_c3 = self.act(self.d3(remaining_c2))<br>        remaining_c3 = self.act(self.c3(remaining_c2))<br><br>        distilled_c4 = self.act(self.d4(remaining_c3))<br><br>        out = torch.cat([distilled_c1, distilled_c2, distilled_c3, distilled_c4], dim=<span class="hljs-number">1</span>)<br>        out_fused = self.esa(self.fusion(out)) + inputs<br>        <span class="hljs-keyword">return</span> out_fused<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-chain-item">文章学习</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>
+      
+        <a href="/tags/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/">#超分辨率重建</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>039 - 文章阅读笔记：AIM2020-ESR 冠军方案解读：引入注意力模块 ESA，实现高效轻量的超分网络（附代码实现） - 极市平台 - ExtremeMart</div>
+      <div>http://example.com/posts/1919514304/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年1月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/386882073/" title="040 - 文章阅读笔记：ACNet|增强局部显著特征，哈工大左旺孟老师团队提出非对称卷积用于图像超分 - AIWalker">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">040 - 文章阅读笔记：ACNet|增强局部显著特征，哈工大左旺孟老师团队提出非对称卷积用于图像超分 - AIWalker</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/2104405647/" title="038 - 文章阅读笔记：(CVPR 2022 阅读笔记)Residual Local Feature Network for Efficient Super-Resolution - CSDN - 专栏：单图像超分辨 - 南妮儿">
+                        <span class="hidden-mobile">038 - 文章阅读笔记：(CVPR 2022 阅读笔记)Residual Local Feature Network for Efficient Super-Resolution - CSDN - 专栏：单图像超分辨 - 南妮儿</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

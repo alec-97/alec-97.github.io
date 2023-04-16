@@ -1,0 +1,942 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="原文链接：VapSR | 手把手教你改进PAN，董超团队提出超大感受野注意力超分方案，已开源！ - 2022-10-24 08:00 - AIWalker 2022-10-24 08:00  [√] 论文信息 中文名称：使用超大感受野的注意力的高效图像超分 paper https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2210.05960 code https:&#x2F;&#x2F;github.com&#x2F;zhoumum">
+<meta property="og:type" content="article">
+<meta property="og:title" content="041 - 文章阅读笔记：VapSR | 手把手教你改进PAN，董超团队提出超大感受野注意力超分方案，已开源！ - 2022-10-24 08:00 - AIWalker">
+<meta property="og:url" content="http://example.com/posts/2130194975/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="原文链接：VapSR | 手把手教你改进PAN，董超团队提出超大感受野注意力超分方案，已开源！ - 2022-10-24 08:00 - AIWalker 2022-10-24 08:00  [√] 论文信息 中文名称：使用超大感受野的注意力的高效图像超分 paper https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2210.05960 code https:&#x2F;&#x2F;github.com&#x2F;zhoumum">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301202040748.jpg">
+<meta property="article:published_time" content="2023-01-19T14:15:46.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.433Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="注意力机制">
+<meta property="article:tag" content="超分辨率重建">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301202040748.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>041 - 文章阅读笔记：VapSR | 手把手教你改进PAN，董超团队提出超大感受野注意力超分方案，已开源！ - 2022-10-24 08:00 - AIWalker - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">041 - 文章阅读笔记：VapSR | 手把手教你改进PAN，董超团队提出超大感受野注意力超分方案，已开源！ - 2022-10-24 08:00 - AIWalker</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-19 22:15" pubdate>
+          2023年1月19日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          34 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">041 - 文章阅读笔记：VapSR | 手把手教你改进PAN，董超团队提出超大感受野注意力超分方案，已开源！ - 2022-10-24 08:00 - AIWalker</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>原文链接：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651689655&idx=1&sn=54ea18956870f2c5d9b4b468d8aea23d&chksm=f3c9dc9ac4be558c9f4413c205276fafeb4847d0cf37cc465a72d7a0daee72f5bdf673baa4c0&scene=178&cur_album_id=1338480951000727554#rd">VapSR | 手把手教你改进PAN，董超团队提出超大感受野注意力超分方案，已开源！ - 2022-10-24 08:00 - AIWalker</a></p>
+<p>2022-10-24 08:00</p>
+</blockquote>
+<h2 id="√-论文信息"><a href="#√-论文信息" class="headerlink" title="[√] 论文信息"></a>[√] 论文信息</h2><hr>
+<p>中文名称：使用超大感受野的注意力的高效图像超分</p>
+<p>paper <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2210.05960">https://arxiv.org/abs/2210.05960</a></p>
+<p>code <a target="_blank" rel="noopener" href="https://github.com/zhoumumu/VapSR">https://github.com/zhoumumu/VapSR</a></p>
+<p>![图片](D:\坚果云\Alec - backup files\typora pictures\640-1674138061838.jpg)</p>
+<p>注意力机制是深度学习领域非常重要的一个研究方向，在图像超分领域也有不少典型的应用案例，比如基于通道注意力构建的RCAN，基于二阶注意力机制构建的SAN，基于像素注意力机制构建的PAN，基于Transformer自注意力机制构建的SwinIR，基于多尺度大核注意力的MAN等。</p>
+<p>本文则以PAN为蓝本，对其进行逐步改进以期达到更少的参数量、更高的超分性能。该方案具体包含以下几个关键点：</p>
+<ul>
+<li>提升注意力分割的感受野，类似大核卷积注意力VAN；</li>
+<li>将稠密卷积核替换为深度分离卷积，进一步降低参数量；</li>
+<li>引入像素规范化(Pixel Normalization)技术，其实就是Layer Normalization，但出发点不同。</li>
+</ul>
+<p>上述关键技术点为注意力机制的设计提供了一个清晰的演变路线，最终得到了本文的VapSR，即大感受像素注意力网络(VAst-receptive-field Pixel attention Network)。</p>
+<p>实验结果表明：相比其他轻量超分网络，VapSR具有更少的参数量。比如，项目IMDB与RFDN，VapSR仅需21.68%、28.18%的参数即可取得与之相当的性能。</p>
+<h2 id="√-本文动机"><a href="#√-本文动机" class="headerlink" title="[√] 本文动机"></a>[√] 本文动机</h2><hr>
+<p>通过引入像素注意力，PAN在大幅降低参数量的同时取得了非常优秀的性能。相比通道注意力与空域注意力，像素注意力是一种更广义的注意力形式，为进一步的探索提供了一个非常好的基线。</p>
+<p>受启发于自注意力的发展，我们认为：基于卷积操作的注意力仍有进一步改进的空间。因此，作者通过以下三个像素注意力中的设计原则展示了改善超分注意力的过程：</p>
+<ul>
+<li>首先，在注意力分支引入大核卷积具有明显的优势；</li>
+<li>其次，深度分离卷积可以降低大核卷积导致的巨大计算复杂度问题；</li>
+<li>最后，引入像素规范化操作让训练更高效、更稳定。</li>
+</ul>
+<p>![图片](D:\坚果云\Alec - backup files\typora pictures\640-1674203582629.jpg)</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>增大注意力分支的卷积核大小从而减少感受野，同时减少其它的卷积模块的卷积核的大小来精简参数。</li>
+<li>在模块的后端增加像素规范化操作，同时调整注意力模块的位置将注意力机制模块放到模块的中间，而不是后端。</li>
+</ul>
+</blockquote>
+<p>**Large Kernel **以上图i中的baseline为基础，作者首先对注意力分支进行感受野扩增：将1x1提升到9x9(将图示ii)，性能提升0.15dB，但参数量从846K提升到了4123K。</p>
+<h4 id="√-Parameter-Reduction（轻量化）"><a href="#√-Parameter-Reduction（轻量化）" class="headerlink" title="[√] Parameter Reduction（轻量化）"></a>[√] Parameter Reduction（轻量化）</h4><hr>
+<p>为降低参数量，我们尝试尽可能移除相对不重要的部分。作者提出了三个方案：(1) 将非注意力分支的卷积尺寸从3x3下调到1x1；(2) 将大核卷积注意力分支替换为深度深度分离卷积；(3) 将深度分离卷积中的深度卷积进行分解为深度卷积+带扩张因子的深度卷积(该机制可参考下图，将卷积11x11拆分为5x5+3x3，其中后者的扩张因子为3)。此时，模型性能变为28.48dB，但参数量降到了240K，参数量基本被压缩到了极限。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>什么是{深度分离卷积}？</li>
+<li>扩张卷积是将卷积核变为间隔离散的，而不是连续的？</li>
+</ul>
+</blockquote>
+<h4 id="√-Pixel-Normalization-PN-（像素规范化）"><a href="#√-Pixel-Normalization-PN-（像素规范化）" class="headerlink" title="[√] Pixel Normalization(PN) （像素规范化）"></a>[√] Pixel Normalization(PN) （像素规范化）</h4><hr>
+<p>注意力机制的元素乘操作会导致训练不稳定问题：小学习率收敛不够好，大学习率又会出现梯度异常。前面的注意力改进导致所得方案存在性能下降问题。为解决该问题，作者经深入分析后提出了像素规范化技术(可参考下图不同规范化技术的可视化对比)。</p>
+<p>![图片](D:\坚果云\Alec - backup files\typora pictures\640-1674204418803.jpg)</p>
+<p>![image-20230120164742013](D:\坚果云\Alec - backup files\typora pictures\image-20230120164742013.png)</p>
+<h4 id="√-Switch-Attention-to-Middle（模块位置调整）"><a href="#√-Switch-Attention-to-Middle（模块位置调整）" class="headerlink" title="[√] Switch Attention to Middle（模块位置调整）"></a>[√] Switch Attention to Middle（模块位置调整）</h4><hr>
+<p>在上述基础上，作者进一步将注意力的位置进行了调整，放到了两个1x1卷积中间。此时，模型性能得到了0.03dB提升，达到了28.95dB，参数量仍为241K。</p>
+<h2 id="√-本文方案"><a href="#√-本文方案" class="headerlink" title="[√] 本文方案"></a>[√] 本文方案</h2><hr>
+<p>前面的探索主要聚焦在微观层面，基于此，作者进一步在宏观层面进行了更多设计与提炼，进而构建了VapSR，取得了更佳的性能，同时具有更少的参数量。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>dilated，加宽的、扩大的、膨胀的</li>
+<li>PAN中的像素注意力分支是先通过1x1卷积，然后通过sigmoid激活函数，得到一个逐像素的注意力权重。</li>
+</ul>
+</blockquote>
+<p>![图片](D:\坚果云\Alec - backup files\typora pictures\640-1674217213424.jpg)</p>
+<p>![image-20230120202120092](D:\坚果云\Alec - backup files\typora pictures\image-20230120202120092.png)</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>深度扩张卷积，也称之为空洞卷积。</li>
+<li>空洞卷积，通过给卷积核插入空洞来变相的增大感受野。</li>
+</ul>
+</blockquote>
+<p>![image-20230120202911180](D:\坚果云\Alec - backup files\typora pictures\image-20230120202911180.png)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Attention</span>(nn.Module):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, dim</span>):<br>        <span class="hljs-built_in">super</span>().__init__()<br>        self.pointwise = nn.Conv2d(dim, dim, <span class="hljs-number">1</span>)<br>        self.depthwise = nn.Conv2d(dim, dim, <span class="hljs-number">5</span>, padding=<span class="hljs-number">2</span>, groups=dim)<br>        self.depthwise_dilated = nn.Conv2d(dim, dim, <span class="hljs-number">5</span>, <span class="hljs-number">1</span>, padding=<span class="hljs-number">6</span>, groups=dim, dilation=<span class="hljs-number">3</span>)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x</span>):<br>        u = x.clone()<br>        attn = self.pointwise(x)<br>        attn = self.depthwise(attn)<br>        attn = self.depthwise_dilated(attn)<br>        <span class="hljs-keyword">return</span> u * attn<br>      <br><span class="hljs-keyword">class</span> <span class="hljs-title class_">VAB</span>(nn.Module):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, d_model, d_atten</span>):<br>        <span class="hljs-built_in">super</span>().__init__()<br>        self.proj_1 = nn.Conv2d(d_model, d_atten, <span class="hljs-number">1</span>)<br>        self.activation = nn.GELU()<br>        self.atten_branch = Attention(d_atten)<br>        self.proj_2 = nn.Conv2d(d_atten, d_model, <span class="hljs-number">1</span>)<br>        self.pixel_norm = nn.LayerNorm(d_model)<br>        default_init_weights([self.pixel_norm], <span class="hljs-number">0.1</span>)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x</span>):<br>        shorcut = x.clone()<br>        x = self.proj_1(x)<br>        x = self.activation(x)<br>        x = self.atten_branch(x)<br>        x = self.proj_2(x)<br>        x = x + shorcut<br><br>        x = x.permute(<span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>) <span class="hljs-comment">#(B, H, W, C)</span><br>        x = self.pixel_norm(x)<br>        x = x.permute(<span class="hljs-number">0</span>, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>).contiguous() <span class="hljs-comment">#(B, C, H, W)</span><br><br>        <span class="hljs-keyword">return</span> x<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="√-本文实验"><a href="#√-本文实验" class="headerlink" title="[√] 本文实验"></a>[√] 本文实验</h2><hr>
+<p>在实验部分，作者构建了VapSR与VapSR-S两个版本的轻量型超分方案：</p>
+<ul>
+<li>VapSR：包含21个VAB模块，主干通道数为48；</li>
+<li>VapSR-S：包含11个VAB模块，主干通道数为32。</li>
+</ul>
+<p>此外，需要注意的是：对于X4模型，重建模块并未采用常规的轻量方案(Conv+PS)，而是采用了类EDSR的重方案(Conv+PS+Conv+PS)。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>理论计算量通常只考虑乘加操作(Multi-Adds)的数量,而且只考虑CONV和FC等参数层的计算量,忽略BatchNorm和PReLU等等。</li>
+<li>multi-adds表示的是计算量。</li>
+</ul>
+</blockquote>
+<p>![图片](D:\坚果云\Alec - backup files\typora pictures\640-1674218056022.jpg)</p>
+<p>![图片](D:\坚果云\Alec - backup files\typora pictures\640-1674218065202.jpg)</p>
+<p>![图片](D:\坚果云\Alec - backup files\typora pictures\640-1674218083589.jpg)</p>
+<p>上表&amp;图给出了不同方案的性能与可视化效果对比，从中可以看到：</p>
+<ul>
+<li>所提VapSR取得了SOTA性能，同时具有非常少的参数量。</li>
+<li>在X4任务上，相比RFDN与IMDN，VapSR仅需21.68%&#x2F;28.18%的参数量，即可取得平均0.187dB指标提升；</li>
+<li>VapSR-S取得了与BSRN-S相当的性能，后者是NTIRE2022-ESR模型复杂度赛道冠军。</li>
+<li>在线条重建方面，VapSR具有比其他方案更精确的重建效果。</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-chain-item">文章学习</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/">#注意力机制</a>
+      
+        <a href="/tags/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/">#超分辨率重建</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>041 - 文章阅读笔记：VapSR | 手把手教你改进PAN，董超团队提出超大感受野注意力超分方案，已开源！ - 2022-10-24 08:00 - AIWalker</div>
+      <div>http://example.com/posts/2130194975/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年1月19日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/3775272473/" title="042 - 文章阅读笔记：ECCV2020 Workshop-PAN-270k参数量SISR网络 | Efficient Image Super-Resolution Using Pixel Attention - CSDN - chenzy_hust">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">042 - 文章阅读笔记：ECCV2020 Workshop-PAN-270k参数量SISR网络 | Efficient Image Super-Resolution Using Pixel Attention - CSDN - chenzy_hust</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/386882073/" title="040 - 文章阅读笔记：ACNet|增强局部显著特征，哈工大左旺孟老师团队提出非对称卷积用于图像超分 - AIWalker">
+                        <span class="hidden-mobile">040 - 文章阅读笔记：ACNet|增强局部显著特征，哈工大左旺孟老师团队提出非对称卷积用于图像超分 - AIWalker</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

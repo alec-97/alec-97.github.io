@@ -1,0 +1,897 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="原文链接： NAFNet：图像去噪，去模糊新SOTA！荣获NTIRE 2022 超分辨率冠军方案！ - CSDN - 华为云开发者联盟 2022-05-30 14:00:02  导读：2022年4月，旷视研究院发表了一种基于图像恢复任务的全新网络结构，它在SIDD和GoPro数据集上进行训练和测试，该网络结构实现了在图像去噪任务和图像去模糊任务上的新SOTA。具体计算量与实验效果如下图所示：不仅">
+<meta property="og:type" content="article">
+<meta property="og:title" content="044 - 文章阅读笔记：NAFNet：图像去噪，去模糊新SOTA！荣获NTIRE 2022 超分辨率冠军方案！ - CSDN - 华为云开发者联盟">
+<meta property="og:url" content="http://example.com/posts/1043541079/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="原文链接： NAFNet：图像去噪，去模糊新SOTA！荣获NTIRE 2022 超分辨率冠军方案！ - CSDN - 华为云开发者联盟 2022-05-30 14:00:02  导读：2022年4月，旷视研究院发表了一种基于图像恢复任务的全新网络结构，它在SIDD和GoPro数据集上进行训练和测试，该网络结构实现了在图像去噪任务和图像去模糊任务上的新SOTA。具体计算量与实验效果如下图所示：不仅">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301202242797.png">
+<meta property="article:published_time" content="2023-01-20T13:01:53.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.435Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301202242797.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>044 - 文章阅读笔记：NAFNet：图像去噪，去模糊新SOTA！荣获NTIRE 2022 超分辨率冠军方案！ - CSDN - 华为云开发者联盟 - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">044 - 文章阅读笔记：NAFNet：图像去噪，去模糊新SOTA！荣获NTIRE 2022 超分辨率冠军方案！ - CSDN - 华为云开发者联盟</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-20 21:01" pubdate>
+          2023年1月20日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          29 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">044 - 文章阅读笔记：NAFNet：图像去噪，去模糊新SOTA！荣获NTIRE 2022 超分辨率冠军方案！ - CSDN - 华为云开发者联盟</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>原文链接：</p>
+<p><a target="_blank" rel="noopener" href="https://huaweicloud.csdn.net/638088b1dacf622b8df89b3b.html?spm=1001.2101.3001.6650.16&utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~activity-16-125057312-blog-125071858.pc_relevant_multi_platform_whitelistv4&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~activity-16-125057312-blog-125071858.pc_relevant_multi_platform_whitelistv4&utm_relevant_index=21">NAFNet：图像去噪，去模糊新SOTA！荣获NTIRE 2022 超分辨率冠军方案！ - CSDN - 华为云开发者联盟</a></p>
+<p>2022-05-30 14:00:02</p>
+</blockquote>
+<p>导读：2022年4月，旷视研究院发表了一种基于图像恢复任务的全新网络结构，它在SIDD和GoPro数据集上进行训练和测试，该网络结构实现了在图像去噪任务和图像去模糊任务上的新SOTA。具体计算量与实验效果如下图所示：不仅如此，基于NAFNet，旷视还提出了一种针对超分辨率的NAFNet变体结构，该网络为NAFNet-SR。NAFNet-SR在NTIRE 2022 超分辨率…</p>
+<h2 id="√-论文信息"><a href="#√-论文信息" class="headerlink" title="[√] 论文信息"></a>[√] 论文信息</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301232240020.png" srcset="/img/loading.gif" lazyload alt="825c9abcccc6ed3af5891845b367af03.png"></p>
+<p><strong>导读</strong>：2022年4月，旷视研究院发表了一种基于图像恢复任务的全新网络结构，它在SIDD和GoPro数据集上进行训练和测试，该网络结构实现了在图像去噪任务和图像去模糊任务上的新SOTA。具体计算量与实验效果如下图所示：</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>MACs, MAdds: (Multiply–Accumulate Operations) 即乘加累积操作数,常常与FLOPs概念混淆,实际上1MACs包含一个乘法操作与一个加法操作,大约包含2FLOPs。通常MACs与FLOPs存在一个2倍的关系。MACs和MAdds说的是一个东西。</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301232240021.png" srcset="/img/loading.gif" lazyload alt="1b73bfe8bd3b83c3c8e0979e72f7d9db.png"></p>
+<p>不仅如此，基于NAFNet，旷视还提出了一种针对超分辨率的NAFNet变体结构，该网络为NAFNet-SR。NAFNet-SR在NTIRE 2022 超分辨率比赛中荣获冠军方案。本文将从模型的组成、主要结构以及代码的训练和配置等方面进行详细介绍！</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301232240022.png" srcset="/img/loading.gif" lazyload alt="c4627ce9da9f13888f3d577fbdd9a08e.png"></p>
+<p>上图给出了三种主流的图像恢复主流网络架构设计方案，包含多阶段特征提取、多尺度融合架构以及经典的UNet架构。本文为了最大化减少模型每个模块间进行交互的复杂度，直接采用了含有Short Cut的UNet架构。NAFNet在网络架构上实现了最大精简原则！</p>
+<p><strong>项目地址：<a target="_blank" rel="noopener" href="https://github.com/murufeng/FUIR">https://github.com/murufeng/FUIR</a></strong></p>
+<h2 id="√-核心模块与代码"><a href="#√-核心模块与代码" class="headerlink" title="[√] 核心模块与代码"></a>[√] 核心模块与代码</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301232240023.png" srcset="/img/loading.gif" lazyload alt="3a7916739cb836fffeaf355c57f50a3f.png"></p>
+<p>基于Restormer的模块示意图，NAFNet设计另一种最简洁的模块方案，具体体现在：</p>
+<ol>
+<li>借鉴Trasnformer中使用LN可以使得训练更平滑。NAFNet同样引入LN操作，在图像去噪和去模糊数据集上带来了显著的性能增益。</li>
+<li>在Baseline方案中使用GELU和CA联合替换ReLU，GELU可以保持降噪性能相当且大幅提升去模糊性能。</li>
+<li>由于通道注意力的有效性已在多个图像复原任务中得到验证。本文提出了两种新的注意力模块组成即CA和SCA模块，具体如下所示：</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301232240024.png" srcset="/img/loading.gif" lazyload alt="c7d0d927168703ef873a03bfef8cf893.png"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>LayerNorm可以使得训练更平滑</li>
+<li>CA &#x3D; 通道注意力，SCA &#x3D; 简单通道注意力</li>
+<li>SCA &#x3D; 将CA的注意力分支中的卷积 + 激活函数的结构替换为1x1卷积</li>
+<li>Simple Gate 可以替换一个激活函数，能够实现性能的提升</li>
+</ul>
+</blockquote>
+<p>其中SCA（见上图b）直接利用1x1卷积操作来实现通道间的信息交换。而SimpleGate(见上图c)则直接将特征沿通道维度分成两部分并相乘。采用所提SimpleGate替换第二个模块中的GELU进行，实现了显著的性能提升。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301232240025.png" srcset="/img/loading.gif" lazyload alt="30c11bc8eedd24f1d385b26b21b3cdc7.png"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>对比于PlainNet，可以看出，规范化方式LN、激活函数GELU、注意力机制CA是有效的，能够提升性能</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301232240026.png" srcset="/img/loading.gif" lazyload alt="46d824a19fc382dd4713648b9bb088f5.png"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>NAFNet在baseline的基础上简化了（在模型简化的基础上还能提高性能）</li>
+<li>将GELU替换为了simple gate，将CA替换为了SCA</li>
+</ul>
+</blockquote>
+<p>NAFBlock构成代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch<br><span class="hljs-keyword">import</span> torch.nn <span class="hljs-keyword">as</span> nn<br><span class="hljs-keyword">import</span> torch.nn.functional <span class="hljs-keyword">as</span> F<br><span class="hljs-keyword">from</span> basicsr.models.archs.arch_util <span class="hljs-keyword">import</span> LayerNorm2d<br><span class="hljs-keyword">from</span> basicsr.models.archs.local_arch <span class="hljs-keyword">import</span> Local_Base<br><br><span class="hljs-comment"># 将x分开，然后再相乘</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">SimpleGate</span>(nn.Module):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x</span>):<br>        x1, x2 = x.chunk(<span class="hljs-number">2</span>, dim=<span class="hljs-number">1</span>)<br>        <span class="hljs-keyword">return</span> x1 * x2<br><br>    <br>    <br><span class="hljs-keyword">class</span> <span class="hljs-title class_">NAFBlock</span>(nn.Module):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, c, DW_Expand=<span class="hljs-number">2</span>, FFN_Expand=<span class="hljs-number">2</span>, drop_out_rate=<span class="hljs-number">0.</span></span>):<br>        <span class="hljs-built_in">super</span>().__init__()<br>        dw_channel = c * DW_Expand<br>        self.conv1 = nn.Conv2d(in_channels=c, out_channels=dw_channel, kernel_size=<span class="hljs-number">1</span>, padding=<span class="hljs-number">0</span>, stride=<span class="hljs-number">1</span>, groups=<span class="hljs-number">1</span>, bias=<span class="hljs-literal">True</span>)<br>        self.conv2 = nn.Conv2d(in_channels=dw_channel, out_channels=dw_channel, kernel_size=<span class="hljs-number">3</span>, padding=<span class="hljs-number">1</span>, stride=<span class="hljs-number">1</span>, groups=dw_channel,<br>                               bias=<span class="hljs-literal">True</span>)<br>        self.conv3 = nn.Conv2d(in_channels=dw_channel // <span class="hljs-number">2</span>, out_channels=c, kernel_size=<span class="hljs-number">1</span>, padding=<span class="hljs-number">0</span>, stride=<span class="hljs-number">1</span>, groups=<span class="hljs-number">1</span>, bias=<span class="hljs-literal">True</span>)<br>        <br>        <span class="hljs-comment"># Simplified Channel Attention</span><br>        self.sca = nn.Sequential(<br>            nn.AdaptiveAvgPool2d(<span class="hljs-number">1</span>),<br>            nn.Conv2d(in_channels=dw_channel // <span class="hljs-number">2</span>, out_channels=dw_channel // <span class="hljs-number">2</span>, kernel_size=<span class="hljs-number">1</span>, padding=<span class="hljs-number">0</span>, stride=<span class="hljs-number">1</span>,<br>                      groups=<span class="hljs-number">1</span>, bias=<span class="hljs-literal">True</span>),<br>        )<br><br>        <span class="hljs-comment"># SimpleGate</span><br>        self.sg = SimpleGate()<br><br>        ffn_channel = FFN_Expand * c<br>        self.conv4 = nn.Conv2d(in_channels=c, out_channels=ffn_channel, kernel_size=<span class="hljs-number">1</span>, padding=<span class="hljs-number">0</span>, stride=<span class="hljs-number">1</span>, groups=<span class="hljs-number">1</span>, bias=<span class="hljs-literal">True</span>)<br>        self.conv5 = nn.Conv2d(in_channels=ffn_channel // <span class="hljs-number">2</span>, out_channels=c, kernel_size=<span class="hljs-number">1</span>, padding=<span class="hljs-number">0</span>, stride=<span class="hljs-number">1</span>, groups=<span class="hljs-number">1</span>, bias=<span class="hljs-literal">True</span>)<br><br>        self.norm1 = LayerNorm2d(c)<br>        self.norm2 = LayerNorm2d(c)<br><br>        self.dropout1 = nn.Dropout(drop_out_rate) <span class="hljs-keyword">if</span> drop_out_rate &gt; <span class="hljs-number">0.</span> <span class="hljs-keyword">else</span> nn.Identity()<br>        self.dropout2 = nn.Dropout(drop_out_rate) <span class="hljs-keyword">if</span> drop_out_rate &gt; <span class="hljs-number">0.</span> <span class="hljs-keyword">else</span> nn.Identity()<br><br>        self.beta = nn.Parameter(torch.zeros((<span class="hljs-number">1</span>, c, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>)), requires_grad=<span class="hljs-literal">True</span>)<br>        self.gamma = nn.Parameter(torch.zeros((<span class="hljs-number">1</span>, c, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>)), requires_grad=<span class="hljs-literal">True</span>)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, inp</span>):<br>        x = inp<br><br>        x = self.norm1(x)<span class="hljs-comment">#LN</span><br><br>        x = self.conv1(x)<span class="hljs-comment">#1x1</span><br>        x = self.conv2(x)<span class="hljs-comment">#3x3</span><br>        x = self.sg(x)<span class="hljs-comment">#simple gate</span><br>        x = x * self.sca(x)<span class="hljs-comment">#SCA</span><br>        x = self.conv3(x)<span class="hljs-comment">#1x1卷积</span><br><br>        x = self.dropout1(x)<span class="hljs-comment">#随机失活层</span><br><br>        y = inp + x * self.beta<span class="hljs-comment">#残差连接</span><br><br>        x = self.conv4(self.norm2(y))<span class="hljs-comment">#LN + 1x1卷积</span><br>        x = self.sg(x)<span class="hljs-comment">#SG</span><br>        x = self.conv5(x)<span class="hljs-comment">#1x1卷积</span><br><br>        x = self.dropout2(x)<br><br>        <span class="hljs-keyword">return</span> y + x * self.gamma<span class="hljs-comment">#残差连接</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="√-模型训练与实验结果"><a href="#√-模型训练与实验结果" class="headerlink" title="[√] 模型训练与实验结果"></a>[√] 模型训练与实验结果</h2><hr>
+<h4 id="√-图像去噪任务（SIDD数据集）"><a href="#√-图像去噪任务（SIDD数据集）" class="headerlink" title="[√] 图像去噪任务（SIDD数据集）"></a>[√] 图像去噪任务（SIDD数据集）</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301232240027.png" srcset="/img/loading.gif" lazyload alt="69bf0b5cd40b4fbf25335d1cb8e47045.png"></p>
+<h4 id="√-图像去模糊任务（GoPRO数据集）"><a href="#√-图像去模糊任务（GoPRO数据集）" class="headerlink" title="[√] 图像去模糊任务（GoPRO数据集）"></a>[√] 图像去模糊任务（GoPRO数据集）</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301232240028.png" srcset="/img/loading.gif" lazyload alt="2860a87c62505c2abf5392656725245f.png"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-chain-item">文章学习</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>044 - 文章阅读笔记：NAFNet：图像去噪，去模糊新SOTA！荣获NTIRE 2022 超分辨率冠军方案！ - CSDN - 华为云开发者联盟</div>
+      <div>http://example.com/posts/1043541079/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年1月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/681746266/" title="002 - 文章阅读笔记：总结部分注意力机制 - CSDN - 向上取整 - 专栏：计算机视觉">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">002 - 文章阅读笔记：总结部分注意力机制 - CSDN - 向上取整 - 专栏：计算机视觉</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/125018155/" title="001 - 文章阅读笔记：深度可分离卷积（Depthwise seperable convolution） - CSDN - 深度学习 - 冰雪棋书">
+                        <span class="hidden-mobile">001 - 文章阅读笔记：深度可分离卷积（Depthwise seperable convolution） - CSDN - 深度学习 - 冰雪棋书</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

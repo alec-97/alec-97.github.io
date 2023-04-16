@@ -1,0 +1,1025 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="转载自： 【√】【图像超分辨率重建】——EDSR论文精读笔记 - CSDN - 图像超分辨率重建论文精读 - Zency_SUN 原创于 2022-09-30 09:26:11  · 修改于 2022-10-30 09:50:58  2017-Enhanced Deep Residual Networks for Single Image Super-Resolution(EDSR) [√] 基">
+<meta property="og:type" content="article">
+<meta property="og:title" content="024 - 文章阅读笔记：【图像超分辨率重建】——EDSR论文精读笔记 - CSDN - 图像超分辨率重建论文精读 - Zency_SUN">
+<meta property="og:url" content="http://example.com/posts/3439710883/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="转载自： 【√】【图像超分辨率重建】——EDSR论文精读笔记 - CSDN - 图像超分辨率重建论文精读 - Zency_SUN 原创于 2022-09-30 09:26:11  · 修改于 2022-10-30 09:50:58  2017-Enhanced Deep Residual Networks for Single Image Super-Resolution(EDSR) [√] 基">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301141640618.png">
+<meta property="article:published_time" content="2023-01-14T08:36:07.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.422Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="人工智能">
+<meta property="article:tag" content="超分辨率重建">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301141640618.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>024 - 文章阅读笔记：【图像超分辨率重建】——EDSR论文精读笔记 - CSDN - 图像超分辨率重建论文精读 - Zency_SUN - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">024 - 文章阅读笔记：【图像超分辨率重建】——EDSR论文精读笔记 - CSDN - 图像超分辨率重建论文精读 - Zency_SUN</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-14 16:36" pubdate>
+          2023年1月14日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          47 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">024 - 文章阅读笔记：【图像超分辨率重建】——EDSR论文精读笔记 - CSDN - 图像超分辨率重建论文精读 - Zency_SUN</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>转载自：</p>
+<p>【√】<a target="_blank" rel="noopener" href="https://blog.csdn.net/zency/article/details/127108056">【图像超分辨率重建】——EDSR论文精读笔记 - CSDN - 图像超分辨率重建论文精读 - Zency_SUN</a></p>
+<p>原创于 2022-09-30 09:26:11  ·</p>
+<p>修改于 2022-10-30 09:50:58</p>
+</blockquote>
+<h1 id="2017-Enhanced-Deep-Residual-Networks-for-Single-Image-Super"><a href="#2017-Enhanced-Deep-Residual-Networks-for-Single-Image-Super" class="headerlink" title="2017-Enhanced Deep Residual Networks for Single Image Super-"></a>2017-Enhanced Deep Residual Networks for Single Image Super-</h1><h1 id="Resolution-EDSR"><a href="#Resolution-EDSR" class="headerlink" title="Resolution(EDSR)"></a>Resolution(EDSR)</h1><hr>
+<h2 id="√-基本信息"><a href="#√-基本信息" class="headerlink" title="[√] 基本信息"></a>[√] 基本信息</h2><hr>
+<p>作者： Bee Lim Sanghyun Son Heewon Kim Seungjun Nah Kyoung Mu Lee<br>期刊： CVPR2017<br>引用： *<br>摘要： 随着深度卷积神经网络（DCNN）的发展，最近对超分辨率的研究取得了进展。 特别是，残差学习技术表现出改进的性能。 在本文中，我们开发了一种增强的深度超分辨率网络（EDSR），其性能超过了当前最先进的 SR 方法。 我们模型的显着性能改进是由于通过删除传统残差网络中不必要的模块进行的优化。 在我们稳定训练过程的同时，通过扩大模型大小进一步提高了性能。 我们还提出了一种新的多尺度深度超分辨率系统（MDSR）和训练方法，可以在单个模型中重建不同放大因子的高分辨率图像。 所提出的方法在基准数据集上显示出优于最先进方法的性能，并通过赢得 NTIRE2017 超分辨率挑战赛证明了其卓越性。</p>
+<h2 id="√-1-简介"><a href="#√-1-简介" class="headerlink" title="[√] 1.简介"></a>[√] 1.简介</h2><hr>
+<p>介绍SISR的基本概念，并指出在大部分SISR研究中，HR和LR之间都是使用<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=Bicubic&spm=1001.2101.3001.7020">Bicubic</a>，但在实际应用中也可以考虑其他退化因素，例如模糊、抽取或噪声。</p>
+<p>近期的作品<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=VDSR&spm=1001.2101.3001.7020">VDSR</a>、DRCN、SRResNet等模型在PSNR上表现很好，但是仍有以下局限性：</p>
+<ul>
+<li>神经网络模型的重建性能对微小的架构变化很敏感。此外，相同的模型通过不同的初始化和训练技术实现不同级别的性能。因此，精心设计的模型架构和复杂的优化方法对于训练神经网络至关重要。</li>
+<li>大多数现有的SR算法将不同尺度因素的超分辨率视为独立问题，而没有考虑和利用SR中不同尺度之间的相互关系。因此，这些算法需要许多特定尺度的网络，需要独立训练以处理各种尺度的问题。</li>
+<li>VDSR用多种尺度训练VDSR模型可以大幅提高性能，并优于特定尺度训练，这意味着特定尺度模型之间存在冗余。然而，VDSR风格的架构需要双三次插值的图像作为输入，这导致了与具有特定尺度上采样方法的架构相比更多的计算时间和内存</li>
+<li>SRResNet成功地解决了这些时间和内存问题，并具有良好的性能，但它只是简单地采用了He等人的ResNet架构，没有做太多修改。然而，最初的ResNet是为了解决更高层次的计算机视觉问题，如图像分类和检测。因此，将ResNet结构直接应用于低层次的视觉问题，如超分辨率，可能是次优的。</li>
+</ul>
+<p>为了解决以上问题，基于SRResNet，本文作者进行了如下改进：</p>
+<ul>
+<li>先通过分析和删除不必要的模块来优化它，以简化网络架构。用适当的损失函数训练网络，并在训练时仔细修改模型。</li>
+<li>其次，我们研究了从其他尺度训练的模型转移知识的模型训练方法。为了在训练中利用与尺度无关的信息，我们从预先训练的低尺度模型中训练高尺度模型。</li>
+<li>此外，我们提出了一个新的多尺度结构，在不同尺度之间共享大部分参数。与多个单尺度模型相比，所提出的多尺度模型使用的参数要少得多，但却显示出相当的性能</li>
+</ul>
+<p>本文的方法是NITRE2017比赛的冠亚军。</p>
+<h2 id="√-2-相关工作"><a href="#√-2-相关工作" class="headerlink" title="[√] 2.相关工作"></a>[√] 2.相关工作</h2><hr>
+<ol>
+<li>插值法、统计学方法：预测详细、真实的纹理方面表现出局限性。</li>
+<li>传统机器学习：邻域嵌入、稀疏编码等</li>
+<li>深度学习方法：SRCNN，VDSR，DRCN（跳连接和递归卷积等）</li>
+</ol>
+<p>在模型中，图像上采用一般有双三次预上采用和网络层上采用两种方式</p>
+<ul>
+<li>预上采样：在一个单一的框架中处理多尺度问题。</li>
+<li>网络层上采用：不损失模型容量的情况下减少很多计算，特征的大小减少。</li>
+</ul>
+<p>本文解决了多尺度训练和计算效率的两难问题。我们不仅利用了每个尺度的学习特征的相互关系，还提出了一个新的多尺度模型，有效地重建了各种尺度的高分辨率图像。此外，我们开发了一种适当的训练方法，对单尺度和多尺度模型都使用了多尺度。</p>
+<h2 id="√-3-超分辨EDSR方法"><a href="#√-3-超分辨EDSR方法" class="headerlink" title="[√] 3.超分辨EDSR方法"></a>[√] 3.超分辨EDSR方法</h2><hr>
+<h4 id="√-3-1-残差块"><a href="#√-3-1-残差块" class="headerlink" title="[√] 3.1.残差块"></a>[√] 3.1.残差块</h4><hr>
+<p>残差网络在计算机视觉问题上表现出了从低级到高级任务的优异性能。成功地将ResNet结构应用于SRResNet的超分辨率问题，但我们通过采用更好的ResNet结构进一步提高了性能。</p>
+<p>本文残差块示意图如图所示，我们从网络中删除了批量归一化层。由于批量归一化层对特征进行了归一化处理，它们通过对特征的归一化处理摆脱了网络的范围灵活性，因此最好将它们删除。我们的实验表明，这个简单的修改大大增加了性能。此外，由于批处理归一化层与前面的卷积层消耗相同的内存，因此GPU内存的使用也得到了充分的减少。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>删除BN层，既能够摆脱BN对于超分性能的影响，也能节省GPU的内存、从而更加充分的利用GPU。</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301141933392.png" srcset="/img/loading.gif" lazyload alt="image-20230114165558264"></p>
+<h4 id="√-3-2-单尺度模型EDSR"><a href="#√-3-2-单尺度模型EDSR" class="headerlink" title="[√] 3.2.单尺度模型EDSR"></a>[√] 3.2.单尺度模型EDSR</h4><hr>
+<p>提高网络模型性能的最简单方法是增加参数的数量。在卷积神经网络中，可以通过堆叠许多层或增加过滤器的数量来提高模型性能。</p>
+<p>残差块层数B(n_resblocks)，卷积层特征通道数F(n_feats)，占用O(BF)内存，参数有O(BF²)，考虑到计算机内存，应该增加F。</p>
+<p>然而，将F增加到一定程度以上会使训练过程在数值上不稳定。我们通过采用因子为0.1的<strong>残差缩放Mult</strong>(res_scale) 来解决这个问题。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>增加CNN层的通道数可以提高模型的性能，但是会使训练过程不稳定，因此通过因子为0.1的残差缩放来解决不稳定问题。</li>
+</ul>
+</blockquote>
+<p>在每个残差块中，恒定的缩放层被放置在最后的卷积层之后。当使用大量的过滤器时，这些模块大大稳定了训练过程。在测试阶段，为了提高计算效率，该层可以被整合到前一个卷积层中。</p>
+<ul>
+<li>EDSR-baseline模型——B&#x3D;16，F&#x3D;64，无残差缩放</li>
+<li>EDSR模型——B&#x3D;32，F&#x3D;256，残差缩放因子&#x3D;0.1</li>
+</ul>
+<p><strong>训练加速：当训练我们的模型用于上采用系数3和4时，我们用预训练的2个网络初始化模型参数。这种预训练策略加速了训练，并提高了最终的性能。</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301141933394.png" srcset="/img/loading.gif" lazyload alt="image-20230114172649454"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>在残差块的高频部分乘以残差缩放因子？</li>
+</ul>
+</blockquote>
+<h4 id="3-3-多尺度模型MDSR"><a href="#3-3-多尺度模型MDSR" class="headerlink" title="[] 3.3.多尺度模型MDSR"></a>[] 3.3.多尺度模型MDSR</h4><hr>
+<p>本文认为，多尺度的超分辨率是相互关联的任务。我们通过建立一个多尺度架构来进一步探索这个想法，该架构像VDSR一样利用尺度间的相关性的优势。</p>
+<p>首先，预处理模块位于网络的头部，以减少来自不同尺度的输入图像的差异。每个预处理模块由两个具有5×5的内核的残差块组成。</p>
+<p>通过对预处理模块采用较大的内核，我们可以保持特定尺度部分的浅层，而在网络的早期阶段覆盖较大的感受野。</p>
+<p>在多尺度模型的末端，特定尺度的上采样模块被平行放置以处理多尺度重建。上采样模块的结构与上节所述的单尺度模型的结构相似。</p>
+<ul>
+<li>MDSR-baseline模型——B&#x3D;16，F&#x3D;64，无残差缩放</li>
+<li>MDSR模型——B&#x3D;80，F&#x3D;64，无残差缩放</li>
+</ul>
+<p><strong>模型比较的结论：</strong></p>
+<ul>
+<li>从参数角度来看，3个不同尺度的EDSR-baseline模型共4.5M个参数，而MDSR-baseline模型只有3.2M个参数，参数少了很多，而可以达到相当的效果。</li>
+<li>从模型的角度来看，MDSR和MDSR-baseline相比，MDSR的深度是MDSR-baseline的5倍，但只需要2.5倍的参数，因为残余块比特定尺度的部分要轻。同时，MDSR也显示出与特定尺度EDSR相当的性能。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301141933395.png" srcset="/img/loading.gif" lazyload alt="image-20230114173328161"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301141933396.png" srcset="/img/loading.gif" lazyload alt="image-20230114173414588"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301141933397.png" srcset="/img/loading.gif" lazyload alt="image-20230114173448150"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>残差缩放，顾名思义，是用来缩放残差块的残差部分（高频部分），因此缩放因子要乘在高频部分。</li>
+</ul>
+</blockquote>
+<h2 id="√-4-实验"><a href="#√-4-实验" class="headerlink" title="[√] 4.实验"></a>[√] 4.实验</h2><hr>
+<h4 id="√-4-1-数据集"><a href="#√-4-1-数据集" class="headerlink" title="[√] 4.1.数据集"></a>[√] 4.1.数据集</h4><hr>
+<p>本文使用DIV2K数据集（800Train，100Val，100Test）,在Val上评估性能，同时也在另外四个标准基准数据集的性能：Set5 、Set14 、B100和 Urban100。</p>
+<h4 id="√-4-2-训练细节"><a href="#√-4-2-训练细节" class="headerlink" title="[√] 4.2.训练细节"></a>[√] 4.2.训练细节</h4><hr>
+<ul>
+<li><p>使用LR的RGB图像的48×48Patch(HR对应)，随机水平翻转与90°旋转，ADAM优化器，Batch&#x3D;16…</p>
+</li>
+<li><p>单尺度（EDSR×2&#x2F;3&#x2F;4）训练：×2是从头训练，×3&#x2F;4基于×2进行训练</p>
+</li>
+<li><p>多尺度（MDSR）训练：用2、3和4中随机选择的尺度构建miniBatch。只有对应于所选尺度的模块被启用和更新。因此，对应于所选尺度以外的不同尺度的特定尺度残差块和上采样模块不会被启用或更新。</p>
+</li>
+<li><p>使用L1损失来训练我们的网络。最小化L2通常是首选，因为它能使PSNR最大化。然而，L1损失比L2提供更好的收敛性。</p>
+</li>
+<li><p>使用Torch7实现，NVIDIA Titan X GPU训练</p>
+</li>
+</ul>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>基于patch训练：本文的训练策略是使用patch训练，patch的大小是48x48，而不是使用整张图像来训练。这里体现了超分的图像内容无关性。</li>
+<li>预训练初始化：训练高倍率的模型的时候，初始化参数使用的是低倍率模型的参数。这样能够有一个好的开始点，便于快速收敛，且能收敛到一个好的局部最优点。</li>
+<li>使用L2损失函数能够让PSNR更好，但是L1损失函数能够更好的收敛。</li>
+</ul>
+</blockquote>
+<h4 id="√-4-3-几何自集成（Self-ensemble）"><a href="#√-4-3-几何自集成（Self-ensemble）" class="headerlink" title="[√] 4.3.几何自集成（Self_ensemble）"></a>[√] 4.3.几何自集成（Self_ensemble）</h4><hr>
+<p>为了最大限度地提高我们模型的潜在性能，我们采用Self_ensemble策略。具体流程如下：</p>
+<p>测试时，翻转和旋转输入LR图像，生成7个图像（共8个），输入网络后得到8个相应的SR图像，对这些图像进行逆变换得到原始的LRs<em>，最后对LRs</em>求平均得到LRnew。</p>
+<p>这种自集成方法比其他集成方法具有优势，因为它不需要对单独的模型进行额外的训练。特别是当模型大小或培训时间很重要时，这是有益的。尽管自集成策略使参数总数保持不变，但与需要单独训练模型的传统模型集成方法相比，它提供了大致相同的性能增益。本文使用“+”表示。几何自集成仅对对称下采样方法有效，例如双三次下采样。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>注意，几何自集成方法仅仅对对称下采样方法得到的LR图像有效，比如双三次插值下采样。因为对称下采样方法得到的图像，退化方式都是一样的。所有可以采用几何自集成。</li>
+</ul>
+</blockquote>
+<h4 id="√-4-4-验证（DIV2K）"><a href="#√-4-4-验证（DIV2K）" class="headerlink" title="[√] 4.4.验证（DIV2K）"></a>[√] 4.4.验证（DIV2K）</h4><hr>
+<ul>
+<li>本文在DIV2K数据集上测试我们提出的网络。从SRResNet开始，我们逐渐更改各种设置以执行消融测试。我们自己训练SRResNet。首先，我们将损失函数从L2改为L1，然后按照上一节所述和表1所示对网络结构进行更改。上图为各模型的区别。</li>
+<li>在实验中对模型进行了30w次更新，评估DIV2K-Val的801-811共10张图片，使用PSNR（RGB，忽略6+scale边界）和SSIM参数</li>
+<li>结论1：对于所有比例因子，用L1训练的SRResNet比用L2训练的原始SRResNets的结果稍好。</li>
+<li>结论2：最后两列显示了我们最终的更大型号EDSR+和MDSR+使用几何自集成技术的显著性能提升。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301141933398.png" srcset="/img/loading.gif" lazyload alt="image-20230114192052600"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>超分的倍数增大，超分的性能会降低。</li>
+<li>使用L1损失要比L2损失效果好。</li>
+</ul>
+</blockquote>
+<h4 id="√-4-5-基准测试结果"><a href="#√-4-5-基准测试结果" class="headerlink" title="[√] 4.5.基准测试结果"></a>[√] 4.5.基准测试结果</h4><hr>
+<p>使用本文最终的模型（EDSR、EDSR+，MDSR、MDSR+）与Bicubic，A+，SRCNN，VDSR，SRResNet等模型比较。</p>
+<p>模型使用100W次更新，Batch&#x3D;16，其他设置和baseline相同，评估Set5 、Set14 、B100，Urban100，DIV2K数据集，使用PSNR（Y通道，忽略Scale边界）SSIM参数，使用Matlab进行评估结果（DIV2K验证结果是从发布的演示代码中获得的。）。结果可以看到效果还是很不错的。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301141933399.png" srcset="/img/loading.gif" lazyload alt="image-20230114192412307"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>可以看出，相同的模型，在不同的数据集上，超分图像的分数也是不一样的。</li>
+<li>在set5数据集上的分数最高，在B100数据集上的得分最低。</li>
+</ul>
+</blockquote>
+<h2 id="√-5-NITRE2017超分辨挑战赛"><a href="#√-5-NITRE2017超分辨挑战赛" class="headerlink" title="[√] 5.NITRE2017超分辨挑战赛"></a>[√] 5.NITRE2017超分辨挑战赛</h2><hr>
+<p>比赛首页：<a target="_blank" rel="noopener" href="https://data.vision.ee.ethz.ch/cvl/ntire17//">https://data.vision.ee.ethz.ch/cvl/ntire17//</a><br>数据集首页：<a target="_blank" rel="noopener" href="https://data.vision.ee.ethz.ch/cvl/DIV2K/">https://data.vision.ee.ethz.ch/cvl/DIV2K/</a><br>比赛详情：</p>
+<p>2017Track1：Bicubic赛道（×2&#x2F;3&#x2F;4）<br>2017Track2：Unknown赛道（×2&#x2F;3&#x2F;4）<br>2018Track1：Bicubic赛道（×8）<br>2018Track2：Mild赛道（x4）<br>2018Track3：Diffcult赛道（x4）<br>2018Track4：Realistic赛道（x4）</p>
+<p>本文为2017年的比赛的2个任务6个赛道均提交了2个模型（EDSR、MDSR），模型在所有6个赛道均中取得了第一第二的成绩。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301141933400.png" srcset="/img/loading.gif" lazyload alt="image-20230114192650197"></p>
+<h2 id="√-6-结论"><a href="#√-6-结论" class="headerlink" title="[√] 6.结论"></a>[√] 6.结论</h2><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>在传统的resnet中删除了不必要的模块，比如BN层</li>
+<li>使用残差缩放技术，更加稳定的训练大型的模型</li>
+<li>本文提出多尺度超分网络，共享中间的非线性特征变换层。前后的变换层是独立的。</li>
+</ul>
+</blockquote>
+<ul>
+<li><p>本文提出了一种增强的超分辨率算法。通过从传统的 ResNet 架构中删除不必要的模块，我们在使模型紧凑的同时取得了改进的结果。我们还采用残差缩放技术来稳定地训练大型模型。我们提出的单尺度模型超越了当前模型并达到了最先进的性能。</p>
+</li>
+<li><p>本文开发了一个多尺度超分辨率网络来减少模型大小和训练时间。通过尺度依赖模块和共享主网络，我们的多尺度模型可以在一个统一的框架中有效地处理各种尺度的超分辨率。虽然与一组单尺度模型相比，多尺度模型保持紧凑，但它显示出与单尺度 SR 模型相当的性能。</p>
+</li>
+</ul>
+<p>本文提出的单尺度和多尺度模型在标准基准数据集和 DIV2K 数据集中都取得了最高排名。</p>
+<h2 id="√-代码实现"><a href="#√-代码实现" class="headerlink" title="[√] 代码实现"></a>[√] 代码实现</h2><hr>
+<p>Torch版本代码：<a target="_blank" rel="noopener" href="https://github.com/LimBee/NTIRE2017">https://github.com/LimBee/NTIRE2017</a><br>Pytorch代码：<a target="_blank" rel="noopener" href="https://github.com/sanghyun-son/EDSR-PyTorch/">https://github.com/sanghyun-son/EDSR-PyTorch/</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-chain-item">文章学习</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>
+      
+        <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">#人工智能</a>
+      
+        <a href="/tags/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/">#超分辨率重建</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>024 - 文章阅读笔记：【图像超分辨率重建】——EDSR论文精读笔记 - CSDN - 图像超分辨率重建论文精读 - Zency_SUN</div>
+      <div>http://example.com/posts/3439710883/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年1月14日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/4274636105/" title="025 - 文章阅读笔记：【图像超分辨率重建】——EnhanceNet论文精读笔记 - CSDN - 图像超分辨率重建论文精读 - Zency_SUN">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">025 - 文章阅读笔记：【图像超分辨率重建】——EnhanceNet论文精读笔记 - CSDN - 图像超分辨率重建论文精读 - Zency_SUN</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/4151398511/" title="023 - 文章阅读笔记：基于深度学习的图像超分辨率——综述 - CSDN - 图像超分辨率重建论文精读 - Zency_SUN">
+                        <span class="hidden-mobile">023 - 文章阅读笔记：基于深度学习的图像超分辨率——综述 - CSDN - 图像超分辨率重建论文精读 - Zency_SUN</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

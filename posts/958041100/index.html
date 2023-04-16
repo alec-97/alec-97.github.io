@@ -1,0 +1,1007 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="原文链接： ABPN | 移动端实时超分详解 - 微信公众号 - AIWalker 2022-03-30 22:00 ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。  [√] 论文信息 今天要介绍的MobileAI2021的图像超分竞赛的最佳方案，无论是PSNR指标还是推理速度均显著优于其他方案，推理速度**达到了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="056 - 文章阅读笔记：【ABPN】移动端实时超分详解 - 微信公众号 - AIWalker">
+<meta property="og:url" content="http://example.com/posts/958041100/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="原文链接： ABPN | 移动端实时超分详解 - 微信公众号 - AIWalker 2022-03-30 22:00 ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。  [√] 论文信息 今天要介绍的MobileAI2021的图像超分竞赛的最佳方案，无论是PSNR指标还是推理速度均显著优于其他方案，推理速度**达到了">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051559239.png">
+<meta property="article:published_time" content="2023-02-05T06:13:11.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.442Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="超分辨率重建">
+<meta property="article:tag" content="移动端超分">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051559239.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>056 - 文章阅读笔记：【ABPN】移动端实时超分详解 - 微信公众号 - AIWalker - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">056 - 文章阅读笔记：【ABPN】移动端实时超分详解 - 微信公众号 - AIWalker</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-02-05 14:13" pubdate>
+          2023年2月5日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          33 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">056 - 文章阅读笔记：【ABPN】移动端实时超分详解 - 微信公众号 - AIWalker</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>原文链接：</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651688192&idx=1&sn=4011c8d194fa83e5f2a2a3700b1397f2&chksm=f3c9c32dc4be4a3bface7de370a861b5530beca182f9ab131315379297b2b00eb3786ef41c19&cur_album_id=1338480951000727554&scene=189#wechat_redirect">ABPN | 移动端实时超分详解 - 微信公众号 - AIWalker</a></p>
+<p>2022-03-30 22:00</p>
+<p>ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。</p>
+</blockquote>
+<h2 id="√-论文信息"><a href="#√-论文信息" class="headerlink" title="[√] 论文信息"></a>[√] 论文信息</h2><hr>
+<p>今天要介绍的MobileAI2021的图像超分竞赛的最佳方案，无论是PSNR指标还是推理速度均显著优于其他方案，推理速度**达到了手机端实时(&lt;40ms@1080P)**。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051626459.jpg" srcset="/img/loading.gif" lazyload alt="标题&amp;作者团队"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>anchor，锚</li>
+</ul>
+</blockquote>
+<h2 id="√-Abstract"><a href="#√-Abstract" class="headerlink" title="[√] Abstract"></a>[√] Abstract</h2><hr>
+<p>尽管基于深度学习的图像超分取得前所未有的进展，但实际应用要求i越来越高的性能、效率，尤其是移动端推理效率。智能手机的升级迭代、5G的盛行，用户能感知到的图像&#x2F;视频分辨率越来越高，从早期的480过度到720p，再到1080p，再到最近的1k、4k。高分辨率需要更高的计算量，占用更多的RAM，这就导致了端侧设备的部署问题。</p>
+<p>本文旨在设计一种8-bit量化版高效网络并将其部署到移动端，整个设计过程如下：</p>
+<ul>
+<li>首先，我们通过将轻量型超分架构分解并分析每个节点的推理延迟，进而确定可利用的算子；</li>
+<li>然后，我们深入分析了何种类型的架构便于进行8-bit量化并提出了ABPN(Anchor-Based Plain Network)；</li>
+<li>最后，我们采用量化感知训练(Quantization-Aware Training, QAT)策略进一步提升模型的性能。</li>
+</ul>
+<p>我们所设计的模型能以2dB指标优于8-bit量化版FSRCNN，同时满足实际速度需求。</p>
+<h2 id="√-Method"><a href="#√-Method" class="headerlink" title="[√] Method"></a>[√] Method</h2><hr>
+<p>接下来，我们从节点延迟测试开始，然后引出本文方案背后的思考，最后构建所提ABPN。</p>
+<h4 id="√-Meta-node-Latency（算子的延迟）"><a href="#√-Meta-node-Latency（算子的延迟）" class="headerlink" title="[√] Meta-node Latency（算子的延迟）"></a>[√] Meta-node Latency（算子的延迟）</h4><hr>
+<p>由于我们的目标在于构建一种实时量化模型用于真实场景(比如实时视频超分)。我们需要做的第一件事就是构建可移植算子集并统计每个算子的耗时。</p>
+<ul>
+<li>我们将当前轻量型网络(如EDSR、CARN、IMDN、IDN、LatticeNet)进行分解构建初始算子集；</li>
+<li>我们在Synaptics Dolphin平台(专用NPU)上测试每个算子的延迟。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051626461.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上述算子可以分为四大类：张量操作、卷积算子、激活算子、resize，见上表。从上表可以得出四个发现：</p>
+<ul>
+<li><p><strong>近期的SOTA轻量架构使用的技术似乎难以在移动端部署</strong>。</p>
+</li>
+<li><ul>
+<li>EDSR采用了大量的ResBlock，每个ResBlock会引入<code>元素加</code>，该操作甚至比高速优化的卷积还要慢；<ul>
+<li>CARN采用了全局与局部特征集成，每个集成过程包含一个concat与一个卷积，仅仅带来了0.09dB指标提升；</li>
+<li>由于大量的特征分离与拼接，IDN与IMDN同样存在端侧部署问题；</li>
+<li>LatticeNet的部署问题更为严重，它采用了16个CA模块，每个CA模块包含一个元素加、一个元素乘、两个池化层，四个卷积，导致了过高的计算负担。</li>
+<li>另一个常见问题：它们都需要保存前面层的特征并采用控制数据流动。这种长距离依赖会导致RAM的低频处理，这是因为端侧内存非常有限。</li>
+<li>因此，<strong>我们将不考虑特征融合、特征蒸馏、组卷积以及注意力机制</strong>。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>尽管卷积的参数量是卷积的9倍，但由于并行计算的缘故，两者的推理速度差别并不大。因此，<strong>我们采用卷积以得到更大感受野</strong>。</p>
+</li>
+<li><p><strong>在激活函数方面，我们选择ReLU</strong>。这是因为它要比Leaky ReLu速度更快，而且i两者导致的性能差异非常小；</p>
+</li>
+<li><p>由于HR与LR之间的坐标映射导致<strong>resize操作的推理速度过慢</strong>。</p>
+</li>
+</ul>
+<blockquote>
+<p>【CPU、GPU、NPU的区别】</p>
+<p>　　1、定义不同，CPU是中央处理器，GPU是图形处理器，而npu则是人工智能处理器。</p>
+<p>　　2、负责内容不同， CPU主要是负责低精度，各种普通的数据，GPU是高精度处理图像数据，npu则是人工智能算法上面运行效率要高于另外两者。</p>
+<p>　　3、工作模式不同， CPU是顺序执行运算，需要一件一件事情来完成。GPU是可以并发执行运算，可以几件事情同时运作。而npu是具备智能的特性， NPR也可以被称之为是神经网络处理器，也就是说这个处理器它是会模仿人的大脑神经网络的。</p>
+</blockquote>
+<blockquote>
+<p>tensor &#x3D; 张量 &#x3D; 多维向量</p>
+</blockquote>
+<h4 id="√-Anchor-based-Residual-Learning（基于锚的残差学习）"><a href="#√-Anchor-based-Residual-Learning（基于锚的残差学习）" class="headerlink" title="[√] Anchor-based Residual Learning（基于锚的残差学习）"></a>[√] Anchor-based Residual Learning（基于锚的残差学习）</h4><hr>
+<p>正如前一节所讨论的，能用的算子非常有限。为得到一个好的解决方案，<strong>我们深入分析了架构设计与INT8量化之间的相关性</strong>。</p>
+<p>据我们所知，其难度主要在于I2I(Image-to-Image, I2I)映射的高 动态范围，<strong>最直接的想法是生成低标准差权值与激活</strong>。有两种方式可以达成该目的：</p>
+<ul>
+<li><p>添加BN层：BN往往被集成在ResBlock中，尽管不会导致额外耗时与内存占用，但会导致0.2dB的性能下降。</p>
+</li>
+<li><p>残差学习：近邻像素往往具有相似的值，很自然的一种选择就是学习残差。残差学习又可以分为以下两种：</p>
+</li>
+<li><ul>
+<li>ISRL：图像空间的残差学习<ul>
+<li>FSRL：特征空间的残差学习。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>图像空间的残差学习在早期的工作(如VDSR, DRRN)中有得到应用，而特征空间的残差学习则更多在近期的SOTA方案(如SRGAN、IDN、IMDN)中得到应用并取得了稍优的性能。然而，我们认为：<strong>ISRL更适合于INT8量化</strong>。</p>
+<p>从前面Table1中可以看到：<strong>图像空间插值存在不可接受的推理耗时，甚至仅仅一次resize都无法满足实时需求</strong>。为解决该问题，我们提出了ABRL(Anchor-Based Residual Learning)：它直接在LR空间复制每个像素9次为HR空间的每个像素生成锚点。受益于PixelShuffle层，所提ABRL可以通过一个concat+一个元素加操作实现。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051626462.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上图给出了四种类型残差学习的区别所在，从推理耗时角度来看：</p>
+<ul>
+<li>FSRL仅需要一个元素加操作，它的耗时为5.2ms；</li>
+<li>ABRL包含一个通道拼接与一个元素加，总结耗时15.6ms，约为最近邻插值的四分之一。</li>
+</ul>
+<p>所提ABRL有这样两个优点：</p>
+<ul>
+<li>相比FSRL，ABRL可以显著提升INT8量化模型的性能，提升高达0.6dB；</li>
+<li>多分枝架构可以通过并行加速，因此ABRL与FSRL的实际推理耗时相当。<strong>ABRL与FSRL的主要耗时源自RAM的访问速度慢</strong>。</li>
+</ul>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>残差学习：近邻像素往往具有相似的值，很自然的一种选择就是学习残差。残差学习又可以分为以下两种：<ul>
+<li>ISRL：图像空间的残差学习</li>
+<li>FSRL：特征空间的残差学习。</li>
+</ul>
+</li>
+<li>alec：图像空间的残差学习和特征空间的残差学习不是一个东西吗？</li>
+<li>alec：图像空间的残差学习指的是全局残差学习，特征空间的残差学习指的是基本块内部的残差学习，在网络的特征提取部分学习残差</li>
+<li>IDN &#x3D; 信息蒸馏网络，IMDN &#x3D; 信息多蒸馏网络</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>全局残差学习的时候，需要将LR图像的尺寸提升到HR图像一样大，然后再相加。但是一般是使用最近邻、双线性、双三次插值。由上图可知插值速度很慢，因此本文提出将上述的残差方法替换为ABRL：受益于PixelShuffle层，所提ABRL可以通过一个concat+一个元素加操作实现。</li>
+</ul>
+</blockquote>
+<h4 id="√-Network-Architecture"><a href="#√-Network-Architecture" class="headerlink" title="[√] Network Architecture"></a>[√] Network Architecture</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051626463.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上图给出了本文所提架构示意图，它包含四个主要模块：</p>
+<ul>
+<li>浅层特征提取：该过程由<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051626464.png" srcset="/img/loading.gif" lazyload alt="image-20230205153846820">卷积+ReLU构成，定义如下：</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051626465.png" srcset="/img/loading.gif" lazyload alt="image-20230205153900435"></p>
+<ul>
+<li>深层特征提取：该过程采用多个Conv-ReLU组合构成，描述如下：</li>
+</ul>
+<p>为充分利用并行推理，我们设置Conv-ReLu的数量为5以匹配上分支的开销，这意味着<strong>当Conv-ReLU数量小于5时推理速度不变</strong>。最后，我们采用一个卷积将前述特征变换到HR图像空间：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051626466.png" srcset="/img/loading.gif" lazyload alt="image-20230205154452268"></p>
+<p>然后再采用本文所提ABRL得到超分特征：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051626467.png" srcset="/img/loading.gif" lazyload alt="image-20230205154511465"></p>
+<ul>
+<li>重建模块：该模块采用PixelShuffle进对前述所得超分超分进行像素重排得到超分图像。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051626468.png" srcset="/img/loading.gif" lazyload alt="image-20230205154757952"></p>
+<ul>
+<li>后处理模块：该模块采用Clip操作约束超分输出，即输出最大值不超过255，最小值不小于0。移除该操作会导致输出分布偏移，进而导致量化误差。</li>
+</ul>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>参数量对应内存、计算量对应电量消耗、推理时间对应速度</li>
+<li>depth to space &#x3D; 亚像素卷积 &#x3D; 将通道数量转换为图像尺寸大小</li>
+</ul>
+</blockquote>
+<h4 id="√-Loss-Function"><a href="#√-Loss-Function" class="headerlink" title="[√] Loss Function"></a>[√] Loss Function</h4><hr>
+<p>在损失函数方面，我们采用了简单的L1损失</p>
+<h2 id="√-Experiments"><a href="#√-Experiments" class="headerlink" title="[√] Experiments"></a>[√] Experiments</h2><hr>
+<p>在训练方面，图像块尺寸为$64\times64$，batch&#x3D;16，优化器为Adam,初始学习率0.001,每200epoch减半，合计训练1000epoch。训练数据为DIV2K，在RGB空间评估性能。</p>
+<p>QAT是一种流程的提升模型性能的量化技术且无额外推理耗时。我们设置初始学习率为0.0001，每50epoch减半，合计训练200epoch。QAT可以进一步提升0.06的B性能，此时INT8模型仅比FP32性能低0.07dB。</p>
+<h4 id="√-Residual-Learning"><a href="#√-Residual-Learning" class="headerlink" title="[√] Residual Learning"></a>[√] Residual Learning</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051626469.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上表对比了残差学习的性能、耗时。从中可以看到：</p>
+<ul>
+<li>对于FP32模型而言，FSRL模型取得了最佳性能，其他模型性能相当；</li>
+<li>对于INT8模型而言，不带残差的模型会出现严重性能下降(-1.93dB)，FSRL模型会下降0.78dB，而ISRL则则仅仅下降0.13dB。因此，<strong>残差学习可以极大缓解INT8量化过程中的高动态范围问题，而ISRL变现优于FSRL</strong>。</li>
+</ul>
+<h4 id="√-Test-on-Snapdragon-820"><a href="#√-Test-on-Snapdragon-820" class="headerlink" title="[√] Test on Snapdragon 820"></a>[√] Test on Snapdragon 820</h4><hr>
+<p>我们在Snapdragon 820的手机平台上，采用AIBenchmark软件测试了所提方案的CPU、GPU以及NNAPI耗时，结果见下表。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051626470.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051626471.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="√-MAI2021-SISR-Challenge"><a href="#√-MAI2021-SISR-Challenge" class="headerlink" title="[√] MAI2021 SISR Challenge"></a>[√] MAI2021 SISR Challenge</h4><hr>
+<p>本文起初用于参加MAI2021图像超分竞赛，结果见下表。注：首次的提交的模型在模型尾部没有添加Clip操作，导致量化性能非常差(小于20dB)；在竞赛结束后才解决了该问题并提交了校正后模型。受益于素体ABRL，所提方案取得了最佳PSNR指标，同时具有更快的推理速度。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302051626472.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-chain-item">文章学习</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>
+      
+        <a href="/tags/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/">#超分辨率重建</a>
+      
+        <a href="/tags/%E7%A7%BB%E5%8A%A8%E7%AB%AF%E8%B6%85%E5%88%86/">#移动端超分</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>056 - 文章阅读笔记：【ABPN】移动端实时超分详解 - 微信公众号 - AIWalker</div>
+      <div>http://example.com/posts/958041100/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年2月5日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/1019250684/" title="057 - 文章阅读笔记：【BSRGAN】真正实用的退化模型：ETH开源业内首个广义盲图像超分退化模型，性能效果绝佳 - 微信公众号 - AIWalker">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">057 - 文章阅读笔记：【BSRGAN】真正实用的退化模型：ETH开源业内首个广义盲图像超分退化模型，性能效果绝佳 - 微信公众号 - AIWalker</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/4083129976/" title="1 - fluid主题无侵入式方式添加视频背景">
+                        <span class="hidden-mobile">1 - fluid主题无侵入式方式添加视频背景</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

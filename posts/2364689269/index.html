@@ -1,0 +1,928 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="原文： NBNet|图像降噪新思路，旷视科技&amp;快手科技联合提出子空间注意力模块用于图像降噪 - 微信公众号 - AIWalker 2021-01-03 22:15 ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。  [√] 文章信息  文章标题：NBNet: Noise Basis Leaning for I">
+<meta property="og:type" content="article">
+<meta property="og:title" content="059 - 文章阅读笔记：NBNet|图像降噪新思路，旷视科技&amp;快手科技联合提出子空间注意力模块用于图像降噪 - 微信公众号 - AIWalker">
+<meta property="og:url" content="http://example.com/posts/2364689269/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="原文： NBNet|图像降噪新思路，旷视科技&amp;快手科技联合提出子空间注意力模块用于图像降噪 - 微信公众号 - AIWalker 2021-01-03 22:15 ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。  [√] 文章信息  文章标题：NBNet: Noise Basis Leaning for I">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302081713486.jpg">
+<meta property="article:published_time" content="2023-02-08T07:17:51.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.443Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="图像降噪">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302081713486.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>059 - 文章阅读笔记：NBNet|图像降噪新思路，旷视科技&amp;快手科技联合提出子空间注意力模块用于图像降噪 - 微信公众号 - AIWalker - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">059 - 文章阅读笔记：NBNet|图像降噪新思路，旷视科技&快手科技联合提出子空间注意力模块用于图像降噪 - 微信公众号 - AIWalker</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-02-08 15:17" pubdate>
+          2023年2月8日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          27 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">059 - 文章阅读笔记：NBNet|图像降噪新思路，旷视科技&amp;快手科技联合提出子空间注意力模块用于图像降噪 - 微信公众号 - AIWalker</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>原文：</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651683040&idx=1&sn=239836014fe7ce34d8f5073ad935755e&scene=21#wechat_redirect">NBNet|图像降噪新思路，旷视科技&amp;快手科技联合提出子空间注意力模块用于图像降噪 - 微信公众号 - AIWalker</a></p>
+<p>2021-01-03 22:15</p>
+<p>ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。</p>
+</blockquote>
+<h2 id="√-文章信息"><a href="#√-文章信息" class="headerlink" title="[√] 文章信息"></a>[√] 文章信息</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302081713023.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>文章标题：NBNet: Noise Basis Leaning for Image Denosing with Subspace Projection</p>
+<p>中文标题：NBNet：基于子空间投影的图像降噪</p>
+<p>论文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2012.15028">https://arxiv.org/abs/2012.15028</a></p>
+<blockquote>
+<p>该文是旷视科技&amp;快手&amp;电子科技联合提出的一种图像降噪方案，该方案从一种新的角度(子空间投影)对图像降噪问题进行了分析并提出了一种新颖的子空间注意力模块。所提方案在多个公开数据集上取得SOTA指标与更好的视觉效果。</p>
+</blockquote>
+<h2 id="√-Abstract"><a href="#√-Abstract" class="headerlink" title="[√] Abstract"></a>[√] Abstract</h2><hr>
+<p>该文提出一种新颖的框架NBNet用于图像降噪，它从新的角度出发设计：通过图像自适应投影进行降噪。具体来说，NBNet通过训练这样的网络进行信号与噪声的分离：在特征空间学习一组重建基；然后，图像降噪可以通过将输入图像映射到特征空间并选择合适的重建基进行噪声重建。</p>
+<p>该文的关键洞察在于：投影可以自然的保持输入信号的局部结构信息。这种特性尤其适合于low-light区域&#x2F;弱纹理区域。为此，作者提出了一种新颖的子空间注意力模块(SubSpace Attention, SSA)显示的进行重建基生成、子空间投影。与此同时，作者进一步将SSA与NBNet(一种UNet改进)相结合进行端到端图像降噪。</p>
+<p>作者在公开数据集(包含SIDD与DND)上对所提方案进行了评估，在PSNR与SSIM指标方面，NBNet以更少的计算量取得了SOTA性能，见下图。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302081713024.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>该文的主要贡献包含以下几点：</p>
+<ul>
+<li>从子空间投影角度出发对图像降噪问题进行了分析，设计了一种简单而有效的SSA(即插即用)模块用于学习子空间投影；</li>
+<li>提出NBNet(UNet与SSA的组合)用于图像降噪；</li>
+<li>NBNet在多个主流基准数据集上取得了SOTA性能(PSNR与SSIM指标)；</li>
+<li>对基于投影的图像降噪问题进行了深入分析并指明这是一个很有价值的方向。</li>
+</ul>
+<h2 id="√-Method"><a href="#√-Method" class="headerlink" title="[√] Method"></a>[√] Method</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302081713025.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上图给出了本文所提方案NBNet的网络架构示意图，很明显，它是UNet架构的一种扩展，而其关键核心在于SSA模块。所以这里主要针对SSA部分进行介绍。</p>
+<h4 id="√-Subspace-Projection-with-Neural-Network"><a href="#√-Subspace-Projection-with-Neural-Network" class="headerlink" title="[√] Subspace Projection with Neural Network"></a>[√] Subspace Projection with Neural Network</h4><hr>
+<p>正如前面图示，SSA模块包含两个关键步骤：</p>
+<ul>
+<li>Basis Generation：用于根据图像特征生成子空间基向量；</li>
+<li>Projection：用于将图像特征变换到信号子空间。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302081713026.png" srcset="/img/loading.gif" lazyload alt="image-20230208163307033"></p>
+<h4 id="√-Basis-Generation"><a href="#√-Basis-Generation" class="headerlink" title="[√] Basis Generation"></a>[√] Basis Generation</h4><hr>
+<p>假设<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302081713027.png" srcset="/img/loading.gif" lazyload alt="image-20230208163512678">表示基生成函数，基生成过程描述如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302081713028.png" srcset="/img/loading.gif" lazyload alt="image-20230208163936772"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302081713029.png" srcset="/img/loading.gif" lazyload alt="image-20230208164008403"></p>
+<h4 id="√-Projection"><a href="#√-Projection" class="headerlink" title="[√] Projection"></a>[√] Projection</h4><hr>
+<p>给定了上述矩阵<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302081713030.png" srcset="/img/loading.gif" lazyload alt="image-20230208164522595">，我们可以将图像特征X1通过正交线性投影投影到上述空间。假设<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302081713031.png" srcset="/img/loading.gif" lazyload alt="image-20230208164539782">表示信号子空间的正交投影，而P可以通过如下公式计算得到：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302081713032.png" srcset="/img/loading.gif" lazyload alt="image-20230208164549848"></p>
+<p>注：由于基生成过程无法确保基向量存在正交关系，故而<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302081713033.png" srcset="/img/loading.gif" lazyload alt="image-20230208164607008">是有必要的。最后图像特征X1可以在信号子空间重建为Y，表示如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302081713034.png" srcset="/img/loading.gif" lazyload alt="image-20230208164619110"></p>
+<p>注：上述投影过程就是简单的线性矩阵操作，可以通过合适的reshaping达成。</p>
+<h4 id="√-NBNet-Architecture-and-Loss-Function"><a href="#√-NBNet-Architecture-and-Loss-Function" class="headerlink" title="[√] NBNet Architecture and Loss Function"></a>[√] NBNet Architecture and Loss Function</h4><hr>
+<p>前面Fig3给出了本文所提出的NBNet的网络架构示意图，它基于经典Unet架构得到，它包含4个encoder和4个decoder，下采样操作通过stride&#x3D;2的<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302081713035.png" srcset="/img/loading.gif" lazyload alt="image-20230208164712598">的卷积达成，上采样操作通过2x2的反卷积达成，同时对应的encoder与decoder之间还存在跳过连接。encoder与decoder中的基础模块见Fig3(b)，作者在每个卷积之后采用了LeakyReLU激活函数。</p>
+<p>所提SSA模块至于每个encoder-decoder之间的跳过连接中，由于low-level特征包含更多原始图像信息，故而将其视作X1，将high-level特征视作X2，并将两者送入到SSA模块。也就是说，将low-level特征投影到由high-level特征引导的信号子空间中，投影所得特征进一步与原始的high-level特征融合并送入下一个decoder。</p>
+<p>相比常规UNet架构(直接对low-level和high-level特征进行融合)，NBNet的主要区别在于：low-level在融合之前先通过SSA模块进行投影处理。</p>
+<p>最后一个decoder模块的输出经由3x3卷积处理并作为全局残差与噪声输入相加得到最终的降噪结果。</p>
+<p>该网络可以通过端到端的方式进行训练，作者采用了简单的$l1$损失函数：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302081713036.png" srcset="/img/loading.gif" lazyload alt="image-20230208165112138"></p>
+<p>其中，$x,y,G(·)$分别表示无噪图像、噪声图像以及NBNet。</p>
+<h2 id="√-Experiments"><a href="#√-Experiments" class="headerlink" title="[√] Experiments"></a>[√] Experiments</h2><hr>
+<p>为验证所提方案的有效性，作者在合成数据与真实数据上将其与其他SOTA方案进行了对比。</p>
+<p>训练超参数信息：网络采用kaiming初始化，优化器为Adam，初始学习率为$2\times10^{-4}$，余弦退化方式衰减，合计训练700000次迭代。</p>
+<p>训练数据信息：输入块大小为$128\times128$,batch&#x3D;32,数据增广为随机旋转、随机裁剪、随机镜像。</p>
+<h4 id="√-Synthetic-Gaussian-Noise"><a href="#√-Synthetic-Gaussian-Noise" class="headerlink" title="[√] Synthetic Gaussian Noise"></a>[√] Synthetic Gaussian Noise</h4><hr>
+<p>合成数据信息：训练数据包含BSD(432)以及ImageNet(400源自验证集)以及WaterlooExploration(4744)；验证集包含Set5、LIVE1以及BSD68。在合成数据集上对比所提方法与SOTA方案的性能对比，结果见下表。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302081713037.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>从上表可以看到：所提NBNet取得了比VDN更好的结果。尽管NBNet不依赖于噪声的先验分布，但它仍取得了最佳结果。这也就意味着：<strong>所提投影方案可以有效的将噪声与信息进行分离</strong>。</p>
+<h4 id="√-SIDD-Benchmark"><a href="#√-SIDD-Benchmark" class="headerlink" title="[√] SIDD Benchmark"></a>[√] SIDD Benchmark</h4><hr>
+<p>SIDD数据信息：它包含10个场景、不同亮度条件、5款智能机拍摄的30000噪声图像，SIDD数据集可以用于评价智能机camera的降噪性能。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302081713038.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上图&amp;上表给出了所提方案与其他SOTA方案在SIDD数据上的性能对比，可以看到：<strong>所提方案NBNet取得了最佳指标，同时具有更好的视觉感知效果</strong>。相比MIRNet，NBNet仅需11.25%的计算复杂度和41.82%的参数量即可取得同等PSNR指标，而SSIM指标则提升了0.01。</p>
+<h4 id="√-DND-Benchmark"><a href="#√-DND-Benchmark" class="headerlink" title="[√] DND Benchmark"></a>[√] DND Benchmark</h4><hr>
+<p>DND数据信息：它50对真实噪声图像以及对应的GT图像。该数据同时提供了bbox用于提取图像块，合计得到了1000图像块。注：DND数据并未提供训练数据，故而作者采用了SIDD与Renoir的组合进行训练。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302081713039.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上图&amp;上表给出了所提方案与其他SOTA方案在DND你上的性能对比。可以看到：<strong>所提方法通那样取得了最佳的PSNR指标</strong>。</p>
+<p>更多消融实验分析与结果，建议各位同学查看原文。</p>
+<h2 id="√-推荐阅读"><a href="#√-推荐阅读" class="headerlink" title="[√] 推荐阅读"></a>[√] 推荐阅读</h2><hr>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651682902&idx=1&sn=7dff47c77f6a01484fbeecec74717304&scene=21#wechat_redirect">RealSR新突破|中科大提出全频带区域自适应图像超分|ORNet</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651682814&idx=1&sn=8095788d9136c438ce20a774c1d68eab&scene=21#wechat_redirect">真正的无极放大！30x插值效果惊艳，英伟达等开源LIIF：巧妙的图像超分新思路</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651682736&idx=1&sn=d8f48cacf9dcf82efb66f687d6d1f6f0&scene=21#wechat_redirect">Transformer再下一城！low-level多个任务榜首被占领，北大华为等联合提出预训练模型IPT</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651682198&idx=1&sn=b2b2efcefef9a946f80953c58f4639db&scene=21#wechat_redirect">图像&#x2F;视频超分之BackProjection</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651681974&idx=1&sn=dbf2700a594aec04a095ebcaf181cefa&scene=21#wechat_redirect">计算高效，时序一致，超清还原！清华&amp;NYU 提出 RRN：视频超分新型递归网络</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651681935&idx=1&sn=1b75da5c0ff3025e1a224e9194475d34&scene=21#wechat_redirect">OverNet | 速度快&amp;高性能&amp;任意尺度超分</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651681898&idx=2&sn=8b7449f1ab310c8c6aa51357f04c2911&scene=21#wechat_redirect">ECCV2020|真实世界图像超分CDC｜分而治之思想的探索应用</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651681887&idx=1&sn=d5f390d828d6267345016518caccbcdc&scene=21#wechat_redirect">董超大神新作MS3Conv｜多尺度卷积在图像超分中的应用探索</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651681746&idx=2&sn=771a26b36604439821ccfebee4196c75&scene=21#wechat_redirect">FDRNet｜混合降质图像复原</a></li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-chain-item">文章学习</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>
+      
+        <a href="/tags/%E5%9B%BE%E5%83%8F%E9%99%8D%E5%99%AA/">#图像降噪</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>059 - 文章阅读笔记：NBNet|图像降噪新思路，旷视科技&amp;快手科技联合提出子空间注意力模块用于图像降噪 - 微信公众号 - AIWalker</div>
+      <div>http://example.com/posts/2364689269/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年2月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/779624065/" title="060 - 文章阅读笔记：【ELAN】比SwinIR快4倍，图像超分中更高效Transformer应用探索 - AIWalker">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">060 - 文章阅读笔记：【ELAN】比SwinIR快4倍，图像超分中更高效Transformer应用探索 - AIWalker</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/2876934789/" title="001 - 文章阅读笔记：最便宜，也是入门 Mac 的最好选择：新款 Mac mini 体验 - 少数派 - waychane">
+                        <span class="hidden-mobile">001 - 文章阅读笔记：最便宜，也是入门 Mac 的最好选择：新款 Mac mini 体验 - 少数派 - waychane</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

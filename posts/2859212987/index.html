@@ -1,0 +1,988 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="转载自： 【√】【HAT】 Activating More Pixels in Image Super-Resolution Transformer - CSDN - 专栏：超分辨率 - hbw136 于 2022-05-10 17:37:15 修改  Activating More Pixels in Image Super-Resolution Transformer（在图像超分辨率tran">
+<meta property="og:type" content="article">
+<meta property="og:title" content="033 - 文章阅读笔记：【HAT】 Activating More Pixels in Image Super-Resolution Transformer - CSDN - 专栏：超分辨率 - hbw136">
+<meta property="og:url" content="http://example.com/posts/2859212987/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="转载自： 【√】【HAT】 Activating More Pixels in Image Super-Resolution Transformer - CSDN - 专栏：超分辨率 - hbw136 于 2022-05-10 17:37:15 修改  Activating More Pixels in Image Super-Resolution Transformer（在图像超分辨率tran">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301161256731.png">
+<meta property="article:published_time" content="2023-01-16T04:31:44.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.427Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="计算机视觉">
+<meta property="article:tag" content="transformer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301161256731.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>033 - 文章阅读笔记：【HAT】 Activating More Pixels in Image Super-Resolution Transformer - CSDN - 专栏：超分辨率 - hbw136 - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">033 - 文章阅读笔记：【HAT】 Activating More Pixels in Image Super-Resolution Transformer - CSDN - 专栏：超分辨率 - hbw136</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-16 12:31" pubdate>
+          2023年1月16日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          31 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">033 - 文章阅读笔记：【HAT】 Activating More Pixels in Image Super-Resolution Transformer - CSDN - 专栏：超分辨率 - hbw136</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>转载自：</p>
+<p>【√】<a target="_blank" rel="noopener" href="https://blog.csdn.net/hbw136/article/details/124692907">【HAT】 Activating More Pixels in Image Super-Resolution Transformer - CSDN - 专栏：超分辨率 - hbw136</a></p>
+<p>于 2022-05-10 17:37:15 修改</p>
+</blockquote>
+<h1 id="Activating-More-Pixels-in-Image-Super-Resolution-Transformer"><a href="#Activating-More-Pixels-in-Image-Super-Resolution-Transformer" class="headerlink" title="Activating More Pixels in Image Super-Resolution Transformer"></a>Activating More Pixels in Image Super-Resolution Transformer</h1><h1 id="（在图像超分辨率transformer中激活更多的像素）"><a href="#（在图像超分辨率transformer中激活更多的像素）" class="headerlink" title="（在图像超分辨率transformer中激活更多的像素）"></a>（在图像超分辨率transformer中激活更多的像素）</h1><hr>
+<h2 id="√-文章简介"><a href="#√-文章简介" class="headerlink" title="[√] 文章简介"></a>[√] 文章简介</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301161519682.png" srcset="/img/loading.gif" lazyload alt="HAT"></p>
+<p>作者：Xiangyu Chen1,2 , Xintao Wang3 , Jiantao Zhou1 , and Chao Dong2,4</p>
+<p>单位：1University of Macau 2Shenzhen Institute of Advanced Technology,</p>
+<p>Chinese Academy of Sciences 3ARC <a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=Lab&spm=1001.2101.3001.7020">Lab</a>, Tencent PCG 4Shanghai AI Laboratory</p>
+<p>代码：<a target="_blank" rel="noopener" href="https://github.com/chxy95/hat">GitHub - chxy95&#x2F;HAT: Activating More Pixels in Image Super-Resolution Transformer</a></p>
+<p>论文地址：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2205.04437">https://arxiv.org/pdf/2205.04437</a></p>
+<h2 id="√-一、问题与动机"><a href="#√-一、问题与动机" class="headerlink" title="[√] 一、问题与动机"></a>[√] 一、问题与动机</h2><hr>
+<p>尽管现阶段作者发现一些基于transformer的SR模型获得了更高的指标性能，但由于使用信息的范围有限，在某些情况下它产生的结果不如 RCAN。 这些现象说Transformer对局部信息的建模能力更强，但其利用信息的范围有待扩大。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>transformer在SR上获得了高的性能，但是因为利用的信息少，信息没有被充分利用，所以有的时候还不如RCAN这个残差通道注意力网络性能好。因此需要扩大transformer超分模型对于信息的利用范围。</li>
+</ul>
+</blockquote>
+<h2 id="√-二、思路和亮点"><a href="#√-二、思路和亮点" class="headerlink" title="[√] 二、思路和亮点"></a>[√] 二、思路和亮点</h2><hr>
+<p>为了解决上述问题并进一步发挥 Transformer for SR 的潜力，作者提出了一种 Hybrid Attention Transformer（混合注意力），即 HAT。</p>
+<p>作者的HAT结合了channel attention和self-attention两种方案，以利用前者对全局信息的利用能力和后者强大的代表能力。 </p>
+<p>此外，为了更好地聚合跨窗口信息，作者还引入了一个重叠的交叉注意模块。</p>
+<p> 作者还另外探索了预训练对 SR 任务的影响，并提供了相同任务的预训练策略。 实验结果表明，该策略可以比多相关任务预训练执行得更好。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>通道注意力CA有强大的全局信息利用能力</li>
+<li>自注意力SA有强大的代表能力</li>
+<li>通过重叠的交叉注意模块，能够更好的聚合跨窗口信息</li>
+<li>相同任务上的预训练策略，能够让模型发挥的更好</li>
+</ul>
+</blockquote>
+<h2 id="√-三、具体内容"><a href="#√-三、具体内容" class="headerlink" title="[√] 三、具体内容"></a>[√] 三、具体内容</h2><hr>
+<h4 id="√-1、模型结构"><a href="#√-1、模型结构" class="headerlink" title="[√] 1、模型结构"></a>[√] 1、模型结构</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301161519683.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>模型主要的模块是RHAG模块，即残差混合注意力模块，其中有残差、通道注意力、自注意力、重叠的交叉注意力这四个主要成分。然后模型的主干部分是多个RHAG串联组成的。</li>
+<li>然后RHAG模块中，包含HAB和OCAB，其中HAB是混合注意力模块，是由STL模块改造的，STL &#x3D; swin transformer layer。stl &#x3D; 层规范化 + 多头自注意力模块MSA + 跳跃连接 + 层规范化 + MLP + 跳跃连接。HAB将STL中的MSA换成了通道注意力模块和多头自注意力模块的并联。</li>
+</ul>
+</blockquote>
+<h4 id="√-2、相关模块"><a href="#√-2、相关模块" class="headerlink" title="[√] 2、相关模块"></a>[√] 2、相关模块</h4><hr>
+<h6 id="√-残差混合注意力组（RHAG）"><a href="#√-残差混合注意力组（RHAG）" class="headerlink" title="[√] 残差混合注意力组（RHAG）"></a>[√] 残差混合注意力组（RHAG）</h6><hr>
+<p><img src="https://img-blog.csdnimg.cn/eaf372b289ca4023a403837d2c71d69c.png" srcset="/img/loading.gif" lazyload alt="RHAG"></p>
+<p> 如上图所示，每个 RHAG 包含 M 个混合注意力块 (HAB)、一个重叠的交叉注意力块 (OCAB) 和一个 3×3 卷积层。 具体来说，对于第 i 个 RHAG，可以表示为</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301161519684.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>其中 Fi−1,0 表示第 i 个 RHAG 的输入特征，Fi−1,j 表示第 i 个 RHAG 中第 j 个 HAB 的第 j 个输出特征。 在一系列 HAB 的映射之后，作者插入一个 OCAB 来扩大基于窗口的 self-attention 的感受野并更好地聚合跨窗口信息。 在 RHAG 结束时，作者保留之后的卷积层。 还添加了残差连接以稳定训练过程。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>OCAB模块用来扩大基于窗口的自注意力的感受野，并更好的聚合夸窗口的信息。</li>
+</ul>
+</blockquote>
+<h6 id="√-混合注意力模块（HAB）"><a href="#√-混合注意力模块（HAB）" class="headerlink" title="[√] 混合注意力模块（HAB）"></a>[√] 混合注意力模块（HAB）</h6><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301161519685.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>如图上图所示，当采用通道注意力时，会激活更多像素，因为计算通道注意力权重涉及全局信息。</p>
+<p>此外，许多工作表明卷积可以帮助 Transformer 获得更好的视觉表示或实现更容易的优化。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>通道注意力涉及全局信息，能够激活更多的像素。</li>
+<li>W-MSA &#x3D; 基于窗口的多头自注意力模块。W &#x3D; window M &#x3D; multi S &#x3D; self A &#x3D; attention</li>
+</ul>
+</blockquote>
+<p>因此，作者将基于通道注意力的卷积块合并到标准的 Transformer 块中，以进一步增强网络的表示能力。如图 3 所示，通道注意块 (CAB) 与基于窗口的多头自注意 (W-MSA) 模块并行插入到标准 Swin Transformer 块中的第一个 LayerNorm (LN) 层之后。</p>
+<p>请注意，在连续 HAB 中，每隔一段时间就会采用基于移位窗口的自我注意 (SW-MSA)。为了避免 CAB 和 MSA 在优化和视觉表示上可能发生的冲突，将一个小的常数 α 乘以 CAB 的输出。对于给定的输入特征 X，HAB 的整个过程计算为</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301161519687.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>其中 XN 和 XM 表示中间特征。 Y 代表 HAB 的输出。 特别是，作者将每个像素视为嵌入的标记（即，在之后将patch大小设置为 1 以进行patch嵌入）。 MLP 表示多层感知器。</p>
+<h6 id="√-通道注意力块（CAB）"><a href="#√-通道注意力块（CAB）" class="headerlink" title="[√] 通道注意力块（CAB）"></a>[√] 通道注意力块（CAB）</h6><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301161519688.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>由两个标准卷积层组成，它们之间有一个 GELU 激活函数 和一个通道注意 (CA) 模块，如上图所示。</p>
+<p>由于基于 Transformer 的结构通常需要大量通道来进行token嵌入 ，直接使用具有恒定宽度的卷积会产生很大的计算成本。 因此，作者通过两个卷积层之间的常数 β 来压缩通道数。 对于具有 C 个通道的输入特征，第一个卷积层后输出特征的通道数被压缩到 Cβ，然后通过第二层将特征扩展到 C 个通道。 </p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>标准的CA模块能够自适应地调整通道特征</li>
+</ul>
+</blockquote>
+<p>接下来，利用标准 CA 模块来自适应地重新调整通道特征。 整个过程被表述为</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301161519689.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>其中Xin、Xout、Conv1、Conv2分别表示输入特征、输出特征、第一卷积层和第二卷积层。</p>
+<h6 id="√-重叠交叉注意块（OCAB）"><a href="#√-重叠交叉注意块（OCAB）" class="headerlink" title="[√] 重叠交叉注意块（OCAB）"></a>[√] 重叠交叉注意块（OCAB）</h6><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301161519690.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>作者引入OCAB直接建立跨窗口连接，增强窗口self-attention的代表能力。 作者的 OCAB 由一个重叠交叉注意力 (OCA) 层和一个类似于标准 Swin Transformer 块的 MLP 层组成。</p>
+<p>但是对于 OCA，如图 4 所示，作者使用不同的窗口大小来划分投影特征。 具体来说，对于输入特征 X 的 XQ, XK, XV ∈ RH×W×C，XQ 被划分为大小为 M×M 的 HW M2 个非重叠窗口，而 XK, XV 被展开为大小为 HW M2 个重叠窗口 Mo × Mo。计算公式为</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301161519691.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>​    其中γ是控制重叠大小的常数。为了更好地理解这个操作，可以将标准窗口分区看作是一个内核大小和步幅都等于窗口大小 M 的滑动分区。相反，重叠窗口分区可以看作是一个内核大小的滑动分区等于 Mo，而步幅等于 M。使用大小为 γM 的零填充来确保重叠窗口的大小一致性。注意矩阵计算为 Equ。如图7所示，也采用了相对位置偏差B∈RM×Mo。与 WSA 的查询、键和值是从相同的窗口特征计算的不同，OCA 从更大的字段计算键&#x2F;值，在该字段中可以将更多有用的信息用于查询。</p>
+<h6 id="√-Pre-training-on-ImageNet"><a href="#√-Pre-training-on-ImageNet" class="headerlink" title="[√] Pre-training on ImageNet"></a>[√] Pre-training on ImageNet</h6><hr>
+<p>相比之下，作者基于相同的任务直接在更大规模的数据集（即 ImageNet）上执行预训练。 例如，当作者要训练一个 ×4 SR 的模型时，作者首先在 ImageNet 上训练一个 ×4 SR 模型，然后在特定数据集上对其进行微调，例如 DF2K。</p>
+<p>值得一提的是，足够的预训练训练迭代次数和合适的微调学习率对于预训练策略的有效性非常重要。 作者认为这是因为 Transformer 需要更多的数据和迭代来学习任务的一般知识，但需要很小的学习率来进行微调以避免过度拟合到特定的数据集。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>在大的数据集上预训练，在小的数据集上微调</li>
+</ul>
+</blockquote>
+<h2 id="√-四、实验"><a href="#√-四、实验" class="headerlink" title="[√] 四、实验"></a>[√] 四、实验</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301161519692.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301161519693.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h4 id="√-消融实验"><a href="#√-消融实验" class="headerlink" title="[√] 消融实验"></a>[√] 消融实验</h4><hr>
+<h6 id="√-1）window-size的影响"><a href="#√-1）window-size的影响" class="headerlink" title="[√] 1）window size的影响"></a>[√] 1）window size的影响</h6><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301161519694.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301161519695.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>更大的窗口尺寸能够感受到更大的信息，从而指标也越好。</li>
+</ul>
+</blockquote>
+<h6 id="√-2）OCAB的影响"><a href="#√-2）OCAB的影响" class="headerlink" title="[√] 2）OCAB的影响"></a>[√] 2）OCAB的影响</h6><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301161519696.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301161519697.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>定量和定性实验结果可以看出，带有交叉重叠注意力模块和通道注意力模块的模型效果最好。</li>
+</ul>
+</blockquote>
+<h6 id="√-3）overlapping-ratio的影响（in-ocab）"><a href="#√-3）overlapping-ratio的影响（in-ocab）" class="headerlink" title="[√] 3）overlapping ratio的影响（in ocab）"></a>[√] 3）overlapping ratio的影响（in ocab）</h6><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301161519698.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h6 id="√-4）CA的影响（以及权重参数的研究）"><a href="#√-4）CA的影响（以及权重参数的研究）" class="headerlink" title="[√] 4）CA的影响（以及权重参数的研究）"></a>[√] 4）CA的影响（以及权重参数的研究）</h6><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301161519699.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>权重参数指的是：因为担心通道注意力模块和带有窗口的多头自注意力模块会冲突，因此对通道注意力模块添加了权重。</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>结果表明，CA模块完全使用和完全不使用，效果不如对CA模块使用但是进行衰减好。其中上述实验中，CA模块的衰减系数为0.01的时候，效果最好。</li>
+</ul>
+</blockquote>
+<h2 id="√-五、总结"><a href="#√-五、总结" class="headerlink" title="[√] 五、总结"></a>[√] 五、总结</h2><hr>
+<p><em><strong>*在本文中，作者提出了一种新颖的混合注意力转换器 HAT，用于图像超分辨率。 作者的模型结合了通道注意力和自注意力来激活更多像素以重建高分辨率结果。 此外，作者提出了一个重叠的交叉注意力模块，它计算不同窗口大小的特征之间的注意力，以更好地聚合交叉窗口信息。 此外，作者引入了相同任务的预训练策略，以进一步激活所提出模型的潜力。*</strong></em></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-chain-item">文章学习</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>
+      
+        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">#计算机视觉</a>
+      
+        <a href="/tags/transformer/">#transformer</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>033 - 文章阅读笔记：【HAT】 Activating More Pixels in Image Super-Resolution Transformer - CSDN - 专栏：超分辨率 - hbw136</div>
+      <div>http://example.com/posts/2859212987/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年1月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/2087287916/" title="034 - 文章阅读笔记：【ENLCA】AAAI2022Efficient Non-Local Contrastive Attention for Image Super-Resolution - CSDN - 专栏：超分辨率 - hbw136">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">034 - 文章阅读笔记：【ENLCA】AAAI2022Efficient Non-Local Contrastive Attention for Image Super-Resolution - CSDN - 专栏：超分辨率 - hbw136</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/1774407765/" title="032 - 文章阅读笔记：【图像超分辨率重建】——SwinIR论文精读笔记 - CSDN - Zency_SUN">
+                        <span class="hidden-mobile">032 - 文章阅读笔记：【图像超分辨率重建】——SwinIR论文精读笔记 - CSDN - Zency_SUN</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

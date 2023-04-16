@@ -1,0 +1,1002 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="链接： BSRGAN | 一种针对真实图像退化的盲图像超分模型 - 博客园 - 程序员-图哥（√） posted @ 2021-04-16 23:41  [√] 1 - 摘要  alec：  众所周知，当图像超分的预假设退化模型与真实图像的退化方式不匹配时，模型的性能会出现性能下降，甚至负面效果现象。 尽管已有集中退化模型考虑的额外的影响因素(比如模糊核以及程度)，但是它们仍然无法有效覆盖真实图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="013 - 文章阅读笔记：BSRGAN | 一种针对真实图像退化的盲图像超分模型 - 博客园 - 程序员-图哥">
+<meta property="og:url" content="http://example.com/posts/3092918009/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="链接： BSRGAN | 一种针对真实图像退化的盲图像超分模型 - 博客园 - 程序员-图哥（√） posted @ 2021-04-16 23:41  [√] 1 - 摘要  alec：  众所周知，当图像超分的预假设退化模型与真实图像的退化方式不匹配时，模型的性能会出现性能下降，甚至负面效果现象。 尽管已有集中退化模型考虑的额外的影响因素(比如模糊核以及程度)，但是它们仍然无法有效覆盖真实图">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081619799.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081619800.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081619801.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081619802.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081619803.png">
+<meta property="article:published_time" content="2023-01-08T06:17:20.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.415Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="画质增强">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081619799.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>013 - 文章阅读笔记：BSRGAN | 一种针对真实图像退化的盲图像超分模型 - 博客园 - 程序员-图哥 - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">013 - 文章阅读笔记：BSRGAN | 一种针对真实图像退化的盲图像超分模型 - 博客园 - 程序员-图哥</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-08 14:17" pubdate>
+          2023年1月8日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          50 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">013 - 文章阅读笔记：BSRGAN | 一种针对真实图像退化的盲图像超分模型 - 博客园 - 程序员-图哥</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>链接：</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/ai-tuge/p/14669205.html">BSRGAN | 一种针对真实图像退化的盲图像超分模型 - 博客园 - 程序员-图哥（√）</a></p>
+<p>posted @ 2021-04-16 23:41</p>
+</blockquote>
+<h2 id="√-1-摘要"><a href="#√-1-摘要" class="headerlink" title="[√] 1 - 摘要"></a>[√] 1 - 摘要</h2><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>众所周知，当图像超分的预假设退化模型与真实图像的退化方式不匹配时，模型的性能会出现性能下降，甚至负面效果现象。</li>
+<li>尽管已有集中退化模型考虑的额外的影响因素(比如模糊核以及程度)，但是它们仍然无法有效覆盖真实图像的多样性退化方式。</li>
+</ul>
+</blockquote>
+<p>为解决该问题，本文设计了一种更复杂但实用的退化模型，它包含对模糊、下采样以及噪声退化的随机置换(也就是说每种退化对应多种类型，且顺序会进行随机调整)。</p>
+<p>具体来说，模糊退化通过两个卷积(各向同性与各向异性高斯模糊)进行模拟；下采样从最近邻、双线性以及双三次插值中随机挑选；噪声则通过不同噪声水平的高斯噪声、不同压缩质量的JPEG压缩、逆转ISP生成的传感器噪声等。</p>
+<p>为验证所设计的新的退化模型的有效性，我们训练了一个深度盲ESRGAN超分模型并将其对不同退化的合成、真实图像进行处理。实验结果表明：新的退化模型有助于显著提升深度超分模型的实用性，为RealSR应用提供了一种有效的解决方案。</p>
+<p>本文的主要贡献包含以下几点：</p>
+<ul>
+<li>提出了一种针对SISR的实用退化模型，它考虑并设计了更复杂的退化空间；</li>
+<li>基于上述所设计的退化模型合成的训练数据训练了盲SISR，所得模型在不同类型真实退化数据上取得了非常好的效果；</li>
+<li>据我们所知，本文是首个针对广义盲超分采用手工方式设计退化模型的方案；</li>
+<li>本文突出了精确的退化模型对于DNN-SISR实用的重要性。</li>
+</ul>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>本文的盲超分BSRGAN是基于ESRGAN来完成的。</li>
+<li>本文设计了多种类型的退化模型，从而得到更自然、真实的LR-HR训练数据对。</li>
+</ul>
+</blockquote>
+<p>论文: <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2103.14006">https://arxiv.org/abs/2103.14006</a></p>
+<p>代码: <a target="_blank" rel="noopener" href="https://github.com/cszn/BSRGAN">https://github.com/cszn/BSRGAN</a></p>
+<h2 id="√-2-前人的工作总结"><a href="#√-2-前人的工作总结" class="headerlink" title="[√] 2 - 前人的工作总结"></a>[√] 2 - 前人的工作总结</h2><hr>
+<p>由于本文主要聚焦于“如何设计一种实用退化模型”并用于训练深度盲SISR模型。所以我们先来看一下已有退化模型存在的问题，然后再引出本文的方案。</p>
+<p>现有的图像超分大多采用bicubic或者blur-down方式制作训练数据；稍微复杂点的则采用模糊、下采样、噪声组合的方式。</p>
+<p><strong>噪声往往假设为加性高斯白噪声，它往往难以匹配真实图像的噪声分布；事实上，噪声往往源于传感器噪声和JPEG压缩噪声，而这两种噪声通常具有信号依赖性、非均匀性。</strong></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>稍微复杂的退化方法是：模糊核、下采样、噪声的组合</li>
+<li>噪声往往假设为加性高斯白噪声，它往往难以匹配真实图像的噪声分布；事实上，噪声往往源于传感器噪声和JPEG压缩噪声，而这两种噪声通常具有信号依赖性、非均匀性。</li>
+</ul>
+</blockquote>
+<p>无论模糊退化精确与否，如果噪声不能有效匹配均会导致严重的超分性能下降。也就是说，现有的退化模型面对真实图像退化是仍有很大的改善空间。</p>
+<p>除了上述人工模拟退化外，还有一些其他盲图像超分方案。大概有这么几个研究方向：</p>
+<ul>
+<li><p>先对LR图像估计退化参数，然后采用非盲方案生成HR图像。然而非盲方案往往对退化误差非常敏感，因此生成的结果要么过度锐利、要么过度平滑；</p>
+</li>
+<li><p>同时进行模糊核与HR图像估计，比如IKC。然而这些方法并没有将噪声纳入考虑，往往导致不精确的模糊核估计，进而影响HR重建质量。</p>
+</li>
+<li><p>采用监督方式采集LR&#x2F;HR数据对，比如RealSR、DRealSR。然而成对训练数据的收集成本非常高，同时所学习得到的模型会受限于LR域图像。</p>
+</li>
+<li><p>基于非成对训练数据，采用类似CycleGAN的思路进行模型的训练或者采用KernelGAN从Source域图像估计模糊核，然后对Source与Target两个域图像同时进行退化制作训练数据。尽管这类方法精确的退化模糊核估计非常关键，如果模糊核估计不准确会导致模型性能变得比较差。</p>
+</li>
+<li><p>据我们所知，尚无深度盲SISR可以直接用于广义图像超分。</p>
+</li>
+</ul>
+<h2 id="√-3-本文方法"><a href="#√-3-本文方法" class="headerlink" title="[√] 3 - 本文方法"></a>[√] 3 - 本文方法</h2><hr>
+<p>在提出所设计的退化模型之前，我们再来看一下关于退化模型的几点影响因素：</p>
+<ul>
+<li><p>从传统退化模型的角度来看，模糊、下采样以及噪声会影响真实图像的退化；针对此，<strong>一种可能的方式之提升退化模型空间</strong>，使得尽可能大并与真实退化尽可能接近。</p>
+</li>
+<li><p>HR与LR可能均存在噪声与模糊，因此没有必要采用模糊&#x2F;下采样&#x2F;噪声生成LR图像；针对此，<strong>我们采用随机置换方式扩展退化空间</strong>。</p>
+</li>
+<li><p>传统退化模型的模糊核空间会随尺度变化，这使得实际大尺度因子确定比较棘手；针对此，<strong>我们可以利用小尺度的模糊核的分析计算设计大尺度因子</strong>。</p>
+</li>
+<li><p>尽管bicubic退化并不适用于真实LR图像，但是它可以用于数据增强，并且一种一种清洗和锐化图像的比较好的选择。针对此，对于大尺度因子我们可以在退化之前先执行一次bicubic下采样。</p>
+</li>
+</ul>
+<p>不失一般性，本文主要针对广泛采用的x2和x4两个尺度设计退化模型。接下来，我们将从四个角度(模糊、下采样、噪声以及随机置换策略)来介绍退化模型。</p>
+<h4 id="√-3-1-模糊"><a href="#√-3-1-模糊" class="headerlink" title="[√] 3.1 - 模糊"></a>[√] 3.1 - 模糊</h4><hr>
+<p>模糊是一种常用的图像退化。我们提出从HR与LR两个空间对模糊建模。一方面，传统的SISR退化先对HR进行模糊然后再下采样；另一方面，真实LR图像可能是模糊的，因此在LR空间进行模糊建模是可行的。</p>
+<p>针对SISR，我们采用两个高斯模糊：$B_{iso}$ (表示各项同性高斯核)、$B_{ansio}$(表示各向异性高斯核)。考虑到HR与LR图像可以被两个模糊操作进行退化，模糊退化空间得到了极大的扩展。</p>
+<p>在模糊核设计方面，尺寸在7×7, 9×9, ⋯ ,21×21之间均匀采样；各项同性高斯核的核宽从[0.1, 2.4] (x2)、 [0.1, 2.8] (x4)之间均匀采样；对于各项异性高斯核，旋转角度从[0, π]之间均匀采样，每个周长度从[0.5, 6] (x2)与[0.5, 8] (x4)之间均匀采样。采用Reflection填充以确保模糊输出的空间一致性。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>对HR图像和LR图像分别进行了模糊核的建模</li>
+<li>模糊核采用了各向同性的高斯核和各向异性的高斯核</li>
+<li>模糊核的大小不是固定的，而是在一定的范围内均匀采样的</li>
+</ul>
+</blockquote>
+<h4 id="√-3-2-下采样"><a href="#√-3-2-下采样" class="headerlink" title="[√] 3.2 - 下采样"></a>[√] 3.2 - 下采样</h4><hr>
+<p>在下采样方面，可能最直接的方法是最近邻插值。然而所得到的LR图像会存在朝左上角0.5×(s−1) 像素不对齐问题。作为补救措施，我们采用2D线性网络插值方法将21×21各项同性高斯核的中心移动0.5×(s−1)像素，先卷积然后最近邻下采样，我们采用$D_{nearest}^s$表示这种类型的下采样。<br>此外，我们还采用的双三次与双线性插值方法，分别表示为$D_{bilinear}^s$, $D_{bicubic}^s$。更进一步定义上下采样方法$D_{down-up}s&#x3D;D_{down}{s&#x2F;a}D_{up}^a$，它先按照尺度s&#x2F;a下<br>采样，然后按照尺度a上采样。这里的插值方法从双线性、双三次中随机选择，尺度a从[0.5,s]中采样。</p>
+<p>很明显，上述四种下采样方法在HR空间具有模糊操作，而$D^s_{down−up}$ 可以对LR空间引入上采样模糊。在实际应用时，我们对上述四种下采样均匀采样选择并对HR图像下采样。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>设计了四种下采样方式，分别是双线性、双三次、最近邻、上下采样方法</li>
+</ul>
+</blockquote>
+<h4 id="√-3-3-噪声"><a href="#√-3-3-噪声" class="headerlink" title="[√] 3.3 - 噪声"></a>[√] 3.3 - 噪声</h4><hr>
+<p>因其可以通过不用的源导致，真实图像中的噪声无处不在。除了广泛采用的高斯噪声外，我们所设计的退化模型还考虑了JPEG压缩噪声以及传感器噪声。接下来，我们将针对这三类噪声进行介绍。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>真实场景中的噪声类型不一致，这里考虑了三种噪声类型，分别是高斯噪声、JPEG压缩噪声、传感器噪声</li>
+</ul>
+</blockquote>
+<h6 id="√-3-3-1-高斯噪声"><a href="#√-3-3-1-高斯噪声" class="headerlink" title="[√] 3.3.1 - 高斯噪声"></a>[√] 3.3.1 - 高斯噪声</h6><hr>
+<p>$N_G$当对噪声一无所知时，高斯噪声假设是一种最保守的选择。为合成高斯噪声，我们采用了3D零均值高斯噪声模型$N(0,Σ)$。该噪声模型具有两个特例：(1) 当$Σ&#x3D;σ^2I$时，它退化后广泛采用的加性高斯噪声模型；(2) 当$Σ&#x3D;σ^2I$时，它退化后广泛采用的灰度加性高斯噪声模型。在我们所设计的退化模型中，我们采用高斯噪声进行数据合成。具体来说，广义噪声与两种特殊情况的选择概率分别为0.2, 0.4, 0.4。对于σ来说，它从范围1&#x2F;255, 2&#x2F;255, ⋯ , 25&#x2F;255 内均匀选择。</p>
+<h6 id="√-3-3-2-JPEG压缩噪声"><a href="#√-3-3-2-JPEG压缩噪声" class="headerlink" title="[√] 3.3.2 - JPEG压缩噪声"></a>[√] 3.3.2 - JPEG压缩噪声</h6><hr>
+<p>$N_{JPEG}$在带宽与空间减少方面，JPEG是最广泛采用的图像压缩标准。对于高压缩情形，它带来了烦人的8x8块伪影&#x2F;噪声。压缩程度会受到压缩因子影响，其范围为[0, 100]。当压缩质量大于90时，一般不会导致明显的伪影。在我们所设计的退化模型中，JPEG的质量因子从[30, 95]之间均匀选择。由于JPEG是最流程的图像格式，我们以概率0.75和1采用两个JPEG压缩，后者为最终的退化操作。</p>
+<h6 id="√-3-3-3-相机传感器噪声"><a href="#√-3-3-3-相机传感器噪声" class="headerlink" title="[√] 3.3.3 - 相机传感器噪声"></a>[√] 3.3.3 - 相机传感器噪声</h6><hr>
+<p>$N_S$在数码相机中，输出图像由raw传感器数据经由ISP处理得到。Brooks等人设计了一种传感器噪声合成方法并成功的设计了一种有效的Raw图像降噪模型。如果ISP流水线不进行降噪，传感器噪声会引入非高斯噪声恶化输出图像。<strong>为合成这类噪声，我们通过逆ISP流水线得到raw图像，并添加传感器噪声到合成raw图像。</strong> 按照AdobeDNG方案，这里的前向ISP流水线包含去马赛克(采用matlab中的demosaic)、曝光补偿(全局尺度从[$2^{−0.1}$, $2^{0.3}$]选择)、白平衡(红蓝增益从[1.2, 2.4]中均匀选择)、XYZ(D50)颜色空间转换(raw数据头信息中抽取)、RGB颜色空间转换、色调映射(手动选择最佳拟合曲线)、gamma校正等。注：我们以概率0.25执行该噪声合成操作。</p>
+<h4 id="√-3-4-随机置换"><a href="#√-3-4-随机置换" class="headerlink" title="[√] 3.4 - 随机置换"></a>[√] 3.4 - 随机置换</h4><hr>
+<ul>
+<li>尽管传统的退化模型简单、方便，但难以覆盖真实LR图像的退化空间。</li>
+<li>一方面，真实LR图像可以是HR图像的噪声、模糊、下采样以及JPEG压缩版本；</li>
+<li>另一方面，退化模型假设LR图像是HR图像的双线性下采样、模糊以及噪声版本。</li>
+<li>也就是说，LR图像可以是按照模糊、下采样、噪声不同顺序得到。</li>
+<li>因此，<strong>我们在新的退化模型中设计了一种随机置换策略</strong>。</li>
+<li>具体来说，对退化序列${B_{iso}, B_{aniso}, D^s, NG, N_{JPEG},N_S}$进行顺序随机置换，随机置换可以大幅扩展退化空间。</li>
+</ul>
+<ol>
+<li>首先，其他退化模型(比如bicubic以及其他传统退化模型)仅仅是本文退化模型的特例；</li>
+<li>其次，模糊退化空间可以通过四种下采样中的模糊以及两种模糊操作的组合得到扩展；</li>
+<li>然后，噪声特性会受模糊核下采样而出现变换，进一步扩展了退化空间。</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081619799.png" srcset="/img/loading.gif" lazyload alt="image-20230108151844734"></p>
+<p>上图给出了本文所提出退化模型的示意图。对于HR图像，我们可以通过调整不同的退化操作、退化参数生成不同的LR图像。对于x4尺度，我们在退化之前以0.25概率额外执行了双线性&#x2F;双三次下采样。</p>
+<p>为更好的理解所设计的退化模型，有必要添加以下讨论分析。</p>
+<ul>
+<li>退化模型主要用于合成退化LR图像。它最直接的应用是基于成对LR&#x2F;HR图像训练深度盲图像超分。具体来说，退化模型可以基于大尺度HR图像数据生成无限对齐的训练数据，从而不会受有限数据、不对齐问题约束。</li>
+<li>因其包含过多退化参数与随机置换策略，所提退化模型不适用于模拟已退化LR图像。</li>
+<li>尽管该退化模型可以生成某些真实场景鲜少出现的极限退化，但这仍有助于提升深度盲图像超分的泛化性能。</li>
+<li>具有大容量的DNN具有单模型处理不同退化的能力，比如DnCNN可以处理不同倍率、不同程度JPEG压缩、不同噪声水平，且具有与VDSR相当性能。</li>
+<li>我们可以通过调整退化参数，添加更多合理的退化类型以改善特定应用的实用性。</li>
+</ul>
+<h2 id="√-4-实验"><a href="#√-4-实验" class="headerlink" title="[√] 4 - 实验"></a>[√] 4 - 实验</h2><hr>
+<p>超分模型并非本文核心，现有超分网络均可作为选择，本文选择了ESRGAN作为基线模型，并做了几点改动:(1) 由于本文的目的是：在未知退化前提下，解决更广义的盲图像超分。训练数据方面采用DIV2K、Flickr2K、WED以及源自FFHQ的2000人脸图像；(2)采用了更大的图像你块72×72；(3) 损失方面采用了L1、VGG感知、PatchGAN三个损失的组合，组合系数1, 1, 0.1。</p>
+<p>在训练超参方面，优化器为Adam，batch&#x3D;48，固定学习率1×$10^{−5}$。整个训练大约花费10天(亚马逊云，4个V100)。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>超分模型并非本文核心，现有超分网络均可作为选择，本文选择了ESRGAN作为基线模型，并做了几点改动</li>
+</ul>
+</blockquote>
+<h4 id="√-4-1-测试数据集"><a href="#√-4-1-测试数据集" class="headerlink" title="[√] 4.1 - 测试数据集"></a>[√] 4.1 - 测试数据集</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081619800.png" srcset="/img/loading.gif" lazyload alt="image-20230108152519756"></p>
+<p>与此同时，我们还提供了两个数据集：DIV2K3D与RealSRSet。两者信息如下：</p>
+<p>RealSRSet：包含20个从网络下载或者现有测试集中挑选的真实图像；<br>DIV2K3D：它基于DIV2K验证集采用三种不同退化类型制作。这三种退化类型分别是：(1) 各项异性高斯模糊+x4最近邻下采样；(2) 各向异性高斯模糊+x2最近邻下采样+x2双三次下采样+JPEG压缩(压缩范围为[41, 90])；(3) 本文所提退化模型。</p>
+<h4 id="√-4-2-DIV2K3D实验"><a href="#√-4-2-DIV2K3D实验" class="headerlink" title="[√] 4.2 - DIV2K3D实验"></a>[√] 4.2 - DIV2K3D实验</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081619801.png" srcset="/img/loading.gif" lazyload alt="image-20230108153509904"></p>
+<p>上表&amp;上图给出了不同超分模型在DIV2K3D数据集上的性能对比与视觉效果对比。从中可以看到：</p>
+<ul>
+<li>由于RRDB与ESRGAN是在简单的双三次退化数据集上所训练，它们在DIV2K3D上的表现并不好。</li>
+<li>由于考虑更实用的退化，FSSR、RealSR的表现要比ESRGAN更优。</li>
+<li>对退化类型1方面，由于在类似退化数据集上进行的训练，IKC取得了很好的PSNR与SSIM指标；而RealSR取得了最佳LPIPS指标；对于其他两个类型，这些方法表现出了严重的性能下降。</li>
+<li>本文所提BSRNet方法取得了整体最佳的PSNR与SSIM指标；所提BSRGAN取得了整体最佳LPIPS指标。</li>
+<li>在视觉质量方面，IKC与RealSR难以移除噪声重建锐利边缘；而FSSR可以重建锐利边缘但同时引入了伪影问题；本文所提BSRGAN取得了最佳视觉质量。</li>
+</ul>
+<h4 id="√-4-3-RealSRSet实验"><a href="#√-4-3-RealSRSet实验" class="headerlink" title="[√] 4.3 - RealSRSet实验"></a>[√] 4.3 - RealSRSet实验</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081619802.png" srcset="/img/loading.gif" lazyload alt="image-20230108153947263"></p>
+<p>上表给出了不同方法在RealSRSet数据上的性能对比。由于RealSRSet的真值不可知，我们采用了无参考图像质量评价方法(NIQE、NRQM、PI)进行度量。从上表可以看到：BSRGAN并未取得最佳指标。但是BSRNet取得了更好的视觉感知质量，见下图对比。比如：BSRGAN可以移除未知传感器噪声、未知复合噪声同时重建锐利边缘和细节；相反，FSSR与RealSR生成某些高频伪影。这种定量与定性指标的不一致性意味着：无参考IQA并不能总是匹配视觉感知质量，IQA应该随新的SISR方法更新迭代。我们进一步还认为：SISR的IQA应该随图像退化类型而更新演变。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081619803.png" srcset="/img/loading.gif" lazyload alt="image-20230108154143767"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-chain-item">文章学习</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%94%BB%E8%B4%A8%E5%A2%9E%E5%BC%BA/">#画质增强</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>013 - 文章阅读笔记：BSRGAN | 一种针对真实图像退化的盲图像超分模型 - 博客园 - 程序员-图哥</div>
+      <div>http://example.com/posts/3092918009/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年1月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/3282765313/" title="014 - 文章阅读笔记：图像超分辨率-Super Resolution(A2N) - 知乎 - 计算机视觉 - Renn">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">014 - 文章阅读笔记：图像超分辨率-Super Resolution(A2N) - 知乎 - 计算机视觉 - Renn</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/2255348493/" title="012 - 文章阅读笔记：基于深度学习的超分辨率图像技术一览 - 知乎 - 深度学习在计算机视觉的应用 - 黄浴">
+                        <span class="hidden-mobile">012 - 文章阅读笔记：基于深度学习的超分辨率图像技术一览 - 知乎 - 深度学习在计算机视觉的应用 - 黄浴</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

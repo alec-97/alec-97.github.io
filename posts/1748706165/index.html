@@ -1,0 +1,1060 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="[√] 6.4 实践：基于双向LSTM模型完成文本分类任务电影评论可以蕴含丰富的情感：比如喜欢、讨厌、等等．情感分析（Sentiment Analysis）是为一个文本分类问题，即使用判定给定的一段文本信息表达的情感属于积极情绪，还是消极情绪． 本实践使用 IMDB 电影评论数据集，使用双向 LSTM 对电影评论进行情感分析． [√] 6.4.1 数据处理 IMDB电影评论数据集是一份关于电影评论">
+<meta property="og:type" content="article">
+<meta property="og:title" content="6 - 循环神经网络 - 实践：基于双向LSTM模型完成文本分类任务">
+<meta property="og:url" content="http://example.com/posts/1748706165/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="[√] 6.4 实践：基于双向LSTM模型完成文本分类任务电影评论可以蕴含丰富的情感：比如喜欢、讨厌、等等．情感分析（Sentiment Analysis）是为一个文本分类问题，即使用判定给定的一段文本信息表达的情感属于积极情绪，还是消极情绪． 本实践使用 IMDB 电影评论数据集，使用双向 LSTM 对电影评论进行情感分析． [√] 6.4.1 数据处理 IMDB电影评论数据集是一份关于电影评论">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212231613472.png">
+<meta property="og:image" content="https://ai-studio-static-online.cdn.bcebos.com/265d4edfc903476a8fd2eca56f027070686265c4cc8d4738aa6e684ecd613d23">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212231613473.png">
+<meta property="article:published_time" content="2022-12-19T05:00:56.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:37:10.346Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212231613472.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>6 - 循环神经网络 - 实践：基于双向LSTM模型完成文本分类任务 - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">6 - 循环神经网络 - 实践：基于双向LSTM模型完成文本分类任务</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-12-19 13:00" pubdate>
+          2022年12月19日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          29k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          244 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">6 - 循环神经网络 - 实践：基于双向LSTM模型完成文本分类任务</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：17 分钟前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="√-6-4-实践：基于双向LSTM模型完成文本分类任务"><a href="#√-6-4-实践：基于双向LSTM模型完成文本分类任务" class="headerlink" title="[√] 6.4 实践：基于双向LSTM模型完成文本分类任务"></a>[√] 6.4 实践：基于双向LSTM模型完成文本分类任务</h1><p>电影评论可以蕴含丰富的情感：比如喜欢、讨厌、等等．情感分析（Sentiment Analysis）是为一个文本分类问题，即使用判定给定的一段文本信息表达的情感属于积极情绪，还是消极情绪．</p>
+<p>本实践使用 IMDB 电影评论数据集，使用双向 LSTM 对电影评论进行情感分析．</p>
+<h2 id="√-6-4-1-数据处理"><a href="#√-6-4-1-数据处理" class="headerlink" title="[√] 6.4.1 数据处理"></a>[√] 6.4.1 数据处理</h2><hr>
+<p><a target="_blank" rel="noopener" href="https://www.kaggle.com/c/word2vec-nlp-tutorial/data">IMDB电影评论数据集</a>是一份关于电影评论的经典二分类数据集．IMDB 按照评分的高低筛选出了积极评论和消极评论，如果评分 $\ge 7$，则认为是积极评论；如果评分 $\le4$，则认为是消极评论．数据集包含训练集和测试集数据，数量各为 25000 条，每条数据都是一段用户关于某个电影的真实评价，以及观众对这个电影的情感倾向，其目录结构如下所示</p>
+<pre><code class="hljs">  ├── train/
+      ├── neg                 # 消极数据  
+      ├── pos                 # 积极数据
+      ├── unsup               # 无标签数据
+  ├── test/
+      ├── neg                 # 消极数据
+      ├── pos                 # 积极数据
+</code></pre>
+<p>在test&#x2F;neg目录中任选一条电影评论数据，内容如下：</p>
+<blockquote>
+<p>“Cover Girl” is a lacklustre WWII musical with absolutely nothing memorable about it, save for its signature song, “Long Ago and Far Away.” </p>
+</blockquote>
+<p>LSTM 模型不能直接处理文本数据，需要先将文本中单词转为向量表示，称为词向量（Word Embedding）．为了提高转换效率，通常会事先把文本的每个单词转换为数字 ID，再使用第节中介绍的方法进行向量转换．因此，需要准备一个词典（Vocabulary），将文本中的每个单词转换为它在词典中的序号 ID．同时还要设置一个特殊的词 [UNK]，表示未知词．在处理文本时，如果碰到不在词表的词，一律按 [UNK] 处理．</p>
+<blockquote>
+<p>alec:</p>
+<ul>
+<li>LSTM 模型不能直接处理文本数据，需要先将文本中单词转为向量表示，称为词向量（Word Embedding）．</li>
+<li>为了提高转换效率，通常会事先把文本的每个单词转换为数字 ID</li>
+<li>需要准备一个词典（Vocabulary），将文本中的每个单词转换为它在词典中的序号 ID．同时还要设置一个特殊的词 [UNK]，表示未知词．在处理文本时，如果碰到不在词表的词，一律按 [UNK] 处理．</li>
+</ul>
+</blockquote>
+<h4 id="√-6-4-1-1-数据加载"><a href="#√-6-4-1-1-数据加载" class="headerlink" title="[√] 6.4.1.1 数据加载"></a>[√] 6.4.1.1 数据加载</h4><hr>
+<p>原始训练集和测试集数据分别25000条，本节将原始的测试集平均分为两份，分别作为验证集和测试集，存放于<code>./dataset</code>目录下。使用如下代码便可以将数据加载至内存：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><span class="hljs-comment"># 加载数据集</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">load_imdb_data</span>(<span class="hljs-params">path</span>):<br>    <span class="hljs-keyword">assert</span> os.path.exists(path) <br>    trainset, devset, testset = [], [], []<br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(os.path.join(path, <span class="hljs-string">&quot;train.txt&quot;</span>), <span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> fr:<br>        <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> fr:<br>            sentence_label, sentence = line.strip().lower().split(<span class="hljs-string">&quot;\t&quot;</span>, maxsplit=<span class="hljs-number">1</span>)<br>            trainset.append((sentence, sentence_label))<br><br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(os.path.join(path, <span class="hljs-string">&quot;dev.txt&quot;</span>), <span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> fr:<br>        <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> fr:<br>            sentence_label, sentence = line.strip().lower().split(<span class="hljs-string">&quot;\t&quot;</span>, maxsplit=<span class="hljs-number">1</span>)<br>            devset.append((sentence, sentence_label))<br><br>    <span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(os.path.join(path, <span class="hljs-string">&quot;test.txt&quot;</span>), <span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> fr:<br>        <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> fr:<br>            sentence_label, sentence = line.strip().lower().split(<span class="hljs-string">&quot;\t&quot;</span>, maxsplit=<span class="hljs-number">1</span>)<br>            testset.append((sentence, sentence_label))<br><br>    <span class="hljs-keyword">return</span> trainset, devset, testset<br><br><span class="hljs-comment"># 加载IMDB数据集</span><br>train_data, dev_data, test_data = load_imdb_data(<span class="hljs-string">&quot;./dataset/&quot;</span>) <br><span class="hljs-comment"># 打印一下加载后的数据样式</span><br><span class="hljs-built_in">print</span>(train_data[<span class="hljs-number">4</span>])<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">(<span class="hljs-string">&quot;the premise of an african-american female scrooge in the modern, struggling city was inspired, but nothing else in this film is. here, ms. scrooge is a miserly banker who takes advantage of the employees and customers in the largely poor and black neighborhood it inhabits. there is no doubt about the good intentions of the people involved. part of the problem is that story&#x27;s roots don&#x27;t translate well into the urban setting of this film, and the script fails to make the update work. also, the constant message about sharing and giving is repeated so endlessly, the audience becomes tired of it well before the movie reaches its familiar end. this is a message film that doesn&#x27;t know when to quit. in the title role, the talented cicely tyson gives an overly uptight performance, and at times lines are difficult to understand. the charles dickens novel has been adapted so many times, it&#x27;s a struggle to adapt it in a way that makes it fresh and relevant, in spite of its very relevant message.&quot;</span>, <span class="hljs-string">&#x27;0&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>从输出结果看，加载后的每条样本包含两部分内容：文本串和标签。</p>
+<h4 id="√-6-4-1-2-构造Dataset类"><a href="#√-6-4-1-2-构造Dataset类" class="headerlink" title="[√] 6.4.1.2 构造Dataset类"></a>[√] 6.4.1.2 构造Dataset类</h4><hr>
+<p>首先，我们构造IMDBDataset类用于数据管理，它继承自paddle.io.DataSet类。</p>
+<p>由于这里的输入是文本序列，需要先将其中的每个词转换为该词在词表中的序号 ID，然后根据词表ID查询这些词对应的词向量，该过程同第同6.1节中将数字向量化的操作，在获得词向量后会将其输入至模型进行后续计算。可以使用IMDBDataset类中的words_to_id方法实现这个功能。 具体而言，利用词表word2id_dict将序列中的每个词映射为对应的数字编号，便于进一步转为为词向量。当序列中的词没有包含在词表时，默认会将该词用[UNK]代替。words_to_id方法利用一个如图6.14所示的哈希表来进行转换。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212231613472.png" srcset="/img/loading.gif" lazyload alt="image-20221222171316126"></p>
+<p>代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> paddle<br><span class="hljs-keyword">import</span> paddle.nn <span class="hljs-keyword">as</span> nn<br><span class="hljs-keyword">from</span> paddle.io <span class="hljs-keyword">import</span> Dataset<br><span class="hljs-keyword">from</span> utils.data <span class="hljs-keyword">import</span> load_vocab<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">IMDBDataset</span>(<span class="hljs-title class_ inherited__">Dataset</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, examples, word2id_dict</span>):<br>        <span class="hljs-built_in">super</span>(IMDBDataset, self).__init__()<br>        <span class="hljs-comment"># 词典，用于将单词转为字典索引的数字</span><br>        self.word2id_dict =  word2id_dict<br>        <span class="hljs-comment"># 加载后的数据集</span><br>        self.examples = self.words_to_id(examples)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">words_to_id</span>(<span class="hljs-params">self, examples</span>):<br>        tmp_examples = []<br>        <span class="hljs-keyword">for</span> idx, example <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(examples):<br>            seq, label = example<br>            <span class="hljs-comment"># 将单词映射为字典索引的ID， 对于词典中没有的单词用[UNK]对应的ID进行替代</span><br>            seq = [self.word2id_dict.get(word, self.word2id_dict[<span class="hljs-string">&#x27;[UNK]&#x27;</span>]) <span class="hljs-keyword">for</span> word <span class="hljs-keyword">in</span> seq.split(<span class="hljs-string">&quot; &quot;</span>)]<br>            label = <span class="hljs-built_in">int</span>(label)<br>            tmp_examples.append([seq, label])<br>        <span class="hljs-keyword">return</span> tmp_examples<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__getitem__</span>(<span class="hljs-params">self, idx</span>):<br>        seq, label = self.examples[idx]<br>        <span class="hljs-keyword">return</span> seq, label<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__len__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">len</span>(self.examples)<br>    <br><span class="hljs-comment"># 加载词表</span><br>word2id_dict= load_vocab(<span class="hljs-string">&quot;./dataset/vocab.txt&quot;</span>) <br><br><span class="hljs-comment"># 实例化Dataset</span><br>train_set = IMDBDataset(train_data, word2id_dict)<br>dev_set = IMDBDataset(dev_data, word2id_dict)<br>test_set = IMDBDataset(test_data, word2id_dict)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;训练集样本数：&#x27;</span>, <span class="hljs-built_in">len</span>(train_set))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;样本示例：&#x27;</span>, train_set[<span class="hljs-number">4</span>])<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">训练集样本数： <span class="hljs-number">25000</span><br>样本示例： ([<span class="hljs-number">2</span>, <span class="hljs-number">976</span>, <span class="hljs-number">5</span>, <span class="hljs-number">32</span>, <span class="hljs-number">6860</span>, <span class="hljs-number">618</span>, <span class="hljs-number">7673</span>, <span class="hljs-number">8</span>, <span class="hljs-number">2</span>, <span class="hljs-number">13073</span>, <span class="hljs-number">2525</span>, <span class="hljs-number">724</span>, <span class="hljs-number">14</span>, <span class="hljs-number">22837</span>, <span class="hljs-number">18</span>, <span class="hljs-number">164</span>, <span class="hljs-number">416</span>, <span class="hljs-number">8</span>, <span class="hljs-number">10</span>, <span class="hljs-number">24</span>, <span class="hljs-number">701</span>, <span class="hljs-number">611</span>, <span class="hljs-number">1743</span>, <span class="hljs-number">7673</span>, <span class="hljs-number">7</span>, <span class="hljs-number">3</span>, <span class="hljs-number">56391</span>, <span class="hljs-number">21652</span>, <span class="hljs-number">36</span>, <span class="hljs-number">271</span>, <span class="hljs-number">3495</span>, <span class="hljs-number">5</span>, <span class="hljs-number">2</span>, <span class="hljs-number">11373</span>, <span class="hljs-number">4</span>, <span class="hljs-number">13244</span>, <span class="hljs-number">8</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2157</span>, <span class="hljs-number">350</span>, <span class="hljs-number">4</span>, <span class="hljs-number">328</span>, <span class="hljs-number">4118</span>, <span class="hljs-number">12</span>, <span class="hljs-number">48810</span>, <span class="hljs-number">52</span>, <span class="hljs-number">7</span>, <span class="hljs-number">60</span>, <span class="hljs-number">860</span>, <span class="hljs-number">43</span>, <span class="hljs-number">2</span>, <span class="hljs-number">56</span>, <span class="hljs-number">4393</span>, <span class="hljs-number">5</span>, <span class="hljs-number">2</span>, <span class="hljs-number">89</span>, <span class="hljs-number">4152</span>, <span class="hljs-number">182</span>, <span class="hljs-number">5</span>, <span class="hljs-number">2</span>, <span class="hljs-number">461</span>, <span class="hljs-number">7</span>, <span class="hljs-number">11</span>, <span class="hljs-number">7321</span>, <span class="hljs-number">7730</span>, <span class="hljs-number">86</span>, <span class="hljs-number">7931</span>, <span class="hljs-number">107</span>, <span class="hljs-number">72</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2830</span>, <span class="hljs-number">1165</span>, <span class="hljs-number">5</span>, <span class="hljs-number">10</span>, <span class="hljs-number">151</span>, <span class="hljs-number">4</span>, <span class="hljs-number">2</span>, <span class="hljs-number">272</span>, <span class="hljs-number">1003</span>, <span class="hljs-number">6</span>, <span class="hljs-number">91</span>, <span class="hljs-number">2</span>, <span class="hljs-number">10491</span>, <span class="hljs-number">912</span>, <span class="hljs-number">826</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1750</span>, <span class="hljs-number">889</span>, <span class="hljs-number">43</span>, <span class="hljs-number">6723</span>, <span class="hljs-number">4</span>, <span class="hljs-number">647</span>, <span class="hljs-number">7</span>, <span class="hljs-number">2535</span>, <span class="hljs-number">38</span>, <span class="hljs-number">39222</span>, <span class="hljs-number">2</span>, <span class="hljs-number">357</span>, <span class="hljs-number">398</span>, <span class="hljs-number">1505</span>, <span class="hljs-number">5</span>, <span class="hljs-number">12</span>, <span class="hljs-number">107</span>, <span class="hljs-number">179</span>, <span class="hljs-number">2</span>, <span class="hljs-number">20</span>, <span class="hljs-number">4279</span>, <span class="hljs-number">83</span>, <span class="hljs-number">1163</span>, <span class="hljs-number">692</span>, <span class="hljs-number">10</span>, <span class="hljs-number">7</span>, <span class="hljs-number">3</span>, <span class="hljs-number">889</span>, <span class="hljs-number">24</span>, <span class="hljs-number">11</span>, <span class="hljs-number">141</span>, <span class="hljs-number">118</span>, <span class="hljs-number">50</span>, <span class="hljs-number">6</span>, <span class="hljs-number">28642</span>, <span class="hljs-number">8</span>, <span class="hljs-number">2</span>, <span class="hljs-number">490</span>, <span class="hljs-number">1469</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1039</span>, <span class="hljs-number">98975</span>, <span class="hljs-number">24541</span>, <span class="hljs-number">344</span>, <span class="hljs-number">32</span>, <span class="hljs-number">2074</span>, <span class="hljs-number">11852</span>, <span class="hljs-number">1683</span>, <span class="hljs-number">4</span>, <span class="hljs-number">29</span>, <span class="hljs-number">286</span>, <span class="hljs-number">478</span>, <span class="hljs-number">22</span>, <span class="hljs-number">823</span>, <span class="hljs-number">6</span>, <span class="hljs-number">5222</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1490</span>, <span class="hljs-number">6893</span>, <span class="hljs-number">883</span>, <span class="hljs-number">41</span>, <span class="hljs-number">71</span>, <span class="hljs-number">3254</span>, <span class="hljs-number">38</span>, <span class="hljs-number">100</span>, <span class="hljs-number">1021</span>, <span class="hljs-number">44</span>, <span class="hljs-number">3</span>, <span class="hljs-number">1700</span>, <span class="hljs-number">6</span>, <span class="hljs-number">8768</span>, <span class="hljs-number">12</span>, <span class="hljs-number">8</span>, <span class="hljs-number">3</span>, <span class="hljs-number">108</span>, <span class="hljs-number">11</span>, <span class="hljs-number">146</span>, <span class="hljs-number">12</span>, <span class="hljs-number">1761</span>, <span class="hljs-number">4</span>, <span class="hljs-number">92295</span>, <span class="hljs-number">8</span>, <span class="hljs-number">2641</span>, <span class="hljs-number">5</span>, <span class="hljs-number">83</span>, <span class="hljs-number">49</span>, <span class="hljs-number">3866</span>, <span class="hljs-number">5352</span>], <span class="hljs-number">0</span>)<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>神经网络模型通常需要同一批处理的数据的序列长度是相同的</li>
+<li>RNN可以处理变长的数据，因此注意这里不是把所有的数据都处理成同一长度，而是将同一批的数据处理成相同的长度</li>
+<li>回调函数的意思是，写好了等着别的地方调用的工具函数</li>
+</ul>
+</blockquote>
+<h4 id="√-6-4-1-3-封装DataLoader"><a href="#√-6-4-1-3-封装DataLoader" class="headerlink" title="[√] 6.4.1.3 封装DataLoader"></a>[√] 6.4.1.3 封装DataLoader</h4><hr>
+<p>在构建 Dataset 类之后，我们构造对应的 DataLoader，用于批次数据的迭代．和前几章的 DataLoader 不同，这里的 DataLoader 需要引入下面两个功能：</p>
+<ol>
+<li>长度限制：需要将序列的长度控制在一定的范围内，避免部分数据过长影响整体训练效果</li>
+<li>长度补齐：神经网络模型通常需要同一批处理的数据的序列长度是相同的，然而在分批时通常会将不同长度序列放在同一批，因此需要对序列进行补齐处理．</li>
+</ol>
+<p>对于长度限制，我们使用max_seq_len参数对于过长的文本进行截断．<br>对于长度补齐，我们先统计该批数据中序列的最大长度，并将短的序列填充一些没有特殊意义的占位符 [PAD]，将长度补齐到该批次的最大长度，这样便能使得同一批次的数据变得规整．比如给定两个句子：</p>
+<ul>
+<li>句子1: This movie was craptacular.</li>
+<li>句子2: I got stuck in traffic on the way to the theater.</li>
+</ul>
+<p>将上面的两个句子补齐，变为：</p>
+<ul>
+<li>句子1: This movie was craptacular [PAD] [PAD] [PAD] [PAD] [PAD] [PAD] [PAD]</li>
+<li>句子2: I got stuck in traffic on the way to the theater</li>
+</ul>
+<p>具体来讲，本节定义了一个collate_fn函数来做数据的截断和填充. 该函数可以作为回调函数传入 DataLoader，DataLoader 在返回一批数据之前，调用该函数去处理数据，并返回处理后的序列数据和对应标签。</p>
+<p>另外，使用[PAD]占位符对短序列填充后，再进行文本分类任务时，默认无须使用[PAD]位置，因此需要使用变量seq_lens来表示序列中非[PAD]位置的真实长度。seq_lens可以在collate_fn函数处理批次数据时进行获取并返回。需要注意的是，由于RunnerV3类默认按照输入数据和标签两类信息获取数据，因此需要将序列数据和序列长度组成元组作为输入数据进行返回，以方便RunnerV3解析数据。</p>
+<p>代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> functools <span class="hljs-keyword">import</span> partial<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">collate_fn</span>(<span class="hljs-params">batch_data, pad_val=<span class="hljs-number">0</span>, max_seq_len=<span class="hljs-number">256</span></span>):<br>    seqs, seq_lens, labels = [], [], []<br>    max_len = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> example <span class="hljs-keyword">in</span> batch_data:<br>        seq, label = example<br>        <span class="hljs-comment"># 对数据序列进行截断</span><br>        seq = seq[:max_seq_len]<br>        <span class="hljs-comment"># 对数据截断并保存于seqs中</span><br>        seqs.append(seq)<br>        seq_lens.append(<span class="hljs-built_in">len</span>(seq))<br>        labels.append(label)<br>        <span class="hljs-comment"># 保存序列最大长度</span><br>        max_len = <span class="hljs-built_in">max</span>(max_len, <span class="hljs-built_in">len</span>(seq))<br>    <span class="hljs-comment"># 对数据序列进行填充至最大长度</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(seqs)):<br>        seqs[i] = seqs[i] + [pad_val] * (max_len - <span class="hljs-built_in">len</span>(seqs[i]))<br><br>    <span class="hljs-keyword">return</span> (paddle.to_tensor(seqs), paddle.to_tensor(seq_lens)), paddle.to_tensor(labels)<br><br>    <br></code></pre></td></tr></table></figure>
+
+<p>下面我们自定义一批数据来测试一下collate_fn函数的功能，这里假定一下max_seq_len为5，然后定义序列长度分别为6和3的两条数据，传入collate_fn函数中。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">max_seq_len = <span class="hljs-number">5</span><br>batch_data = [[[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>], <span class="hljs-number">1</span>], [[<span class="hljs-number">2</span>,<span class="hljs-number">4</span>,<span class="hljs-number">6</span>], <span class="hljs-number">0</span>]]<br>(seqs, seq_lens), labels = collate_fn(batch_data, pad_val=word2id_dict[<span class="hljs-string">&quot;[PAD]&quot;</span>], max_seq_len=max_seq_len)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;seqs: &quot;</span>, seqs)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;seq_lens: &quot;</span>, seq_lens)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;labels: &quot;</span>, labels)<br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">seqs:  Tensor(shape=[<span class="hljs-number">2</span>, <span class="hljs-number">5</span>], dtype=int64, place=CUDAPlace(<span class="hljs-number">0</span>), stop_gradient=<span class="hljs-literal">True</span>,<br>       [[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>],<br>        [<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]])<br>seq_lens:  Tensor(shape=[<span class="hljs-number">2</span>], dtype=int64, place=CUDAPlace(<span class="hljs-number">0</span>), stop_gradient=<span class="hljs-literal">True</span>,<br>       [<span class="hljs-number">5</span>, <span class="hljs-number">3</span>])<br>labels:  Tensor(shape=[<span class="hljs-number">2</span>], dtype=int64, place=CUDAPlace(<span class="hljs-number">0</span>), stop_gradient=<span class="hljs-literal">True</span>,<br>       [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>])<br></code></pre></td></tr></table></figure>
+
+<p>可以看到，原始序列中长度为6的序列被截断为5，同时原始序列中长度为3的序列被填充到5，同时返回了非<code>[PAD]</code>的序列长度。</p>
+<p>接下来，我们将collate_fn作为回调函数传入DataLoader中， 其在返回一批数据时，可以通过collate_fn函数处理该批次的数据。 这里需要注意的是，这里通过partial函数对collate_fn函数中的关键词参数进行设置，并返回一个新的函数对象作为collate_fn。 </p>
+<p>在使用DataLoader按批次迭代数据时，最后一批的数据样本数量可能不够设定的batch_size，可以通过参数drop_last来判断是否丢弃最后一个batch的数据。</p>
+<blockquote>
+<p>alec:</p>
+<ul>
+<li>在使用DataLoader按批次迭代数据时，最后一批的数据样本数量可能不够设定的batch_size，可以通过参数drop_last来判断是否丢弃最后一个batch的数据。</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">max_seq_len = <span class="hljs-number">256</span><br>batch_size = <span class="hljs-number">128</span><br>collate_fn = partial(collate_fn, pad_val=word2id_dict[<span class="hljs-string">&quot;[PAD]&quot;</span>], max_seq_len=max_seq_len)<br>train_loader = paddle.io.DataLoader(train_set, batch_size=batch_size, shuffle=<span class="hljs-literal">True</span>, drop_last=<span class="hljs-literal">False</span>, collate_fn=collate_fn)<br>dev_loader = paddle.io.DataLoader(dev_set, batch_size=batch_size, shuffle=<span class="hljs-literal">False</span>, drop_last=<span class="hljs-literal">False</span>, collate_fn=collate_fn)<br>test_loader = paddle.io.DataLoader(test_set, batch_size=batch_size, shuffle=<span class="hljs-literal">False</span>, drop_last=<span class="hljs-literal">False</span>, collate_fn=collate_fn)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">运行时长: <span class="hljs-number">5</span>毫秒<br>结束时间: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">23</span> <span class="hljs-number">11</span>:<span class="hljs-number">10</span>:<span class="hljs-number">28</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<h2 id="√-6-4-2-模型构建"><a href="#√-6-4-2-模型构建" class="headerlink" title="[√] 6.4.2 模型构建"></a>[√] 6.4.2 模型构建</h2><hr>
+<p>本实践的整个模型结构如图6.15所示．</p>
+<center><img src="https://ai-studio-static-online.cdn.bcebos.com/265d4edfc903476a8fd2eca56f027070686265c4cc8d4738aa6e684ecd613d23" srcset="/img/loading.gif" lazyload width=50%/></center>
+<center>图6.15 基于双向LSTM的文本分类模型结构</center>
+
+<p>由如下几部分组成：<br>（1）嵌入层：将输入的数字序列进行向量化，即将每个数字映射为向量。这里直接使用飞桨API：paddle.nn.Embedding来完成。</p>
+<blockquote>
+<p>class paddle.nn.Embedding(num_embeddings, embedding_dim, padding_idx&#x3D;None, sparse&#x3D;False, weight_attr&#x3D;None, name&#x3D;None)</p>
+</blockquote>
+<p>该API有两个重要的参数：num_embeddings表示需要用到的Embedding的数量。embedding_dim表示嵌入向量的维度。<br>paddle.nn.Embedding会根据[num_embeddings, embedding_dim]自动构造一个二维嵌入矩阵。参数padding_idx是指用来补齐序列的占位符[PAD]对应的词表ID，那么在训练过程中遇到此ID时，其参数及对应的梯度将会以0进行填充。在实现中为了简单起见，我们通常会将[PAD]放在词表中的第一位，即对应的ID为0。</p>
+<blockquote>
+<p>alec收获&#x2F;总结：</p>
+<ul>
+<li>辨析：嵌入层，是将输入的数字序列进行向量化。注意嵌入层这里，不是指的将单词转为数字，将单词转为数字这个步骤在嵌入层之前的数据处理阶段已经完成了。嵌入层，是将单个数字，通过一定的方法，转为M维的向量，方便神经网络运算。</li>
+</ul>
+</blockquote>
+<p>（2）双向LSTM层：接收向量序列，分别用前向和反向更新循环单元。这里我们直接使用飞桨API：paddle.nn.LSTM来完成。只需要在定义LSTM时设置参数direction为bidirectional，便可以直接使用双向LSTM。</p>
+<blockquote>
+<p>思考: 在实现双向LSTM时，因为需要进行序列补齐，在计算反向LSTM时，占位符[PAD]是否会对LSTM参数梯度的更新有影响。如果有的话，如何消除影响？<br>注：在调用paddle.nn.LSTM实现双向LSTM时，可以传入该批次数据的真实长度，paddle.nn.LSTM会根据真实序列长度处理数据，对占位符[PAD]进行掩蔽，[PAD]位置将返回零向量。</p>
+</blockquote>
+<p>（3）聚合层：将双向LSTM层所有位置上的隐状态进行平均，作为整个句子的表示。</p>
+<p>（4）输出层：输出层，输出分类的几率。这里可以直接调用paddle.nn.Linear来完成。 </p>
+<blockquote>
+<p><strong>动手练习6.5</strong>：改进第6.3.1.1节中的LSTM算子，使其可以支持一个批次中包含不同长度的序列样本。</p>
+</blockquote>
+<p>上面模型中的嵌入层、双向LSTM层和线性层都可以直接调用飞桨API来实现，这里我们只需要实现汇聚层算子。需要注意的是，虽然飞桨内置LSTM在传入批次数据的真实长度后，会对[PAD]位置返回零向量，但考虑到汇聚层与处理序列数据的模型进行解耦，因此在本节汇聚层的实现中，会对[PAD]位置进行掩码。</p>
+<h4 id="√-汇聚层算子"><a href="#√-汇聚层算子" class="headerlink" title="[√] 汇聚层算子"></a>[√] 汇聚层算子</h4><hr>
+<p>汇聚层算子将双向LSTM层所有位置上的隐状态进行平均，作为整个句子的表示。这里我们实现了AveragePooling算子进行隐状态的汇聚，首先利用序列长度向量生成掩码（Mask）矩阵，用于对文本序列中[PAD]位置的向量进行掩蔽，然后将该序列的向量进行相加后取均值。代码实现如下：</p>
+<p>将上面各个模块汇总到一起，代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">AveragePooling</span>(nn.Layer):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-built_in">super</span>(AveragePooling, self).__init__()<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, sequence_output, sequence_length</span>):<br>        sequence_length = paddle.cast(sequence_length.unsqueeze(-<span class="hljs-number">1</span>), dtype=<span class="hljs-string">&quot;float32&quot;</span>)<br>        <span class="hljs-comment"># 根据sequence_length生成mask矩阵，用于对Padding位置的信息进行mask</span><br>        max_len = sequence_output.shape[<span class="hljs-number">1</span>]<br>        mask = paddle.arange(max_len) &lt; sequence_length<br>        mask = paddle.cast(mask, dtype=<span class="hljs-string">&quot;float32&quot;</span>).unsqueeze(-<span class="hljs-number">1</span>)<br>        <span class="hljs-comment"># 对序列中paddling部分进行mask</span><br>        sequence_output = paddle.multiply(sequence_output, mask)<br>        <span class="hljs-comment"># 对序列中的向量取均值</span><br>        batch_mean_hidden = paddle.divide(paddle.<span class="hljs-built_in">sum</span>(sequence_output, axis=<span class="hljs-number">1</span>), sequence_length)<br>        <span class="hljs-keyword">return</span> batch_mean_hidden<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">运行时长: <span class="hljs-number">6</span>毫秒<br>结束时间: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">23</span> <span class="hljs-number">11</span>:<span class="hljs-number">41</span>:02<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="√-模型汇总"><a href="#√-模型汇总" class="headerlink" title="[√] 模型汇总"></a>[√] 模型汇总</h4><hr>
+<p>将上面的算子汇总，组合为最终的分类模型。代码实现如下：</p>
+<blockquote>
+<p>alec收获&#x2F;总结：</p>
+<ul>
+<li>num_embeddings是指的词典的大小</li>
+<li>num_classes是指的分类的数量</li>
+<li>嵌入层的作用是，将输入的每个时间点上的一个数字，转为一个向量，这个向量可以更加充分的表达这个单词的信息。总体的过程是，输入一个单词，通过词典将单词转为一个数字，然后再嵌入层将这个数字转为一个向量。</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Model_BiLSTM_FC</span>(nn.Layer):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, num_embeddings, input_size, hidden_size, num_classes=<span class="hljs-number">2</span></span>):<br>        <span class="hljs-built_in">super</span>(Model_BiLSTM_FC, self).__init__()<br>        <span class="hljs-comment"># 词典大小</span><br>        self.num_embeddings = num_embeddings<br>        <span class="hljs-comment"># 单词向量的维度</span><br>        self.input_size = input_size<br>        <span class="hljs-comment"># LSTM隐藏单元数量</span><br>        self.hidden_size = hidden_size<br>        <span class="hljs-comment"># 情感分类类别数量</span><br>        self.num_classes = num_classes<br>        <span class="hljs-comment"># 实例化嵌入层</span><br>        self.embedding_layer = nn.Embedding(num_embeddings, input_size, padding_idx=<span class="hljs-number">0</span>)<br>        <span class="hljs-comment"># 实例化LSTM层</span><br>        self.lstm_layer = nn.LSTM(input_size, hidden_size, direction=<span class="hljs-string">&quot;bidirectional&quot;</span>)<br>        <span class="hljs-comment"># 实例化聚合层</span><br>        self.average_layer = AveragePooling()<br>        <span class="hljs-comment"># 实例化输出层</span><br>        self.output_layer = nn.Linear(hidden_size * <span class="hljs-number">2</span>, num_classes)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, inputs</span>):<br>        <span class="hljs-comment"># 对模型输入拆分为序列数据和mask</span><br>        input_ids, sequence_length = inputs<br>        <span class="hljs-comment"># 获取词向量</span><br>        <span class="hljs-built_in">print</span>(input_ids)<br>        inputs_emb = self.embedding_layer(input_ids)<br>        <span class="hljs-built_in">print</span>(inputs_emb)<br>        <span class="hljs-comment"># 使用lstm处理数据</span><br>        sequence_output, _ = self.lstm_layer(inputs_emb, sequence_length=sequence_length)<br>        <span class="hljs-comment"># 使用聚合层聚合sequence_output</span><br>        batch_mean_hidden = self.average_layer(sequence_output, sequence_length)<br>        <span class="hljs-comment"># 输出文本分类logits</span><br>        logits = self.output_layer(batch_mean_hidden)<br>        <span class="hljs-keyword">return</span> logits<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">运行时长: <span class="hljs-number">7</span>毫秒<br>结束时间: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">23</span> <span class="hljs-number">11</span>:<span class="hljs-number">45</span>:<span class="hljs-number">23</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs dns"><span class="hljs-number">5098</span><br>[-<span class="hljs-number">0.00338363</span>, -<span class="hljs-number">0.00304994</span>, -<span class="hljs-number">0.00280701</span>, ..., -<span class="hljs-number">0.00184787</span>,<br>           <span class="hljs-number">0.00203779</span>,  <span class="hljs-number">0.00440233</span>],<br></code></pre></td></tr></table></figure>
+
+<p>如上所示，嵌入层，将单词对应的5098这个数字，转为了一个长度input_size为256的向量，以更加充分的表达信息。</p>
+<h2 id="√-6-4-3-模型训练"><a href="#√-6-4-3-模型训练" class="headerlink" title="[√] 6.4.3 模型训练"></a>[√] 6.4.3 模型训练</h2><hr>
+<p>本节将基于RunnerV3进行训练，首先指定模型训练的超参，然后设定模型、优化器、损失函数和评估指标，其中损失函数使用<code>paddle.nn.CrossEntropyLoss</code>，该损失函数内部会对预测结果使用<code>softmax</code>进行计算，数字预测模型输出层的输出<code>logits</code>不需要使用softmax进行归一化，定义完Runner的相关组件后，便可以进行模型训练。代码实现如下。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">from</span> nndl <span class="hljs-keyword">import</span> Accuracy, RunnerV3<br><br>np.random.seed(<span class="hljs-number">0</span>)<br>random.seed(<span class="hljs-number">0</span>)<br>paddle.seed(<span class="hljs-number">0</span>)<br><br><span class="hljs-comment"># 指定训练轮次</span><br>num_epochs = <span class="hljs-number">3</span><br><span class="hljs-comment"># 指定学习率</span><br>learning_rate = <span class="hljs-number">0.001</span><br><span class="hljs-comment"># 指定embedding的数量为词表长度</span><br>num_embeddings = <span class="hljs-built_in">len</span>(word2id_dict)<br><span class="hljs-comment"># embedding向量的维度</span><br>input_size = <span class="hljs-number">256</span><br><span class="hljs-comment"># LSTM网络隐状态向量的维度</span><br>hidden_size = <span class="hljs-number">256</span><br><br><span class="hljs-comment"># 实例化模型</span><br>model = Model_BiLSTM_FC(num_embeddings, input_size, hidden_size)<br><span class="hljs-comment"># 指定优化器</span><br>optimizer = paddle.optimizer.Adam(learning_rate=learning_rate, beta1=<span class="hljs-number">0.9</span>, beta2=<span class="hljs-number">0.999</span>, parameters= model.parameters()) <br><span class="hljs-comment"># 指定损失函数</span><br>loss_fn = paddle.nn.CrossEntropyLoss() <br><span class="hljs-comment"># 指定评估指标</span><br>metric = Accuracy()<br><span class="hljs-comment"># 实例化Runner</span><br>runner = RunnerV3(model, optimizer, loss_fn, metric)<br><span class="hljs-comment"># 模型训练</span><br>start_time = time.time()<br>runner.train(train_loader, dev_loader, num_epochs=num_epochs, eval_steps=<span class="hljs-number">10</span>, log_steps=<span class="hljs-number">10</span>, save_path=<span class="hljs-string">&quot;./checkpoints/best.pdparams&quot;</span>)<br>end_time = time.time()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;time: &quot;</span>, (end_time-start_time))<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br></pre></td><td class="code"><pre><code class="hljs python">[Train] epoch: <span class="hljs-number">0</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">0</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.69256</span><br>[Train] epoch: <span class="hljs-number">0</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">10</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.68554</span><br>[Evaluate]  dev score: <span class="hljs-number">0.50232</span>, dev loss: <span class="hljs-number">0.68516</span><br>[Evaluate] best accuracy performence has been updated: <span class="hljs-number">0.00000</span> --&gt; <span class="hljs-number">0.50232</span><br>[Train] epoch: <span class="hljs-number">0</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">20</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.64730</span><br>[Evaluate]  dev score: <span class="hljs-number">0.63776</span>, dev loss: <span class="hljs-number">0.63676</span><br>[Evaluate] best accuracy performence has been updated: <span class="hljs-number">0.50232</span> --&gt; <span class="hljs-number">0.63776</span><br>[Train] epoch: <span class="hljs-number">0</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">30</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.51626</span><br>[Evaluate]  dev score: <span class="hljs-number">0.71568</span>, dev loss: <span class="hljs-number">0.55013</span><br>[Evaluate] best accuracy performence has been updated: <span class="hljs-number">0.63776</span> --&gt; <span class="hljs-number">0.71568</span><br>[Train] epoch: <span class="hljs-number">0</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">40</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.47814</span><br>[Evaluate]  dev score: <span class="hljs-number">0.78512</span>, dev loss: <span class="hljs-number">0.50590</span><br>[Evaluate] best accuracy performence has been updated: <span class="hljs-number">0.71568</span> --&gt; <span class="hljs-number">0.78512</span><br>[Train] epoch: <span class="hljs-number">0</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">50</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.42821</span><br>[Evaluate]  dev score: <span class="hljs-number">0.82264</span>, dev loss: <span class="hljs-number">0.42005</span><br>[Evaluate] best accuracy performence has been updated: <span class="hljs-number">0.78512</span> --&gt; <span class="hljs-number">0.82264</span><br>[Train] epoch: <span class="hljs-number">0</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">60</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.31650</span><br>[Evaluate]  dev score: <span class="hljs-number">0.77160</span>, dev loss: <span class="hljs-number">0.45519</span><br>[Train] epoch: <span class="hljs-number">0</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">70</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.40439</span><br>[Evaluate]  dev score: <span class="hljs-number">0.83688</span>, dev loss: <span class="hljs-number">0.38745</span><br>[Evaluate] best accuracy performence has been updated: <span class="hljs-number">0.82264</span> --&gt; <span class="hljs-number">0.83688</span><br>[Train] epoch: <span class="hljs-number">0</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">80</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.29193</span><br>[Evaluate]  dev score: <span class="hljs-number">0.83008</span>, dev loss: <span class="hljs-number">0.37972</span><br>[Train] epoch: <span class="hljs-number">0</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">90</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.30325</span><br>[Evaluate]  dev score: <span class="hljs-number">0.83360</span>, dev loss: <span class="hljs-number">0.37426</span><br>[Train] epoch: <span class="hljs-number">0</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">100</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.37036</span><br>[Evaluate]  dev score: <span class="hljs-number">0.85728</span>, dev loss: <span class="hljs-number">0.34226</span><br>[Evaluate] best accuracy performence has been updated: <span class="hljs-number">0.83688</span> --&gt; <span class="hljs-number">0.85728</span><br>[Train] epoch: <span class="hljs-number">0</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">110</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.31189</span><br>[Evaluate]  dev score: <span class="hljs-number">0.85928</span>, dev loss: <span class="hljs-number">0.33819</span><br>[Evaluate] best accuracy performence has been updated: <span class="hljs-number">0.85728</span> --&gt; <span class="hljs-number">0.85928</span><br>[Train] epoch: <span class="hljs-number">0</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">120</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.29616</span><br>[Evaluate]  dev score: <span class="hljs-number">0.85496</span>, dev loss: <span class="hljs-number">0.34090</span><br>[Train] epoch: <span class="hljs-number">0</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">130</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.24705</span><br>[Evaluate]  dev score: <span class="hljs-number">0.84976</span>, dev loss: <span class="hljs-number">0.34640</span><br>[Train] epoch: <span class="hljs-number">0</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">140</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.25672</span><br>[Evaluate]  dev score: <span class="hljs-number">0.83880</span>, dev loss: <span class="hljs-number">0.36268</span><br>[Train] epoch: <span class="hljs-number">0</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">150</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.35837</span><br>[Evaluate]  dev score: <span class="hljs-number">0.83592</span>, dev loss: <span class="hljs-number">0.36889</span><br>[Train] epoch: <span class="hljs-number">0</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">160</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.26096</span><br>[Evaluate]  dev score: <span class="hljs-number">0.85928</span>, dev loss: <span class="hljs-number">0.33418</span><br>[Train] epoch: <span class="hljs-number">0</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">170</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.28331</span><br>[Evaluate]  dev score: <span class="hljs-number">0.86072</span>, dev loss: <span class="hljs-number">0.32538</span><br>[Evaluate] best accuracy performence has been updated: <span class="hljs-number">0.85928</span> --&gt; <span class="hljs-number">0.86072</span><br>[Train] epoch: <span class="hljs-number">0</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">180</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.25884</span><br>[Evaluate]  dev score: <span class="hljs-number">0.86416</span>, dev loss: <span class="hljs-number">0.32144</span><br>[Evaluate] best accuracy performence has been updated: <span class="hljs-number">0.86072</span> --&gt; <span class="hljs-number">0.86416</span><br>[Train] epoch: <span class="hljs-number">0</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">190</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.21110</span><br>[Evaluate]  dev score: <span class="hljs-number">0.86000</span>, dev loss: <span class="hljs-number">0.32458</span><br>[Train] epoch: <span class="hljs-number">1</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">200</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.12052</span><br>[Evaluate]  dev score: <span class="hljs-number">0.86160</span>, dev loss: <span class="hljs-number">0.32210</span><br>[Train] epoch: <span class="hljs-number">1</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">210</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.12474</span><br>[Evaluate]  dev score: <span class="hljs-number">0.86072</span>, dev loss: <span class="hljs-number">0.42033</span><br>[Train] epoch: <span class="hljs-number">1</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">220</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.08961</span><br>[Evaluate]  dev score: <span class="hljs-number">0.85456</span>, dev loss: <span class="hljs-number">0.37783</span><br>[Train] epoch: <span class="hljs-number">1</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">230</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.07447</span><br>[Evaluate]  dev score: <span class="hljs-number">0.85096</span>, dev loss: <span class="hljs-number">0.40512</span><br>[Train] epoch: <span class="hljs-number">1</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">240</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.09026</span><br>[Evaluate]  dev score: <span class="hljs-number">0.85448</span>, dev loss: <span class="hljs-number">0.39271</span><br>[Train] epoch: <span class="hljs-number">1</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">250</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.02511</span><br>[Evaluate]  dev score: <span class="hljs-number">0.84408</span>, dev loss: <span class="hljs-number">0.41523</span><br>[Train] epoch: <span class="hljs-number">1</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">260</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.16499</span><br>[Evaluate]  dev score: <span class="hljs-number">0.83024</span>, dev loss: <span class="hljs-number">0.44774</span><br>[Train] epoch: <span class="hljs-number">1</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">270</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.08498</span><br>[Evaluate]  dev score: <span class="hljs-number">0.84400</span>, dev loss: <span class="hljs-number">0.41809</span><br>[Train] epoch: <span class="hljs-number">1</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">280</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.08351</span><br>[Evaluate]  dev score: <span class="hljs-number">0.84584</span>, dev loss: <span class="hljs-number">0.39286</span><br>[Train] epoch: <span class="hljs-number">1</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">290</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.06237</span><br>[Evaluate]  dev score: <span class="hljs-number">0.84432</span>, dev loss: <span class="hljs-number">0.39758</span><br>[Train] epoch: <span class="hljs-number">1</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">300</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.06990</span><br>[Evaluate]  dev score: <span class="hljs-number">0.83792</span>, dev loss: <span class="hljs-number">0.44654</span><br>[Train] epoch: <span class="hljs-number">1</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">310</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.06123</span><br>[Evaluate]  dev score: <span class="hljs-number">0.84536</span>, dev loss: <span class="hljs-number">0.40967</span><br>[Train] epoch: <span class="hljs-number">1</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">320</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.08561</span><br>[Evaluate]  dev score: <span class="hljs-number">0.84440</span>, dev loss: <span class="hljs-number">0.44798</span><br>[Train] epoch: <span class="hljs-number">1</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">330</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.06285</span><br>[Evaluate]  dev score: <span class="hljs-number">0.84432</span>, dev loss: <span class="hljs-number">0.40742</span><br>[Train] epoch: <span class="hljs-number">1</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">340</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.07999</span><br>[Evaluate]  dev score: <span class="hljs-number">0.84232</span>, dev loss: <span class="hljs-number">0.42844</span><br>[Train] epoch: <span class="hljs-number">1</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">350</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.08248</span><br>[Evaluate]  dev score: <span class="hljs-number">0.84016</span>, dev loss: <span class="hljs-number">0.44600</span><br>[Train] epoch: <span class="hljs-number">1</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">360</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.06058</span><br>[Evaluate]  dev score: <span class="hljs-number">0.84216</span>, dev loss: <span class="hljs-number">0.44513</span><br>[Train] epoch: <span class="hljs-number">1</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">370</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.06609</span><br>[Evaluate]  dev score: <span class="hljs-number">0.83880</span>, dev loss: <span class="hljs-number">0.44186</span><br>[Train] epoch: <span class="hljs-number">1</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">380</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.09265</span><br>[Evaluate]  dev score: <span class="hljs-number">0.82920</span>, dev loss: <span class="hljs-number">0.42367</span><br>[Train] epoch: <span class="hljs-number">1</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">390</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.10980</span><br>[Evaluate]  dev score: <span class="hljs-number">0.80704</span>, dev loss: <span class="hljs-number">0.52548</span><br>[Train] epoch: <span class="hljs-number">2</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">400</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.00454</span><br>[Evaluate]  dev score: <span class="hljs-number">0.81176</span>, dev loss: <span class="hljs-number">0.64645</span><br>[Train] epoch: <span class="hljs-number">2</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">410</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.00482</span><br>[Evaluate]  dev score: <span class="hljs-number">0.82864</span>, dev loss: <span class="hljs-number">0.77510</span><br>[Train] epoch: <span class="hljs-number">2</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">420</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.00236</span><br>[Evaluate]  dev score: <span class="hljs-number">0.84096</span>, dev loss: <span class="hljs-number">0.51046</span><br>[Train] epoch: <span class="hljs-number">2</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">430</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.01271</span><br>[Evaluate]  dev score: <span class="hljs-number">0.81872</span>, dev loss: <span class="hljs-number">0.63595</span><br>[Train] epoch: <span class="hljs-number">2</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">440</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.00441</span><br>[Evaluate]  dev score: <span class="hljs-number">0.84000</span>, dev loss: <span class="hljs-number">0.57609</span><br>[Train] epoch: <span class="hljs-number">2</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">450</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.00362</span><br>[Evaluate]  dev score: <span class="hljs-number">0.83816</span>, dev loss: <span class="hljs-number">0.61525</span><br>[Train] epoch: <span class="hljs-number">2</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">460</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.00602</span><br>[Evaluate]  dev score: <span class="hljs-number">0.83072</span>, dev loss: <span class="hljs-number">0.75598</span><br>[Train] epoch: <span class="hljs-number">2</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">470</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.05197</span><br>[Evaluate]  dev score: <span class="hljs-number">0.82520</span>, dev loss: <span class="hljs-number">0.79471</span><br>[Train] epoch: <span class="hljs-number">2</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">480</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.00367</span><br>[Evaluate]  dev score: <span class="hljs-number">0.83832</span>, dev loss: <span class="hljs-number">0.57327</span><br>[Train] epoch: <span class="hljs-number">2</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">490</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.00216</span><br>[Evaluate]  dev score: <span class="hljs-number">0.83336</span>, dev loss: <span class="hljs-number">0.69600</span><br>[Train] epoch: <span class="hljs-number">2</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">500</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.02041</span><br>[Evaluate]  dev score: <span class="hljs-number">0.83928</span>, dev loss: <span class="hljs-number">0.69365</span><br>[Train] epoch: <span class="hljs-number">2</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">510</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.00702</span><br>[Evaluate]  dev score: <span class="hljs-number">0.82800</span>, dev loss: <span class="hljs-number">0.71270</span><br>[Train] epoch: <span class="hljs-number">2</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">520</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.02936</span><br>[Evaluate]  dev score: <span class="hljs-number">0.83392</span>, dev loss: <span class="hljs-number">0.48017</span><br>[Train] epoch: <span class="hljs-number">2</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">530</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.00411</span><br>[Evaluate]  dev score: <span class="hljs-number">0.83472</span>, dev loss: <span class="hljs-number">0.52984</span><br>[Train] epoch: <span class="hljs-number">2</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">540</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.00985</span><br>[Evaluate]  dev score: <span class="hljs-number">0.82872</span>, dev loss: <span class="hljs-number">0.79777</span><br>[Train] epoch: <span class="hljs-number">2</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">550</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.00389</span><br>[Evaluate]  dev score: <span class="hljs-number">0.83616</span>, dev loss: <span class="hljs-number">0.56220</span><br>[Train] epoch: <span class="hljs-number">2</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">560</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.00744</span><br>[Evaluate]  dev score: <span class="hljs-number">0.83544</span>, dev loss: <span class="hljs-number">0.54016</span><br>[Train] epoch: <span class="hljs-number">2</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">570</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.00548</span><br>[Evaluate]  dev score: <span class="hljs-number">0.83784</span>, dev loss: <span class="hljs-number">0.59388</span><br>[Train] epoch: <span class="hljs-number">2</span>/<span class="hljs-number">3</span>, step: <span class="hljs-number">580</span>/<span class="hljs-number">588</span>, loss: <span class="hljs-number">0.01626</span><br>[Evaluate]  dev score: <span class="hljs-number">0.83088</span>, dev loss: <span class="hljs-number">0.64671</span><br>[Evaluate]  dev score: <span class="hljs-number">0.83280</span>, dev loss: <span class="hljs-number">0.64175</span><br>[Train] Training done!<br>time:  <span class="hljs-number">180.83241629600525</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p>绘制训练过程中在训练集和验证集上的损失图像和在验证集上的准确率图像：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> nndl <span class="hljs-keyword">import</span> plot_training_loss_acc<br><br><span class="hljs-comment"># 图像名字</span><br>fig_name = <span class="hljs-string">&quot;./images/6.16.pdf&quot;</span><br><span class="hljs-comment"># sample_step: 训练损失的采样step，即每隔多少个点选择1个点绘制</span><br><span class="hljs-comment"># loss_legend_loc: loss 图像的图例放置位置</span><br><span class="hljs-comment"># acc_legend_loc： acc 图像的图例放置位置</span><br>plot_training_loss_acc(runner, fig_name, fig_size=(<span class="hljs-number">16</span>,<span class="hljs-number">6</span>), sample_step=<span class="hljs-number">10</span>, loss_legend_loc=<span class="hljs-string">&quot;lower left&quot;</span>, acc_legend_loc=<span class="hljs-string">&quot;lower right&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>图6.16 展示了文本分类模型在训练过程中的损失曲线和在验证集上的准确率曲线，其中在损失图像中，实线表示训练集上的损失变化，虚线表示验证集上的损失变化. 可以看到，随着训练过程的进行，训练集的损失不断下降， 验证集上的损失在大概200步后开始上升，这是因为在训练过程中发生了过拟合，可以选择保存在训练过程中在验证集上效果最好的模型来解决这个问题. 从准确率曲线上可以看到，首先在验证集上的准确率大幅度上升，然后大概200步后准确率不再上升，并且由于过拟合的因素，在验证集上的准确率稍微降低。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212231613473.png" srcset="/img/loading.gif" lazyload alt="image-20221223115743322"></p>
+<h2 id="√-6-4-4-模型评价"><a href="#√-6-4-4-模型评价" class="headerlink" title="[√] 6.4.4 模型评价"></a>[√] 6.4.4 模型评价</h2><hr>
+<p>加载训练过程中效果最好的模型，然后使用测试集进行测试。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">model_path = <span class="hljs-string">&quot;./checkpoints/best.pdparams&quot;</span><br>runner.load_model(model_path)<br>accuracy, _ =  runner.evaluate(test_loader)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Evaluate on test set, Accuracy: <span class="hljs-subst">&#123;accuracy:<span class="hljs-number">.5</span>f&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">Evaluate</span> <span class="hljs-literal">on</span> test set, Accuracy: <span class="hljs-number">0</span>.<span class="hljs-number">86064</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h2 id="√-6-4-5-模型预测"><a href="#√-6-4-5-模型预测" class="headerlink" title="[√] 6.4.5 模型预测"></a>[√] 6.4.5 模型预测</h2><hr>
+<p>给定任意的一句话，使用训练好的模型进行预测，判断这句话中所蕴含的情感极性。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python">id2label=&#123;<span class="hljs-number">0</span>:<span class="hljs-string">&quot;消极情绪&quot;</span>, <span class="hljs-number">1</span>:<span class="hljs-string">&quot;积极情绪&quot;</span>&#125;<br>text = <span class="hljs-string">&quot;this movie is so great. I watched it three times already&quot;</span><br><span class="hljs-comment"># 处理单条文本</span><br>sentence = text.split(<span class="hljs-string">&quot; &quot;</span>)<br><span class="hljs-built_in">print</span>(sentence)<br>words = [word2id_dict[word] <span class="hljs-keyword">if</span> word <span class="hljs-keyword">in</span> word2id_dict <span class="hljs-keyword">else</span> word2id_dict[<span class="hljs-string">&#x27;[UNK]&#x27;</span>] <span class="hljs-keyword">for</span> word <span class="hljs-keyword">in</span> sentence] <br><span class="hljs-built_in">print</span>(words)<br>words = words[:max_seq_len]<br>sequence_length = paddle.to_tensor([<span class="hljs-built_in">len</span>(words)], dtype=<span class="hljs-string">&quot;int64&quot;</span>)<br><span class="hljs-built_in">print</span>(sequence_length)<br>words = paddle.to_tensor(words, dtype=<span class="hljs-string">&quot;int64&quot;</span>).unsqueeze(<span class="hljs-number">0</span>)<br><span class="hljs-built_in">print</span>(words)<br><span class="hljs-comment"># 使用模型进行预测</span><br>logits = runner.predict((words, sequence_length))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;logits:&#x27;</span>,logits)<br>max_label_id = paddle.argmax(logits, axis=-<span class="hljs-number">1</span>).numpy()[<span class="hljs-number">0</span>]<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;max_label_id:&#x27;</span>,max_label_id)<br>pred_label = id2label[max_label_id]<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Label: &quot;</span>, pred_label)<br><br><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">[<span class="hljs-string">&#x27;this&#x27;</span>, <span class="hljs-string">&#x27;movie&#x27;</span>, <span class="hljs-string">&#x27;is&#x27;</span>, <span class="hljs-string">&#x27;so&#x27;</span>, <span class="hljs-string">&#x27;great.&#x27;</span>, <span class="hljs-string">&#x27;I&#x27;</span>, <span class="hljs-string">&#x27;watched&#x27;</span>, <span class="hljs-string">&#x27;it&#x27;</span>, <span class="hljs-string">&#x27;three&#x27;</span>, <span class="hljs-string">&#x27;times&#x27;</span>, <span class="hljs-string">&#x27;already&#x27;</span>]<br>[<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">7</span>, <span class="hljs-number">38</span>, <span class="hljs-number">1208</span>, <span class="hljs-number">1</span>, <span class="hljs-number">273</span>, <span class="hljs-number">12</span>, <span class="hljs-number">284</span>, <span class="hljs-number">286</span>, <span class="hljs-number">445</span>]<br>Tensor(shape=[<span class="hljs-number">1</span>], dtype=int64, place=CUDAPlace(<span class="hljs-number">0</span>), stop_gradient=<span class="hljs-literal">True</span>,<br>       [<span class="hljs-number">11</span>])<br>Tensor(shape=[<span class="hljs-number">1</span>, <span class="hljs-number">11</span>], dtype=int64, place=CUDAPlace(<span class="hljs-number">0</span>), stop_gradient=<span class="hljs-literal">True</span>,<br>       [[<span class="hljs-number">10</span> , <span class="hljs-number">20</span> , <span class="hljs-number">7</span>  , <span class="hljs-number">38</span> , <span class="hljs-number">1208</span>, <span class="hljs-number">1</span>  , <span class="hljs-number">273</span>, <span class="hljs-number">12</span> , <span class="hljs-number">284</span>, <span class="hljs-number">286</span>, <span class="hljs-number">445</span>]])<br>logits: Tensor(shape=[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>], dtype=float32, place=CUDAPlace(<span class="hljs-number">0</span>), stop_gradient=<span class="hljs-literal">True</span>,<br>       [[-<span class="hljs-number">1.59379756</span>,  <span class="hljs-number">1.63701093</span>]])<br>max_label_id: <span class="hljs-number">1</span><br>Label:  积极情绪<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h1 id="√-6-5-拓展实验"><a href="#√-6-5-拓展实验" class="headerlink" title="[√] 6.5 拓展实验"></a>[√] 6.5 拓展实验</h1><hr>
+<h2 id="√-6-6-1-使用Paddle内置的单向LSTM进行文本分类实验"><a href="#√-6-6-1-使用Paddle内置的单向LSTM进行文本分类实验" class="headerlink" title="[√] 6.6.1 使用Paddle内置的单向LSTM进行文本分类实验"></a>[√] 6.6.1 使用Paddle内置的单向LSTM进行文本分类实验</h2><hr>
+<p>首先，修改模型定义，将<code>nn.LSTM</code>中的<code>direction</code>设置为<code>forward</code>以使用单向LSTM模型，同时设置线性层的shape为<code>[hidden_size， num_classes]</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">AveragePooling</span>(nn.Layer):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-built_in">super</span>(AveragePooling, self).__init__()<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, sequence_output, sequence_length</span>):<br>        sequence_length = paddle.cast(sequence_length.unsqueeze(-<span class="hljs-number">1</span>), dtype=<span class="hljs-string">&quot;float32&quot;</span>)<br>        <span class="hljs-comment"># 根据sequence_length生成mask矩阵，用于对Padding位置的信息进行mask</span><br>        max_len = sequence_output.shape[<span class="hljs-number">1</span>]<br>        mask = paddle.arange(max_len) &lt; sequence_length<br>        mask = paddle.cast(mask, dtype=<span class="hljs-string">&quot;float32&quot;</span>).unsqueeze(-<span class="hljs-number">1</span>)<br>        <span class="hljs-comment"># 对序列中paddling部分进行mask</span><br>        sequence_output = paddle.multiply(sequence_output, mask)<br>        <span class="hljs-comment"># 对序列中的向量取均值</span><br>        batch_mean_hidden = paddle.divide(paddle.<span class="hljs-built_in">sum</span>(sequence_output, axis=<span class="hljs-number">1</span>), sequence_length)<br>        <span class="hljs-keyword">return</span> batch_mean_hidden<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Model_BiLSTM_FC</span>(nn.Layer):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, num_embeddings, input_size, hidden_size, num_classes=<span class="hljs-number">2</span></span>):<br>        <span class="hljs-built_in">super</span>(Model_BiLSTM_FC, self).__init__()<br>        <span class="hljs-comment"># 词典大小</span><br>        self.num_embeddings = num_embeddings<br>        <span class="hljs-comment"># 单词向量的维度</span><br>        self.input_size = input_size<br>        <span class="hljs-comment"># LSTM隐藏单元数量</span><br>        self.hidden_size = hidden_size<br>        <span class="hljs-comment"># 情感分类类别数量</span><br>        self.num_classes = num_classes<br>        <span class="hljs-comment"># 实例化嵌入层</span><br>        <span class="hljs-comment"># 嵌入层将单个的单词映射成长度为input_size的向量</span><br>        self.embedding_layer = nn.Embedding(num_embeddings, input_size, padding_idx=<span class="hljs-number">0</span>)<br>        <span class="hljs-comment"># 实例化LSTM层</span><br>        self.lstm_layer = nn.LSTM(input_size, hidden_size, direction=<span class="hljs-string">&quot;forward&quot;</span>)<br>        <span class="hljs-comment"># 实例化聚合层</span><br>        self.average_layer = AveragePooling()<br>        <span class="hljs-comment"># 实例化输出层</span><br>        self.output_layer = nn.Linear(hidden_size, num_classes)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, inputs</span>):<br>        <span class="hljs-comment"># 对模型输入拆分为序列数据和mask</span><br>        input_ids, sequence_length = inputs<br>        <span class="hljs-comment"># 获取词向量</span><br>        inputs_emb = self.embedding_layer(input_ids)<br>        <span class="hljs-comment"># 使用lstm处理数据</span><br>        sequence_output, _ = self.lstm_layer(inputs_emb, sequence_length=sequence_length)<br>        <span class="hljs-comment"># 使用聚合层聚合sequence_output</span><br>        batch_mean_hidden = self.average_layer(sequence_output, sequence_length)<br>        <span class="hljs-comment"># 输出文本分类logits</span><br>        logits = self.output_layer(batch_mean_hidden)<br>        <span class="hljs-keyword">return</span> logits<br></code></pre></td></tr></table></figure>
+
+<p>接下来，基于Paddle的单向模型开始进行训练，代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">from</span> nndl <span class="hljs-keyword">import</span> Accuracy, RunnerV3<br><br>np.random.seed(<span class="hljs-number">0</span>)<br>random.seed(<span class="hljs-number">0</span>)<br>paddle.seed(<span class="hljs-number">0</span>)<br><br><span class="hljs-comment"># 指定训练轮次</span><br>num_epochs = <span class="hljs-number">3</span><br><span class="hljs-comment"># 指定学习率</span><br>learning_rate = <span class="hljs-number">0.001</span><br><span class="hljs-comment"># 指定embedding的数量为词表长度</span><br>num_embeddings = <span class="hljs-built_in">len</span>(word2id_dict)<br><span class="hljs-comment"># embedding向量的维度</span><br>input_size = <span class="hljs-number">256</span><br><span class="hljs-comment"># LSTM网络隐状态向量的维度</span><br>hidden_size = <span class="hljs-number">256</span><br><br><span class="hljs-comment"># 实例化模型</span><br>model = Model_BiLSTM_FC(num_embeddings, input_size, hidden_size)<br><span class="hljs-comment"># 指定优化器</span><br>optimizer = paddle.optimizer.Adam(learning_rate=learning_rate, beta1=<span class="hljs-number">0.9</span>, beta2=<span class="hljs-number">0.999</span>, parameters= model.parameters()) <br><span class="hljs-comment"># 指定损失函数</span><br>loss_fn = paddle.nn.CrossEntropyLoss() <br><span class="hljs-comment"># 指定评估指标</span><br>metric = Accuracy()<br><span class="hljs-comment"># 实例化Runner</span><br>runner = RunnerV3(model, optimizer, loss_fn, metric)<br><span class="hljs-comment"># 模型训练</span><br>start_time = time.time()<br>runner.train(train_loader, dev_loader, num_epochs=num_epochs, eval_steps=<span class="hljs-number">10</span>, log_steps=<span class="hljs-number">10</span>, save_path=<span class="hljs-string">&quot;./checkpoints/best_forward.pdparams&quot;</span>)<br>end_time = time.time()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;time: &quot;</span>, (end_time-start_time))<br></code></pre></td></tr></table></figure>
+
+<p>基于Paddle的单向LSTM进行模型评价，代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">model_path = <span class="hljs-string">&quot;./checkpoints/best_forward.pdparams&quot;</span><br>runner.load_model(model_path)<br>accuracy, _ =  runner.evaluate(test_loader)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Evaluate on test set, Accuracy: <span class="hljs-subst">&#123;accuracy:<span class="hljs-number">.5</span>f&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="√-6-6-2-使用Paddle内置的单向LSTM进行文本分类实验"><a href="#√-6-6-2-使用Paddle内置的单向LSTM进行文本分类实验" class="headerlink" title="[√] 6.6.2 使用Paddle内置的单向LSTM进行文本分类实验"></a>[√] 6.6.2 使用Paddle内置的单向LSTM进行文本分类实验</h2><hr>
+<p>由于之前实现的LSTM默认只返回最后时刻的隐状态，然而本实验中需要用到所有时刻的隐状态向量，因此需要对自己实现的LSTM进行修改，使其返回序列向量，代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> paddle.nn.functional <span class="hljs-keyword">as</span> F<br><span class="hljs-comment"># 声明LSTM和相关参数</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">LSTM</span>(nn.Layer):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, input_size, hidden_size, Wi_attr=<span class="hljs-literal">None</span>, Wf_attr=<span class="hljs-literal">None</span>, Wo_attr=<span class="hljs-literal">None</span>, Wc_attr=<span class="hljs-literal">None</span>,</span><br><span class="hljs-params">                 Ui_attr=<span class="hljs-literal">None</span>, Uf_attr=<span class="hljs-literal">None</span>, Uo_attr=<span class="hljs-literal">None</span>, Uc_attr=<span class="hljs-literal">None</span>, bi_attr=<span class="hljs-literal">None</span>, bf_attr=<span class="hljs-literal">None</span>,</span><br><span class="hljs-params">                 bo_attr=<span class="hljs-literal">None</span>, bc_attr=<span class="hljs-literal">None</span></span>):<br>        <span class="hljs-built_in">super</span>(LSTM, self).__init__()<br>        self.input_size = input_size<br>        self.hidden_size = hidden_size<br><br>        <span class="hljs-comment"># 初始化模型参数</span><br>        self.W_i = paddle.create_parameter(shape=[input_size, hidden_size], dtype=<span class="hljs-string">&quot;float32&quot;</span>, attr=Wi_attr)<br>        self.W_f = paddle.create_parameter(shape=[input_size, hidden_size], dtype=<span class="hljs-string">&quot;float32&quot;</span>, attr=Wf_attr)<br>        self.W_o = paddle.create_parameter(shape=[input_size, hidden_size], dtype=<span class="hljs-string">&quot;float32&quot;</span>, attr=Wo_attr)<br>        self.W_c = paddle.create_parameter(shape=[input_size, hidden_size], dtype=<span class="hljs-string">&quot;float32&quot;</span>, attr=Wc_attr)<br>        self.U_i = paddle.create_parameter(shape=[hidden_size, hidden_size], dtype=<span class="hljs-string">&quot;float32&quot;</span>, attr=Ui_attr)<br>        self.U_f = paddle.create_parameter(shape=[hidden_size, hidden_size], dtype=<span class="hljs-string">&quot;float32&quot;</span>, attr=Uf_attr)<br>        self.U_o = paddle.create_parameter(shape=[hidden_size, hidden_size], dtype=<span class="hljs-string">&quot;float32&quot;</span>, attr=Uo_attr)<br>        self.U_c = paddle.create_parameter(shape=[hidden_size, hidden_size], dtype=<span class="hljs-string">&quot;float32&quot;</span>, attr=Uc_attr)<br>        self.b_i = paddle.create_parameter(shape=[<span class="hljs-number">1</span>, hidden_size], dtype=<span class="hljs-string">&quot;float32&quot;</span>, attr=bi_attr)<br>        self.b_f = paddle.create_parameter(shape=[<span class="hljs-number">1</span>, hidden_size], dtype=<span class="hljs-string">&quot;float32&quot;</span>, attr=bf_attr)<br>        self.b_o = paddle.create_parameter(shape=[<span class="hljs-number">1</span>, hidden_size], dtype=<span class="hljs-string">&quot;float32&quot;</span>, attr=bo_attr)<br>        self.b_c = paddle.create_parameter(shape=[<span class="hljs-number">1</span>, hidden_size], dtype=<span class="hljs-string">&quot;float32&quot;</span>, attr=bc_attr)<br>    <br>    <span class="hljs-comment"># 初始化状态向量和隐状态向量</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">init_state</span>(<span class="hljs-params">self, batch_size</span>):<br>        hidden_state = paddle.zeros(shape=[batch_size, self.hidden_size], dtype=<span class="hljs-string">&quot;float32&quot;</span>)<br>        cell_state = paddle.zeros(shape=[batch_size, self.hidden_size], dtype=<span class="hljs-string">&quot;float32&quot;</span>)<br>        hidden_state.stop_gradient = <span class="hljs-literal">False</span><br>        cell_state .stop_gradient = <span class="hljs-literal">False</span><br>        <span class="hljs-keyword">return</span> hidden_state, cell_state<br><br>    <span class="hljs-comment"># 定义前向计算</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, inputs, states=<span class="hljs-literal">None</span>, sequence_length=<span class="hljs-literal">None</span></span>):<br>        batch_size, seq_len, input_size = inputs.shape  <span class="hljs-comment"># inputs batch_size x seq_len x input_size</span><br><br>        <span class="hljs-keyword">if</span> states <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>            states = self.init_state(batch_size)<br>        hidden_state, cell_state = states<br><br>        outputs = []<br>        <span class="hljs-comment"># 执行LSTM计算，包括：隐藏门、输入门、遗忘门、候选状态向量、状态向量和隐状态向量</span><br>        <span class="hljs-keyword">for</span> step <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(seq_len):<br>            input_step = inputs[:, step, :]<br>            I_gate = F.sigmoid(paddle.matmul(input_step, self.W_i) + paddle.matmul(hidden_state, self.U_i) + self.b_i)<br>            F_gate = F.sigmoid(paddle.matmul(input_step, self.W_f) + paddle.matmul(hidden_state, self.U_f) + self.b_f)<br>            O_gate = F.sigmoid(paddle.matmul(input_step, self.W_o) + paddle.matmul(hidden_state, self.U_o) + self.b_o)<br>            C_tilde = F.tanh(paddle.matmul(input_step, self.W_c) + paddle.matmul(hidden_state, self.U_c) + self.b_c)<br>            cell_state = F_gate * cell_state + I_gate * C_tilde<br>            hidden_state = O_gate * F.tanh(cell_state)<br>            <br>            outputs.append(hidden_state.unsqueeze(axis=<span class="hljs-number">1</span>))<br><br>        outputs = paddle.concat(outputs, axis=<span class="hljs-number">1</span>)<br>        <span class="hljs-keyword">return</span> outputs<br></code></pre></td></tr></table></figure>
+
+<p>接下来，修改Model_BiLSTM_FC模型，将<code>nn.LSTM</code>换为自己实现的LSTM模型，代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">AveragePooling</span>(nn.Layer):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-built_in">super</span>(AveragePooling, self).__init__()<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, sequence_output, sequence_length</span>):<br>        sequence_length = paddle.cast(sequence_length.unsqueeze(-<span class="hljs-number">1</span>), dtype=<span class="hljs-string">&quot;float32&quot;</span>)<br>        <span class="hljs-comment"># 根据sequence_length生成mask矩阵，用于对Padding位置的信息进行mask</span><br>        max_len = sequence_output.shape[<span class="hljs-number">1</span>]<br>        mask = paddle.arange(max_len) &lt; sequence_length<br>        mask = paddle.cast(mask, dtype=<span class="hljs-string">&quot;float32&quot;</span>).unsqueeze(-<span class="hljs-number">1</span>)<br>        <span class="hljs-comment"># 对序列中paddling部分进行mask</span><br>        sequence_output = paddle.multiply(sequence_output, mask)<br>        <span class="hljs-comment"># 对序列中的向量取均值</span><br>        batch_mean_hidden = paddle.divide(paddle.<span class="hljs-built_in">sum</span>(sequence_output, axis=<span class="hljs-number">1</span>), sequence_length)<br>        <span class="hljs-keyword">return</span> batch_mean_hidden<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Model_BiLSTM_FC</span>(nn.Layer):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, num_embeddings, input_size, hidden_size, num_classes=<span class="hljs-number">2</span></span>):<br>        <span class="hljs-built_in">super</span>(Model_BiLSTM_FC, self).__init__()<br>        <span class="hljs-comment"># 词典大小</span><br>        self.num_embeddings = num_embeddings<br>        <span class="hljs-comment"># 单词向量的维度</span><br>        self.input_size = input_size<br>        <span class="hljs-comment"># LSTM隐藏单元数量</span><br>        self.hidden_size = hidden_size<br>        <span class="hljs-comment"># 情感分类类别数量</span><br>        self.num_classes = num_classes<br>        <span class="hljs-comment"># 实例化嵌入层</span><br>        self.embedding_layer = nn.Embedding(num_embeddings, input_size, padding_idx=<span class="hljs-number">0</span>)<br>        <span class="hljs-comment"># 实例化LSTM层</span><br>        self.lstm_layer = LSTM(input_size, hidden_size)<br>        <span class="hljs-comment"># 实例化聚合层</span><br>        self.average_layer = AveragePooling()<br>        <span class="hljs-comment"># 实例化输出层</span><br>        self.output_layer = nn.Linear(hidden_size, num_classes)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, inputs</span>):<br>        <span class="hljs-comment"># 对模型输入拆分为序列数据和mask</span><br>        input_ids, sequence_length = inputs<br>        <span class="hljs-comment"># 获取词向量</span><br>        inputs_emb = self.embedding_layer(input_ids)<br>        <span class="hljs-comment"># 使用lstm处理数据</span><br>        sequence_output = self.lstm_layer(inputs_emb)<br>        <span class="hljs-comment"># 使用聚合层聚合sequence_output</span><br>        batch_mean_hidden = self.average_layer(sequence_output, sequence_length)<br>        <span class="hljs-comment"># 输出文本分类logits</span><br>        logits = self.output_layer(batch_mean_hidden)<br>        <span class="hljs-keyword">return</span> logits<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> time<br><span class="hljs-keyword">import</span> random<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">from</span> nndl <span class="hljs-keyword">import</span> Accuracy, RunnerV3<br><br>np.random.seed(<span class="hljs-number">0</span>)<br>random.seed(<span class="hljs-number">0</span>)<br>paddle.seed(<span class="hljs-number">0</span>)<br><br><span class="hljs-comment"># 指定训练轮次</span><br>num_epochs = <span class="hljs-number">3</span><br><span class="hljs-comment"># 指定学习率</span><br>learning_rate = <span class="hljs-number">0.001</span><br><span class="hljs-comment"># 指定embedding的数量为词表长度</span><br>num_embeddings = <span class="hljs-built_in">len</span>(word2id_dict)<br><span class="hljs-comment"># embedding向量的维度</span><br>input_size = <span class="hljs-number">256</span><br><span class="hljs-comment"># LSTM网络隐状态向量的维度</span><br>hidden_size = <span class="hljs-number">256</span><br><br><span class="hljs-comment"># 实例化模型</span><br>model = Model_BiLSTM_FC(num_embeddings, input_size, hidden_size)<br><span class="hljs-comment"># 指定优化器</span><br>optimizer = paddle.optimizer.Adam(learning_rate=learning_rate, beta1=<span class="hljs-number">0.9</span>, beta2=<span class="hljs-number">0.999</span>, parameters= model.parameters()) <br><span class="hljs-comment"># 指定损失函数</span><br>loss_fn = paddle.nn.CrossEntropyLoss() <br><span class="hljs-comment"># 指定评估指标</span><br>metric = Accuracy()<br><span class="hljs-comment"># 实例化Runner</span><br>runner = RunnerV3(model, optimizer, loss_fn, metric)<br><span class="hljs-comment"># 模型训练</span><br>start_time = time.time()<br>runner.train(train_loader, dev_loader, num_epochs=num_epochs, eval_steps=<span class="hljs-number">10</span>, log_steps=<span class="hljs-number">10</span>, save_path=<span class="hljs-string">&quot;./checkpoints/best_self_forward.pdparams&quot;</span>)<br>end_time = time.time()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;time: &quot;</span>, (end_time-start_time))<br></code></pre></td></tr></table></figure>
+
+<p>基于Paddle的单向LSTM进行模型评价，代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">model_path = <span class="hljs-string">&quot;./checkpoints/best_self_forward.pdparams&quot;</span><br>runner.load_model(model_path)<br>accuracy, _ =  runner.evaluate(test_loader)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Evaluate on test set, Accuracy: <span class="hljs-subst">&#123;accuracy:<span class="hljs-number">.5</span>f&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="√-6-6-小结"><a href="#√-6-6-小结" class="headerlink" title="[√] 6.6 小结"></a>[√] 6.6 小结</h1><hr>
+<p>本章通过实践来加深对循环神经网络的基本概念、网络结构和长程依赖问题问题的理解．我们构建一个数字求和任务，并动手实现了 SRN 和 LSTM 模型，对比它们在数字求和任务上的记忆能力．在实践部分，我们利用双向 LSTM 模型来进行文本分类任务：IMDB 电影评论情感分析，并了解如何通过嵌入层将文本数据转换为向量表示.</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AE%9E%E8%B7%B5%E5%AD%A6%E4%B9%A0/" class="category-chain-item">实践学习</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AE%9E%E8%B7%B5%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%EF%BC%9A%E6%A1%88%E4%BE%8B%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E9%A3%9E%E6%A1%A8-%E9%82%B1%E9%94%A1%E9%B9%8F/" class="category-chain-item">神经网络与深度学习：案例与实践 - 飞桨 - 邱锡鹏</a>
+  
+  
+
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>6 - 循环神经网络 - 实践：基于双向LSTM模型完成文本分类任务</div>
+      <div>http://example.com/posts/1748706165/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年12月19日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/1133786115/" title="第6章 - 循环神经网络 - 书籍">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">第6章 - 循环神经网络 - 书籍</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/1033337951/" title="第5章 - 卷积神经网络 - 视频">
+                        <span class="hidden-mobile">第5章 - 卷积神经网络 - 视频</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,1102 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="原文链接： 混合密度网络（MDN）进行多元回归详解和代码示例 - 数据派THU（清华大学数据软件团队官方微信公众号） 2022-03-08 17:00 ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。  [√] 文章信息   来源：Deephub Imba 本文约4900字，建议阅读5分钟 在本文中，首先简要解释一下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="009 - 文章阅读笔记：混合密度网络（MDN）进行多元回归详解和代码示例 - 数据派THU（清华大学数据软件团队官方微信公众号）">
+<meta property="og:url" content="http://example.com/posts/696444063/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="原文链接： 混合密度网络（MDN）进行多元回归详解和代码示例 - 数据派THU（清华大学数据软件团队官方微信公众号） 2022-03-08 17:00 ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。  [√] 文章信息   来源：Deephub Imba 本文约4900字，建议阅读5分钟 在本文中，首先简要解释一下">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072156851.png">
+<meta property="article:published_time" content="2023-02-07T11:42:50.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.398Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="MDN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072156851.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>009 - 文章阅读笔记：混合密度网络（MDN）进行多元回归详解和代码示例 - 数据派THU（清华大学数据软件团队官方微信公众号） - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">009 - 文章阅读笔记：混合密度网络（MDN）进行多元回归详解和代码示例 - 数据派THU（清华大学数据软件团队官方微信公众号）</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-02-07 19:42" pubdate>
+          2023年2月7日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          77 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">009 - 文章阅读笔记：混合密度网络（MDN）进行多元回归详解和代码示例 - 数据派THU（清华大学数据软件团队官方微信公众号）</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>原文链接：</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzI1MjQ2OTQ3Ng==&mid=2247560643&idx=1&sn=1d73ff6fd637a1fd0cf4803e783ac343&chksm=e9e0e448de976d5e606a3b2dc3134244b0e40dd3736df46b70ad36d0b6488a85c6b84b594217&scene=27">混合密度网络（MDN）进行多元回归详解和代码示例 - 数据派THU（清华大学数据软件团队官方微信公众号）</a></p>
+<p>2022-03-08 17:00</p>
+<p>ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。</p>
+</blockquote>
+<h2 id="√-文章信息"><a href="#√-文章信息" class="headerlink" title="[√] 文章信息"></a>[√] 文章信息</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158335.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<blockquote>
+<p>来源：Deephub Imba</p>
+<p>本文约4900字，建议阅读5分钟</p>
+<p>在本文中，首先简要解释一下 混合密度网络 MDN （Mixture Density Network）是什么，然后将使用Python 代码构建 MDN 模型，最后使用构建好的模型进行多元回归并测试效果。</p>
+</blockquote>
+<h2 id="√-回归"><a href="#√-回归" class="headerlink" title="[√] 回归"></a>[√] 回归</h2><hr>
+<p>“回归预测建模是逼近从输入变量 (X) 到连续输出变量 (y) 的映射函数 (f) […] 回归问题需要预测具体的数值。具有多个输入变量的问题通常被称为多元回归问题 例如，预测房屋价值，可能在 100,000 美元到 200,000 美元之间</p>
+<p>这是另一个区分分类问题和回归问题的视觉解释如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158634.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>另外一个例子</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158336.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>分类问题是预测类别</li>
+<li>回归问题是预测模型（公式）</li>
+</ul>
+</blockquote>
+<h2 id="√-密度"><a href="#√-密度" class="headerlink" title="[√] 密度"></a>[√] 密度</h2><hr>
+<p>DENSITY “密度” 是什么意思？这是一个快速的通俗示例：</p>
+<p>假设正在为必胜客运送比萨。现在记录刚刚进行的每次交付的时间（以分钟为单位）。交付 1000 次后，将数据可视化以查看工作表现如何。这是结果：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158337.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>这是披萨交付时间数据分布的“密度”。平均而言，每次交付需要 30 分钟（图中的峰值）。它还表示，在 95% 的情况下（2 个标准差2sd ），交付需要 20 到 40 分钟才能完成。密度种类代表时间结果的“频率”。“频率”和“密度”的区别在于：</p>
+<ul>
+<li>频率：如果你在这条曲线下绘制一个直方图并对所有的 bin 进行计数，它将求和为任何整数（取决于数据集中捕获的观察总数）。</li>
+<li>密度：如果你在这条曲线下绘制一个直方图并计算所有的 bin，它总和为 1。我们也可以将此曲线称为概率密度函数 (pdf)。</li>
+<li>用统计术语来说，这是一个漂亮的正态&#x2F;高斯分布。这个正态分布有两个参数：</li>
+</ul>
+<h2 id="√-均值"><a href="#√-均值" class="headerlink" title="[√] 均值"></a>[√] 均值</h2><hr>
+<ul>
+<li>标准差：“标准差是一个数字，用于说明一组测量值如何从平均值（平均值）或预期值中展开。低标准偏差意味着大多数数字接近平均值。高标准差意味着数字更加分散。“</li>
+</ul>
+<p>均值和标准差的变化会影响分布的形状。例如：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158338.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>标准差和方差越大，数字越分散。</li>
+</ul>
+</blockquote>
+<p>有许多具有不同类型参数的各种不同分布类型。例如：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158339.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="√-混合密度"><a href="#√-混合密度" class="headerlink" title="[√] 混合密度"></a>[√] 混合密度</h2><hr>
+<p>现在让我们看看这 3 个分布：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158340.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>如果我们采用这种双峰分布（也称为一般分布）：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158341.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>混合密度网络使用这样的假设，即任何像这种双峰分布的一般分布都可以分解为正态分布的混合（该混合也可以与其他类型的分布一起定制 例如拉普拉斯）：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158342.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>混合密度网络的假设：任何的多峰分布，能够分解为正态分布的混合。</li>
+</ul>
+</blockquote>
+<h2 id="√-网络架构"><a href="#√-网络架构" class="headerlink" title="[√] 网络架构"></a>[√] 网络架构</h2><hr>
+<p>混合密度网络也是一种人工神经网络。这是神经网络的经典示例：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158343.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>输入层（黄色）、隐藏层（绿色）和输出层（红色）。</p>
+<p>如果我们将神经网络的目标定义为学习在给定一些输入特征的情况下输出连续值。在上面的例子中，给定年龄、性别、教育程度和其他特征，那么神经网络就可以进行回归的运算。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158344.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>回归是预测一个输出值，分类是预测一个分类。输出值有无数个，分类有N个。回归的输出是连续的，分类的输出是有限且离散的。</li>
+</ul>
+</blockquote>
+<h2 id="√-密度网络"><a href="#√-密度网络" class="headerlink" title="[√] 密度网络"></a>[√] 密度网络</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158345.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li>密度网络也是神经网络，其目标不是简单地学习输出单个连续值，而是学习在给定一些输入特征的情况下输出分布参数（此处为均值和标准差）。</li>
+<li>在上面的例子中，给定年龄、性别、教育程度等特征，神经网络学习预测期望工资分布的均值和标准差。预测分布比预测单个值具有很多的优势，例如能够给出预测的不确定性边界。</li>
+<li>这是解决回归问题的“贝叶斯”方法。下面是预测每个预期连续值的分布的一个很好的例子：</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158346.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>下面的图片向我们展示了每个预测实例的预期值分布：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158347.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>密度网络属于神经网络，但是不同于一般的神经网络简单的学习输出单个连续值。而是学习在给定一些输入特征的情况下的输出分布参数（此处为均值和标准差）。</li>
+</ul>
+</blockquote>
+<h2 id="√-混合密度网络"><a href="#√-混合密度网络" class="headerlink" title="[√] 混合密度网络"></a>[√] 混合密度网络</h2><hr>
+<p>最后回到正题，混合密度网络的目标是在给定特定输入特征的情况下，学习输出混合在一般分布中的所有分布的参数（此处为均值、标准差和 Pi）。新参数“Pi”是混合参数，它给出最终混合中给定分布的权重&#x2F;概率。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158348.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>最终结果如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158349.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>最后回到正题，混合密度网络的目标是在给定特定输入特征的情况下，学习输出混合在一般分布中的所有分布的参数（此处为均值、标准差和 Pi）。新参数“Pi”是混合参数，它给出最终混合中给定分布的权重&#x2F;概率。</li>
+</ul>
+</blockquote>
+<h2 id="√-示例1：单变量数据的-MDN-类"><a href="#√-示例1：单变量数据的-MDN-类" class="headerlink" title="[√] 示例1：单变量数据的 MDN 类"></a>[√] 示例1：单变量数据的 MDN 类</h2><hr>
+<p>上面的定义和理论基础已经介绍完毕，下面我们开始代码的演示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><br><span class="hljs-keyword">from</span> mdn_model <span class="hljs-keyword">import</span> MDN<br><br><span class="hljs-keyword">from</span> sklearn.datasets <span class="hljs-keyword">import</span> make_moons<br><span class="hljs-keyword">from</span> sklearn.preprocessing <span class="hljs-keyword">import</span> StandardScaler<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">import</span> seaborn <span class="hljs-keyword">as</span> sns<br><br><span class="hljs-keyword">from</span> sklearn.linear_model <span class="hljs-keyword">import</span> LinearRegression<br><span class="hljs-keyword">from</span> sklearn.kernel_ridge <span class="hljs-keyword">import</span> KernelRidge<br><br>plt.style.use(<span class="hljs-string">&#x27;ggplot&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>生成著名的“半月”型的数据集：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python">X, y = make_moons(n_samples=<span class="hljs-number">2500</span>, noise=<span class="hljs-number">0.03</span>)<br>y = X[:, <span class="hljs-number">1</span>].reshape(-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>)<br>X = X[:, <span class="hljs-number">0</span>].reshape(-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>)<br><br>x_scaler = StandardScaler()<br>y_scaler = StandardScaler()<br><br>X = x_scaler.fit_transform(X)<br>y = y_scaler.fit_transform(y)<br><br>plt.scatter(X, y, alpha = <span class="hljs-number">0.3</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158350.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>绘制目标值 (y) 的密度分布：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">sns.kdeplot(y.ravel(), shade=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
+
+<p>通过查看数据，我们可以看到有两个重叠的簇：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158351.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>这时一个很好的多模态分布（一般分布）。如果我们在这个数据集上尝试一个标准的线性回归来用 X 预测 y：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">model = LinearRegression()<br>model.fit(X.reshape(-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>), y.reshape(-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))<br>y_pred = model.predict(X.reshape(-<span class="hljs-number">1</span>,<span class="hljs-number">1</span>))<br><br>plt.scatter(X, y, alpha = <span class="hljs-number">0.3</span>)<br>plt.scatter(X,y_pred)<br>plt.title(<span class="hljs-string">&#x27;Linear Regression&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158352.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">sns.kdeplot(y_pred.ravel(), shade=<span class="hljs-literal">True</span>, alpha = <span class="hljs-number">0.15</span>, label = <span class="hljs-string">&#x27;Linear Pred dist&#x27;</span>)      <br>sns.kdeplot(y.ravel(), shade=<span class="hljs-literal">True</span>, label = <span class="hljs-string">&#x27;True dist&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158353.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>效果必须不好！现在让尝试一个非线性模型（径向基函数核岭回归）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">model = KernelRidge(kernel = <span class="hljs-string">&#x27;rbf&#x27;</span>)<br>model.fit(X, y)<br>y_pred = model.predict(X)<br><br><br>plt.scatter(X, y, alpha = <span class="hljs-number">0.3</span>)<br>plt.scatter(X,y_pred)<br>plt.title(<span class="hljs-string">&#x27;Non Linear Regression&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158354.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">sns.kdeplot(y_pred.ravel(), shade=<span class="hljs-literal">True</span>, alpha = <span class="hljs-number">0.15</span>, label = <span class="hljs-string">&#x27;NonLinear Pred dist&#x27;</span>)      <br>sns.kdeplot(y.ravel(), shade=<span class="hljs-literal">True</span>, label = <span class="hljs-string">&#x27;True dist&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158355.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>虽然结果也不尽如人意，但是比上面的线性回归要好很多了。</p>
+<p>两个模型都没有成功的主要原因是：对于同一个 X 值存在多个不同的 y 值……更具体地说，对于同一个 X 似乎存在不止一个可能的 y 分布。回归模型只是试图找到最小化误差的最优函数，并没有考虑到密度的混合，所以 中间的那些X没有唯一的Y解，它们有两种可能的解，所以导致了以上的问题。</p>
+<p>现在让我们尝试一个 MDN 模型，这里已经实现了一个快速且易于使用的“fit-predict”、“sklearn alike”自定义 python MDN 类。如果您想自己使用它，这是 python 代码的链接（请注意：这个 MDN 类是实验性的，尚未经过广泛测试）：<a target="_blank" rel="noopener" href="https://github.com/CoteDave/blog/blob/master/Made%20easy/MDN%20regression/mdn_model.py">https://github.com/CoteDave/blog/blob/master/Made%20easy/MDN%20regression/mdn_model.py</a></p>
+<p>为了能够使用这个类，有 sklearn、tensorflow probability、Tensorflow &lt; 2、umap 和 hdbscan（用于自定义可视化类 功能）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python">EPOCHS = <span class="hljs-number">10000</span><br>BATCH_SIZE=<span class="hljs-built_in">len</span>(X)<br><br>model = MDN(n_mixtures = -<span class="hljs-number">1</span>,<br>          dist = <span class="hljs-string">&#x27;laplace&#x27;</span>,<br>          input_neurons = <span class="hljs-number">1000</span>,<br>          hidden_neurons = [<span class="hljs-number">25</span>],<br>          gmm_boost = <span class="hljs-literal">False</span>,<br>          optimizer = <span class="hljs-string">&#x27;adam&#x27;</span>,<br>          learning_rate = <span class="hljs-number">0.001</span>,<br>          early_stopping = <span class="hljs-number">250</span>,<br>          tf_mixture_family = <span class="hljs-literal">True</span>,<br>          input_activation = <span class="hljs-string">&#x27;relu&#x27;</span>,<br>          hidden_activation = <span class="hljs-string">&#x27;leaky_relu&#x27;</span>)<br><br>model.fit(X, y, epochs = EPOCHS, batch_size = BATCH_SIZE)<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>nerve，神经</li>
+<li>neuron，神经元</li>
+</ul>
+</blockquote>
+<p>类的参数总结如下：</p>
+<ul>
+<li>n_mixtures：MDN 使用的分布混合数。如果设置为 -1，它将使用高斯混合模型 (GMM) 和 X 和 y 上的 HDBSCAN 模型“自动”找到最佳混合数。</li>
+<li>dist：在混合中使用的分布类型。目前，有两种选择；“正常”或“拉普拉斯”。（基于一些实验，拉普拉斯分布比正态分布更好的结果）。</li>
+<li>input_neurons：在MDN的输入层中使用的神经元数量</li>
+<li>hidden_neurons：MDN的 隐藏层架构。每个隐藏层的神经元列表。此参数使您能够选择隐藏层的数量和每个隐藏层的神经元数量。</li>
+<li>gmm_boost：布尔值。如果设置为 True，将向数据集添加簇特征。</li>
+<li>optimizer：要使用的优化算法。</li>
+<li>learning_rate：优化算法的学习率</li>
+<li>early_stopping：避免训练时过拟合。当指标在给定数量的时期内没有变化时，此触发器将决定何时停止训练。</li>
+<li>tf_mixture_family：布尔值。如果设置为 True，将使用 tf_mixture 系列（推荐）：Mixture 对象实现批量混合分布。</li>
+<li>input_activation：输入层的激活函数</li>
+<li>hidden_activation：隐藏层的激活函数</li>
+</ul>
+<p>现在 MDN 模型已经拟合了数据，从混合密度分布中采样并绘制概率密度函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">model.plot_distribution_fit(n_samples_batch = <span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158356.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>我们的 MDN 模型非常适合真正的一般分布！下面将最终的混合分布分解为每个分布，看看它的样子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">model.plot_all_distribution_fit(n_samples_batch = <span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158357.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>使用学习到的混合分布再次采样一些 Y 数据，生成的样本与真实样本进行对比：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">model.plot_samples_vs_true(X, y, alpha = <span class="hljs-number">0.2</span>)<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158358.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>与实际的数据非常接近，如果，给定 X还可以生成多批样本以生成分位数、均值等统计信息：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">generated_samples = model.sample_from_mixture(X, n_samples_batch = <span class="hljs-number">10</span>)<br>generated_samples<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158359.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>绘制每个学习分布的平均值，以及它们各自的混合权重 (pi)：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">plt.scatter(X, y, alpha = <span class="hljs-number">0.2</span>)<br>model.plot_predict_dist(X, with_weights = <span class="hljs-literal">True</span>, size = <span class="hljs-number">250</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158360.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>有每个分布的均值和标准差，还可以绘制带有完整不确定性；假设我们以 95% 的置信区间绘制平均值：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">plt.scatter(X, y, alpha = <span class="hljs-number">0.2</span>)<br>model.plot_predict_dist(X, q = <span class="hljs-number">0.95</span>, with_weights = <span class="hljs-literal">False</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158361.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>将分布混合在一起，当对同一个 X 有多个 y 分布时，我们使用最高 Pi 参数值选择最可能的混合：</p>
+<p>Y_preds &#x3D; 对于每个 X，选择具有最大概率&#x2F;权重（Pi 参数）的分布的 Y 均值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">plt.scatter(X, y, alpha = <span class="hljs-number">0.3</span>)<br>model.plot_predict_best(X)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158362.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>这种方式表现得并不理想，因为在数据中显然有两个不同的簇重叠，密度几乎相等。使得误差将高于标准回归模型。这也意味着数据集中可能缺少一个可以帮助避免集群在更高维度上重叠重要特征。</p>
+<p>我们还可以选择使用 Pi 参数和所有分布的均值混合分布：</p>
+<p>· Y_preds &#x3D; (mean_1 * Pi1) + (mean_2 * Pi2)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">plt.scatter(X, y, alpha = <span class="hljs-number">0.3</span>)<br>model.plot_predict_mixed(X)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158363.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>如果我们添加 95 置信区间：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158364.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>这个选项提供了与非线性回归模型几乎相同的结果，混合所有内容以最小化点和函数之间的距离。在这个非常特殊的情况下，我最喜欢的选择是假设在数据的某些区域，X 有多个 Y，而在其他区域；仅使用其中一种混合。：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158365.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>例如，当 X &#x3D; 0 时，每种混合可能有两种不同的 Y 解。当 X &#x3D; -1.5 时，混合 1 中存在唯一的 Y 解决方案。根据用例或业务上下文，当同一个 X 存在多个解决方案时，可以触发操作或决策。</p>
+<p>这个选项得含义是当存在重叠分布时（如果两个混合概率都 &gt;&#x3D; 给定概率阈值），行将被复制：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">plt.scatter(X, y, alpha = <span class="hljs-number">0.3</span>)<br>model.plot_predict_with_overlaps(X)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158366.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>使用 95% 置信区间：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158367.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>数据集行从 2500 增加到了 4063，最终预测数据集如下所示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158368.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>在这个数据表中，当 X &#x3D; -0.276839 时，Y 可以是 1.43926（混合_0 的概率为 0.351525），但也可以是 -0.840593（混合_1 的概率为 0.648475）。</p>
+<p>具有多个分布的实例还提供了重要信息，即数据中正在发生某些事情，并且可能需要更多分析。可能是一些数据质量问题，或者可能表明数据集中缺少一个重要特征！</p>
+<p>“交通场景预测是可以使用混合密度网络的一个很好的例子。在交通场景预测中，我们需要一个可以表现出的行为分布——例如，一个代理可以左转、右转或直行。因此，混合密度网络可用于表示它学习的每个混合中的“行为”，其中行为由概率和轨迹组成（（x，y）坐标在未来某个时间范围内）。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158369.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="√-示例2：具有MDN-的多变量回归"><a href="#√-示例2：具有MDN-的多变量回归" class="headerlink" title="[√] 示例2：具有MDN 的多变量回归"></a>[√] 示例2：具有MDN 的多变量回归</h2><hr>
+<p>最后MDN 在多元回归问题上表现良好吗？</p>
+<p>我们将使用以下的数据集：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158370.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<ul>
+<li>年龄：主要受益人的年龄</li>
+<li>性别：保险承包商性别，女，男</li>
+<li>bmi：体重指数，提供对身体的了解，相对于身高相对较高或较低的体重，使用身高与体重之比的体重客观指数（kg &#x2F; m ^ 2），理想情况下为18.5到24.9</li>
+<li>子女：健康保险覆盖的子女人数&#x2F;受抚养人人数</li>
+<li>吸烟者：吸烟</li>
+<li>地区：受益人在美国、东北、东南、西南、西北的居住区。</li>
+<li>费用：由健康保险计费的个人医疗费用。这是我们要预测的目标</li>
+</ul>
+<p>问题陈述是：能否准确预测保险费用（收费）？</p>
+<p>现在，让我们导入数据集：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">#################</span><br><span class="hljs-string"># 2-IMPORT DATA #</span><br><span class="hljs-string">#################</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br>dataset = pd.read_csv(<span class="hljs-string">&#x27;insurance_clean.csv&#x27;</span>, sep = <span class="hljs-string">&#x27;;&#x27;</span>)<br><br><span class="hljs-comment">##### BASIC FEATURE ENGINEERING</span><br>dataset[<span class="hljs-string">&#x27;age2&#x27;</span>] = dataset[<span class="hljs-string">&#x27;age&#x27;</span>] * dataset[<span class="hljs-string">&#x27;age&#x27;</span>]<br>dataset[<span class="hljs-string">&#x27;BMI30&#x27;</span>] = np.where(dataset[<span class="hljs-string">&#x27;bmi&#x27;</span>] &gt; <span class="hljs-number">30</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>)<br>dataset[<span class="hljs-string">&#x27;BMI30_SMOKER&#x27;</span>] = np.where((dataset[<span class="hljs-string">&#x27;bmi&#x27;</span>] &gt; <span class="hljs-number">30</span>) &amp; (dataset[<span class="hljs-string">&#x27;smoker_yes&#x27;</span>] == <span class="hljs-number">1</span>), <span class="hljs-number">1</span>, <span class="hljs-number">0</span>)<br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">######################</span><br><span class="hljs-string"># 3-DATA PREPARATION #</span><br><span class="hljs-string">######################</span><br><span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-comment">###### SPLIT TRAIN TEST</span><br><span class="hljs-keyword">from</span> sklearn.model_selection <span class="hljs-keyword">import</span> train_test_split<br>X = dataset[dataset.columns.difference([<span class="hljs-string">&#x27;charges&#x27;</span>])]<br>y = dataset[[<span class="hljs-string">&#x27;charges&#x27;</span>]]<br><br>X_train, X_test, y_train, y_test = train_test_split(X, y,<br>                                                  test_size=<span class="hljs-number">0.25</span>,<br>                                                  stratify = X[<span class="hljs-string">&#x27;smoker_yes&#x27;</span>],<br>                                                  random_state=<span class="hljs-number">0</span>)<br><br><br>test_index = y_test.index.values<br>train_index = y_train.index.values<br>features = X.columns.tolist()<br><br><span class="hljs-comment">##### FEATURE SCALING</span><br><span class="hljs-keyword">from</span> sklearn.preprocessing <span class="hljs-keyword">import</span> StandardScaler<br>x_scaler = StandardScaler()<br>y_scaler = StandardScaler()<br><br>X_train = x_scaler.fit_transform(X_train)<br><span class="hljs-comment">#X_calib = x_scaler.transform(X_calib)</span><br>X_test = x_scaler.transform(X_test)<br><br>y_train = y_scaler.fit_transform(y_train)<br><span class="hljs-comment">#y_calib = y_scaler.transform(y_calib)</span><br>y_test = y_scaler.transform(y_test)<br><br>y_test_scaled = y_test.copy()<br></code></pre></td></tr></table></figure>
+
+<p>数据准备完整可以开始训练了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python">EPOCHS = <span class="hljs-number">10000</span><br>BATCH_SIZE=<span class="hljs-built_in">len</span>(X_train)<br><br>model = MDN(n_mixtures = -<span class="hljs-number">1</span>, <span class="hljs-comment">#-1，【alec】此处设置为-1，让模型自适应的学习混合的种类数</span><br>          dist = <span class="hljs-string">&#x27;laplace&#x27;</span>,<br>          input_neurons = <span class="hljs-number">1000</span>, <span class="hljs-comment">#1000</span><br>          hidden_neurons = [], <span class="hljs-comment">#25</span><br>          gmm_boost = <span class="hljs-literal">False</span>,<br>          optimizer = <span class="hljs-string">&#x27;adam&#x27;</span>,<br>          learning_rate = <span class="hljs-number">0.0001</span>, <span class="hljs-comment">#0.00001</span><br>          early_stopping = <span class="hljs-number">200</span>,<br>          tf_mixture_family = <span class="hljs-literal">True</span>,<br>          input_activation = <span class="hljs-string">&#x27;relu&#x27;</span>,<br>          hidden_activation = <span class="hljs-string">&#x27;leaky_relu&#x27;</span>)<br><br>model.fit(X_train, y_train, epochs = EPOCHS, batch_size = BATCH_SIZE)<br></code></pre></td></tr></table></figure>
+
+<p>训练完成后使用“最佳混合概率（Pi 参数）策略”预测测试数据集并绘制结果（y_pred vs y_test）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">y_pred = model.predict_best(X_test, q = <span class="hljs-number">0.95</span>, y_scaler = y_scaler)<br>model.plot_pred_fit(y_pred, y_test, y_scaler = y_scaler)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158371.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">model.plot_pred_vs_true(y_pred, y_test, y_scaler = y_scaler)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158372.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>R2 为 89.09，MAE 为 882.54，MDN太棒了，让我们绘制拟合分布与真实分布的图来进行对比：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">model.plot_distribution_fit(n_samples_batch = <span class="hljs-number">1</span>)<br><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158373.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>几乎一模一样！分解混合模型，看看什么情况：<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158374.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>一共混合了六种不同的分布。</p>
+<p>从拟合的混合模型生成多变量样本（应用 PCA 以在 2D 中可视化结果）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">model.plot_samples_vs_true(X_test, y_test, alpha = <span class="hljs-number">0.35</span>, y_scaler = y_scaler)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158375.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>生成的样本与真实样本非常接近！如果我们愿意，还可以从每个分布中进行预测：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">y_pred_dist = model.predict_dist(X_test, q = <span class="hljs-number">0.95</span>, y_scaler = y_scaler)<br>y_pred_dist<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302072158376.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h2 id="√-总结"><a href="#√-总结" class="headerlink" title="[√] 总结"></a>[√] 总结</h2><hr>
+<ul>
+<li>与线性或非线性经典 ML 模型相比，MDN 在单变量回归数据集中表现出色，其中两个簇相互重叠，并且 X 可能有多个 Y 输出。</li>
+<li>MDN 在多元回归问题上也做得很好，可以与 XGBoost 等流行模型竞争</li>
+<li>MDN 是 ML 中的一款出色且独特的工具，可以解决其他模型无法解决的特定问题（能够从混合分布中获得的数据中学习）</li>
+<li>随着 MDN 学习分布，还可以通过预测计算不确定性或从学习的分布中生成新样本</li>
+</ul>
+<blockquote>
+<p>本文的代码非常的多，这里是完整的notebook，可以直接下载运行：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/CoteDave/blog/blob/master/Made%20easy/MDN%20regression/Made%20easy%20-%20MDN%20regression.ipynb">https://github.com/CoteDave/blog/blob/master/Made%20easy/MDN%20regression/Made%20easy%20-%20MDN%20regression.ipynb</a></p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-chain-item">文章学习</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/MDN/">#MDN</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>009 - 文章阅读笔记：混合密度网络（MDN）进行多元回归详解和代码示例 - 数据派THU（清华大学数据软件团队官方微信公众号）</div>
+      <div>http://example.com/posts/696444063/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年2月7日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/1408352037/" title="010 - 文章阅读笔记：当神经网络撞上薛定谔：混合密度网络入门 - 知乎 - 代码律动">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">010 - 文章阅读笔记：当神经网络撞上薛定谔：混合密度网络入门 - 知乎 - 代码律动</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/564730285/" title="008 - 文章阅读笔记：混合密度网络：也许你需要的是一颗骰子 - 知乎 - esang">
+                        <span class="hidden-mobile">008 - 文章阅读笔记：混合密度网络：也许你需要的是一颗骰子 - 知乎 - esang</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

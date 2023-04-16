@@ -1,0 +1,1101 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="原文链接： 学习Transformer：自注意力与多头自注意力的原理及实现 - CSDN - 此人姓于名叫罩百灵 2022-07-23 00:16:12  [√] 前言 自从Transformer[3]模型在NLP领域问世后，基于Transformer的深度学习模型性能逐渐在NLP和CV领域(Vision Transformer)取得了令人惊叹的提升。本文的主要目的是介绍经典Transforme">
+<meta property="og:type" content="article">
+<meta property="og:title" content="007 - 文章阅读笔记：学习Transformer：自注意力与多头自注意力的原理及实现 - CSDN - 此人姓于名叫罩百灵">
+<meta property="og:url" content="http://example.com/posts/2723894386/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="原文链接： 学习Transformer：自注意力与多头自注意力的原理及实现 - CSDN - 此人姓于名叫罩百灵 2022-07-23 00:16:12  [√] 前言 自从Transformer[3]模型在NLP领域问世后，基于Transformer的深度学习模型性能逐渐在NLP和CV领域(Vision Transformer)取得了令人惊叹的提升。本文的主要目的是介绍经典Transforme">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041437098.png">
+<meta property="article:published_time" content="2023-02-03T13:13:07.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.397Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="注意力机制">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="计算机视觉">
+<meta property="article:tag" content="transformer">
+<meta property="article:tag" content="人工智能">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041437098.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>007 - 文章阅读笔记：学习Transformer：自注意力与多头自注意力的原理及实现 - CSDN - 此人姓于名叫罩百灵 - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">007 - 文章阅读笔记：学习Transformer：自注意力与多头自注意力的原理及实现 - CSDN - 此人姓于名叫罩百灵</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-02-03 21:13" pubdate>
+          2023年2月3日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          10k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          85 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">007 - 文章阅读笔记：学习Transformer：自注意力与多头自注意力的原理及实现 - CSDN - 此人姓于名叫罩百灵</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>原文链接：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xuyangcao123/article/details/124456330">学习Transformer：自注意力与多头自注意力的原理及实现 - CSDN - 此人姓于名叫罩百灵</a></p>
+<p>2022-07-23 00:16:12</p>
+</blockquote>
+<h2 id="√-前言"><a href="#√-前言" class="headerlink" title="[√] 前言"></a>[√] 前言</h2><hr>
+<p>自从Transformer[3]模型在NLP领域问世后，基于Transformer的深度学习模型性能逐渐在NLP和CV领域(Vision Transformer)取得了令人惊叹的提升。本文的主要目的是介绍经典Transformer模型和Vision Transformer的技术细节及基本原理，以方便读者在CV领域了解和使用Vision Transformer。由于篇幅过长，本文将分为四个部分进行介绍，包括：</p>
+<p>（1）<a target="_blank" rel="noopener" href="https://blog.csdn.net/xuyangcao123/article/details/124456330">自注意力与多头自注意力模型的原理与实现</a>。</p>
+<p>（2）<a target="_blank" rel="noopener" href="https://blog.csdn.net/xuyangcao123/article/details/124456330">Transformer的整体架构与实现</a>。</p>
+<p>（3）位置编码（positional encoding）的原理与实现。</p>
+<p>（4）Transformer在CV领域的应用案例。</p>
+<p>本文首先讲解第一个话题：自注意力（self-attention）与多头自注意力（multi-heads self-attention）模型的原理与实现。</p>
+<h2 id="√-注意力机制的直观认知"><a href="#√-注意力机制的直观认知" class="headerlink" title="[√] 注意力机制的直观认知"></a>[√] 注意力机制的直观认知</h2><hr>
+<p>自注意力最早在自然语言处理领域提出，在Transformer[3]中，<strong>自注意力模型可以认为在学习一种关系，即一个序列中当前token与其他token之间的联系。</strong></p>
+<h4 id="√-NLP领域"><a href="#√-NLP领域" class="headerlink" title="[√] NLP领域"></a>[√] NLP领域</h4><hr>
+<p>以一个自然语言处理中的序列翻译问题为例，直观地理解自注意力模型是如何发挥作用的，如下图所示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440166.png" srcset="/img/loading.gif" lazyload alt="请添加图片描述"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440167.png" srcset="/img/loading.gif" lazyload alt="请添加图片描述"></p>
+<p><strong>第一幅</strong>效果图显示了一句话中单词<code>it</code>与其他单词的联系。可以发现，通过自注意力机制，Transformer模型建立起了单词<code>it</code>和所有其他单词的联系(橙色线条表示这种联系的权重，颜色越深表示联系越紧密)。并且，随着模型不断训练，我们发现<code>it</code>和<code>The animal</code>的联系最为密切，这正是我们想要获得的结果。通过这个例子可以看出，注意力机制有助于<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%9E%8B&spm=1001.2101.3001.7020">深度学习模型</a>更好地理解文字序列中的每个token（单词）。</p>
+<p><strong>第二幅</strong>效果图显示了一句话中任何一个token与其他所有tokens的联系，并且以连接线颜色的深浅表示这种联系的紧密程度。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>通过自注意力机制，能够发现数据之间联系的紧密程度</li>
+</ul>
+</blockquote>
+<h4 id="√-CV领域"><a href="#√-CV领域" class="headerlink" title="[√] CV领域"></a>[√] CV领域</h4><hr>
+<p>基于上述自注意力机制，早在Vision Transformer之前，就有很多基于注意力机制的深度学习模型，如经典的spacial attention、channel attention、CBAM等，其核心思想是自适应地提升特征表达在空间维度或（和）通道维度对特定位置的权重，增加神经网络对特定区域的关注程度。</p>
+<p>以channel attention为例，可以看到channel attention模型通过重新分配特征图通道的权重，使模型更加关注某些通道，如下图所示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440168.png" srcset="/img/loading.gif" lazyload alt="请添加图片描述"></p>
+<p>Channel attention首先采用global average pooling将维度为[H, W, C]的特征图转化为[1, 1, C]，然后通过一个全连接层，最后将全连接层的输出结果与原始特征图相乘，在通道维度对原始特征图进行加权。这样，channel attention模型可在通道维度增加对某些通道的注意力，同时削弱对其余通道的注意力。</p>
+<p>通过直观感受自注意力在不同领域发挥的作用，我们基本可以理解自注意力到底做了什么，并定性感受了为什么自注意力能够促进模型提升性能。后面，我们还将通过一些实际例子，发现自注意力机制在NLP和CV领域的一些联系，非常有意思。</p>
+<h2 id="√-自注意力"><a href="#√-自注意力" class="headerlink" title="[√] 自注意力"></a>[√] 自注意力</h2><hr>
+<p>本节从自注意力的基本原理出发，首先通过一个序列翻译的例子讲解自注意力模型的计算过程及基本原理；然后，介绍自注意力模型的矩阵表达，以提升计算效率；接下来，将矩阵表达的过程整理为数学表达；最后，通过代码介绍自注意力模型的实现过程。</p>
+<h4 id="√-自注意力的过程和基本原理"><a href="#√-自注意力的过程和基本原理" class="headerlink" title="[√] 自注意力的过程和基本原理"></a>[√] 自注意力的过程和基本原理</h4><hr>
+<p>整个自注意力的计算过程可以分为6个步骤。接下来逐步介绍每个步骤的操作过程和及其设计原理。</p>
+<h6 id="√-第一步：创建QKV向量"><a href="#√-第一步：创建QKV向量" class="headerlink" title="[√] 第一步：创建QKV向量"></a>[√] 第一步：创建QKV向量</h6><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440169.png" srcset="/img/loading.gif" lazyload alt="image-20230203223316503"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>QKV是将输入通过权重矩阵之后得到的，这个权重矩阵就是一个可学习的全连接层。</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440170.png" srcset="/img/loading.gif" lazyload alt="image-20230203223420425"></p>
+<h6 id="√-第二步：计算自注意力分数"><a href="#√-第二步：计算自注意力分数" class="headerlink" title="[√] 第二步：计算自注意力分数"></a>[√] 第二步：计算自注意力分数</h6><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440171.png" srcset="/img/loading.gif" lazyload alt="image-20230203224250697"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>计算自注意力分数的过程：<ul>
+<li>对于任意一个词向量，用该向量对应的q整个序列中所有k进行点乘，并得到对应分数，这里将这个分数命名为‘<em>自注意力分数</em>’。</li>
+<li>例如，对于x1，用其对应的q1分别与该序列中k1和k2相乘，得到q1xk1&#x3D;112，q1xk2&#x3D;96。得到的这两个分数为标量，可以用来表示当前Query对应的token与其他所有tokens之间的关系，且分值越大，表示关系越强烈。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>第三步和第四步的计算过程如下图所示。</p>
+<h6 id="√-第三步：调整自注意力分数幅值"><a href="#√-第三步：调整自注意力分数幅值" class="headerlink" title="[√] 第三步：调整自注意力分数幅值"></a>[√] 第三步：调整自注意力分数幅值</h6><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440172.png" srcset="/img/loading.gif" lazyload alt="image-20230203224941026"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>Q·V计算完之后，不能直接送到softmax得到权重占比，需要调整Q·K计算得到的自注意力分数的幅值。</li>
+<li>在实际训练中，如果<code>q</code>和<code>k</code>计算得到的自注意力分数幅值过大，则在进行<code>softmax</code>操作时会导致梯度极小，很容易出现梯度消失现象（其原因很好理解，结合<code>softmax</code>函数曲线可以看到，如果自注意力分数幅值过大，则会分布在<code>softmax</code>函数两侧距离原点很远的位置，而这些位置的梯度极小。</li>
+<li>为了解决上述问题，一种常见的算法是给第二步得到的<code>score</code>除以根号下d<del>k</del>，其中d<del>k</del>表示向量k的维度。</li>
+<li>调整上一步自注意力分数幅值的目的是使神经网络训练更加稳定，这在一些迭代优化算法中是经常使用的操作。</li>
+</ul>
+</blockquote>
+<h6 id="√-第四部：softmax"><a href="#√-第四部：softmax" class="headerlink" title="[√] 第四部：softmax"></a>[√] 第四部：softmax</h6><hr>
+<p>将上一步的得到的自注意力分数进行<code>softmax</code>操作，使得所有分数都为正数，且所有分数之和为1。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440173.png" srcset="/img/loading.gif" lazyload alt="image-20230203225151513"></p>
+<h6 id="√-第五步：将第四步中经过softmax之后的分数与对应的Value（v）相乘"><a href="#√-第五步：将第四步中经过softmax之后的分数与对应的Value（v）相乘" class="headerlink" title="[√] 第五步：将第四步中经过softmax之后的分数与对应的Value（v）相乘"></a>[√] 第五步：将第四步中经过softmax之后的分数与对应的Value（v）相乘</h6><hr>
+<p> 这一步操作的目的是希望通过score的数值来保持序列中想要关注（相关）单词的权重，同时降低不相关单词的权重。</p>
+<h6 id="√-第六步：将第五步中加权之后的所有Values值相加，并生成新向量Z"><a href="#√-第六步：将第五步中加权之后的所有Values值相加，并生成新向量Z" class="headerlink" title="[√] 第六步：将第五步中加权之后的所有Values值相加，并生成新向量Z"></a>[√] 第六步：将第五步中加权之后的所有Values值相加，并生成新向量Z</h6><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440174.png" srcset="/img/loading.gif" lazyload alt="image-20230203225350515"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440175.png" srcset="/img/loading.gif" lazyload alt="image-20230203225423799"></p>
+<p>至此，我们介绍完了自注意力机制的计算过程及其设计目的。用一句话总结一下，self-attention的过程就是通过query和key进行相乘计算出一个关系权重，再采用这个关系权重对value进行加权求和，以提升一个序列中相关元素的权重，降低不相关元素的权重。</p>
+<p>为提升计算效率，上述自注意力过程在实际操作中一般通过矩阵表达进行并行计算。接下来，将介绍自注意力机制的矩阵表达。</p>
+<h4 id="√-矩阵表达"><a href="#√-矩阵表达" class="headerlink" title="[√] 矩阵表达"></a>[√] 矩阵表达</h4><hr>
+<p>如下图所示，在矩阵表达中，首先将一个句子序列中所有单词的编码结果叠加为一个二维向量X，X中每一行表示一个单词。一个序列中每个单词对应的q, k, v可以直接通过一次矩阵相乘计算得到，这里用大写字母Q，K和V表示。类似地，Q, K, V中每一行代表一个单词对应的q, k, v。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440176.png" srcset="/img/loading.gif" lazyload alt="image-20230203225703679"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440177.png" srcset="/img/loading.gif" lazyload alt="image-20230203225828460"></p>
+<p>接下来，将自注意力中所有其余计算步骤结合在一起，如下图所示。首先，计算QK^T^。（这里是矩阵计算，即每个单词都对序列中的所有单词计算关系度）</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440178.png" srcset="/img/loading.gif" lazyload alt="image-20230203225836661"></p>
+<p>至此，我们介绍完了自注意力机制的矩阵表达。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>最终Z是一个矩阵，每一行代表该位置的单词和序列中所有单词的关联度加权之后的结果。整个矩阵代表整个句子计算完自注意力之后得到的带有注意力的结果。</li>
+</ul>
+</blockquote>
+<h4 id="√-数学表达"><a href="#√-数学表达" class="headerlink" title="[√] 数学表达"></a>[√] 数学表达</h4><hr>
+<p>根据自注意力机制矩阵表达的最后一个图，可以写出自注意力机制的数学表达如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440179.png" srcset="/img/loading.gif" lazyload alt="image-20230203230042378"></p>
+<p>这里Q, K, V分表表示矩阵形式的query，key和value；d_{k}表示向量key的维度。</p>
+<p>下图是self-attention在Transformer[3]中的示意图，同样很好地总结了自注意力模型的计算过程。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440180.png" srcset="/img/loading.gif" lazyload alt="请添加图片描述"></p>
+<h4 id="√-代码分析"><a href="#√-代码分析" class="headerlink" title="[√] 代码分析"></a>[√] 代码分析</h4><hr>
+<p>注意力机制的代码如下所示:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">attention</span>(<span class="hljs-params">query, key, value, mask=<span class="hljs-literal">None</span>, dropout=<span class="hljs-literal">None</span></span>):<br>    <span class="hljs-string">&quot;Compute &#x27;Scaled Dot Product Attention&#x27;&quot;</span><br>    d_k = query.size(-<span class="hljs-number">1</span>)<br>    scores = torch.matmul(query, key.transpose(-<span class="hljs-number">2</span>, -<span class="hljs-number">1</span>)) \<br>             / math.sqrt(d_k)<br>    <span class="hljs-keyword">if</span> mask <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:<br>        scores = scores.masked_fill(mask == <span class="hljs-number">0</span>, -<span class="hljs-number">1e9</span>)<br>    p_attn = F.softmax(scores, dim = -<span class="hljs-number">1</span>)<br>    <span class="hljs-keyword">if</span> dropout <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:<br>        p_attn = dropout(p_attn)<br>    <span class="hljs-keyword">return</span> torch.matmul(p_attn, value), p_attn<br><br></code></pre></td></tr></table></figure>
+
+<p>上述代码结合公式（1）很容易理解，因此不做过多介绍，下面仅对变量的维度进行简要分析。</p>
+<p>以Vision Transformer中的应用为例，令输入图像维度为[B, C, W, H]，其中B, C, W, H分别为batch size，特征图（或图像）通道数，特征图（或图像）宽度和高度。<br>由于Transformer仅支持序列为输入，因此一般需要将W和H维度合并，表示为WH。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440181.png" srcset="/img/loading.gif" lazyload alt="image-20230203230431670"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>“由于Transformer仅支持序列为输入，因此一般需要将W和H维度合并，表示为WH。”</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>注: 通过QK^T^的输出维度可以看到，QK^T^的维度与C无关了，由于B仅为batch size，我们不必关心，因此Q和K相乘之后相当与在WH维度计算了一个注意力权重，用于和V相乘。这一点特别像CV中的空间注意力机制。</p>
+</blockquote>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>QKV计算出来的自注意力特别像CV中的空间注意力机制，计算出来的注意力分数是加权到每一个像素上面。</li>
+</ul>
+</blockquote>
+<h2 id="√-多头自注意力"><a href="#√-多头自注意力" class="headerlink" title="[√] 多头自注意力"></a>[√] 多头自注意力</h2><hr>
+<p>相比于前文所述的自注意力，多头自注意力的优势可以总结为两点[1]：</p>
+<p>（1）<strong>多头自注意力使得模型能够同时关注多个重点区域。</strong> 在前序语言模型中，我们发现自注意力模型将自身计算为最值得关注的对象（当然，模型训练之后不一定如此），如果增加多个注意力头，就可能使模型关注一些除自己本身之外的对象。</p>
+<p>（2）<strong>多头自注意力为模型的注意力层提供了多个表示子空间（representation subspaces）。</strong> 多头自注意力中将有多个学习Q, K, V的权重矩阵，这些矩阵均是独立地随机初始化，然后将输入向量映射到不同子空间中，进而丰富了信息的特征表达。</p>
+<p>接下来，我们首先通过一组图示来介绍多头自注意力的基本原理，然后给出其公式表达，最后对相应代码进行分析。</p>
+<h4 id="√-多头自注意力的过程和基本原理"><a href="#√-多头自注意力的过程和基本原理" class="headerlink" title="[√] 多头自注意力的过程和基本原理"></a>[√] 多头自注意力的过程和基本原理</h4><hr>
+<p>由于前文介绍了自注意力机制的矩阵表达，因此这里直接采用矩阵形式对多头自注意力进行描述。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440182.png" srcset="/img/loading.gif" lazyload alt="image-20230204130648988"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440183.png" srcset="/img/loading.gif" lazyload alt="请添加图片描述"></p>
+<p>然后，根据前续<a target="_blank" rel="noopener" href="https://blog.csdn.net/xuyangcao123/article/details/124456330#%E8%87%AA%E6%B3%A8%E6%84%8F%E5%8A%9B">自注意力</a>一节的内容，分别对每个注意力头单独计算自注意力，并得到对应输出Z<del>i</del>。假设有8个注意力头，则会得到8个对应的输出Z<del>0~~Z</del>7~，如下图所示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440184.png" srcset="/img/loading.gif" lazyload alt="请添加图片描述"></p>
+<p>显然，上一步得到的多个输出Z_i不能直接用于全连接层的输入，因此需要将多个输出整合为一个矩阵再输出。</p>
+<p>为此，多头自注意力的做法是先将所有的Z_i拼接为一个整体，然后再乘以一个输出矩阵W^O，该过程如下图所示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440185.png" srcset="/img/loading.gif" lazyload alt="请添加图片描述"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>多头注意力机制，得到多个输出。需要乘以一个矩阵W_0，变成一个输出。</li>
+</ul>
+</blockquote>
+<p>最后，将多头自注意力机制的整个流程总结为一幅图，如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440186.png" srcset="/img/loading.gif" lazyload alt="请添加图片描述"></p>
+<p>至此，我们介绍完了多头自注意力模型的计算流程及其设计目的。以句子翻译为例，如下图，当注意力存在多个头时，一个头将单词<code>it</code>的注意力集中到<code>The animal</code>，另一个头将注意力集中到<code>tired</code>，可见增加了注意力模型的表达能力。当然，若注意力头继续增加，可能会出现一些无法用直观进行解释的现象，但这并不影响多头自注意力优越的性能。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440187.png" srcset="/img/loading.gif" lazyload alt="请添加图片描述"></p>
+<h4 id="√-数学表达-1"><a href="#√-数学表达-1" class="headerlink" title="[√] 数学表达"></a>[√] 数学表达</h4><hr>
+<p>结合基本原理，多头自注意力的数学表达如下[3]：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440188.png" srcset="/img/loading.gif" lazyload alt="image-20230204131729177"></p>
+<p>下图是multi-heads self-attention在Transformer[3]中给出的示意图，总结了多头自注意力模型的计算过程。可以看出，该图能够很好地对应多头自注意力模型的数学表达。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440189.png" srcset="/img/loading.gif" lazyload alt="请添加图片描述"></p>
+<h4 id="√-代码分析-1"><a href="#√-代码分析-1" class="headerlink" title="[√] 代码分析"></a>[√] 代码分析</h4><hr>
+<p>多头自注意力的代码如下所示:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">clones</span>(<span class="hljs-params">module, N</span>):<br>    <span class="hljs-string">&quot;Produce N identical layers.&quot;</span><br>    <span class="hljs-keyword">return</span> nn.ModuleList([copy.deepcopy(module) <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(N)])<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MultiHeadedAttention</span>(nn.Module):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, h, d_model, dropout=<span class="hljs-number">0.1</span></span>):<br>        <span class="hljs-string">&quot;Take in model size and number of heads.&quot;</span><br>        <span class="hljs-built_in">super</span>(MultiHeadedAttention, self).__init__()<br>        <span class="hljs-keyword">assert</span> d_model % h == <span class="hljs-number">0</span><br>        <span class="hljs-comment"># We assume d_v always equals d_k</span><br>        self.d_k = d_model // h<br>        self.h = h<br>        self.linears = clones(nn.Linear(d_model, d_model), <span class="hljs-number">4</span>)<br>        self.attn = <span class="hljs-literal">None</span><br>        self.dropout = nn.Dropout(p=dropout)<br>        <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, query, key, value, mask=<span class="hljs-literal">None</span></span>):<br>        <span class="hljs-string">&quot;Implements Figure 2&quot;</span><br>        <span class="hljs-keyword">if</span> mask <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:<br>            <span class="hljs-comment"># Same mask applied to all h heads.</span><br>            mask = mask.unsqueeze(<span class="hljs-number">1</span>)<br>        nbatches = query.size(<span class="hljs-number">0</span>)<br>        <br>        <span class="hljs-comment"># 1) Do all the linear projections in batch from d_model =&gt; h x d_k</span><br>        query, key, value = \<br>            [l(x).view(nbatches, -<span class="hljs-number">1</span>, self.h, self.d_k).transpose(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)<br>             <span class="hljs-keyword">for</span> l, x <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(self.linears, (query, key, value))]<br>        <br>        <span class="hljs-comment"># 2) Apply attention on all the projected vectors in batch. </span><br>        x, self.attn = attention(query, key, value, mask=mask, <br>                                 dropout=self.dropout)<br>        <br>        <span class="hljs-comment"># 3) &quot;Concat&quot; using a view and apply a final linear. </span><br>        x = x.transpose(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>).contiguous() \<br>             .view(nbatches, -<span class="hljs-number">1</span>, self.h * self.d_k)<br>        <span class="hljs-keyword">return</span> self.linears[-<span class="hljs-number">1</span>](x)<br><br></code></pre></td></tr></table></figure>
+
+<p>首先，对代码中几个关键点解释如下：</p>
+<ol>
+<li>关于变量，<code>h</code>和<code>d_module</code>分别表示注意力头数和输入序列长度，<code>d_k</code>表示<code>key</code>的序列长度。</li>
+<li><code>self.linears = clones(nn.Linear(d_model, d_model), 4)</code>一句话中定义了4个全连接层，这4个全连接层就对应了四个权重矩阵W WW，前三个矩阵用于学习Q, K, V, 最后一个权重矩阵W WW用于将拼接的多头注意力输出转化为一个输出矩阵。</li>
+<li>（这一条需要结合Transformer的整体结构理解）<code>MultiHeadedAttention</code>的<code>forward</code>函数中query, key, value第一次输入时，query和key一般为src+pos_embeding，而value直接设置为src即可（这样设置的原因是，在学习序列中加上位置信息有助于学习不同元素之间关系，而计算每个元素的新value时无需加上位置信息）。在第二次及以后，<code>foward</code>中的query, key和value直接使用上一层输出即可。</li>
+</ol>
+<p>然后，继续以计算机视觉中Vision Transformer为例，理解多头自注意力中变量的维度变化。令输入图像的维度为[B, C, W, H]，其中B, C, W, H分别为batch size，特征图（或图像）通道数，特征图（或图像）宽度和高度。由于Transformer仅支持序列为输入，因此一般需要将W和H维度合并，表示为WH。则多头注意力机制可大致分为如下三个关键步骤：</p>
+<p><strong>第一步</strong>：根据上述信息，令Q, K, V的维度均为[B, WH, C]（注意，这里的维度顺序和上一节不同，因为后面多头注意力要多分出来一个维度。此外，这里Q, K, V还没有通过权重矩阵W，因此虽然名字是Q, K, V，但需要理解为输入向量）。通过如下代码，首先将Q, K, V分别输入权重矩阵（<code>l(x)</code>），然后将输出的维度改变为[B, WH, h, d_model&#x2F;&#x2F;h]（<code>view(nbatches, -1, self.h, self.d_k)</code>，这里d_model等价于C），最后改变维度顺序为[B, h, WH, d_model&#x2F;&#x2F;h]（<code>transpose(1, 2)</code>）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 1) Do all the linear projections in batch from d_model =&gt; h x d_k</span><br>query, key, value = \<br>    [l(x).view(nbatches, -<span class="hljs-number">1</span>, self.h, self.d_k).transpose(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)<br>        <span class="hljs-keyword">for</span> l, x <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(self.linears, (query, key, value))]<br><br></code></pre></td></tr></table></figure>
+
+<p><strong>第二步</strong>：计算attention:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 2) Apply attention on all the projected vectors in batch. </span><br>x, self.attn = attention(query, key, value, mask=mask, <br>                            dropout=self.dropout)<br><br></code></pre></td></tr></table></figure>
+
+<p>根据上一节的分析，输出变量x的维度和value的维度相同，即[B, h, WH, d_model&#x2F;&#x2F;h]。</p>
+<p><strong>第三步</strong>：合并输出变量，然后通过一个权重矩阵并输出最终结果。首先将x的维度由[B, h, WH, d_moudel&#x2F;&#x2F;h]变为[B, WH, h, d_model&#x2F;&#x2F;h]（<code>transpose(1, 2).contiguous()</code>）；然后将x的维度转化为[B, WH, C]（<code>view(nbatches, -1, self.h * self.d_k)</code>）；最后，将结果通过权重矩阵W，维度不变（<code>self.linears[-1](x)</code>）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 3) &quot;Concat&quot; using a view and apply a final linear. </span><br>x = x.transpose(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>).contiguous() \<br>        .view(nbatches, -<span class="hljs-number">1</span>, self.h * self.d_k)<br><span class="hljs-keyword">return</span> self.linears[-<span class="hljs-number">1</span>](x)<br><br></code></pre></td></tr></table></figure>
+
+<p>因此，最终输出结果的维度为[B, WH, C], 与输入保持一致。</p>
+<blockquote>
+<p>注：类比计算机视觉方法，多头注意力机制中将C拆分为KaTeX parse error: Expected ‘}’, got ‘_’ at position 18: …times \textit{d_̲k}的做法相当于在channel维度将特征图分组，然后每个组别计算一次attention，组内部的attention关注spatial信息。因此，多头注意力机制特别类似于计算机视觉中同时使用spatial和channel attention。当然，视觉中的attention机制是基于NLP中attention提出的。</p>
+</blockquote>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>这里将输入数据的通道维度C个分组，分别计算自注意力。其中分组的操作，类似于通道注意力，而自注意力本身计算出来的注意力的形状是WxH，因此类似于空间注意力。因此这种将输入在通道维度分组，然后再分别计算自注意力的方式，类似于同时使用通道注意力和空间注意力。</li>
+</ul>
+</blockquote>
+<h2 id="√-计算复杂度分析"><a href="#√-计算复杂度分析" class="headerlink" title="[√] 计算复杂度分析"></a>[√] 计算复杂度分析</h2><hr>
+<p>在Swin Transformer一文中[8]，作者给出多头注意力的计算复杂度为Ω(MSA)&#x3D;4WHC^2^+2(WH)^2^C，本节分析下是怎么计算的[7]。</p>
+<h4 id="√-单头注意力"><a href="#√-单头注意力" class="headerlink" title="[√] 单头注意力"></a>[√] 单头注意力</h4><hr>
+<p>首先，忽略batch size的维度，令输入矩阵X的维度为[WH, C], 生成Q, K, V的矩阵矩阵分别为W_Q, W_K, W_V，假设Q, K, V的channel数量与X一致，则有（为了方便显示矩阵维度，本节将权重矩阵中的Q, K, V角标放在下面了，和前文有些差别）：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440190.png" srcset="/img/loading.gif" lazyload alt="image-20230204134900609"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>这里QKV的维度和输入X的维度是相同的，因此变换矩阵W的维度是[C, C]。</li>
+</ul>
+</blockquote>
+<p>公式（3）中生成Q, K, V过程的计算量为3WHC^2^。</p>
+<blockquote>
+<p>注：令矩阵A维度为[a, c]，矩阵B的维度为[c, b], 则A⋅B的计算量为abc。</p>
+</blockquote>
+<p>然后计算QK^T^，有：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440191.png" srcset="/img/loading.gif" lazyload alt="image-20230204135518569"></p>
+<p>公式（4）中的计算量为(WH)^2^C。</p>
+<p>Softmax操作以及除以根号下D_k的计算量可以忽略不计，因此仅需要计算最后的乘以V操作。令softmax操作之后的值为Z^hat，则：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440192.png" srcset="/img/loading.gif" lazyload alt="image-20230204135714000"></p>
+<p>该过程（公式（5））的计算量为(WH)^2^C。</p>
+<p><strong>综上所述，对于单头注意力模型，其总计算量为3WHC^2^+2(WH)^2^C</strong></p>
+<blockquote>
+<p>alec：</p>
+<p>单头注意力的计算量总结：</p>
+<ul>
+<li>计算QKV三者：3WHC^2^</li>
+<li>计算QK：(WH)^2^C</li>
+<li>计算QK·V：(WH)^2^C</li>
+<li>合计：3WHC^2^+2(WH)^2^C</li>
+</ul>
+</blockquote>
+<h4 id="√-多头注意力机制"><a href="#√-多头注意力机制" class="headerlink" title="[√] 多头注意力机制"></a>[√] 多头注意力机制</h4><hr>
+<p>相比于单头注意力，多头注意力的计算量仅多了最后一步中输出矩阵与拼接后输出的乘法，即：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302041440193.png" srcset="/img/loading.gif" lazyload alt="image-20230204142711256"></p>
+<p>该过程的计算量为WHC^2^。</p>
+<p><strong>因此，多头注意力模型的总计算量为4WHC^2^+2(WH)^2^C</strong></p>
+<h2 id="√-总结"><a href="#√-总结" class="headerlink" title="[√] 总结"></a>[√] 总结</h2><hr>
+<ul>
+<li><p>Transformer中自注意力在大量学习一种关系，即当前token和其他tokens之间的关联性，在数学上，上述这种关系就是通过QK^T^计算而来，二者的计算结果为一个权重系数，再将权重系数与对所有对应的V进行加权求和，即可得到当前token的新特征。在一个序列中，即使两个tokens之间的距离非常远，只要它们被考虑在内，就会计算它们之间的关联（有点类似协方差矩阵中随机变量内部元素之间的相关性）。这也就是文献中经常说的Transformer对长依赖(long-range dependence)处理较好。这种对全局信息的掌控能力也正是CNN缺少的，因为CNN具有局部连接特性，虽然对局部信息的处理更具优势，但在全局信息的把握上却不够充分。同时，CNN的这种归纳偏置(inductive bias)限制了其在超大规模数据集上的性能。</p>
+</li>
+<li><p>当然，通过前文对计算复杂度分析可以看出，经典Transformer中的多头自注意力机制在图像上的计算复杂度为4WHC^2^+2(WH)^2^C，这将限制Transformer在CV领域的推广，因为图像的维度要比文字序列高的多。后面，我们将介绍一种在CV中降低自注意力机制计算复杂度的策略。</p>
+</li>
+<li><p>最后，将Transformer中多头注意力模型和CV中的Attention模型进行类比，可以发现二者之间有一些关联之处。可以认为多头注意力模型就是在channel维度对特征进行了分组（每个头为一组），并对每个组分别进行spacial attention，最后再合并计算最终输出，这使得CV领域和NLP领域的Attention极为相似。当然，需要注意，CV领域的attention机制是受NLP领域self-attention启发而提出的，因此二者如此相似也就不难理解了。</p>
+</li>
+</ul>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li><p>Transformer中自注意力在大量学习一种关系，即当前token和其他tokens之间的关联性。</p>
+</li>
+<li><p>在一个序列中，即使两个tokens之间的距离非常远，只要它们被考虑在内，就会计算它们之间的关联（有点类似协方差矩阵中随机变量内部元素之间的相关性）。这也就是文献中经常说的Transformer对长依赖(long-range dependence)处理较好。这种对全局信息的掌控能力也正是CNN缺少的，因为CNN具有局部连接特性，虽然对局部信息的处理更具优势，但在全局信息的把握上却不够充分。同时，CNN的这种归纳偏置(inductive bias)限制了其在超大规模数据集上的性能。</p>
+</li>
+<li><h2 id="将Transformer中多头注意力模型和CV中的Attention模型进行类比，可以发现二者之间有一些关联之处。可以认为多头注意力模型就是在channel维度对特征进行了分组（每个头为一组），并对每个组分别进行spacial-attention，最后再合并计算最终输出，这使得CV领域和NLP领域的Attention极为相似。当然，需要注意，CV领域的attention机制是受NLP领域self-attention启发而提出的，因此二者如此相似也就不难理解了。"><a href="#将Transformer中多头注意力模型和CV中的Attention模型进行类比，可以发现二者之间有一些关联之处。可以认为多头注意力模型就是在channel维度对特征进行了分组（每个头为一组），并对每个组分别进行spacial-attention，最后再合并计算最终输出，这使得CV领域和NLP领域的Attention极为相似。当然，需要注意，CV领域的attention机制是受NLP领域self-attention启发而提出的，因此二者如此相似也就不难理解了。" class="headerlink" title="将Transformer中多头注意力模型和CV中的Attention模型进行类比，可以发现二者之间有一些关联之处。可以认为多头注意力模型就是在channel维度对特征进行了分组（每个头为一组），并对每个组分别进行spacial attention，最后再合并计算最终输出，这使得CV领域和NLP领域的Attention极为相似。当然，需要注意，CV领域的attention机制是受NLP领域self-attention启发而提出的，因此二者如此相似也就不难理解了。"></a>将Transformer中多头注意力模型和CV中的Attention模型进行类比，可以发现二者之间有一些关联之处。可以认为多头注意力模型就是在channel维度对特征进行了分组（每个头为一组），并对每个组分别进行spacial attention，最后再合并计算最终输出，这使得CV领域和NLP领域的Attention极为相似。当然，需要注意，CV领域的attention机制是受NLP领域self-attention启发而提出的，因此二者如此相似也就不难理解了。</h2></li>
+<li><p>注意，多头注意力是将输入split成多个分组，而不是copy成多个分组，因此这里是在通道维度上分组，但是数据量没变。</p>
+</li>
+</ul>
+</blockquote>
+<h2 id="√-参考文献"><a href="#√-参考文献" class="headerlink" title="[√] 参考文献"></a>[√] 参考文献</h2><hr>
+<p>[1] <a target="_blank" rel="noopener" href="https://jalammar.github.io/illustrated-transformer/">The Illustrated Transformer</a></p>
+<p>[2] <a target="_blank" rel="noopener" href="http://nlp.seas.harvard.edu/2018/04/03/attention.html">The Annotated Transformer</a></p>
+<p>[3] Vaswani et al. <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1706.03762">Attention Is All You Need</a>, NIPS 2017</p>
+<p>[4] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/386579206">DETR详解</a></p>
+<p>[5] Hu et al. <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1709.01507">Squeeze-and-Excitation Networks</a>, TPAMI, 2018</p>
+<p>[6] <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/358206572">MultiHeadAttention实现详解</a></p>
+<p>[7] <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_37541097/article/details/121119988?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2~default~CTRLIST~Rate-1.pc_relevant_paycolumn_v3&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2~default~CTRLIST~Rate-1.pc_relevant_paycolumn_v3">Swin-Transformer网络结构详解</a></p>
+<p>[8] Z. Liu et al. <a target="_blank" rel="noopener" href="http://arxiv.org/abs/2103.14030">Swin Transformer: Hierarchical Vision Transformer using Shifted Windows</a>, ICCV, 2021</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-chain-item">文章学习</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6/">#注意力机制</a>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>
+      
+        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">#计算机视觉</a>
+      
+        <a href="/tags/transformer/">#transformer</a>
+      
+        <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">#人工智能</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>007 - 文章阅读笔记：学习Transformer：自注意力与多头自注意力的原理及实现 - CSDN - 此人姓于名叫罩百灵</div>
+      <div>http://example.com/posts/2723894386/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年2月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/2751332562/" title="054 - 文章阅读笔记：GhostSR|针对图像超分的特征冗余，华为诺亚&amp;北大联合提出GhostSRepVGG - 微信公众号 - AIWalker">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">054 - 文章阅读笔记：GhostSR|针对图像超分的特征冗余，华为诺亚&amp;北大联合提出GhostSRepVGG - 微信公众号 - AIWalker</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/4028329922/" title="001 - 文章阅读笔记：什么都可以以后再说，体检为什么不可以？ - 少数派 - 少数派编辑部">
+                        <span class="hidden-mobile">001 - 文章阅读笔记：什么都可以以后再说，体检为什么不可以？ - 少数派 - 少数派编辑部</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

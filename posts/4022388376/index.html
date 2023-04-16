@@ -1,0 +1,1025 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="原文链接： Transformer再下一城！low-level多个任务榜首被占领，北大华为等联合提出预训练模型IPT - 微信公众号 - AIWalker 2020-12-02 22:30 ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。  [√] 导读 来自Transformer的降维打击！北京大学等最新发布论文，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="053 - 文章阅读笔记：Transformer再下一城！low-level多个任务榜首被占领，北大华为等联合提出预训练模型IPT - 微信公众号 - AIWalker">
+<meta property="og:url" content="http://example.com/posts/4022388376/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="原文链接： Transformer再下一城！low-level多个任务榜首被占领，北大华为等联合提出预训练模型IPT - 微信公众号 - AIWalker 2020-12-02 22:30 ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。  [√] 导读 来自Transformer的降维打击！北京大学等最新发布论文，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032003804.jpg">
+<meta property="article:published_time" content="2023-02-03T09:59:53.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.440Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="transformer">
+<meta property="article:tag" content="图像超分辨率重建">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032003804.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>053 - 文章阅读笔记：Transformer再下一城！low-level多个任务榜首被占领，北大华为等联合提出预训练模型IPT - 微信公众号 - AIWalker - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">053 - 文章阅读笔记：Transformer再下一城！low-level多个任务榜首被占领，北大华为等联合提出预训练模型IPT - 微信公众号 - AIWalker</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-02-03 17:59" pubdate>
+          2023年2月3日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          37 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">053 - 文章阅读笔记：Transformer再下一城！low-level多个任务榜首被占领，北大华为等联合提出预训练模型IPT - 微信公众号 - AIWalker</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>原文链接：</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651682736&idx=1&sn=d8f48cacf9dcf82efb66f687d6d1f6f0&scene=21#wechat_redirect">Transformer再下一城！low-level多个任务榜首被占领，北大华为等联合提出预训练模型IPT - 微信公众号 - AIWalker</a></p>
+<p>2020-12-02 22:30</p>
+<p>ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。</p>
+</blockquote>
+<h2 id="√-导读"><a href="#√-导读" class="headerlink" title="[√] 导读"></a>[√] 导读</h2><hr>
+<p>来自Transformer的降维打击！北京大学等最新发布论文，联合提出图像处理Transformer。通过对low-level计算机视觉任务，如降噪、超分、去雨等进行研究，提出了一种新的预训练模型IPT，占领low-level多个任务的榜首。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004217.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>本文是北京大学&amp;华为诺亚等联合提出的一种图像处理Transformer。Transformer自提出之日起即引起极大的轰动，BERT、GPT-3等模型迅速占用NLP各大榜单；后来Transformer被用于图像分类中同样引起了轰动；再后来，Transformer在目标检测任务中同样引起了轰动。<strong>现在Transformer再出手，占领了low-level多个任务的榜首，甚至它在去雨任务上以1.6dB超越了已有最佳方案。</strong></p>
+<p>论文链接: <a target="_blank" rel="noopener" href="https://arxiv.org/abs/2012.00364">https://arxiv.org/abs/2012.00364</a></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>IPT:预训练模型IPT，使用transformer在多个low-level任务上取得最佳效果。</li>
+</ul>
+</blockquote>
+<h2 id="√-摘要"><a href="#√-摘要" class="headerlink" title="[√] 摘要"></a>[√] 摘要</h2><hr>
+<p>随机硬件水平的提升，在大数据集上预训练的深度学习模型(比如BERT，GPT-3)表现出了优于传统方法的有效性。transformer的巨大进展主要源自其强大的特征表达能力与各式各样的架构。</p>
+<p>在这篇论文中，<strong>作者对low-level计算机视觉任务（比如降噪、超分、去雨）进行了研究并提出了一种新的预训练模型：IPT(image processing transformer)<strong>。为最大挖掘transformer的能力，作者采用知名的ImageNet制作了大量的退化图像数据对，然后采用这些训练数据对对所提IPT(它具有多头、多尾以适配多种退化降质模型)模型进行训练。此外，</strong>作者还引入了对比学习以更好的适配不同的图像处理任务</strong>。经过微调后，预训练模型可以有效的应用不到的任务中。仅仅需要一个预训练模型，IPT即可在多个low-level基准上取得优于SOTA方案的性能。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004218.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上图给出了所提方案IPT与HAN、RDN、RCDNet在超分、降噪、去雨任务上的性能对比，IPT均取得了0.4-2.0dB不等的性能提升。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>预训练模型：在大数据集上预训练的深度学习模型</li>
+<li>transformer具有强大的特征表征能力和各种各样的架构</li>
+<li>IPT &#x3D; image processing transformer</li>
+<li>在大数据集ImageNet上预训练，具有多头、多尾的结构，通过替换头尾能够适用于不同的low-level任务</li>
+<li>作者还引入了对比学习以适配不同的图像处理任务</li>
+<li>2021年提出的这个IPT比2020年的HAN这个混合注意力的模型，性能提升不少。</li>
+</ul>
+</blockquote>
+<h2 id="√-方法"><a href="#√-方法" class="headerlink" title="[√] 方法"></a>[√] 方法</h2><hr>
+<p>为更好的挖掘Transformer的潜力以获取在图像处理任务上的更好结果，作者提出了一种ImageNet数据集上预训练的图像处理Transformer，即IPT。</p>
+<h4 id="√-IPT-architecture"><a href="#√-IPT-architecture" class="headerlink" title="[√] IPT architecture"></a>[√] IPT architecture</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004219.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上图给出了IPT的整体架构示意图，可以看到它包含四个成分：</p>
+<ul>
+<li>用于从输入退化图像提取特征的Heads；</li>
+<li>encoder与decoder模块用于重建输入数据中的丢失信息；</li>
+<li>用于输出图像重建的Tails。</li>
+</ul>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>结构：对于特征图，以通道维度为方向进行线性flatten，拿到一维向量，然后通过transformer编码器编码，然后输入到transformer解码器解码，然后将输出reshape为HWC形状，得到输出。</li>
+</ul>
+</blockquote>
+<h4 id="√-Heads"><a href="#√-Heads" class="headerlink" title="[√] Heads"></a>[√] Heads</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004220.png" srcset="/img/loading.gif" lazyload alt="image-20230203183133392"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>多头机制中的每个头是采用的三个卷积层</li>
+</ul>
+</blockquote>
+<h4 id="√-Transformer-encoder"><a href="#√-Transformer-encoder" class="headerlink" title="[√] Transformer encoder"></a>[√] Transformer encoder</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004221.png" srcset="/img/loading.gif" lazyload alt="image-20230203190839051"></p>
+<p>为编码每个块的位置信息，作者还在encoder里面添加了可学习的位置编码信息<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004222.png" srcset="/img/loading.gif" lazyload alt="image-20230203191648094">。这里的encoder延续了原始Transformer，采用了多头自注意力模块和前向网络。</p>
+<p>encoder的输出表示为<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004223.png" srcset="/img/loading.gif" lazyload alt="image-20230203191745728">,它与输入块尺寸相同，encoder的计算过程描述如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004225.png" srcset="/img/loading.gif" lazyload alt="image-20230203191855130"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>f<del>pi</del>表示原输入的块，E<del>pi</del>表示可学习的位置编码信息</li>
+<li>将输入通过LN层，得到QKV。（LN &#x3D; Layer Normalization）</li>
+<li>QKV输入多头自注意力模块MSA得到y’，然后将y‘通过前馈前向网络FFN得到y。</li>
+<li>上面公式的计算过程就是STL</li>
+<li>MSA是STL模块的一部分</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004226.png" srcset="/img/loading.gif" lazyload alt="image-20230203192430353"></p>
+</blockquote>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>将特征输入到transformer之前，需要将HWC的特征拆分成块，每个块称为word。</li>
+<li>理解：这里的块类似于NLP中的一个单词对应的向量。将这些“单词”送到transformer中，transformer能够对这些单词之间的关联进行建模。</li>
+<li>transformer编码：多头自注意力模块 + 前向网络</li>
+</ul>
+</blockquote>
+<p>其中l表示encoder的层数，MSA表示多头自注意力模块，FFN表示前馈前向网络(它仅包含两个全连接层)。</p>
+<h4 id="√-Transformer-decoder"><a href="#√-Transformer-decoder" class="headerlink" title="[√] Transformer decoder"></a>[√] Transformer decoder</h4><hr>
+<p>decoder采用了与encoder类似的架构并以encoder的输出作为输入，它包含两个MSA与1个FFN。它与原始Transformer的不同之处在于：采用任务相关的embedding作为额外的输入，这些任务相关的embedding<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004227.png" srcset="/img/loading.gif" lazyload alt="image-20230203193348093">用于对不同任务进行特征编码。decoder的计算过程描述如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004228.png" srcset="/img/loading.gif" lazyload alt="image-20230203193354877"></p>
+<p>其中<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004229.png" srcset="/img/loading.gif" lazyload alt="image-20230203193428085">表示decoder的输出。decoder输出的N个尺寸为<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004230.png" srcset="/img/loading.gif" lazyload alt="image-20230203193437569">的块特征将组成特征<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004231.png" srcset="/img/loading.gif" lazyload alt="image-20230203193449241">。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li><p>解码的时候，加上了任务相关的embedding，将任务相关的embedding加到Q和K里面，用于计算注意力。</p>
+</li>
+<li><p>解码的计算过程，和编码的STL相比，将STL的MSA部分重复了1次，然后加入了任务相关的embedding。</p>
+</li>
+</ul>
+</blockquote>
+<h4 id="√-Tails"><a href="#√-Tails" class="headerlink" title="[√] Tails"></a>[√] Tails</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004232.png" srcset="/img/loading.gif" lazyload alt="image-20230203193631899"></p>
+<h4 id="√-Pre-training-on-ImageNet"><a href="#√-Pre-training-on-ImageNet" class="headerlink" title="[√] Pre-training on ImageNet"></a>[√] Pre-training on ImageNet</h4><hr>
+<p>除了transformer的自身架构外，成功训练一个优化transformer模型的关键因素为：大数据集。而图像处理任务中常用数据集均比较小，比如图像超分常用数据DIV2K仅仅有800张。针对该问题，作者提出对知名的ImageNet进行退化处理并用于训练所提IPT模型。</p>
+<p>这里的退化数据制作采用了与图像处理任务中相同的方案，比如超分任务中的bicubic下采样，降噪任务中的高斯噪声。图像的退化过程可以描述如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004233.png" srcset="/img/loading.gif" lazyload alt="image-20230203194042431"></p>
+<p>其中f表示退化变换函数，它与任务相关。对于超分任务而言，<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004234.png" srcset="/img/loading.gif" lazyload alt="image-20230203194148036">表示bicubic下采样；对于降噪任务而言，<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004235.png" srcset="/img/loading.gif" lazyload alt="image-20230203194200413">。IPT训练过程中的监督损失采用了常规的<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004236.png" srcset="/img/loading.gif" lazyload alt="image-20230203194207830">损失，描述如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004237.png" srcset="/img/loading.gif" lazyload alt="image-20230203194230527"></p>
+<p>上式同样表明：<strong>所提方案IPT同时对多个图像处理任务进行训练</strong>。也就说，对于每个batch，随机从多个任务中选择一个进行训练，每个特定任务对应特定的head和tail。在完成IPT预训练后，我们就可以将其用于特定任务的微调，此时可以移除掉任务无关的head和tail以节省计算量和参数量。</p>
+<p>【对比学习】</p>
+<p>除了上述监督学习方式外，作者还引入了对比学习以学习更通用特征以使预训练IPT可以应用到未知任务。对于给定输入<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004238.png" srcset="/img/loading.gif" lazyload alt="image-20230203194559050">(随机从每个batch中挑选)，其decoder输出块特征描述为<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004239.png" srcset="/img/loading.gif" lazyload alt="image-20230203194611095">。作者期望通过对比学习最小化同一图像内的块特征距离，最大化不同图像的块特征距离，这里采用的对比学习损失函数定义如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004240.png" srcset="/img/loading.gif" lazyload alt="image-20230203194620112"></p>
+<p>其中<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004241.png" srcset="/img/loading.gif" lazyload alt="image-20230203194709597">表示cosine相似性。为更充分的利用监督与自监督信息，作者定义了如下整体损失：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004242.png" srcset="/img/loading.gif" lazyload alt="image-20230203194727617"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>数据和标签的损失是监督损失</li>
+<li>对比学习的损失是自监督损失</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li><p>除了transformer的架构之外，成功训练一个优化transformer模型的关键因素为：大数据集。数据集的数据量一定要多才能充分发挥transformer的数据拟合能力。</p>
+</li>
+<li><p>corrupt，腐败的、腐烂的、玷污的</p>
+</li>
+<li><p>本文的方案同时选择多个任务进行预训练，每个batch随机选择一个任务的batch进行训练。在预训练完之后，再在目标任务上进行微调。</p>
+</li>
+</ul>
+</blockquote>
+<h2 id="√-实验"><a href="#√-实验" class="headerlink" title="[√] 实验"></a>[√] 实验</h2><hr>
+<h4 id="√-Datasets"><a href="#√-Datasets" class="headerlink" title="[√] Datasets"></a>[√] Datasets</h4><hr>
+<p>作者采用ImageNet数据制作训练数据，输入图像块大小为<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004243.png" srcset="/img/loading.gif" lazyload alt="image-20230203195053772">，大约得到了10M图像数据。采用了6种退化类型：x2、x3、x4、noise-30、noise-50以及去雨。</p>
+<h4 id="√-Training-amp-Fine-tuning"><a href="#√-Training-amp-Fine-tuning" class="headerlink" title="[√] Training&amp;Fine-tuning"></a>[√] Training&amp;Fine-tuning</h4><hr>
+<p>作者采用32个NVIDIA Tesla V100显卡进行IPT训练，优化器为Adam，训练了300epoch，初始学习率为<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004244.png" srcset="/img/loading.gif" lazyload alt="image-20230203195155667">，经200epoch后衰减为<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004245.png" srcset="/img/loading.gif" lazyload alt="image-20230203195211476">，batch&#x3D;256。在完成IPT预训练后，对特定任务上再进行30epoch微调，此时学习率为<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004246.png" srcset="/img/loading.gif" lazyload alt="image-20230203195214292">。</p>
+<h4 id="√-Super-resolution"><a href="#√-Super-resolution" class="headerlink" title="[√] Super-resolution"></a>[√] Super-resolution</h4><hr>
+<p>下表&amp;下图给出了超分方案在图像超分任务上的性能与视觉效果对比。可以看到：</p>
+<ul>
+<li>IPT取得了优于其他SOTA超分方案的效果，甚至在Urban100数据集上以0.4dB优于其他超分方案；</li>
+<li>IPT可以更好重建图像的纹理和结构信息，而其他方法则会导致模糊现象。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004247.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004248.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="√-Denoising"><a href="#√-Denoising" class="headerlink" title="[√] Denoising"></a>[√] Denoising</h4><hr>
+<p>下表&amp;下图给出了所提方法在降噪任务上的性能与视觉效果对比，可以看到：</p>
+<ul>
+<li>在不同的噪声水平下，IPT均取得了最佳的降噪指标，<strong>甚至在Urban100数据上提升高达2dB</strong>。</li>
+<li>IPT可以很好的重建图像的纹理&amp;结构信息，而其他降噪方法则难以重建细节信息。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004249.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004250.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="√-Deraining"><a href="#√-Deraining" class="headerlink" title="[√] Deraining"></a>[√] Deraining</h4><hr>
+<p>下表&amp;下图给出了所提方法在图像去雨任务上的性能与视觉效果对比。可以看到：</p>
+<ul>
+<li>所提方法取得了最好的指标，甚至取得了1.62dB的性能提升；</li>
+<li>IPT生成的图像具有与GT最详尽，且具有更好的视觉效果。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004251.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004252.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="√-Generalization-Ability"><a href="#√-Generalization-Ability" class="headerlink" title="[√] Generalization Ability"></a>[√] Generalization Ability</h4><hr>
+<p>为说明所提方法的泛化性能，作者采用了未经训练的噪声水平进行验证，结果见下表。可以看到：尽管未在该其噪声水平数据上进行训练，所提IPT仍取得了最佳的指标。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004253.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<h4 id="√-Ablation-Study"><a href="#√-Ablation-Study" class="headerlink" title="[√] Ablation Study"></a>[√] Ablation Study</h4><hr>
+<p>下图对比了IPT与EDSR在不同数量训练集上的性能对比，可以看到：当训练集数量较少时，EDSR具有更好的指标；而当数据集持续增大后，EDSR很快达到饱和，而IPT仍可持续提升并大幅超过了EDSR。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004254.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>在数据量少的时候，transformer模型的性能没有被充分的激发，这个时候CNN模型的性能高于transformer，随着数据量的上升，transformer模型的性能得到发挥，此时transformer的性能高于CNN模型。</li>
+</ul>
+</blockquote>
+<p>下表给出了对比损失对于模型性能影响性分析(x2超分任务)。当仅仅采用监督方式进行训练时，IPT的指标为38.27；而当引入对比学习机制后，其性能可以进一步提升0.1dB。这侧面印证了对比学习对于IPT预训练的有效性。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302032004255.png" srcset="/img/loading.gif" lazyload alt="image-20230203200235670"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>对比学习机制的加入就是加入了一个对比损失？</li>
+</ul>
+</blockquote>
+<p>全文到此结束，对此感兴趣的同学建议阅读原文。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-chain-item">文章学习</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>
+      
+        <a href="/tags/transformer/">#transformer</a>
+      
+        <a href="/tags/%E5%9B%BE%E5%83%8F%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/">#图像超分辨率重建</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>053 - 文章阅读笔记：Transformer再下一城！low-level多个任务榜首被占领，北大华为等联合提出预训练模型IPT - 微信公众号 - AIWalker</div>
+      <div>http://example.com/posts/4022388376/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年2月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/4028329922/" title="001 - 文章阅读笔记：什么都可以以后再说，体检为什么不可以？ - 少数派 - 少数派编辑部">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">001 - 文章阅读笔记：什么都可以以后再说，体检为什么不可以？ - 少数派 - 少数派编辑部</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/3634174699/" title="002 - 文章阅读笔记：不买可以先收藏 13：混动车型值得买吗？ - 少数派 - James_Tu">
+                        <span class="hidden-mobile">002 - 文章阅读笔记：不买可以先收藏 13：混动车型值得买吗？ - 少数派 - James_Tu</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

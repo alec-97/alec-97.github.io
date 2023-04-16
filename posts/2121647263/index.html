@@ -1,0 +1,1216 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="链接： 超分辨率 | 综述！使用深度学习来实现图像超分辨率 - 腾讯云开发者社区 - AI算法修炼营（√） 发布于2020-05-26 15:00:39  今天给大家介绍一篇图像超分辨率邻域的综述，这篇综述总结了图像超分辨率领域的几方面：problem settings、数据集、performance metrics、SR方法、特定领域应用以结构组件形式，同时，总结超分方法的优点与限制。讨论了存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="004 - 文章阅读笔记：超分辨率  综述！使用深度学习来实现图像超分辨率 - 腾讯云开发者社区 - AI算法修炼营">
+<meta property="og:url" content="http://example.com/posts/2121647263/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="链接： 超分辨率 | 综述！使用深度学习来实现图像超分辨率 - 腾讯云开发者社区 - AI算法修炼营（√） 发布于2020-05-26 15:00:39  今天给大家介绍一篇图像超分辨率邻域的综述，这篇综述总结了图像超分辨率领域的几方面：problem settings、数据集、performance metrics、SR方法、特定领域应用以结构组件形式，同时，总结超分方法的优点与限制。讨论了存">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551118.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551119.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551120.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551121.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551122.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551123.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551124.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551125.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551126.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551127.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551128.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551129.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551130.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551131.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551132.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551133.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551134.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551135.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551136.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551137.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551138.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551139.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551140.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551141.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551142.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551143.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551144.png">
+<meta property="article:published_time" content="2023-01-06T05:31:57.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.409Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551118.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>004 - 文章阅读笔记：超分辨率  综述！使用深度学习来实现图像超分辨率 - 腾讯云开发者社区 - AI算法修炼营 - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">004 - 文章阅读笔记：超分辨率  综述！使用深度学习来实现图像超分辨率 - 腾讯云开发者社区 - AI算法修炼营</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-06 13:31" pubdate>
+          2023年1月6日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          13k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          110 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">004 - 文章阅读笔记：超分辨率  综述！使用深度学习来实现图像超分辨率 - 腾讯云开发者社区 - AI算法修炼营</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>链接：</p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1633038?from=article.detail.2063578">超分辨率 | 综述！使用深度学习来实现图像超分辨率 - 腾讯云开发者社区 - AI算法修炼营（√）</a></p>
+<p>发布于2020-05-26 15:00:39</p>
+</blockquote>
+<p>今天给大家介绍一篇图像超分辨率邻域的综述，这篇综述总结了图像超分辨率领域的几方面：problem settings、数据集、performance metrics、SR方法、特定领域应用以结构组件形式，同时，总结超分方法的优点与限制。讨论了存在的问题和挑战，以及未来的趋势和发展方向。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551118.png" srcset="/img/loading.gif" lazyload alt="image-20230105220119037"></p>
+<p><strong>论文地址</strong>：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1902.06068.pdf">https://arxiv.org/pdf/1902.06068.pdf</a></p>
+<h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1 - 前言"></a>1 - 前言</h2><p>超分辨率（Super Resolution，SR）是<strong>从给定的低分辨率(LR)图像中恢复高分辨率(HR)图像的过程，</strong>是计算机视觉的一个经典应用。SR是指通过软件或硬件的方法，<strong>从观测到的低分辨率图像重建出相应的高分辨率图像（说白了就是提高分辨率）</strong>，在监控设备、卫星图像遥感、数字高清、显微成像、视频编码通信、视频复原和医学影像等领域都有重要的应用价值。</p>
+<p>近年来，目睹了使用深度学习技术的图像超分辨率的显着进步。文中将现有的使用深度学习方法解决图像超分辨率问题的研究工作主要分成三个部分：</p>
+<p>1.supervised SR（有监督学习的图像超分辨率）</p>
+<p>2.unsupervised SR（无监督学习的图像超分辨率）</p>
+<p>3.domain-specific SR （特定应用领域的图像超分辨率）</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551119.png" srcset="/img/loading.gif" lazyload alt="image-20230105220616098"></p>
+<h2 id="2-超分辨率SR问题定义"><a href="#2-超分辨率SR问题定义" class="headerlink" title="2 - 超分辨率SR问题定义"></a>2 - 超分辨率SR问题定义</h2><p>LR（低分辨率图像）图像为以下处理过程的输出：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551120.png" srcset="/img/loading.gif" lazyload alt="image-20230105220714779"></p>
+<p>其中，D代表一个退化映射函数，Iy代表相应的HR（高分辨率）图像，δ代表这个映射过程中的一些其他参数（例如：比例因子或者噪声项）多数情况下，只提供LR图像，需要恢复相应的Iy：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551121.png" srcset="/img/loading.gif" lazyload alt="image-20230105220759196"></p>
+<p>其中，F为模型，θ 为模型的参数表示。大多数工作<strong>将退化映射建模为单个降采样操作</strong>：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551122.png" srcset="/img/loading.gif" lazyload alt="image-20230105220851324"></p>
+<p>其中，↓s为比例因子为S的降采样操作，<strong>最常用的降采样操作是双三次插值</strong>，也有其他方法将退化映射建模为几个操作的组合：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551123.png" srcset="/img/loading.gif" lazyload alt="image-20230105225731618"></p>
+<p>其中，Iy⊗κ代表模糊核k与HR图像之间的卷积操作。nς 为可加的带标准差ς的高斯白噪声，上式与上上式相比，更接近实际情况，对SR更加有利。</p>
+<p>因此，SR的目标函数为：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551124.png" srcset="/img/loading.gif" lazyload alt="image-20230105225801646"></p>
+<p>其中，Φ(θ)是正则化项，<strong>SR最常见的损失函数为逐像素差的均方误差，更强大的模型往往采用将多种损失函数相结合的方式</strong>。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>更强大的模型往往采用将多种损失函数相结合的方式。</li>
+</ul>
+</blockquote>
+<h2 id="3-数据集"><a href="#3-数据集" class="headerlink" title="3 - 数据集"></a>3 - 数据集</h2><p>一些数据集提供HR-LR图像对，有的只提供HR图像，<strong>LR图像通常是通过MATLAB中默认设置的imresize函数（双三次插值with anti-aliasing）获得。</strong>下表是一些SR常用数据集：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551125.png" srcset="/img/loading.gif" lazyload alt="image-20230105230011780"></p>
+<h2 id="4-图像质量评估"><a href="#4-图像质量评估" class="headerlink" title="4 - 图像质量评估"></a>4 - 图像质量评估</h2><p>如何定量地评估模型的性能？许多图像质量评估(IQA)技术(或度量)用于相同的目的。这些指标可以大致分为两类——<strong>主观</strong>指标和<strong>客观</strong>指标。</p>
+<ul>
+<li><strong>峰值信噪比 PSNR</strong></li>
+</ul>
+<p>峰值信噪比(PSNR)是一种常用的客观指标，通常用来衡量有损变换的图像质量。对于SR，通过<strong>图片间的最大可能像素值L和均方误差MSE定义</strong>，PSNR与ground truth图像与生成图像的均方误差(MSE)的对数成反比。假设HR图像I和重建图像 ˆ I，两者的像素都是N，MSE和PNSR(db)如下所示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551126.png" srcset="/img/loading.gif" lazyload alt="image-20230105230258297"></p>
+<p>在上面的公式中，8bit表示一个像素点的取值，取值范围为0~255，L是可能的最大像素值(对于8位RGB图像，它是255),PSNR的典型值从20到40不等，越高越好。从式子可以看出，L一定，PNSR只与像素间的MSE有关，所以，<strong>PSNR只关心像素值之间的差异</strong>，它并不能很好地代表感知质量。PSNR在真实场景的SR衡量效果较差，<strong>但由于缺乏感知衡量标准，运用最为广泛。</strong></p>
+<ul>
+<li><strong>结构相似度 SSIM</strong></li>
+</ul>
+<p>结构相似度(SSIM)是在亮度、对比度和结构三个相对独立比较的基础上，提出的用于测量图像之间结构相似度的指标。抽象地说，SSIM公式可以表示为<strong>亮度、对比度和结构比较的加权乘积</strong>，分别计算。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551127.png" srcset="/img/loading.gif" lazyload alt="image-20230105230708781"></p>
+<p>式中，α，β和γ分别为亮度、对比度和结构比较函数的权重。常用的SSIM公式表示如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551128.png" srcset="/img/loading.gif" lazyload alt="image-20230105230800396"></p>
+<p>在上面的公式中μ(I)代表了一个特定图像的均值，σ(I)表示了特定图像的方差，σ(I,I’)表示了两张图像的协方差，C1, C2是设置的常量，避免计算的不稳定。<strong>SSIM从HVS的角度来评价重建质量，更符合视觉感知，被广泛应用。</strong></p>
+<p>由于图像统计特征可能分布不均或失真，局部评估图像质量比全局更可靠。均值SSIM (<strong>MSSIM</strong>)是一种局部评估质量的方法，它<strong>将图像分割成多个窗口，并对每个窗口获得的SSIM进行平均。</strong></p>
+<ul>
+<li><strong>Operating Channels</strong></li>
+</ul>
+<p>除了RGB，<strong>YCbCr颜色空间</strong>也被广泛使用。Y, Cb, Cr 分别表示亮度、蓝差、红差色度分量。早期的模型更倾向于在Y通道上进行操作，最近的模型更多的处理RGB颜色通道。在不同的颜色空间或者通道上操作会使评估的性能造成很大的不同。</p>
+<p><strong>其他的IQA分数</strong></p>
+<ul>
+<li>平均意见评分(MOS)</li>
+<li>基于任务的评价</li>
+<li>信息保真度准则(IFC)</li>
+<li>视觉信息保真度(VIF)</li>
+</ul>
+<h2 id="5-监督式SR方法"><a href="#5-监督式SR方法" class="headerlink" title="5 - 监督式SR方法"></a>5 - 监督式SR方法</h2><p>深度学习可以用给定的低分辨率图像来估计高分辨率图像。通过使用高分辨率图像作为目标(或 ground-truth)和LR图像作为输入，我们可以将其视为监督学习问题。监督式SR方法是<strong>同时使用LR和相应的HR图像进行训练。</strong></p>
+<p>先来看看主要的算法：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551129.png" srcset="/img/loading.gif" lazyload alt="image-20230105232052877"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551130.png" srcset="/img/loading.gif" lazyload alt="image-20230105232131328"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>RNN，循环神经网络。全称是recurrent neural network。</li>
+<li>深度学习、超分领域相关的顶会：ECCV、CVPR、ICCV、ICLR</li>
+<li>相关的上采样方法有：bicubic、deconv、sub-pixel</li>
+<li>相关的网络结构有：recursive（递归）、residual（残差）、dense（密集）、att、L1正则化、L2正则化</li>
+<li>相关的关键词有：循环层、轻量级设计、亚像素卷积、循环块、压缩和大尺度设计、记忆模块、密集连接、后映射、残差密集块、级联、多通道、通道注意力机制、卷积+GAN网络、二阶注意力、反馈机制</li>
+</ul>
+</blockquote>
+<p><strong>监督式SR方法框架</strong></p>
+<p>通过<strong>上采样模块在模型中的位置</strong>，可以将这些模型分为四个框架。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>监督式SR模型，其中一个分类标准可以是依据模型中上采样模块的位置进行分类。</li>
+</ul>
+</blockquote>
+<p><strong>1、前置上采样SR</strong></p>
+<p>该方法<strong>首先对低分辨率图像进行插值，得到“粗”的高分辨率图像</strong>。</p>
+<p>直接从LR图像学习HR图像存在一定难度，<strong>利用传统方法（双三次插值）上采样，在通过神经网络优化重建高质量的细节，是一种直接的解决方案</strong>。SRCNN学习经过插值处理的LR图像到HR图像之间的映射。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>前置上采样，先将图像上采样到和HR图像一样大小，然后再通过神经网络完善图像的细节。</li>
+</ul>
+</blockquote>
+<p><strong>优点：</strong>通过传统算法进行上采样，神经网络<strong>只需要对粗HR图像进行精细化处理</strong>，大大降低了学习难度。<strong>可以将任意大小的插值处理后的图像作为输入</strong>，效果与单尺度模型相当。</p>
+<p>预先上采样方法的<strong>副作用：噪声放大、模糊、在高维空间计算造成的时间和空间成本大。</strong>由于这里没有使用转置卷积，checkerboard artifacts可能会被绕过。</p>
+<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551131.png" srcset="/img/loading.gif" lazyload alt="image-20230106111428622" style="zoom:67%;" />
+
+<p><strong>2、后置上采样SR</strong></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>上采样在最后一层，先超分、然后再上采样。且上采样层是可学习层。</li>
+</ul>
+</blockquote>
+<p>在这种情况下，<strong>低分辨率图像被传递到CNNs。上采样在最后一层使用可学习层来执行。</strong>将上采样操作移至网络末端，在低维空间中学习映射。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551132.png" srcset="/img/loading.gif" lazyload alt="image-20230106111620630"></p>
+<p>该方法的优点是<strong>在较低维空间(上采样前)进行特征提取，从而降低了计算复杂度。</strong>此外，通过使用一个可学习的上采样层，可以对模型进行端到端的训练。分辨率提升只在网络后端发生，计算复杂度大大提升。上采样只在一个步骤中进行，学习大的上采样因子的难度很大。每个尺度都需要单独的SR模型，无法满足多尺度SR的需要。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>这种方式的优点是节省计算量，上采样层是可学习的，能够进行端到端的训练。缺点是上采样层学习难度大，不能满足多尺度SR的需要，从A图像大小到B图像大小的上采样模块是一一对应的，不能通用。</li>
+</ul>
+</blockquote>
+<p><strong>3、逐步上采样SR</strong></p>
+<p>在上面的组中，虽然计算复杂度降低了，但是只使用了一个上采样卷积。这使得<strong>大尺度缩放的学习过程更加困难</strong>。为了解决这个缺陷，Laplacian Pyramid SR Network和progressive SR采用了渐进上采样的框架。在这种情况下，模型使用级联神经网络在较小的尺度上每一步逐步重建高分辨率的图像。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551133.png" srcset="/img/loading.gif" lazyload alt="image-20230106112015172"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>直接训练一个从小到大的上采样卷积，是困难的。因此通过逐步上采样的方式，逐步的提高图像的分辨率。</li>
+<li>lapSRN、MS-LapSRN、progressive SR都是采用了这种框架。</li>
+</ul>
+</blockquote>
+<p>通过将一个困难的任务分解成更简单的任务，可以大大降低学习难度，获得更好的性能。此外，像curriculum learning这样的学习策略可以进一步降低学习难度，提高最终的performance。lapSRN 采用渐进式SR框架解决了Post-upsampling SR框架无法满足的多尺度问题。采用连续的神经网络结构，逐步重建高分辨率图片。MS-LapSRN和progressive SR也采用了这个框架。但存在模型复杂、训练难度大的问题。</p>
+<p><strong>4、迭代上下采样SR</strong></p>
+<p>另一种流行的模型架构是<strong>hourglass(或U-Net)结构</strong>。有些变体，如Stacked Hourglass网络使用几个连续的hourglass结构，有效地在上采样和下采样过程之间交替。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>hourglass、U-Net是一种结构，这种结构能够渐进的上采样、下采样。</li>
+<li>这种模型能够更好的挖掘出低分辨率和高分辨率图像之间的深层关系。</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551134.png" srcset="/img/loading.gif" lazyload alt="image-20230106113143625"></p>
+<p>该框架下的模型<strong>能够更好地挖掘出低分辨率图像和高分辨率图像对之间的深层关系，从而提供更高质量的重建结果。</strong>为了探究LR-HR图像对之间的关系，将一种有效的迭代过程——反向投影引入到SR中，迭代的上采样-下采样操作，迭代的应用反向投影精细化图像。计算重建误差，再将其融合回来调整HR图像的强度。DBPN采用这种结构，将一系列中间HR结果联系起来重构成最后的HR结果。</p>
+<h2 id="6-上采样方法"><a href="#6-上采样方法" class="headerlink" title="6 - 上采样方法"></a>6 - 上采样方法</h2><p>除了模型中的上采样位置外，<strong>如何执行上采样也非常重要</strong>。尽管存在多种传统的上采样方法，但利用CNN来学习端到端的上采样已逐渐成为一种趋势。在本节中，我们将介绍一些传统的基于插值的算法和基于深度学习的上采样方法。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>上采样方法有（1）传统的基于插值的上采样方法、（2）基于CNN来学习端到端的上采样方法。</li>
+<li>上采样方法有：<ul>
+<li>最近邻插值和双线性插值</li>
+<li>转置卷积</li>
+<li>亚像素卷积</li>
+<li>Meta  upscale  module</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>上采样方法有：</p>
+<h4 id="6-1-最近邻插值和双线性插值"><a href="#6-1-最近邻插值和双线性插值" class="headerlink" title="6.1 - 最近邻插值和双线性插值"></a>6.1 - 最近邻插值和双线性插值</h4><p><strong>最近邻插值</strong>：每个待插值的位置选择最相邻的像素值，而不考虑其他像素，处理速度快，生成图片质量低、块状化。</p>
+<p><strong>双线性插值：</strong>每次在一个轴上进行，然后在另一个轴上再次进行。保持速度较快的同时，性能比最近邻插值好得多。感受野为2<em>2双三次插值同样，双三次插值对图像的两个维度进行三次插值，需要4x4的像素进行计算，计算速度慢，效果更平滑。*<em>anti-aliasing的双三次插值是目前构造SR数据集的主流方法。</em></em></p>
+<p>基于插值的上采样方法<strong>只能通过图像的本身内容提高图像的分辨率，并没有带来更多信息，相反还有噪声放大、计算复杂度增加、结果模糊等副作用。</strong></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>基于插值的方法，是根据图像本身的信息进行插值，没有带来更多的信息；相反，还会将噪声放大、将图像变模糊等副作用。</li>
+</ul>
+</blockquote>
+<h4 id="6-2-转置卷积"><a href="#6-2-转置卷积" class="headerlink" title="6.2 - 转置卷积"></a>6.2 - 转置卷积</h4><p>通过插入零值，进行卷积来提高图像的分辨率。由于转置卷积在保持与卷积兼容的连接模式的同时以端到端的方式放大了图像大小，因此它被广泛用作SR模型的上采样层。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>转置卷积：先把图像插入零值放大图像的尺寸，然后再执行卷积操作。通过这种方式，能够放大图像的尺寸，同时能够以端到端的方式学习如何上采样。</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551135.png" srcset="/img/loading.gif" lazyload alt="image-20230106132615945"></p>
+<p>然而，该层很容易在每个轴上引起“不均匀重叠”，并且两个轴上的相乘结果进一步创建了大小变化的棋盘状图案，从而损害了SR性能。</p>
+<h4 id="6-3-亚像素层"><a href="#6-3-亚像素层" class="headerlink" title="6.3 - 亚像素层"></a>6.3 - 亚像素层</h4><p><strong>通过对卷积产生的多个通道进行reshape，实现上采样。</strong></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>亚像素卷积：先通过多个卷积核得到多个特征图，然后将这些特征图打乱重组。</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551136.png" srcset="/img/loading.gif" lazyload alt="image-20230106132921404"></p>
+<p>与转置卷积层相比，<strong>亚像素层具有更大的感受野，它提供了更多的上下文信息以帮助生成更多逼真的细节。</strong>然而，由于感受野的分布是不均匀的，并且块状区域实际上共享相同的感受野，因此可能会导致在不同块的边界附近出现一些<strong>伪影</strong>。另一方面，独立预测块状区域中的相邻像素可能会导致<strong>输出不平滑</strong>。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>转置卷积是通过填充0，然后再卷积，这种方式导致感受野变小。亚像素卷积的感受野更大。并且多个卷积核能够更加充分的提取信息。</li>
+</ul>
+</blockquote>
+<h4 id="6-4-Meta-upscale-module"><a href="#6-4-Meta-upscale-module" class="headerlink" title="6.4 - Meta  upscale  module"></a>6.4 - Meta  upscale  module</h4><p>以前的方法需要预先定义缩放因子，即针对不同的因子训练不同的上采样模块，效率低下，而且不符合实际需求。Meta  upscale 模块<strong>基于元学习解决任意比例因子的SR。</strong>具体来说，对于HR图像上的每个目标位置，此模块将其投影到LR特征图上的一个小块（即k ×k×cin），根据密集层的投影偏移和缩放因子预测卷积权重（即，k×k×cin×cout）并执行卷积。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551137.png" srcset="/img/loading.gif" lazyload alt="image-20230106133512916"></p>
+<p>这样，Meta  upscale  module可以<strong>通过单个模型以任意因子连续放大它</strong>。并且由于大量的训练数据（同时训练多个因素），该模块在固定因素上可以表现出相当甚至更好的性能。但是，该方法<strong>基于与图像内容无关的多个值来预测每个目标像素的大量卷积权重，因此当面对较大放大倍数时，预测结果可能不稳定且效率较低。</strong></p>
+<h2 id="7-常用网络结构设计"><a href="#7-常用网络结构设计" class="headerlink" title="7 - 常用网络结构设计"></a>7 - 常用网络结构设计</h2><p>除了经典的2D卷积，网络中还可以使用一些有趣的变体来改进结果。</p>
+<p>Dilated卷积可以提供更有效的感受野，因此可以使用长距离依赖的信息。</p>
+<p>Skip connections、Spatial Pyramid Pooling和Dense Blocks推动了低级特征和高级特征的结合，以提高性能。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551138.png" srcset="/img/loading.gif" lazyload alt="image-20230106134009874"></p>
+<h4 id="7-1-Residual-Learning（残差学习）"><a href="#7-1-Residual-Learning（残差学习）" class="headerlink" title="7.1 - Residual Learning（残差学习）"></a>7.1 - Residual Learning（残差学习）</h4><p><strong>全局残差学习</strong>：由于输入与输出图像高度相关，研究者尝试只学习两幅图像的残差，只需要学习一个残差映射恢复丢失的高频细节，大大降低了模型的复杂度和难度。</p>
+<p><strong>局部残差学习</strong>：用于缓解网络不断加深造成的梯度消失、爆炸的问题，增强网络的学习能力。</p>
+<p>由跳跃连接和逐像素加法进行计算，前者连接输入与输出，后者在不同网络层之间进行连接。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>全局残差用于只学习残差，简化学习难度。</li>
+<li>局部残差学习，用于缓解因为网络深度深造成的梯度消失、梯度爆炸问题。</li>
+</ul>
+</blockquote>
+<h4 id="7-2-Recursive-Learning（递归学习）"><a href="#7-2-Recursive-Learning（递归学习）" class="headerlink" title="7.2 - Recursive Learning（递归学习）"></a>7.2 - Recursive Learning（递归学习）</h4><p>为了实现更大的感受野和进行更高层次的特征学习并且避免更多的参数，将递归引入模型。16个循环的DRCN采用单卷积层递归，感受野达到41×41，远大于SRCNN的13×13，并且没有过多参数。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>网络的层数深，能够将感受野变得更大，同时学习到更高层次的特征，但是也会让模型的参数更多。因此引入递归学习，通过递归的方式，在不增加参数量的基础上，实现了更大的感受野和学习到更高层次的特征。</li>
+</ul>
+</blockquote>
+<p>DRRN将残差块作为递归单元进行25次递归，性能优于17个残差块的非递归基线。</p>
+<p>后来Tai等人提出了基于记忆块的MemNet，记忆块由6个递归残块组成，每个递归的输出连接起来，再经过一个额外的1×1卷积进行记忆和遗忘。CARN也采用了包含多个残差块的递归单元。</p>
+<p>Han等提出了双状态递归网络(dual-state network, DSRN)来交换HR状态和LR状态之间的信号。在每个时间步，它们根据当前LR状态和HR状态更新LR状态，然后将其传输到HR状态进行更新。通过双态递归学习(最多7次递归)，更好地探索了LR-HR图像对之间的深层关系。而Lai不仅将卷积层作为递归层，还将特征嵌入模块、特征上采样模块和图像上采样模块作为递归模块，对每个子问题共享参数。</p>
+<p><strong>递归学习使得参数的数量大大减少，但带来了梯度消失和梯度爆炸的问题。因此通常将残差学习和递归学习结合来缓解这些问题。</strong></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>递归学习使得参数的数量大大减少，但带来了梯度消失和梯度爆炸的问题。因此通常将残差学习和递归学习结合来缓解这些问题。</li>
+</ul>
+</blockquote>
+<h4 id="7-3-Multi-path-Learning（多路径学习）"><a href="#7-3-Multi-path-Learning（多路径学习）" class="headerlink" title="7.3 - Multi-path Learning（多路径学习）"></a>7.3 - Multi-path Learning（多路径学习）</h4><p>多路径学习是指通过模型的多个路径传递特性，这些路径执行不同的操作，以提供更好的建模能力。具体来说，它可以分为三种类型：</p>
+<ul>
+<li>全局多路径学习</li>
+<li>局部多路径学习</li>
+<li>尺度特定的多路径学习</li>
+</ul>
+<p><strong>Global Multi-path Learning：</strong>全局多路径学习是指利用多个路径提取图像不同方面的特征。这些路径在传播过程中可以相互交叉，从而大大提高了特征提取的能力。</p>
+<p><strong>LapSRN</strong> 包含一种从粗到细预测子带残差的特征提取路径，以及一种基于两种路径信息重构可见HR图像的图像重建路径。</p>
+<p>同样，<strong>DSRN</strong>利用LR路径和HR路径分别在低维空间和高维空间中提取信息。这两条路径不断交换信息，进一步提高学习能力。</p>
+<p><strong>Local Multi-path Learning：</strong>MSRN采用了一种新的多尺度特征提取块，如上图所示，在该块中，采用核大小为3×3和5×5的两个卷积运算同时提取特征，然后将输出串接起来，再次进行相同的运算，最后再进行一个额外的1×1卷积。，最后再进行一个额外的1×1卷积。跳跃连接通过elementwise加法连接此块的输出和输入。通过这种局部多路径学习，SR模型可以更好地从多个尺度提取图像特征，进一步提高性能。</p>
+<p><strong>Scale-speciﬁc Multi-path Learning：</strong>不同尺度要经历相同的特征提取过程，提出这种结构，来处理单一网络下的多尺度SR问题。</p>
+<p>具体来说，它们共享模型的主要部分，并在网络的开始端和结束端分别附加特定尺度的预处理路径和上采样路径。在训练期间，只启用与所选比例相对应的路径。通过这种方式，大多数参数可以在不同的尺度上共享。</p>
+<h4 id="7-4-Dense-Connections（密集连接）"><a href="#7-4-Dense-Connections（密集连接）" class="headerlink" title="7.4 - Dense Connections（密集连接）"></a>7.4 - Dense Connections（密集连接）</h4><h4 id="7-5-Channel-Attention（通道注意力）"><a href="#7-5-Channel-Attention（通道注意力）" class="headerlink" title="7.5 - Channel Attention（通道注意力）"></a>7.5 - Channel Attention（通道注意力）</h4><h4 id="7-6-Advanced-Convolution（高阶卷积）"><a href="#7-6-Advanced-Convolution（高阶卷积）" class="headerlink" title="7.6 - Advanced Convolution（高阶卷积）"></a>7.6 - Advanced Convolution（高阶卷积）</h4><p><strong>Dilated Convolution. 空洞卷积，</strong>增大感受野，有助于生成逼真的细节</p>
+<p><strong>Group Convolution：群卷积。</strong>一些工作已经证明，群卷积可以在性能不高的情况下减少大量的参数和运算，而CARN-M在性能损失很小的情况下将参数数量减少了5倍，运算减少了4倍。</p>
+<h4 id="7-7-Pixel-Recursive-Learning（像素递归学习）"><a href="#7-7-Pixel-Recursive-Learning（像素递归学习）" class="headerlink" title="7.7 - Pixel Recursive Learning（像素递归学习）"></a>7.7 - Pixel Recursive Learning（像素递归学习）</h4><p>大多数SR模型将SR看作是一个像素独立的任务，因此不能合理地获取生成像素之间的相互依赖关系。</p>
+<p>受PixelCNN的启发，Dahl等首先提出像素递归学习，利用两个网络分别捕获全局上下文信息和序列生成依赖关系，逐像素生成。虽然这些方法在一定程度上表现出了较好的性能，但是需要较长的传播路径的递归过程大大增加了计算成本和训练难度，特别是对于超分辨率HR图像。</p>
+<h4 id="7-8-Pyramid-Pooling（金字塔池化）"><a href="#7-8-Pyramid-Pooling（金字塔池化）" class="headerlink" title="7.8 - Pyramid Pooling（金字塔池化）"></a>7.8 - Pyramid Pooling（金字塔池化）</h4><p>受空间金字塔池层的激励，提出了金字塔池模块，以更好地利用全局和局部上下文信息。</p>
+<h4 id="7-9-Wavelet-Transformation"><a href="#7-9-Wavelet-Transformation" class="headerlink" title="7.9 - Wavelet Transformation"></a>7.9 - Wavelet Transformation</h4><h4 id="7-10-Desubpixel"><a href="#7-10-Desubpixel" class="headerlink" title="7.10 - Desubpixel"></a>7.10 - Desubpixel</h4><h4 id="7-11-xUnit"><a href="#7-11-xUnit" class="headerlink" title="7.11 - xUnit"></a>7.11 - xUnit</h4><h2 id="8-常用损失函数"><a href="#8-常用损失函数" class="headerlink" title="8 - 常用损失函数"></a>8 - 常用损失函数</h2><p>利用损失函数来测量生成的高分辨率图像与ground truth高分辨率图像之间的差异。然后用这个差(误差)来优化监督学习模型。存在几种类型的损失函数，每一种函数都对生成的图像的不同方面进行惩罚。</p>
+<p>通常，通过对每个损失函数的误差分别加权和求和，可以使用多个损失函数。这使得模型能够同时关注多个损失函数所贡献的方面。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>通过加权求和，模型能够使用多个损失函数。这些就能使得模型能够同时关注到多个损失函数所贡献的方面。</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">total_loss = weight_1 * loss_1 + weight_ <span class="hljs-number">2</span> * loss_2 + weight_3 * loss_3<br></code></pre></td></tr></table></figure>
+
+<h4 id="8-1-像素损失"><a href="#8-1-像素损失" class="headerlink" title="8.1 - 像素损失"></a>8.1 - 像素损失</h4><p>像素损失是最简单的一类损失函数，其中生成的图像中的每个像素都直接与ground-truth图像中的每个像素进行比较。使用流行的损失函数，如L1或L2损失，或高级变体，如smooth L1损失。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551139.png" srcset="/img/loading.gif" lazyload alt="image-20230106144552597"></p>
+<p>PSNR度量(下面讨论)与像素损失高度相关，因此最小化像素损失可以直接最大化PSNR度量值(表明性能良好)。然而，像素损失并没有考虑到图像质量，而且模型常常输出感知上不令人满意的结果(通常缺乏高频细节)。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>PSNR评价指标和像素损失高度相关。通常可以最小化像素损失来最大化PSNR评价指标。但是像素损失并不能照顾到人的视觉感官效果。</li>
+</ul>
+</blockquote>
+<h4 id="8-2-内容损失"><a href="#8-2-内容损失" class="headerlink" title="8.2 - 内容损失"></a>8.2 - 内容损失</h4><p>这种损失是基于图像的感知质量来评估图像质量的。一种有趣的方法是比较生成的图像和ground truth图像的高层特征。我们可以让图像通过一个预先训练好的图像分类网络(如VGG-Net或ResNet)来获得这些高级特征。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>像素损失是比较逐像素的差异。内容损失则是比较的图像的高层次的特征差异。这种高层次的特征可以通过一些预训练的图像网络来获取。</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551140.png" srcset="/img/loading.gif" lazyload alt="image-20230106144932116"></p>
+<p>上面的函数计算ground-truth图像和生成的图像之间的内容损失，给定pre-trained网络(Φ)，和第I层的输出，网络计算这两者的损失。这种损失鼓励生成的图像在感知上类似于ground-truth图像。由于这个原因，它也被称为感知损失。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>内容损失可以鼓励模型在感知上类似于真实图像。因此这种内容损失也叫感知损失。</li>
+</ul>
+</blockquote>
+<h4 id="8-3-纹理损失"><a href="#8-3-纹理损失" class="headerlink" title="8.3 - 纹理损失"></a>8.3 - 纹理损失</h4><p>为了使生成的图像具有与ground-truth图像相同的样式(纹理、颜色、对比度等)，使用纹理损失(或样式重建损失)。根据Gatys et. al的描述，图像的纹理被定义为不同特征通道之间的相关性。特征通道通常用预训练的图像分类网络(Φ)来提取。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551141.png" srcset="/img/loading.gif" lazyload alt="image-20230106145313618"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>图像的纹理被定义为不同特征通道之间的相关性。</li>
+<li>通过计算特征图之间的内积，可以得到图像的纹理，容易计算出图像的纹理损失。</li>
+</ul>
+</blockquote>
+<p>计算Gram矩阵</p>
+<p>特征图之间的相关关系用Gram矩阵(G)表示，G是矢量化特征图**<code>i</code><strong>和</strong><code>j</code><strong>在图层</strong><code>I</code>**上的内积(见上图)。一旦对两幅图像计算了Gram矩阵，计算纹理损失就很简单，如下图所示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551142.png" srcset="/img/loading.gif" lazyload alt="image-20230106145556014"></p>
+<p>计算纹理损失</p>
+<p>通过使用这种损失，推动模型来创建真实的纹理和视觉上更令人满意的结果。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>先计算真实图像的不同特征图之间的内积得到纹理数据，然后计算生成的图像的不同特征通道的内积得到纹理数据，然后二者计算损失。</li>
+</ul>
+</blockquote>
+<h4 id="8-4-Total-Variation损失"><a href="#8-4-Total-Variation损失" class="headerlink" title="8.4 - Total Variation损失"></a>8.4 - Total Variation损失</h4><p>利用Total Variation (TV)损失抑制生成图像中的噪声。它取相邻像素之间的绝对差值之和，并测量图像中有多少噪声。对于生成的图像，TV loss计算如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551143.png" srcset="/img/loading.gif" lazyload alt="image-20230106145935177"></p>
+<p>这里, <code>i,j,k</code> 分别对高度，宽度和通道进行迭代。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>Total Variation，总差异损失，计算的是生成图像的不同像素之间的差异。这种损失能够使得模型来抑制生成图像中的噪声。</li>
+</ul>
+</blockquote>
+<h4 id="8-5-对抗损失"><a href="#8-5-对抗损失" class="headerlink" title="8.5 - 对抗损失"></a>8.5 - 对抗损失</h4><p>生成对抗网络(GANs)已越来越多地用于包括超分辨率在内的几种基于图像的应用。GANs通常由两个神经网络组成——生成器和鉴别器——相互竞争。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>思路：改进GAN网络的生成器结构（利用sota的网络结构），同时利用降质学习来提高模型生成真实降质图像的能力，从而提高模型的泛化能力。降低模型的分布偏差。</li>
+<li>通过预训练网络，来提取使用传统的插值方式得到的数据和使用降质网络得到的数据的特征向量，并比较这二者与真实的Lr图像的差异距离，从而证明降质GAN网络能够生成更加真实的数据分布，从而让网络的拟合能力和泛化能力更强。更优质的数据从而能够找到更好、更平坦、更平稳的局部最优点。</li>
+<li>对于降质GAN网络的结构改进，可以依据LR数据的特征特点来进行有针对性的结构修改。</li>
+</ul>
+</blockquote>
+<p>给定一组目标样本，生成器尝试生成样本，以欺骗鉴别器，使其相信它们是真实的。鉴别器试图从假(生成的)样本中分辨出真实(目标)样本。使用这种迭代训练方法，我们最终得到一个生成器，它非常擅长生成与目标示例类似的示例。下图显示了一个典型GAN的结构。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081551144.png" srcset="/img/loading.gif" lazyload alt="image-20230106150708183"></p>
+<p>为了提高性能，对基本GAN体系结构进行了改进。例如，Park et. al使用特征级鉴别器来捕捉真实高分辨率图像的更有意义的潜在属性。你可以查看这个blog：<a target="_blank" rel="noopener" href="https://medium.com/beyondminds/advances-in-geners-adversarialnetworks-7bad57028032">https://medium.com/beyondminds/advances-in-geners-adversarialnetworks-7bad57028032</a>?</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>为了提高性能，可以对基本的GAN体系结构进行改进。</li>
+</ul>
+</blockquote>
+<p>通常情况下，进行对抗损失训练的模型具有更好的感知质量，即使它们在PSNR上可能比那些进行像素损失训练的模型要差。一个小缺点是，GAN的训练过程有点困难和不稳定。但是，目前正在积极研究稳定的GAN的训练的方法。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>GAN网络使用对抗损失，训练出来的模型具有更好的感知质量。缺点是训练不稳定，训练过程困难。</li>
+<li>对抗损失 &#x3D; 生成器的像素损失与判别器的判别损失的加权组合。</li>
+</ul>
+</blockquote>
+<h2 id="9-特定领域的应用"><a href="#9-特定领域的应用" class="headerlink" title="9 - 特定领域的应用"></a>9 - 特定领域的应用</h2><h4 id="9-1-深度图超分辨率"><a href="#9-1-深度图超分辨率" class="headerlink" title="9.1 - 深度图超分辨率"></a>9.1 - 深度图超分辨率</h4><p>深度图记录了场景中视点和目标之间的距离，深度信息在姿态估计 、语义分割 等许多任务中发挥着重要作用。然而，由于生产力和成本方面的限制，由深度传感器生成的深度图通常分辨率较低，并饱受噪声、量化、缺失值等方面的降级影响。<strong>为了提高深度图的空间分辨率，研究人员引入了超分辨率。</strong></p>
+<h4 id="9-2-人脸图像超分辨率"><a href="#9-2-人脸图像超分辨率" class="headerlink" title="9.2 - 人脸图像超分辨率"></a>9.2 - 人脸图像超分辨率</h4><p>人脸图像超分辨率（又名 face hallucination，FH）通常有助于完成其它与人脸相关的任务。与一般图像相比，人脸图像拥有更多与人脸相关的结构化信息，因此将人脸先验知识整合到 FH 中是一种非常流行且颇有前景的方法。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>将人脸先验应用到网络中，能够辅助提高超分效果。</li>
+<li>在降质GAN网络中加入人脸先验，从而帮助提高模型的效果。</li>
+<li>使用最优的超分GAN网络进行降质学习。</li>
+</ul>
+</blockquote>
+<h4 id="9-3-超光谱图像超分辨率"><a href="#9-3-超光谱图像超分辨率" class="headerlink" title="9.3 - 超光谱图像超分辨率"></a>9.3 - 超光谱图像超分辨率</h4><p>与全色图像（panchromatic image，PAN）相比，超光谱图像（HSI）包含数百个波段的高光谱图像，能够提供丰富的光谱特征，帮助完成许多视觉任务。然而，由于硬件限制，不仅是搜集高质量 HSI 比搜集 PAN 难度更大，搜集到的 HSI 分辨率也要更低。因此，该领域引入了超分辨率，研究人员往往将 HR PAN 与 LR HSI 相结合来预测 HR HSI。</p>
+<h4 id="9-4-视频超分辨率"><a href="#9-4-视频超分辨率" class="headerlink" title="9.4 - 视频超分辨率"></a>9.4 - 视频超分辨率</h4><p>在视频超分辨率中，多个帧可以提供更多的场景信息，该领域不仅有帧内空间依赖，还有帧间时间依赖（如运动、亮度和颜色变化）。因此，现有研究主要关注更好地利用时空依赖，包括明确的运动补偿（如光流算法、基于学习的方法）和循环方法等。</p>
+<h4 id="9-5-其它应用"><a href="#9-5-其它应用" class="headerlink" title="9.5 - 其它应用"></a>9.5 - 其它应用</h4><p>基于深度学习的超分辨率也被应用到其它特定领域的应用中，而且表现出色。尤其是，RACNN 利用 SR 模型增强了用于细粒度分类的 LR 图像细节的可辨性。类似地，感知 GAN 通过超分辨小目标的表征解决了小目标检测问题，实现了与大目标相似的特征，检测更具可辨性。FSR-GAN超分辨化了特征空间而非像素空间中的小图像，将质量较差的原始特征转换成了可辨性更高的特征，这对图像检索非常有利。此外，Dai 等人验证了 SR 技术在若干视觉应用中的有效性和有用性，包括边缘检测、语义分割、数字和场景识别。Huang 等人 开发了专门用于超分辨率遥感图像的 RS-DRL。Jeon 等人  利用立体图像中的视差先验来重建配准中具有亚像素准确率的 HR 图像。</p>
+<h2 id="10-未来发展方向"><a href="#10-未来发展方向" class="headerlink" title="10 - 未来发展方向"></a>10 - 未来发展方向</h2><h4 id="10-1-Network-Design（网络结构设计）"><a href="#10-1-Network-Design（网络结构设计）" class="headerlink" title="10.1 - Network Design（网络结构设计）"></a>10.1 - Network Design（网络结构设计）</h4><p>可考虑从如下方面改进网络结构：</p>
+<p>Combining Local and Global Information，结合局部和全局信息，大的感受野可以提供更多的纹理信息，这样可生成更加真实的的HR图像。</p>
+<p>Combining Low- and High-level Information，结合低层和高层信息，deep CNNs中的较浅层易于抽取如颜色和边缘等低层特征，而较高层更易获得如目标识别等高层次的特征表示，结合低层网络抽取的低层细节信息和高层网络抽取到的高层纹理信息可获得效果更好的HR图像。</p>
+<p>Context-specific Attention，结合特定内容的注意力机制，增强主要特征可促进生成的HR图像具体更加真实的细节。</p>
+<p>Lightweight Architectures，目前网络结构日趋复杂，如何减少模型大小，加快预测时间并保持性能仍然是一个研究课题。</p>
+<p>Upsampling Layers，如何设计出有效并有效率的上采样层是值得研究的，特别是在放大倍数较大的图像超分辨率问题上。</p>
+<h4 id="10-2-Learning-Strategies（学习策略）"><a href="#10-2-Learning-Strategies（学习策略）" class="headerlink" title="10.2 - Learning Strategies（学习策略）"></a>10.2 - Learning Strategies（学习策略）</h4><p>Loss Functions，目前的损失函数是建立于 LR&#x2F;HR&#x2F;SR 图像之间的限制并优化层面上的。在实际应用上，通常把这些损失函数进行加权得到，对SR问题来说，最有效的损失函数还不明确。因此，一项有意义的研究工作是，如何找到 LR&#x2F;HR&#x2F;SR 图像间的潜在联系并找到更加准确的损失函数。</p>
+<p>Normalization，虽然BN在视觉问题上大量使用，但是在SR问题上，BN并不是最佳的规范化效果，有时使用BN反而会得到不好的效果。因此，在SR领域，其他有效的规范化技术是需要被提出的。</p>
+<h4 id="10-3-Evaluation-Metrics（评价方法）"><a href="#10-3-Evaluation-Metrics（评价方法）" class="headerlink" title="10.3 - Evaluation Metrics（评价方法）"></a>10.3 - Evaluation Metrics（评价方法）</h4><p>More Accurate Metrics，传统的PSNR&#x2F;SSIM图像质量评价方法并不能客观反应图像的主观效果，MOS方法需要大量的人力成本并且不能再现。因此，更加精确的图像质量评价方法亟待提出。</p>
+<p>Blind IQA Methods，目前所提到的SR问题，都是LR-HR图像对做出的，但是，在这类数据集是很难获得的，大部分都是通过人工手段获得的LR-HR图像对。这样，在评价这类问题时，就变成了反向预测退化问题的过程，因此，无依赖的图像质量评价方法是有很大需要的。</p>
+<h4 id="10-4-Unsupervised-Super-resolution（无监督图像超分辨率）"><a href="#10-4-Unsupervised-Super-resolution（无监督图像超分辨率）" class="headerlink" title="10.4 - Unsupervised Super-resolution（无监督图像超分辨率）"></a>10.4 - Unsupervised Super-resolution（无监督图像超分辨率）</h4><p>文中提到了一些已有的无监督超分辨率工作：</p>
+<p>A. Shocher, N. Cohen, and M. Irani, “zero-shot super-resolution using deep internal learning,” in CVPR, 2018.</p>
+<p>A. Bulat, J. Yang, and G. Tzimiropoulos, “To learn image super- resolution, use a gan to learn how to do image degradation first,” in ECCV, 2018.</p>
+<p>Y. Yuan, S. Liu, J. Zhang, Y. Zhang, C. Dong, and L. Lin, “Unsu- pervised image super-resolution using cycle-in-cycle generative adversarial networks,” in CVPRW, 2018.</p>
+<p>D. Ulyanov, A. Vedaldi, and V. Lempitsky, “Deep image prior,” in CVPR, 2018.</p>
+<p>目前大量的SR方法都是使用Matlab Bicubic方法获得LR图像，用LR-HR作为SR网络的训练数据，这样SR问题会变成预先定义图像退化过程的逆过程，在自然低分辨率图像上应用这类SR方法，效果会很不好。因此，<strong>在未来的研究领域，没有LR-HR图像对的无监督图像超分辨率问题是有意义的研究方向。</strong></p>
+<h4 id="10-5-Towards-Real-world-Scenarios（面向真实场景）"><a href="#10-5-Towards-Real-world-Scenarios（面向真实场景）" class="headerlink" title="10.5 - Towards Real-world Scenarios（面向真实场景）"></a>10.5 - Towards Real-world Scenarios（面向真实场景）</h4><p>Image super-resolution在真实场景上，往往会受到“不明确的图像退化过程”，“缺少LR-HR图像对”等的条件限制，使得现有的SR算法难以实际应用。</p>
+<p>Dealing with Various Degradation，<strong>解决多种图像退化问题，针对不同方式获得的LR图像。</strong>目前已有一部分这方面的工作，但是存在一些固有缺点，如模型难以训练，过于理想的假设条件。</p>
+<p>Domain-specific Applications，特定领域的应用，SR算法不一定非要用于特定领域数据或场景中，SR算法同样可协助处理其他视觉问题，如<a target="_blank" rel="noopener" href="https://cloud.tencent.com/solution/video_surveillance_storage?from=10680">视频监控</a>、<a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/facerecognition?from=10680">人脸识别</a>、目标跟踪、医学图像、场景渲染等。SR算法可用于这类视觉问题的预处理或后处理。</p>
+<p>Multi-scale Super-resolution，目前大部分SR网络是针对固定放大尺寸训练的，实际应用中，有一定局限性。<strong>使用单一网络的进行多尺度图像超分辨率，有一定的研究价值。</strong>最近在CVPR 2019上，旷视提出了“Meta-SR: A Magnification-Arbitrary Network for Super-Resolution”：单一模型实现任意缩放因子。是这一研究方向的最新进展。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-chain-item">文章学习</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>004 - 文章阅读笔记：超分辨率  综述！使用深度学习来实现图像超分辨率 - 腾讯云开发者社区 - AI算法修炼营</div>
+      <div>http://example.com/posts/2121647263/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年1月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/873487138/" title="005 - 文章阅读笔记：综述  基于深度学习的人脸超分辨率：全面调研 - 知乎 - CVer计算机视觉">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">005 - 文章阅读笔记：综述  基于深度学习的人脸超分辨率：全面调研 - 知乎 - CVer计算机视觉</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/3511478344/" title="003 - 文章阅读笔记：用超分辨率扛把子算法 ESRGAN，训练图像增强模型 - 腾讯云开发者社区 - HyperAI超神经">
+                        <span class="hidden-mobile">003 - 文章阅读笔记：用超分辨率扛把子算法 ESRGAN，训练图像增强模型 - 腾讯云开发者社区 - HyperAI超神经</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

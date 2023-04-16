@@ -1,0 +1,957 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="转载自： 【√】RepSR：通过结构重新参数化和批量归一化来训练高效的VGG式超分辨率网络（探究sr中的bn） - CSDN - hbw136 于 2022-05-17 19:52:30 发表  RepSR: Training Efficient VGG-style Super-Resolution Networks with Structural Re-Parameterization and">
+<meta property="og:type" content="article">
+<meta property="og:title" content="037 - 文章阅读笔记：RepSR：通过结构重新参数化和批量归一化来训练高效的VGG式超分辨率网络（探究sr中的bn） - CSDN - hbw136">
+<meta property="og:url" content="http://example.com/posts/1477020044/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="转载自： 【√】RepSR：通过结构重新参数化和批量归一化来训练高效的VGG式超分辨率网络（探究sr中的bn） - CSDN - hbw136 于 2022-05-17 19:52:30 发表  RepSR: Training Efficient VGG-style Super-Resolution Networks with Structural Re-Parameterization and">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301171917133.png">
+<meta property="article:published_time" content="2023-01-17T11:09:01.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.430Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="人工智能">
+<meta property="article:tag" content="pytorch">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301171917133.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>037 - 文章阅读笔记：RepSR：通过结构重新参数化和批量归一化来训练高效的VGG式超分辨率网络（探究sr中的bn） - CSDN - hbw136 - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">037 - 文章阅读笔记：RepSR：通过结构重新参数化和批量归一化来训练高效的VGG式超分辨率网络（探究sr中的bn） - CSDN - hbw136</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-17 19:09" pubdate>
+          2023年1月17日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          30 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">037 - 文章阅读笔记：RepSR：通过结构重新参数化和批量归一化来训练高效的VGG式超分辨率网络（探究sr中的bn） - CSDN - hbw136</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>转载自：</p>
+<p>【√】<a target="_blank" rel="noopener" href="https://blog.csdn.net/hbw136/article/details/124828109">RepSR：通过结构重新参数化和批量归一化来训练高效的VGG式超分辨率网络（探究sr中的bn） - CSDN - hbw136</a></p>
+<p>于 2022-05-17 19:52:30 发表</p>
+</blockquote>
+<h1 id="RepSR-Training-Efficient-VGG-style-Super-Resolution-Networks-with-Structural-Re-Parameterization-and-Batch-Normalization"><a href="#RepSR-Training-Efficient-VGG-style-Super-Resolution-Networks-with-Structural-Re-Parameterization-and-Batch-Normalization" class="headerlink" title="RepSR: Training Efficient VGG-style Super-Resolution Networks with Structural Re-Parameterization and Batch Normalization"></a>RepSR: Training Efficient VGG-style Super-Resolution Networks with Structural Re-Parameterization and Batch Normalization</h1><h1 id="（RepSR：通过结构重新参数化和批量归一化来训练高效的VGG式超分辨率网络）"><a href="#（RepSR：通过结构重新参数化和批量归一化来训练高效的VGG式超分辨率网络）" class="headerlink" title="（RepSR：通过结构重新参数化和批量归一化来训练高效的VGG式超分辨率网络）"></a>（RepSR：通过结构重新参数化和批量归一化来训练高效的VGG式超分辨率网络）</h1><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172025134.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>作者：1.Xintao Wang， 2.Chao Dong，3.Ying Shan</p>
+<p>单位：ARC Lab, Tencent PCG, Shenzhen Institute of Advanced Technology, Chinese Academy of Sciences; Shanghai AI Laboratory</p>
+<p>代码：<a target="_blank" rel="noopener" href="https://github.com/TencentARC/RepSR.%EF%BC%88%E6%9A%82%E6%9C%AA%E6%94%BE%E5%87%BA%EF%BC%89">https://github.com/TencentARC/RepSR.（暂未放出）</a></p>
+<p>论文地址：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2205.05671">https://arxiv.org/pdf/2205.05671</a></p>
+<h2 id="√-一、问题亮点"><a href="#√-一、问题亮点" class="headerlink" title="[√] 一、问题亮点"></a>[√] 一、问题亮点</h2><hr>
+<p>1.将训练的多分支架构sr网络模型直接用于测试通常会导致较差的性能表现，要如何去解决这个问题？</p>
+<p>2.在当前的sr网络中BN通常被替换或删去，因为它通常会带来性能损失和奇怪的伪影，还有就是bn在sr领域也缺乏相关研究。</p>
+<h2 id="√-二、主要思路和亮点"><a href="#√-二、主要思路和亮点" class="headerlink" title="[√] 二、主要思路和亮点"></a>[√] 二、主要思路和亮点</h2><hr>
+<ol>
+<li>作者详细分析了 BN 伪影的原因，并提出了一种有效解决此问题的简单策略。</li>
+<li>提出了一个简单而有效的 SR 可重参数化块用于解决问题一。 它在不同模型大小之间实现了优于以前的重新参数化方法的性能。</li>
+<li>基于RepSR，作者能够训练出高效的 VGG 式 SR 网络。 与以前的 SR 方法相比，它可以在性能和吞吐量之间取得更好的平衡。</li>
+</ol>
+<h2 id="√-三、细节"><a href="#√-三、细节" class="headerlink" title="[√] 三、细节"></a>[√] 三、细节</h2><hr>
+<h4 id="√-1、模型结构"><a href="#√-1、模型结构" class="headerlink" title="[√] 1、模型结构"></a>[√] 1、模型结构</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172025135.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172025136.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>基础网络结构，它有一个普通的 <a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=VGG&spm=1001.2101.3001.7020">VGG</a> 风格的网络结构，带有一堆 3×3 卷积和激活层。 RepSR 块，它由一个纯粹的残差path、两个带有 Frozen BN 层的扩展和压缩path组成。 在推理过程中，RepSR 块可以合并为一个标准的 3×3 卷积。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>本文设计了RepSR块。</li>
+<li>本文的创新的结构是，将残差块中的残差部分，由1个变成了2个。</li>
+<li>本文在全局跳跃连接中，加入了最近邻上采样器。</li>
+</ul>
+</blockquote>
+<p>作者展示了SR 网络简洁的结构，如上图所示。 为了保持较低的计算成本和内存消耗，基础网络具有普通的 VGG 式网络结构，即堆叠使用 3×3 卷积和激活层。 作者在网络末端使用像素洗牌层（pixel shuffle）执行上采样操作。 采用简单的最近邻上采样器作为全局跳跃连接。 作者在实验中使用 PReLU作为激活函数。并且已被证明比其他复杂的网络结构更易于部署。</p>
+<h4 id="√-2、Re-parameterization-Block-for-SR"><a href="#√-2、Re-parameterization-Block-for-SR" class="headerlink" title="[√] 2、Re-parameterization Block for SR"></a>[√] 2、Re-parameterization Block for SR</h4><hr>
+<p>作者使用重新参数化去解决多分支网络的问题，即在训练期间使用多分支架构，然后将它们合并到标准的 3×3 卷积中进行测试。 其中批量归一化（BN）在最近的研究中展现出了对于在训练期间引入非线性和提高最终性能的重要性。因此，在此基础作者提出了RepSR块，它将BN重新引入到SR的重新参数化中。作者进一步改进了RepSR的详细结构，使其更适合于SR任务。在RepSR的设计中也考虑了结构的简单性。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172025137.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>所谓的重新参数化，就是将训练期间的网络参数，在测试的时候，将其合并到一个标准的3x3卷积中，这个让网络结构更加简单、易于部署。</li>
+</ul>
+</blockquote>
+<h4 id="√-3、REVISITING-BATCH-NORMALIZATION-IN-SUPER-RESOLUTION-（研究bn在sr的作用）"><a href="#√-3、REVISITING-BATCH-NORMALIZATION-IN-SUPER-RESOLUTION-（研究bn在sr的作用）" class="headerlink" title="[√] 3、REVISITING BATCH NORMALIZATION IN SUPER-RESOLUTION （研究bn在sr的作用）"></a>[√] 3、REVISITING BATCH NORMALIZATION IN SUPER-RESOLUTION （研究bn在sr的作用）</h4><hr>
+<p>批量归一化(BN)在卷积神经网络(CNN)中得到了广泛的应用，它有效地简化了收敛过程，从而提高了性能。给定一个CNN特征x，BN通过使用平均μ和方差σ2将x归一化来计算输出y：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172025138.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>其中，λ和β是可学习的仿射参数，ε是数值稳定性的一个小值。在训练过程中，计算小批次上的每个通道的平均值和方差，而在推理过程中，从训练集估计的总体统计数据用于归一化。</p>
+<p>但是，BN 对 SR 不友好。 它往往会在推理过程中引入令人不快的 BN 伪影，如上图所示。输出中混杂着不自然的颜色，导致 PSNR（峰值信噪比）大幅下降。 有时，此类伪影是轻微的，乍一看甚至难以察觉，导致性能略有下降。 因此，BN 通常在 SR 网络中被删除。 为了弥补由于没有 BN 导致的优化问题，一些替代技术，或更长的训练被用于训练更大的网络。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>BN能够简化收敛过程，从而提高性能。但是BN在SR任务中，会带来伪影等问题。因此在SR任务中，一般不用BN。</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172025139.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>对此我深有体会，所研究的模型中有大量的bn，最近则遇到了类似的情况，推理过程中会有特定位置的伪影，不知道怎么解决，现在理解了确实可能是bn造成的，这也使得验证结果忽高忽低。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172025140.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172025141.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172025142.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172025143.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>作者也对bn伪影进行了研究，从观察结果开始分析——那些BN伪影更有可能出现在图像的平滑区域。这些平滑区域明显有一个非常不同的局部方差，这表明伪影可能与BN中使用的不正确统计数据有关。有趣的是，如果批量归一化通过输入图像本身的统计数据而不是总体统计数据来规范化特征，BN伪影可以大幅减少。这一现象意味着BN伪影的原因可能是由于训练测试的不一致，即小批量统计和population之间的不一致。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>BN更可能出现在图像的平滑区域。</li>
+<li>如果通过图像本身的统计数据批量规范化，而不是使用总体的统计数据批量规范化，那么BN伪影可以大幅减少。</li>
+<li>猜测可能是图像中出现伪影的原因是训练和测试的不一致。训练的时候，使用当前小batch的均值和方差进行BN，而测试的时候，使用训练数据总体的均值和方法进行BN。这种做法是否存在问题呢？</li>
+</ul>
+</blockquote>
+<p>作者进行了一个实验来验证这一说法。作者从图3中的图像中裁剪LRpatch，其输出有严重的BN伪影。然后，作者将这个贴片粘贴到狒狒LR图像的中心，其输出明显很好，没有伪影，如下图所示。合并后的图像通过SR网络。有趣的是，BN工件仍然存在于粘贴的平滑patch上，而左侧patch不受影响。似乎这些“有问题的”patch产生了异常的特征统计数据作为它们自身的特征。由于SR网络更多地关注本地处理，并从头到尾保持空间信息（即不像识别等任务提取特征时通常会增加通道数），有问题的patch总是会产生BN伪影，无论它们是单独产生的还是与其他patch一起产生的。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172025144.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>作者将能够产生伪影的patch，组合到SR良好的LR图像上，然后再超分，发现伪影的patch在超分之后仍然会产生伪影，良好的LR图像，超分效果仍然良好。</li>
+</ul>
+</blockquote>
+<p>确实如此（自己魔改的含bn模型，伪影确实容易出现在平滑的位置）</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172025145.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>基于作者的分析，减少训练-测试不一致性的一个直观的想法是在训练过程中使用population统计数据。因此，作者建议像正常的BN一样，首先用小批量统计数据来训练SR网络。在训练的后期，作者转向使用population数据。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>作者猜想，BN产生伪影的可能原因是训练和测试的时候，BN的均值和方差数据的不一致导致的。训练的时候使用当前batch的均值和方差，测试的时候使用总体的均值方差。所以作者修改训练方式，在训练的前期使用当前batch的数据训练，后期则使用总体的均值和方差来做BN。</li>
+<li>但是这种策略是否会牺牲性能？因为切换过程实际上改变了BN层的优化行为。从作者的实验来看，这种策略不会降低原本具有高性能的数据集的性能。</li>
+</ul>
+</blockquote>
+<p>但是这种策略是否会牺牲性能？因为切换过程实际上改变了BN层的优化行为。从作者的实验来看，这种策略不会降低原本具有高性能的数据集的性能。1、用BN训练和用作者的策略训练的两个模型在set5上都获得了相似且良好的结果。此外，所提出的策略能够去除BN伪影，并提高性能(Set14，B100，DIV2K结果在Tab中。 1).综上所述，采用所提出的策略，作者可以享受到BN训练更快的收敛速度，而不受到BN伪影的影响。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172025146.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h2 id="√-四、实验"><a href="#√-四、实验" class="headerlink" title="[√] 四、实验"></a>[√] 四、实验</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172025147.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://img-blog.csdnimg.cn/15a67793d605447fbf8924e3d3607307.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>本文提出的模型，能够比ECBSR模型减少一半的训练时间，但是能够保持相同的性能。</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301172025148.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>C3和C1分别表示3x3的卷积和1x1的卷积。</li>
+</ul>
+</blockquote>
+<h2 id="√-五、总结"><a href="#√-五、总结" class="headerlink" title="[√] 五、总结"></a>[√] 五、总结</h2><hr>
+<p>（1）作者提出了简单有效的重新参数化块，训练的时候使用RepSR，测试的时候，调整为使用3x3卷积。</p>
+<p>（2）作者重新思考了BN的影响，提出了新的带有BN的训练策略。并证明了这个BN策略的有效性。</p>
+<p>作者提出了RepSR，由简单而有效的重新参数化块组成。为了引入BN训练的非线性，作者仔细分析了BN伪影产生的原因，并提出了一种有效的策略来解决这个BN问题（bn在sr的伪影问题得到有效解决）。残差path和展开压缩卷积等设计，进一步提高了再参数化性能。所提出的RepSR允许作者训练高效的VGG风格的SR网络，以更快的推理速度实现更好的性能。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-chain-item">文章学习</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>
+      
+        <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">#人工智能</a>
+      
+        <a href="/tags/pytorch/">#pytorch</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>037 - 文章阅读笔记：RepSR：通过结构重新参数化和批量归一化来训练高效的VGG式超分辨率网络（探究sr中的bn） - CSDN - hbw136</div>
+      <div>http://example.com/posts/1477020044/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年1月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/2104405647/" title="038 - 文章阅读笔记：(CVPR 2022 阅读笔记)Residual Local Feature Network for Efficient Super-Resolution - CSDN - 专栏：单图像超分辨 - 南妮儿">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">038 - 文章阅读笔记：(CVPR 2022 阅读笔记)Residual Local Feature Network for Efficient Super-Resolution - CSDN - 专栏：单图像超分辨 - 南妮儿</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/4087855987/" title="036 - 文章阅读笔记：Cross-SRN:Structure-Preserving Super-Resolution Network with Cross Convolution - CSDN - 专栏：超分辨率 - hbw136">
+                        <span class="hidden-mobile">036 - 文章阅读笔记：Cross-SRN:Structure-Preserving Super-Resolution Network with Cross Convolution - CSDN - 专栏：超分辨率 - hbw136</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

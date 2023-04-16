@@ -1,0 +1,1033 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="原文链接： （1）【盲图像超分】IKC解析与深度思考 - AIWalker - Happy - link - 2021-09-12 22:00 ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。  ——————————————————————————————[√] 文章信息论文标题：IKC: Blind Super-R">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文章阅读笔记：【2019 IKC】IKC Blind Super-Resolution With Iterative Kernel Correction">
+<meta property="og:url" content="http://example.com/posts/101675316/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="原文链接： （1）【盲图像超分】IKC解析与深度思考 - AIWalker - Happy - link - 2021-09-12 22:00 ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。  ——————————————————————————————[√] 文章信息论文标题：IKC: Blind Super-R">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212231015.jpg">
+<meta property="article:published_time" content="2023-02-20T06:37:40.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.451Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="盲超分">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212231015.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>文章阅读笔记：【2019 IKC】IKC Blind Super-Resolution With Iterative Kernel Correction - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">文章阅读笔记：【2019 IKC】IKC Blind Super-Resolution With Iterative Kernel Correction</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-02-20 14:37" pubdate>
+          2023年2月20日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          48 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">文章阅读笔记：【2019 IKC】IKC Blind Super-Resolution With Iterative Kernel Correction</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>原文链接：</p>
+<p>（1）【盲图像超分】IKC解析与深度思考 - AIWalker - Happy - <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/_yCvxzN2ryBQSIawHI1M1Q">link</a> - 2021-09-12 22:00</p>
+<p>ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。</p>
+</blockquote>
+<h1 id="——————————————————————————————"><a href="#——————————————————————————————" class="headerlink" title="——————————————————————————————"></a>——————————————————————————————</h1><h1 id="√-文章信息"><a href="#√-文章信息" class="headerlink" title="[√] 文章信息"></a>[√] 文章信息</h1><p>论文标题：IKC: Blind Super-Resolution With Iterative Kernel Correction</p>
+<p>中文标题：用于盲超分的迭代内核矫正</p>
+<p>论文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1904.03377">https://arxiv.org/abs/1904.03377</a></p>
+<p>论文代码：<a target="_blank" rel="noopener" href="https://github.com/yuanjunchai/IKC">https://github.com/yuanjunchai/IKC</a></p>
+<p>论文发表：2019 CVPR</p>
+<h1 id="——————————————————————————————-1"><a href="#——————————————————————————————-1" class="headerlink" title="——————————————————————————————"></a>——————————————————————————————</h1><h1 id="√-文章1"><a href="#√-文章1" class="headerlink" title="[√] 文章1"></a>[√] 文章1</h1><blockquote>
+<p>总结：</p>
+<p>零碎点：</p>
+<p>已有研究往往采用各项同性高斯模糊核，此外，各项异性模糊核(可视作运动模糊+各项同性模糊核的组合)也开始得到关注。</p>
+<p>文章思想：</p>
+<p>（1）IKC  —&gt; 用于模糊核估计</p>
+<p>本文提出一种迭代核估计方法用于盲超分中的模糊核估计。 本文思想源自：核不匹配会导致有规律的伪影(过度退化或者过度模糊)，而这种规律可以用于对不精确的模糊核进行校正 。因此，我们提出一种迭代校正机制IKC，它可以取得比直接核估计更好的结果。</p>
+<p>（2）SFTMD  —&gt; 用于图像超分</p>
+<p>与此同时，我们还提出一种基于SFT(Spatial Feature Transformer)的超分网络SFTMD用于处理多模糊核。</p>
+<p>本文贡献：</p>
+<ul>
+<li>提出一种直观且有效的深度学习框架用于模糊核估计；</li>
+<li>提出一种基于SFT的非盲超分模型用于多模糊核图像超分；</li>
+<li>所提SFTMD+IKC在盲超分领域取得了SOTA性能。</li>
+</ul>
+<p>评价：</p>
+<p>估计出来的模糊核不匹配，会导致有规律的伪影。因此本文提出使用迭代模糊核修正的方式，修正模糊核，从而实现较高性能的超分。</p>
+<p>方法：</p>
+<p>（1）IKC：</p>
+<p>为解决核不匹配问题，我们提出了迭代校正模糊核以得到无伪影超分结果。为校正估计模糊核k，我们构建了一个Corrector度量估计核与真实核之间的差异。核心思想在于：<strong>利用中间超分结果进行模糊核校正</strong> 。Corrector可以通过最小估计核与真实核之间的l2损失优化。</p>
+<p>迭代模糊核修正的过程：</p>
+<ul>
+<li>所提IKC方案包含超分模型F、预测器P以及校正器C。</li>
+<li>首先将LR输入预测器，得到预测的模糊核h。</li>
+<li>然后将LR + 模糊核一起输入超分模型F，得到SR。</li>
+<li>然后将h和SR一起输入校正器C输出矫正之后的模糊核偏移delta h’。</li>
+<li>然后将delta h’ + h &#x3D; h’，得到修正之后的h‘。</li>
+<li>然后再将h’和LR输入到F，得到SR。循环往复的执行这个过程，不断的修正模糊核。一共循环t次。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233735" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>（2）SFT</p>
+<p>SRMD通过将LR和模糊核叠加作为输入的方式，不一定是最好的方式，因为模糊核信息的影响仅在网络的浅层，深层特征难以受到这个核信息的影响。</p>
+<p>为解决这个问题，本文提出了一种基于SFT的超分模型SFTMD，SFT通过对特征执行仿射变换提升模糊核的影响，该仿射变化并不是直接包含在图像处理图像中，因而可以提供更好的性能。</p>
+<p>“本文这里的SFT使用了2018CVPR的超分文章SFTGAN的模块，是否可以借鉴这种方式？”</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233736.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>（3）预测器和校正器的结构图</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233737.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>“可能确实能提升模型效果，但是这个预测器和校正器是否真的是在预测和校正，还是只是因为复杂了网络结构导致网络的拟合能力更强，也不一定。”</p>
+<p>个人思考</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233738.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>上图简单梳理了自SRMD以来用于多模糊核退化的图像超分方案，SRMD、DPSR、USRNet、DPIR以及MANet是Kai Zhang及其团队成员的工作，IKC则是Jinjin Gu、Chao Dong团队的成果，DANv1&amp;DANv2是中科院Tieniu Tan团队的成果。</p>
+<p>SRMD首次成功的将核先验、噪声先验信息嵌入到超分模型中 ；而后续的工作则针对模糊核的迭代估计进行探索，后续的工作延续了两条不同的路线：</p>
+<ul>
+<li>路线一：基于MAP思想进行迭代估计，像DPSR、USRNet以及DPIR采用了类似的思路，将传统方法MAP逐渐嵌入到迭代优化中；</li>
+<li>路线二：基于CNN进行迭代估计，像IKC、DANv1以及DANv2均采用了深度学习的思想进行模糊核的迭代优化。</li>
+</ul>
+<p>作为路线二的探索者，IKC以核不匹配造成的伪影 作为切入点，深入分析了估计核与真实核之间过渡时的现象，提出了模糊核迭代优化机制IKC。针对SRMD中核先验与LR图像的拼接处理方式可能存在弊端(核信息只影响一次、对深层难产生影响)，引入SFT以加深核先验的影响。</p>
+<p>当然，作为“吃螃蟹”的工作，它肯定会留下一些“坑”留给后来者去填。这些坑是啥呢？感兴趣的可以先去看一下DANv2，或者等待笔者的解读亦可。</p>
+</blockquote>
+<p>【AI侃侃】知道IKC 一文有一年多，但一直没有深入看过论文，code也未曾仔细看过，潜意识中认为IKC太复杂了，所以一直拖、一直拖，直到看了DAN的两个版本，看到了DAN中附带了IKC的code，才觉得IKC可能是与DAN相类似的方法。趁着周末，花了近一天时间去看了IKC的原理以及code。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233739.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>arXiv:<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1904.03377">https://arxiv.org/abs/1904.03377</a><br>code: <a target="_blank" rel="noopener" href="https://github.com/yuanjunchai/IKC">https://github.com/yuanjunchai/IKC</a></p>
+<h2 id="√-Abstract"><a href="#√-Abstract" class="headerlink" title="[√] Abstract"></a>[√] Abstract</h2><hr>
+<p>因其优异的有效性与高效率，深度学习已成为图像超分领域主流方案。现有图像超分方案往往假设下采样过程中的模糊核是固定&#x2F;已知(比如bicubic)。然而，<strong>实际应用场景中的退化模糊核往往是复杂且未知的</strong>，进而导致已有方案在实际应用中的严重性能退化。</p>
+<p><strong>本文提出一种迭代核估计方法用于盲超分中的模糊核估计。</strong> 本文思想源自：<strong>核不匹配会导致有规律的伪影(过度退化或者过度模糊)，而这种规律可以用于对不精确的模糊核进行校正</strong> 。因此，我们提出一种迭代校正机制IKC，它可以取得比直接核估计更好的结果。与此同时，我们还提出一种基于SFT(Spatial Feature Transformer)的超分网络SFTMD用于处理多模糊核。</p>
+<p>合成数据与真实场景上的实验表明：所提SFTMD+IKC可以生成视觉友好效果，同时在盲超分领域取得了SOTA性能。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233740.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>本文主要贡献包含以下几点：</p>
+<ul>
+<li>提出一种直观且有效的深度学习框架用于模糊核估计；</li>
+<li>提出一种基于SFT的非盲超分模型用于多模糊核图像超分；</li>
+<li>所提SFTMD+IKC在盲超分领域取得了SOTA性能。</li>
+</ul>
+<h2 id="√-Method"><a href="#√-Method" class="headerlink" title="[√] Method"></a>[√] Method</h2><hr>
+<h4 id="√-Problem-Formulation"><a href="#√-Problem-Formulation" class="headerlink" title="[√] Problem Formulation"></a>[√] Problem Formulation</h4><hr>
+<p>盲图像超分问题可以描述如下：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233741.png" srcset="/img/loading.gif" lazyload alt="image-20230220160554627"></p>
+<p>已有研究往往采用各项同性高斯模糊核，此外，各项异性模糊核(可视作运动模糊+各项同性模糊核的组合)也开始得到关注。为简单起见，<strong>本文主要聚焦于各项同性模糊核</strong> 。延续SRMD，我们采用了<strong>高斯模糊+bicubic下采样</strong> 退化方式。在真实场景中，LR图像往往还存在加性噪声退化。噪声假设同样延续了SRMD中的高斯分布。</p>
+<h4 id="√-Motivation"><a href="#√-Motivation" class="headerlink" title="[√] Motivation"></a>[√] Motivation</h4><hr>
+<p>接下来，我们将思考<strong>正确模糊核在超分过程中的重要性</strong> 。假设<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233742.png" srcset="/img/loading.gif" lazyload alt="image-20230220202935343">为带核信息输入的预训练超分模型，当输入正确模糊核，生成的超分图像不会存在伪影。<strong>盲超分问题就等价于寻找合适的模糊核以使得超分模型生成视觉友好的结果</strong>$I^{SR}$。一种直接的方案是采用预测器(Predictor)$k’&#x3D;p(I^{LR})$直接从LR估计模糊核k，该预测器可通过最小化l2损失得到：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233743.png" srcset="/img/loading.gif" lazyload alt="image-20230220203054423"></p>
+<p>然而，对模糊核k进行精确估计不太可能。此外，超分模型对于估计误差非常敏感，不精确的模糊核会导致生成的结果包含伪影。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233744.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233745.png" srcset="/img/loading.gif" lazyload alt="image-20230220203446703"></p>
+<p>为解决核不匹配问题，我们提出了迭代校正模糊核以得到无伪影超分结果。为校正估计模糊核k，我们构建了一个Corrector度量估计核与真实核之间的差异。核心思想在于：<strong>利用中间超分结果进行模糊核校正</strong> 。Corrector可以通过最小估计核与真实核之间的l2损失优化：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233746.png" srcset="/img/loading.gif" lazyload alt="image-20230221204126873"></p>
+<p>Corrector基于超分结果的特征对模糊核进行调整，调整后的模糊核又将优化超分模型以得到具有更少伪影的结果。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233747.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上图给出了迭代次数与性能的对比，可以看到：</p>
+<ul>
+<li>仅仅一次校正的结果并不是非常好；</li>
+<li>多次迭代可以有效提升PSNR&#x2F;SSIM指标，直到达到饱和。</li>
+</ul>
+<h4 id="√-Proposed-Method"><a href="#√-Proposed-Method" class="headerlink" title="[√] Proposed Method"></a>[√] Proposed Method</h4><hr>
+<h6 id="√-Overall-Framework"><a href="#√-Overall-Framework" class="headerlink" title="[√] Overall Framework"></a>[√] Overall Framework</h6><hr>
+<p>所提IKC方案包含超分模型F、预测器P以及校正器C。下图给出了IKC的实现伪代码。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233748.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>所提IKC方案包含超分模型F、预测器P以及校正器C。</li>
+<li>首先将LR输入预测器，得到预测的模糊核h。</li>
+<li>然后将LR + 模糊核一起输入超分模型F，得到SR。</li>
+<li>然后将h和SR一起输入校正器C输出矫正之后的模糊核偏移delta h’。</li>
+<li>然后将delta h’ + h &#x3D; h’，得到修正之后的h‘。</li>
+<li>然后再将h’和LR输入到F，得到SR。循环往复的执行这个过程，不断的修正模糊核。一共循环t次。</li>
+</ul>
+</blockquote>
+<h6 id="√-Network-Architecture-of-SR-Model-F"><a href="#√-Network-Architecture-of-SR-Model-F" class="headerlink" title="[√] Network Architecture of SR Model F"></a>[√] Network Architecture of SR Model F</h6><hr>
+<p>作为最成功的处理多模糊核退化的超分方案，SRMD将输入图像与退化信息拼接到一起作为模型输入，然后通过级联卷积与PixelShuffle进行图像超分。然而，SRMD中的拼接方式并非仅有的、也并非最优选择，原因有二：</p>
+<ul>
+<li>核map并不包含图像信息，直接采用聚氨基对其处理可能会引入与图像无关的干扰；</li>
+<li>核信息的影响仅在第一层得到了体验，深层特征难以收到该核信息的影响。</li>
+</ul>
+<p>为解决上述问题，我们提出了一种基于SFT的超分模型SFTMD，SFT通过对特征执行仿射变换提升模糊核的影响，该仿射变化并不是直接包含在图像处理图像中，因而可以提供更好的性能。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233749.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上图给出了所提SFTMD架构示意图，它通过引入SFT对SRResNet进行扩展。SFT则基于模糊核特征H对于特征F进行仿射变换：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233750.png" srcset="/img/loading.gif" lazyload alt="image-20230221210642719"></p>
+<p>注：仿射变换系数γ,β通过另一个轻量CNN计算得到。</p>
+<h6 id="√-Network-Architecture-of-Predictor-p-and-Corrector-c"><a href="#√-Network-Architecture-of-Predictor-p-and-Corrector-c" class="headerlink" title="[√] Network Architecture of Predictor p and Corrector c"></a>[√] Network Architecture of Predictor p and Corrector c</h6><hr>
+<p> 预测器与校正器的网络架构见下图。预测器由4个卷积层(后接LeakyReLU)+GAP组成；校正器则同时将超分图像与已有估计h作为输入。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233751.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>GAP &#x3D; 全局池化</li>
+<li>“可能确实能提升模型效果，但是这个预测器和校正器是否真的是在预测和校正，还是只是因为复杂了网络结构导致网络的拟合能力更强，也不一定。”</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>stretch<ul>
+<li>vt. 伸展,张开</li>
+<li>vi. 伸展</li>
+<li>adj. 可伸缩的</li>
+<li>n. 伸展，延伸</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h2 id="√-Experiments"><a href="#√-Experiments" class="headerlink" title="[√] Experiments"></a>[√] Experiments</h2><hr>
+<p>我们按照前述退化模型合成训练数据集，各项同性高斯模块的核宽分别为<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233752.png" srcset="/img/loading.gif" lazyload alt="image-20230221213225869">以对应x2、x3以及x4，核尺寸固定为21x21；当应用于真实图像时，我们添加了<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233753.png" srcset="/img/loading.gif" lazyload alt="image-20230221213248046">的加性高斯噪声。训练数据为DIV2K+Flickr2K。</p>
+<p>为定量评估所提方案，我们还提供了一个测试集Gaussian8：它包含8个各项同性模糊核，核宽范围分别为<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233754.png" srcset="/img/loading.gif" lazyload alt="image-20230221213314252">。</p>
+<p>SFTMD与IKC均在合成训练数据集上进行训练。首先，采用MSE训练SFTMD；然后，固定SFTMD参数，交替训练预测器与校正。</p>
+<h4 id="√-Experiments-of-SFTMD"><a href="#√-Experiments-of-SFTMD" class="headerlink" title="[√] Experiments of SFTMD"></a>[√] Experiments of SFTMD</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233755.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上表对比了所提SFTMD与其他盲超分方案的性能，从中可以看到：</p>
+<ul>
+<li>相比SRCNN-CAB与SRMD，所提SFTMD在所有配置与数据集上均取得了显著性能提升；</li>
+<li>相比两个基于SRResNet的基线模型，所提SFTMD同样取得了最佳结果。</li>
+</ul>
+<h4 id="√-Experiments-on-Synthetic-Test-Images"><a href="#√-Experiments-on-Synthetic-Test-Images" class="headerlink" title="[√] Experiments on Synthetic Test Images"></a>[√] Experiments on Synthetic Test Images</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233756.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上表给出了Gaussian8数据集上不同方案的性能对比，从中可以看到：</p>
+<ul>
+<li>当退化核非bicubic时，在bicubic下采样退化下表现好的模型出现了严重的性能下降；</li>
+<li>尽管无核校正的的方案已经取得了与现有方案相当的结果，但是，提升迭代次数仍可极大提升模型性能。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233757.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上图对比了模糊核迭代校正过程中的超分结果，可以看到：</p>
+<ul>
+<li>直接采用预测器估计的模糊核生成的结果并不好，或者过于模糊或者存在振铃伪影；</li>
+<li>随着迭代次数提升，PSNR指标逐渐提升，同时视觉效果也逐渐变好。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233758.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上表对所提方案的泛化性能进行了验证，从中可以看到：</p>
+<ul>
+<li><strong>所提IKC仍可保持其性能</strong> ，说明IKC具有良好的泛化性；</li>
+<li>移除PCA会造成性能下降，说明PCA有助于提升IKC的泛化性。</li>
+</ul>
+<h4 id="√-Experiments-on-Real-Image-Set"><a href="#√-Experiments-on-Real-Image-Set" class="headerlink" title="[√] Experiments on Real Image Set"></a>[√] Experiments on Real Image Set</h4><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233759.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上图对比了不同方案在真实图像上的超分效果，可以看到：<strong>尽管退化模糊核未知，IKC仍可生成无伪影、边缘锐利的超分结果</strong> 。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233760.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上图提供了通过网格搜索优化模糊核+SRMD与IKC在Chip图像上的超分结果对比，从中可以看到：</p>
+<ul>
+<li>尽管SRMD具有更锐利边缘、高对比度，但存在轻度伪影；</li>
+<li>IKC可以自动生成视觉友好的超分结果，尽管对比度稍低，但仍具有锐利而自然的边缘。</li>
+</ul>
+<h2 id="√-个人思考"><a href="#√-个人思考" class="headerlink" title="[√] 个人思考"></a>[√] 个人思考</h2><hr>
+<p>因为最近一年确实看过不少盲超分的paper，所以第一遍看完IKC后只感觉不过如此。在做笔记时，思考了IKC这一类方案的时间线时才真的意识到IKC的巧妙之处。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302212233761.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上图简单梳理了自SRMD以来用于多模糊核退化的图像超分方案，SRMD、DPSR、USRNet、DPIR以及MANet是Kai Zhang及其团队成员的工作，IKC则是Jinjin Gu、Chao Dong团队的成果，DANv1&amp;DANv2是中科院Tieniu Tan团队的成果。</p>
+<p><strong>SRMD首次成功的将核先验、噪声先验信息嵌入到超分模型中</strong> ；而后续的工作则针对模糊核的迭代估计进行探索，后续的工作延续了两条不同的路线：</p>
+<ul>
+<li>路线一：<strong>基于MAP思想进行迭代估计</strong>，像DPSR、USRNet以及DPIR采用了类似的思路，将传统方法MAP逐渐嵌入到迭代优化中；</li>
+<li>路线二：<strong>基于CNN进行迭代估计</strong>，像IKC、DANv1以及DANv2均采用了深度学习的思想进行模糊核的迭代优化。</li>
+</ul>
+<p>作为路线二的探索者，IKC以<strong>核不匹配造成的伪影</strong> 作为切入点，深入分析了估计核与真实核之间过渡时的现象，提出了模糊核迭代优化机制IKC。针对SRMD中核先验与LR图像的拼接处理方式可能存在弊端(核信息只影响一次、对深层难产生影响)，引入SFT以加深核先验的影响。</p>
+<p>当然，作为“吃螃蟹”的工作，它肯定会留下一些“坑”留给后来者去填。这些坑是啥呢？感兴趣的可以先去看一下DANv2，或者等待笔者的解读亦可。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E7%9B%B2%E8%B6%85%E5%88%86/" class="category-chain-item">盲超分</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%9B%B2%E8%B6%85%E5%88%86/">#盲超分</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>文章阅读笔记：【2019 IKC】IKC Blind Super-Resolution With Iterative Kernel Correction</div>
+      <div>http://example.com/posts/101675316/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年2月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/1988067180/" title="文章阅读笔记：【2019 FSSR】Frequency Separation for Real-World Super-Resolution">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">文章阅读笔记：【2019 FSSR】Frequency Separation for Real-World Super-Resolution</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/1312067499/" title="0 - hexo博客搭建记录">
+                        <span class="hidden-mobile">0 - hexo博客搭建记录</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

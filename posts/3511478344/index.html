@@ -1,0 +1,939 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="链接： 用超分辨率扛把子算法 ESRGAN，训练图像增强模型 - 腾讯云开发者社区 - HyperAI超神经（√） 发布于2021-05-27 15:05:38  内容一览：通过硬件或软件方法，提高原有图像的分辨率，让模糊图像秒变清晰，就是超分辨率。随着深度学习技术的发展，图像超分辨率技术在游戏、电影、医疗影像等领域的应用，也愈发广泛。 关键词：超分辨率   机器视觉   深度学习 将图像或影片">
+<meta property="og:type" content="article">
+<meta property="og:title" content="003 - 文章阅读笔记：用超分辨率扛把子算法 ESRGAN，训练图像增强模型 - 腾讯云开发者社区 - HyperAI超神经">
+<meta property="og:url" content="http://example.com/posts/3511478344/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="链接： 用超分辨率扛把子算法 ESRGAN，训练图像增强模型 - 腾讯云开发者社区 - HyperAI超神经（√） 发布于2021-05-27 15:05:38  内容一览：通过硬件或软件方法，提高原有图像的分辨率，让模糊图像秒变清晰，就是超分辨率。随着深度学习技术的发展，图像超分辨率技术在游戏、电影、医疗影像等领域的应用，也愈发广泛。 关键词：超分辨率   机器视觉   深度学习 将图像或影片">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081550862.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081550863.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081550864.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081550865.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081550866.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081550867.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081550868.png">
+<meta property="article:published_time" content="2023-01-06T05:21:57.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.409Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081550862.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>003 - 文章阅读笔记：用超分辨率扛把子算法 ESRGAN，训练图像增强模型 - 腾讯云开发者社区 - HyperAI超神经 - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">003 - 文章阅读笔记：用超分辨率扛把子算法 ESRGAN，训练图像增强模型 - 腾讯云开发者社区 - HyperAI超神经</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-06 13:21" pubdate>
+          2023年1月6日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          27 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">003 - 文章阅读笔记：用超分辨率扛把子算法 ESRGAN，训练图像增强模型 - 腾讯云开发者社区 - HyperAI超神经</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>链接：</p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1828833?from=article.detail.1771908">用超分辨率扛把子算法 ESRGAN，训练图像增强模型 - 腾讯云开发者社区 - HyperAI超神经（√）</a></p>
+<p>发布于2021-05-27 15:05:38</p>
+</blockquote>
+<p><strong>内容一览：</strong>通过硬件或软件方法，提高原有图像的分辨率，让模糊图像秒变清晰，就是超分辨率。随着深度学习技术的发展，图像超分辨率技术在游戏、电影、医疗影像等领域的应用，也愈发广泛。</p>
+<p><strong>关键词：</strong>超分辨率   机器视觉   深度学习</p>
+<p>将图像或影片从低分辨率转化为高分辨率，恢复或补足丢失的细节（即高频信息），往往需要用到超分辨率技术。</p>
+<p>根据所用低分辨率图像的数量，<strong>超分辨率技术可分为单幅图像的超分辨率 (SISR) 和多幅图像的超分辨率 (MISR)。</strong></p>
+<p><strong>SISR 利用一张低分辨率图像，</strong>达到图像尺寸增大或像素的增加的效果，<strong>从而获得一张高分辨率图像。</strong></p>
+<p><strong>MISR 则是借助同一场景中的多张低分辨率图像，</strong>获取不同细节信息，合成一张或多张高分辨率图像。<strong>MISR 的输出既可以是单幅图像，也可以是一个图像系列（即视频）。</strong></p>
+<p> <strong>超分辨率 3 大法宝：插值、重建、学习</strong></p>
+<p><strong>图像超分辨率方法可以分为 3 种：基于插值、 基于重建和基于学习的方法。</strong></p>
+<p> <strong>方法 1：基于插值</strong> </p>
+<p>插值法是指在放大图像后的空缺点上，<strong>填补相应的像素值，</strong>从而恢复图像内容，达到提高图像分辨率的效果。</p>
+<p><strong>常用的插值法包括：最近邻插值、线性插值、双线性插值和双三次插值。</strong></p>
+<p><strong>最近邻插值法</strong></p>
+<p>最近邻插值法实现起来最简单粗暴，运算量也最小，<strong>只需要直接复制最近像素点的像素值进行填补即可，</strong>但是照搬旁边的像素最显著的特点就是效果差、块效应明显。</p>
+<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081550862.png" srcset="/img/loading.gif" lazyload alt="image-20230103134531316" style="zoom:80%;" />
+
+<p><strong>将左图进行最近邻插值后</strong></p>
+<p><strong>得到的右图产生了明显可见的锯齿或马赛克现象</strong></p>
+<p><strong>线性插值</strong></p>
+<p>线性插值 (Linear Interpolation) <strong>是在一个方向上进行插值，</strong>只针对一维数据，其方程式是一个一元多项式，也就是说只有一个变量。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081550863.png" srcset="/img/loading.gif" lazyload alt="image-20230103134638613"></p>
+<p>线性插值原理示意图</p>
+<p>已知坐标 (x0,y0) 和 (x1,y1)，</p>
+<p>x 为 x0 和 x1 之间的一个已知值，求解 y</p>
+<p><strong>双线性插值</strong></p>
+<p>双线性插值 (Bilinear Interpolation) 与针对一维数据的线性插值方法类似，<strong>区别是双线性插值拓展到了二维图像，需要在 X 和 Y 两个方向上进行插值。</strong></p>
+<p>双线性插值的运算过程比最近邻插值稍稍复杂一些，但是效果更光滑，这也导致插值后图像的部分细节看起来比较模糊。</p>
+<p><strong>双三次插值</strong></p>
+<p>双三次插值 (Bicubic Interpolation) 同理，<strong>用于三个变量的函数插值。</strong>双三次插值法更为复杂，它输出的图像边缘比双线性插值更为平滑和精确，但是运算速度也最慢。</p>
+<p><strong>方法 2：基于重建</strong> </p>
+<p>基于重建的超分辨率复原方法是指将多张同一场景的低分辨率图像，<strong>在空间上进行亚像素精度对齐,</strong> 得到高低分辨率图像彼此之间的运动偏移量, 构建观测模型中的空间运动参数，从而得到一幅高分辨率图像的过程。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081550864.png" srcset="/img/loading.gif" lazyload alt="image-20230103134842985"></p>
+<p><strong>原始高分辨率图像（左）</strong></p>
+<p><strong>与经过亚像素位移后得到的图像序列（右）</strong></p>
+<p>基于重建的超分辨率方法的核心思想，<strong>就是用时间带宽（获取同一场景的多帧图像序列），换取空间分辨率，</strong>实现时间分辨率向空间分辨率的转换。</p>
+<p><strong>目前超分辨率重建方法可分为两大类：频域法和空域法。</strong></p>
+<p>频域法在频域内解决图像内插问题，其观察模型是基于傅里叶变换的移位特性，<strong>它灵论简单、运算复杂度低，容易实现并行处理。</strong></p>
+<p>空域法的线性空域观测模型则涉及全局和局部运动、光学模糊、帧内运动模糊等，<strong>其典型方法包括非均匀插值法、迭代反投影法、最大后验概率法（目前实际应用和科学研究中运用最多的一种方法）、凸集投影法。</strong></p>
+<hr>
+<p><strong>方法 3：基于学习</strong> </p>
+<p>基于学习的超分辨率方法，是指通过神经网络，直接学习低分辨率图像到高分辨率图像的端到端的映射函数，利用模型习得的先验知识，获取图像的高频细节，从而获得较好的图像恢复效果。</p>
+<ul>
+<li><strong>基于浅层学习的算法步骤包括：</strong>特征提取–&gt;学习–&gt;重建，主流方法包括：基于样例 (Example-based) 法、邻域嵌入方法、支持向量回归方法、稀疏表示法等。<ul>
+<li><strong>其中基于样例法是首个基于学习的单图像超分辨率算法，</strong>由 Freeman 首次提出。它利用机器学习训练数据集，习得低分辨率和高分辨率之间的关系，进而实现超分辨重建。</li>
+</ul>
+</li>
+<li><strong>基于深度学习的算法步骤包括：</strong>特征提取–&gt;非线性映射–&gt;图像重建<ul>
+<li>基于深度学习的图像超分辨率重建方法包括 SRCNN、FSRCNN、ESPCN、VDSR、SRGAN、ESRGAN 等，<strong>此处重点介绍 SRCNN、SRGAN、ESRGAN 三种算法。</strong></li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><strong>SRCNN</strong></p>
+<p>SRCNN 是将深度学习用于超分辨率重建的开山之作，它的网络结构非常简单，<strong>只包括 3 个卷积层。</strong></p>
+<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081550865.png" srcset="/img/loading.gif" lazyload alt="image-20230103140256476" style="zoom:80%;" />
+
+<p><strong>SRCNN 的网络结构</strong></p>
+<p><strong>三个算法步骤分别为：特征提取、非线性映射、图像重建</strong></p>
+<p><strong>实现方法很精炼</strong>：输入低分辨率图像，用双三次插值法将图像放大至目标尺寸，然后用三层卷积神经网络拟合低分辨率图像跟高分辨率图像之间的非线性映射，最后输出重建后的高分辨率图像。</p>
+<p><strong>优点：</strong></p>
+<p>网络结构简单（仅使用 3 个卷积层）；框架在选择参数时很灵活，支持自定义。</p>
+<p><strong>缺点:</strong></p>
+<p>仅针对单个尺度因子进行训练，一旦数据量发生变化，则必须重新训练模型；仅使用一层卷积层进行特征提取，比较局限，细节提现不充分；当图像放大倍数超过 4 时，得到的结果过于平滑、不真实。</p>
+<h3 id="SRGAN"><a href="#SRGAN" class="headerlink" title="SRGAN"></a>SRGAN</h3><p>SRGAN 是首个支持图像放大 4 倍仍能保持真实感的框架，<strong>科研人员提出了感知损失函数 (perceptual loss function) 的概念，它包括一个对抗损失 (adversarial loss) 和一个内容损失 (content loss)。</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081550866.png" srcset="/img/loading.gif" lazyload alt="image-20230103140608728"></p>
+<p><strong>SRGAN 中生成器和判别器的网络结构</strong></p>
+<p><strong>所有卷积层都有对应的卷积核尺寸 k、特征图数量 n 及步长 s</strong></p>
+<p>对抗损失用判别器网络来判断输出图像跟原始图像的真实性差异；内容损失也是由感知相似性驱动的，而非像素空间相似性。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>感知损失函数的引入，使得 SRGAN 在进行图像超分辨率重建时，能够针对单幅图像，生成真实纹理，补充损失的细节。</li>
+</ul>
+</blockquote>
+<h3 id="ESRGAN"><a href="#ESRGAN" class="headerlink" title="ESRGAN"></a>ESRGAN</h3><p>ESRGAN 在 SRGAN 的基础上，<strong>进一步改进了网络结构、对抗损失和感知损失，</strong>增强了超分辨率处理的图像质量。模型改进包括以下三个方面：</p>
+<p> <strong>1</strong>  引入容量更大、更易于训练的 Residual-in- Residual Dense Block (RRDB) 来改善网络结构，删除 BN (Batch Normalization) 层，用 residual scaling 和 smaller initialization 来改善深度网络的训练；</p>
+<p> <strong>2</strong>  用 RaGAN 改进判别器，预测高分辨率图像跟原始图像之间的相对真实性而不是绝对值，从而使得生成器恢复原始图像更真实的纹理细节；</p>
+<p> <strong>3</strong>  改进感知损失，把先前 SRGAN 中激活后的 VGG features 改为激活前执行，提高输出图像的边缘清晰度和纹理真实性。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081550867.png" srcset="/img/loading.gif" lazyload alt="image-20230103185542294"></p>
+<p><strong>与其他方法相比，ESRGAN 输出的建筑物图像（右下）</strong></p>
+<p><strong>具有更多的自然纹理、细节效果更佳</strong></p>
+<p>与 SRGAN 相比，<strong>ESRGAN 输出的图像画质更佳，且具有更真实和自然的纹理，</strong>并在 PIRM2018-SR 挑战赛中荣登榜首，代码见 github.com&#x2F;xinntao&#x2F;ESRGAN。</p>
+<p> <strong>教程详解：用 ESRGAN 进行图像增强</strong></p>
+<p>本教程将演示如何在 TensorFlow Hub 中 用 ESRGAN 算法，进行图像增强。ESRGAN 的输出结果如下图所示：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081550868.png" srcset="/img/loading.gif" lazyload alt="image-20230103185629106"></p>
+<p><strong>超分辨率重建后，原图（左）与 ESRGAN 输出结果（右）对比图</strong></p>
+<p><strong>ESRGAN 在清晰度和细节处理方面表现优异</strong></p>
+<p><strong>快速上手 ESRGAN</strong></p>
+<p><strong>开源协议：</strong>Apache License 2.0</p>
+<p><strong>安装环境：</strong>Python 3.6，TensorFlow 2.3.1</p>
+<p><strong>使用说明：</strong>该模型使用 DIV2K 数据集（双三次降采样的图像）中，大小为 128 x 128 的图像快进行训练</p>
+<p><strong>注意事项：</strong>运行教程请使用「使用ESRGAN进行图像超分辨率重建.ipynb」，按顺序运行 cell 即可；目录中 model 文件夹下为模型文件，esrgan-tf2_1.tar.gz 文件为<a target="_blank" rel="noopener" href="https://cloud.tencent.com/solution/pointcloud-cmp?from=10680">模型压缩</a>包（本教程运行中未使用压缩包）</p>
+<p><strong>完整教程传送门：</strong></p>
+<p><em><a target="_blank" rel="noopener" href="https://openbayes.com/console/openbayes/containers/EsAbdwfM6YN">https://openbayes.com/console/openbayes/containers/EsAbdwfM6YN</a></em></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-chain-item">文章学习</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>003 - 文章阅读笔记：用超分辨率扛把子算法 ESRGAN，训练图像增强模型 - 腾讯云开发者社区 - HyperAI超神经</div>
+      <div>http://example.com/posts/3511478344/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年1月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/2121647263/" title="004 - 文章阅读笔记：超分辨率  综述！使用深度学习来实现图像超分辨率 - 腾讯云开发者社区 - AI算法修炼营">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">004 - 文章阅读笔记：超分辨率  综述！使用深度学习来实现图像超分辨率 - 腾讯云开发者社区 - AI算法修炼营</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/1145042711/" title="002 - 文章阅读笔记：单幅图像超分辨率重建(图像超分) - 腾讯云开发者社区 - 全栈程序员站长">
+                        <span class="hidden-mobile">002 - 文章阅读笔记：单幅图像超分辨率重建(图像超分) - 腾讯云开发者社区 - 全栈程序员站长</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

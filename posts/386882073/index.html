@@ -1,0 +1,916 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="原文链接：ACNet|增强局部显著特征，哈工大左旺孟老师团队提出非对称卷积用于图像超分 - AIWalker 2021-04-04 21:30  [√] 文章信息  Paper:https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2103.13634 Code:https:&#x2F;&#x2F;github.com&#x2F;hellloxiaotian&#x2F;ACNet  本文是哈工大左旺孟老师团队在图像超分方面的最新工作，已被IEE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="040 - 文章阅读笔记：ACNet|增强局部显著特征，哈工大左旺孟老师团队提出非对称卷积用于图像超分 - AIWalker">
+<meta property="og:url" content="http://example.com/posts/386882073/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="原文链接：ACNet|增强局部显著特征，哈工大左旺孟老师团队提出非对称卷积用于图像超分 - AIWalker 2021-04-04 21:30  [√] 文章信息  Paper:https:&#x2F;&#x2F;arxiv.org&#x2F;abs&#x2F;2103.13634 Code:https:&#x2F;&#x2F;github.com&#x2F;hellloxiaotian&#x2F;ACNet  本文是哈工大左旺孟老师团队在图像超分方面的最新工作，已被IEE">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301192210331.jpg">
+<meta property="article:published_time" content="2023-01-19T13:35:27.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.432Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="超分辨率重建">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301192210331.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>040 - 文章阅读笔记：ACNet|增强局部显著特征，哈工大左旺孟老师团队提出非对称卷积用于图像超分 - AIWalker - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">040 - 文章阅读笔记：ACNet|增强局部显著特征，哈工大左旺孟老师团队提出非对称卷积用于图像超分 - AIWalker</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-19 21:35" pubdate>
+          2023年1月19日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          43 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">040 - 文章阅读笔记：ACNet|增强局部显著特征，哈工大左旺孟老师团队提出非对称卷积用于图像超分 - AIWalker</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>原文链接：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/zzS16Zxc4WXbXtnH70uBnQ">ACNet|增强局部显著特征，哈工大左旺孟老师团队提出非对称卷积用于图像超分 - AIWalker</a></p>
+<p>2021-04-04 21:30</p>
+</blockquote>
+<h2 id="√-文章信息"><a href="#√-文章信息" class="headerlink" title="[√] 文章信息"></a>[√] 文章信息</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301192210330.jpg" srcset="/img/loading.gif" lazyload alt="标题&amp;作者团队"></p>
+<p>Paper:<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2103.13634">https://arxiv.org/abs/2103.13634</a></p>
+<p>Code:<a target="_blank" rel="noopener" href="https://github.com/hellloxiaotian/ACNet">https://github.com/hellloxiaotian/ACNet</a></p>
+<blockquote>
+<p>本文是哈工大左旺孟老师团队在图像超分方面的最新工作，已被IEEE TSMC收录。本文将ACNet中的非对称卷积思想与LESRCNN进行组合，取得了更好的性能。由于作者尚未开源，故笔者进行了简单的复现，复现还是挺容易的，哈哈。</p>
+</blockquote>
+<h2 id="√-摘要"><a href="#√-摘要" class="headerlink" title="[√] 摘要"></a>[√] 摘要</h2><hr>
+<p>本文提出了一种非对称CNN网络ACNet，它由非对称模块(AB)、记忆力增强模块(MEB)、高频特征增强模块(HFFEB)构成。其中非对称模块采用两个一维卷积从水平和垂直方向对方框卷积进行增强，提升局部显著特征的影响性因子；MEB则通过残差链接方式对AB提取的低频特征进行融合，将低频特征变换到高频特征；HFFEB则融合低频与高频特征得到更鲁棒性的超分特征。实验结果表明：本文所提ACNet可以有效解决SISR、盲SISR以及噪声不可知盲SISR等问题。</p>
+<p>本文主要贡献包含以下几点：</p>
+<ul>
+<li>提出一种多级特征融合机制，通过对低频特征和高频特征融合，它可以很好的解决长期依赖问题，避免了上采样机制导致性能退化问题。</li>
+<li>提出一种非对称架构增强局部关键点的影响性以得到了鲁邦的低频特征；</li>
+<li>提出一种灵活的上采样机制，它可以使得所提方案解决SISR等问题。</li>
+</ul>
+<h2 id="√-方法"><a href="#√-方法" class="headerlink" title="[√] 方法"></a>[√] 方法</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301192210331.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上图给出了本文所提非对称卷积网络ACNet结构示意图，它由三个模块构成：深度为17的AB模块、深度为1的MEB以及深度为5的HFFEB。</p>
+<ul>
+<li><p>AB部分与2019年丁霄汉博士提出的ACNet中的ACB模块基本一致：训练时三个分支：一个分支为1x3卷积，一个分支为3x1，一个分支为3x3卷积；推理时三个分支可以合并为单一卷积。</p>
+</li>
+<li><p>MEB则是对所有AB提取的特征通过残差学习方式进行融合，并将所提取的低频特征转换为高频特征。注：该模块同时还进行了特征上采样。其中sub-conv部分的结构示意图如下所示。这里与EDSR中的上采样基本一样，略过咯。</p>
+</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301192210332.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>ACB，非对称模块，训练时三个分支：一个分支为1x3卷积，一个分支为3x1，一个分支为3x3卷积；推理时三个分支可以合并为单一卷积。</li>
+</ul>
+</blockquote>
+<ul>
+<li>HFFEB则对源自LR的低频特征以及上述融合高频特征进行融合处理得到更精确的超分特征。这个地方是本文所提方法与之前常见网络不同之处：在更高分辨率采用更多卷积进行增强以提升重建性能。</li>
+<li>损失函数方面，本文选择了MSE损失.</li>
+</ul>
+<p>本文所设计的网络实在过于简单，好像并没有什么需要深入介绍，看图就够了，或者看文末的参考实现亦可。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>MEB部分将特征进行融合，HFFFB部分则将低频信息和融合之后的高频信息进行融合得到更精确的超分信息。</li>
+</ul>
+</blockquote>
+<h2 id="√-实验"><a href="#√-实验" class="headerlink" title="[√] 实验"></a>[√] 实验</h2><hr>
+<p>在训练方面，作者采用两步法：(1) DIV2K的训练集+验证集同时参与训练；(2) DIV2K的训练集上进行微调。</p>
+<p>直接上结果，下面两个图给出了Set5、Set14、B100、U100等数据的性能对比。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301192210333.png" srcset="/img/loading.gif" lazyload alt="Set5&amp;Set14"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301192210334.png" srcset="/img/loading.gif" lazyload alt="image-20210404163912956"></p>
+<p>从上面四个表可以看到：在三个尺度上，本文所提ACNet均取得了还不错的性能。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301192210335.png" srcset="/img/loading.gif" lazyload alt="图片2"></p>
+<p>上表给出了不同噪声强度下的图像超分性能对比。在计算复杂度、推理耗时、性能以及视觉效果方面，所提方法ACNet取得了比较好的均衡。</p>
+<h2 id="√-题外语"><a href="#√-题外语" class="headerlink" title="[√] 题外语"></a>[√] 题外语</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301192210336.png" srcset="/img/loading.gif" lazyload alt="lesrcnn"></p>
+<p>这篇论文整体看上去非常简洁，思想也比较简单。在网络结构方面，它与LESRCNN的结构上基本是一致的；而LESRNN与EDSR也是非常的相似。区别有这么三点：</p>
+<ul>
+<li>重建部分：EDSR在上采样最终的分辨率后直接采用一个卷积进行重建；而LESRCNN在上采样到最终分辨率后采用了5层卷积进行处理。LESRCNN的这种处理方法无疑会造成比较大的计算量。</li>
+<li>残差模块部分：EDSR中的残差模块采用Conv-ReLU-Conv方式；而LESRCNN则采用ReLU-Conv-ReLU-Conv方式。</li>
+<li>低频特征与高频特征融合部分：EDSR中用于融合的特征并未经ReLU处理，先add再上采样；而LESRCNN则用ReLU进行了处理，然而分别用sub-conv上采样后再融合。</li>
+</ul>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>LESRCNN中的低频信息部分，先是通过relu进行了处理，然后再上采样，然后再相加。而EDSR中则是直接相加，然后再上采样。</li>
+</ul>
+</blockquote>
+<p>再回过来头看LESRCNN与ACNet，则基本属于将2019年提出的ACNet在LESCNN中的直接应用；事实上，ACNet与IMDN的组合的可行性在2020年的超分竞赛中已得到了印证。所以，这篇文章的创新之处着实不多。</p>
+<p>另外，需要吐槽的一点：这里对比的都是一些比较早期的方法，像最近两年的IMDN、RFANet、RFDN、PAN等优秀的轻量型模型均未进行对比。</p>
+<p>不过这篇论文有一点值得称赞：复现难度非常低。笔者粗看了下结构花了很少时间就完成了code的实现，并仅仅基于DIV2K训练数据训练了66W步。在BI退化方面，笔者训练的模型性能要比作者文中列出来的指标高0.04-0.1dB不等。ACNet的参考实现code如下所示。</p>
+<h2 id="√-参考代码"><a href="#√-参考代码" class="headerlink" title="[√] 参考代码"></a>[√] 参考代码</h2><hr>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MeanShift</span>(nn.Conv2d):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self,</span><br><span class="hljs-params">                 rgb_range=<span class="hljs-number">1.0</span>,</span><br><span class="hljs-params">                 rgb_mean=(<span class="hljs-params"><span class="hljs-number">0.4488</span>, <span class="hljs-number">0.4371</span>, <span class="hljs-number">0.4040</span></span>),</span><br><span class="hljs-params">                 rgb_std=(<span class="hljs-params"><span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span>, <span class="hljs-number">1.0</span></span>),</span><br><span class="hljs-params">                 sign=-<span class="hljs-number">1</span></span>):<br>        <span class="hljs-built_in">super</span>(MeanShift, self).__init__(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>, kernel_size=<span class="hljs-number">1</span>)<br>        std = torch.Tensor(rgb_std)<br>        self.weight.data = torch.eye(<span class="hljs-number">3</span>).view(<span class="hljs-number">3</span>, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>) / std.view(<span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>        self.bias.data = sign * rgb_range * torch.Tensor(rgb_mean) / std<br>        self.requires_grad = <span class="hljs-literal">False</span><br><br>        <br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Upsampler</span>(nn.Sequential):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self,</span><br><span class="hljs-params">                 scale,</span><br><span class="hljs-params">                 channels,</span><br><span class="hljs-params">                 bn=<span class="hljs-literal">False</span>,</span><br><span class="hljs-params">                 act=<span class="hljs-literal">False</span>,</span><br><span class="hljs-params">                 bias=<span class="hljs-literal">True</span></span>):<br>        m = []<br>        <span class="hljs-keyword">if</span> (scale &amp; (scale - <span class="hljs-number">1</span>)) == <span class="hljs-number">0</span>:<br>            <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">int</span>(math.log(scale, <span class="hljs-number">2</span>))):<br>                m.append(nn.Conv2d(channels, <span class="hljs-number">4</span> * channels, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, bias=bias))<br>                m.append(nn.PixelShuffle(<span class="hljs-number">2</span>))<br>                <span class="hljs-keyword">if</span> bn:<br>                    m.append(nn.BatchNorm2d(channels))<br>                <span class="hljs-keyword">if</span> act:<br>                    m.append(nn.ReLU(inplace=<span class="hljs-literal">True</span>))<br>        <span class="hljs-keyword">elif</span> scale == <span class="hljs-number">3</span>:<br>            m.append(nn.Conv2d(channels, <span class="hljs-number">9</span> * channels, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, bias=bias))<br>            m.append(nn.PixelShuffle(<span class="hljs-number">3</span>))<br>            <span class="hljs-keyword">if</span> bn:<br>                m.append(nn.BatchNorm2d(channels))<br><br>            <span class="hljs-keyword">if</span> act:<br>                m.append(nn.ReLU(inplace=<span class="hljs-literal">True</span>))<br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-keyword">raise</span> NotImplementedError<br>        <span class="hljs-built_in">super</span>().__init__(*m)<br>        <br>        <br><span class="hljs-keyword">class</span> <span class="hljs-title class_">ACBlock</span>(nn.Module):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, in_channels, out_channels</span>):<br>        <span class="hljs-built_in">super</span>(ACBlock, self).__init__()<br>        self.conv1x3 = nn.Conv2d(in_channels, out_channels, (<span class="hljs-number">1</span>, <span class="hljs-number">3</span>), <span class="hljs-number">1</span>, (<span class="hljs-number">0</span>, <span class="hljs-number">1</span>))<br>        self.conv3x1 = nn.Conv2d(in_channels, out_channels, (<span class="hljs-number">3</span>, <span class="hljs-number">1</span>), <span class="hljs-number">1</span>, (<span class="hljs-number">1</span>, <span class="hljs-number">0</span>))<br>        self.conv3x3 = nn.Conv2d(in_channels, out_channels, (<span class="hljs-number">3</span>, <span class="hljs-number">3</span>), <span class="hljs-number">1</span>, (<span class="hljs-number">1</span>, <span class="hljs-number">1</span>))<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x</span>):<br>        conv3x1 = self.conv3x1(x)<br>        conv1x3 = self.conv1x3(x)<br>        conv3x3 = self.conv3x3(x)<br>        <span class="hljs-keyword">return</span> conv3x1 + conv1x3 + conv3x3<br>      <br>      <br><span class="hljs-keyword">class</span> <span class="hljs-title class_">ACNet</span>(nn.Module):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self,</span><br><span class="hljs-params">                 scale=<span class="hljs-number">2</span>,</span><br><span class="hljs-params">                 in_channels=<span class="hljs-number">3</span>,</span><br><span class="hljs-params">                 out_channels=<span class="hljs-number">3</span>,</span><br><span class="hljs-params">                 num_features=<span class="hljs-number">64</span>,</span><br><span class="hljs-params">                 num_blocks=<span class="hljs-number">17</span>,</span><br><span class="hljs-params">                 rgb_range=<span class="hljs-number">1.0</span></span>):<br>        <span class="hljs-built_in">super</span>(ACNet, self).__init__()<br>        self.scale = scale<br>        self.num_blocks = num_blocks<br>        self.num_features = num_features<br><br>        <span class="hljs-comment"># pre and post process</span><br>        self.sub_mean = MeanShift(rgb_range=rgb_range, sign=-<span class="hljs-number">1</span>)<br>        self.add_mena = MeanShift(rgb_range=rgb_range, sign=<span class="hljs-number">1</span>)<br><br>        <span class="hljs-comment"># AB module</span><br>        self.blk1 = ACBlock(in_channels, num_features)<br>        <span class="hljs-keyword">for</span> idx <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, num_blocks):<br>            self.__setattr__(<span class="hljs-string">f&quot;blk<span class="hljs-subst">&#123;idx+<span class="hljs-number">1</span>&#125;</span>&quot;</span>, nn.Sequential(nn.ReLU(inplace=<span class="hljs-literal">True</span>), ACBlock(num_features, num_features)))<br><br>        <span class="hljs-comment"># MEB</span><br>        self.lff = nn.Sequential(<br>            nn.ReLU(inplace=<span class="hljs-literal">False</span>),<br>            Upsampler(scale, num_features),<br>            nn.Conv2d(num_features, num_features, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>),<br>            nn.ReLU(inplace=<span class="hljs-literal">True</span>),<br>            nn.Conv2d(num_features, num_features, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>        )<br>        self.hff = nn.Sequential(<br>            nn.ReLU(inplace=<span class="hljs-literal">False</span>),<br>            Upsampler(scale, num_features),<br>            nn.Conv2d(num_features, num_features, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>),<br>            nn.ReLU(inplace=<span class="hljs-literal">True</span>),<br>            nn.Conv2d(num_features, num_features, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>)<br>        )<br><br>        <span class="hljs-comment"># HFFEB</span><br>        self.fusion = nn.Sequential(<br>            nn.ReLU(inplace=<span class="hljs-literal">False</span>),<br>            nn.Conv2d(num_features, num_features, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>),<br>            nn.ReLU(inplace=<span class="hljs-literal">True</span>),<br>            nn.Conv2d(num_features, num_features, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>),<br>            nn.ReLU(inplace=<span class="hljs-literal">True</span>),<br>            nn.Conv2d(num_features, out_channels, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>),<br>        )<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x</span>):<br>        inputs = self.sub_mean(x)<br>        blk1 = self.blk1(inputs)<br><br>        high = blk1<br>        tmp = blk1<br>        <span class="hljs-keyword">for</span> idx <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, self.num_blocks):<br>            tmp = self.__getattr__(<span class="hljs-string">f&quot;blk<span class="hljs-subst">&#123;idx+<span class="hljs-number">1</span>&#125;</span>&quot;</span>)(tmp)<br>            high = high + tmp<br><br>        lff = self.lff(blk1)<br>        hff = self.hff(high)<br><br>        fusion = self.fusion(lff + hff)<br>        output = self.add_mena(fusion)<br>        <span class="hljs-keyword">return</span> output   <br><br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-chain-item">文章学习</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/">#超分辨率重建</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>040 - 文章阅读笔记：ACNet|增强局部显著特征，哈工大左旺孟老师团队提出非对称卷积用于图像超分 - AIWalker</div>
+      <div>http://example.com/posts/386882073/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年1月19日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/2130194975/" title="041 - 文章阅读笔记：VapSR | 手把手教你改进PAN，董超团队提出超大感受野注意力超分方案，已开源！ - 2022-10-24 08:00 - AIWalker">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">041 - 文章阅读笔记：VapSR | 手把手教你改进PAN，董超团队提出超大感受野注意力超分方案，已开源！ - 2022-10-24 08:00 - AIWalker</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/1919514304/" title="039 - 文章阅读笔记：AIM2020-ESR 冠军方案解读：引入注意力模块 ESA，实现高效轻量的超分网络（附代码实现） - 极市平台 - ExtremeMart">
+                        <span class="hidden-mobile">039 - 文章阅读笔记：AIM2020-ESR 冠军方案解读：引入注意力模块 ESA，实现高效轻量的超分网络（附代码实现） - 极市平台 - ExtremeMart</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

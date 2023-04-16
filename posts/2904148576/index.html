@@ -1,0 +1,946 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="链接： 图像超分辨率：盲超分总结 - 知乎 - 桃川京夏（√） 编辑于 2022-08-29 09:29  图像超分辨率：盲超分总结[√] 一、 方法归类总结 目前，盲图像超分辨率主要分为显示建模（Explicit Modelling）和隐式建模（Implicit Modelling）两类方法，具体的类别细分如下图所示：  alec：  盲超分分为显式建模和隐式建模    在非盲图像超分辨率中，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="007 - 文章阅读笔记：图像超分辨率：盲超分总结 - 知乎 - 桃川京夏">
+<meta property="og:url" content="http://example.com/posts/2904148576/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="链接： 图像超分辨率：盲超分总结 - 知乎 - 桃川京夏（√） 编辑于 2022-08-29 09:29  图像超分辨率：盲超分总结[√] 一、 方法归类总结 目前，盲图像超分辨率主要分为显示建模（Explicit Modelling）和隐式建模（Implicit Modelling）两类方法，具体的类别细分如下图所示：  alec：  盲超分分为显式建模和隐式建模    在非盲图像超分辨率中，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081555470.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081555471.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081555472.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081555473.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081555474.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081555475.png">
+<meta property="article:published_time" content="2023-01-06T14:07:12.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.411Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081555470.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>007 - 文章阅读笔记：图像超分辨率：盲超分总结 - 知乎 - 桃川京夏 - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">007 - 文章阅读笔记：图像超分辨率：盲超分总结 - 知乎 - 桃川京夏</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-06 22:07" pubdate>
+          2023年1月6日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          48 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">007 - 文章阅读笔记：图像超分辨率：盲超分总结 - 知乎 - 桃川京夏</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>链接：</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/558893171">图像超分辨率：盲超分总结 - 知乎 - 桃川京夏（√）</a></p>
+<p>编辑于 2022-08-29 09:29</p>
+</blockquote>
+<h1 id="图像超分辨率：盲超分总结"><a href="#图像超分辨率：盲超分总结" class="headerlink" title="图像超分辨率：盲超分总结"></a>图像超分辨率：盲超分总结</h1><h2 id="√-一、-方法归类总结"><a href="#√-一、-方法归类总结" class="headerlink" title="[√] 一、 方法归类总结"></a>[√] 一、 方法归类总结</h2><hr>
+<p>目前，盲图像超分辨率主要分为显示建模（Explicit Modelling）和隐式建模（Implicit Modelling）两类方法，具体的类别细分如下图所示：</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>盲超分分为显式建模和隐式建模</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081555470.png" srcset="/img/loading.gif" lazyload alt="image-20230106222221583"></p>
+<p>在非盲图像超分辨率中，退化函数通常表示为公式（2）&#x2F;公式（3），式（2）表示bicubic下采样，式（3）表示下采样+固定模糊核kg的高斯模糊。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081555471.png" srcset="/img/loading.gif" lazyload alt="image-20230106222312837"></p>
+<p>显式建模方案通常采用经典退化模型，即一种更广义的退化方式，如公式（4）所示，这种退化方式要比bicubic下采样更复杂。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081555472.png" srcset="/img/loading.gif" lazyload alt="image-20230106222403758"></p>
+<p>一些方法利用额外的数据集来学习超分辨率模型的各种k&#x2F;n的集合，如IKC和SRMD。另一类方法利用来自经典退化模型的单个图像的内部统计信息，因此不需要额外数据集进行训练，如ZSSR和DGDML-SR，内部统计实际上只是反映了图像中patch的重复属性。</p>
+<p>然而，真实退化通常过于复杂而导致难以通过显式多退化组合方式建模。因此，隐式建模则试图绕开显式建模方式，它通过数据分布模拟退化过程。所有的隐式建模方法均需要额外数据进行训练。这些方法一般通过GAN学习数据分布，比如CinCGAN。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>真实退化通常过于复杂而导致难以通过显式多退化组合方式建模。因此，隐式建模则试图绕开显式建模方式，它通过数据分布模拟退化过程。所有的隐式建模方法均需要额外数据进行训练。这些方法一般通过GAN学习数据分布，比如CinCGAN。</li>
+</ul>
+</blockquote>
+<h4 id="√-1-1-显式建模（Explicit-Modelling）"><a href="#√-1-1-显式建模（Explicit-Modelling）" class="headerlink" title="[√] 1.1 - 显式建模（Explicit Modelling）"></a>[√] 1.1 - 显式建模（Explicit Modelling）</h4><hr>
+<p>对退化过程进行显示建模的盲图像超分方法通常基于公式y&#x3D;(x⊗k)↓s+n所示的退化模型，这类方法可以根据是使用额外数据、还是依赖单个输入图像建模进一步分为两个子类。</p>
+<h6 id="√-1-1-1-Classical-Degradation-Model-with-External-Dataset"><a href="#√-1-1-1-Classical-Degradation-Model-with-External-Dataset" class="headerlink" title="[√] 1.1.1 - Classical Degradation Model with External Dataset"></a>[√] 1.1.1 - Classical Degradation Model with External Dataset</h6><hr>
+<p>这类方法的基本思想是采用覆盖大范围退化的额外数据训练一个超分模型，往往需要将模糊核与噪声信息进行参数化。根据提出的框架中是否包含退化估计，我们进一步将这类方法分为两种：无需核估计的方法和需要核估计的方法。</p>
+<p><strong>1）无需核估计的方法</strong></p>
+<p>SRMD将输入图像与退化信息（模糊核、噪声）拼接到一起输入到超分模型中，是首个采用深度学习的盲图像超分辨率方法。该方法允许根据特定退化进行特征适配，从而在单个模型中覆盖多种退化类型。这一类方法多数由Kai Zhang（Computer Vision Lab, ETH Zurich）等人提出，除了SRMD外，该团队还提出了DPSR、USRNet、DPIR、MANet、BSRGAN等，后续方法像DPSR、USRNet、DPIR等将MAP（最大后验概率）逐渐嵌入到迭代优化中。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081555473.png" srcset="/img/loading.gif" lazyload alt="image-20230106223857444"></p>
+<p><strong>代表论文：</strong></p>
+<p>Learning a Single Convolutional Super-Resolution Network for Multiple Degradations（SRMD）</p>
+<p>Unified Dynamic Convolutional Network for Super-Resolution with Variational Degradations（UDVD）</p>
+<p>Deep Plug-and-Play Super-Resolution for Arbitrary Blur Kernels（DPSR）</p>
+<p>Deep Unfolding Network for Image Super-Resolution（USRNet）</p>
+<p>Plug-and-Play Image Restoration with Deep Denoiser Prior（DPIR）</p>
+<p>Mutual Affine Network for Spatially Variant Kernel Estimationin Blind Image Super-Resolution（MANet）</p>
+<p>Designing a Practical Degradation Model for Deep Blind Image Super-Resolution（BSRGAN）</p>
+<p>这一类方法虽然开创了盲图像超分辨率的一个流派，但严格来说，这类方法更像是图像超分辨率的数据增强，通过复杂化的退化模型，使输出结果更加接近真实，从而达到了盲超分需要的效果。目前最新的方法BSRGAN，通过对多种模糊核、下采样、噪声退化进行随机置换，在不同类型真实退化数据上取得了非常好的效果。而BSRGAN所设计的退化模型合成的训练数据，则可以看成是一种更全面、覆盖范围更大的数据增强。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>这一类方法虽然开创了盲图像超分辨率的一个流派，但严格来说，这类方法更像是图像超分辨率的数据增强，通过复杂化的退化模型，使输出结果更加接近真实，从而达到了盲超分需要的效果。目前最新的方法BSRGAN，通过对多种模糊核、下采样、噪声退化进行随机置换，在不同类型真实退化数据上取得了非常好的效果。而BSRGAN所设计的退化模型合成的训练数据，则可以看成是一种更全面、覆盖范围更大的数据增强。</li>
+</ul>
+</blockquote>
+<p><strong>2）需要核估计的方法</strong></p>
+<p>在SRMD之后，这一类方法走了另外一条路：采用深度学习的方法来估计模糊核。其中，比较知名的IKC（由Jinjin Gu、Chao Dong团队提出）、DAN（由中科院Tieniu Tan团队提出）等方法和DPSR、USRNet一样采用了迭代优化的思想来矫正模糊核的估计。而KMSR、RealSR、RealSRGAN等方法则没有采用迭代优化，而是像SRMD那样让训练数据集覆盖更多的退化类型，通常是从真实的图像得到更真实的核估计。因此KMSR、RealSR、RealSRGAN等方法虽然也需要核估计，但从思想上来看却更像SRMD。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081555474.png" srcset="/img/loading.gif" lazyload alt="image-20230106224254845"></p>
+<p><strong>代表论文：</strong></p>
+<p>Blind Super-Resolution With Iterative Kernel Correction（IKC）</p>
+<p>Unfolding the Alternating Optimization for Blind Super Resolution（DANv1）</p>
+<p>End-to-end Alternating Optimization for Blind Super Resolution（DANv2）</p>
+<p>Blind Image Super-Resolution with Spatially Variant Degradations（VBSR）</p>
+<p>Kernel Modeling Super-Resolution on Real Low-Resolution Images（KMSR）</p>
+<p>Real-World Super-Resolution via Kernel Estimation and Noise Injection（RealSR）</p>
+<p>Real-World Super-Resolution using Generative Adversarial Networks（RealSRGAN）</p>
+<p>Unsupervised Degradation Representation Learning for Blind Super-Resolution（DRL-DASR）</p>
+<p>相比于无需核估计的方法，这一类方法更加符合盲图像超分的概念。相比于遍历退化模型的参数，模糊核估计得到的模糊核更符合真实图片的性质。但是其本质上其实仍然是一种数据增强，只是这种数据增强更贴合数据，网络也就有了更好的泛化性能。因此，既然是数据增强，也就意味着对于模型未覆盖的退化，这类方法同样无法给出令人满意的结果。</p>
+<p><strong>3）小结</strong></p>
+<p>显示建模中，这两类需要额外数据的方法应该是目前应用最广泛的的盲图像超分方法。SRMD首次成功的将核先验、噪声先验信息嵌入到超分模型中，之后的工作则针对模糊核进行探索，延续了两条不同的路线：</p>
+<p>1、基于MAP（最大后验概率）思想进行迭代估计，像DPSR、USRNet以及DPIR采用了类似的思路，将传统方法MAP逐渐嵌入到迭代优化中；亦或是采用随机置换等其他方法遍历退化模型。这类方法均不需要估计模糊核。</p>
+<p>2、基于CNN进行迭代估计，像IKC、DANv1、DANv2均采用了深度学习的思想进行模糊核的迭代优化；亦或是直接估计模糊核从而让训练数据集覆盖更多的退化类型。这类方法都需要估计模糊核。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>无论是否进行模糊核的估计，上面的方法本质上都是在进行训练数据的数据增强。</li>
+<li>以上两条不同路线的方法其实都可以看作一种数据增强：原有的bicubic下采样只针对单一类型的数据分布，因此泛化能力有限，更难以应用到真实世界数据（数据分布未知）。区别仅在于，第一类方法直接将显示的退化参数（模糊核、噪声）输入网络，因此无需核估计；而第二类方法则是通过网络得到显示的退化参数，再进行数据增强，训练超分网络。因此对于模型未覆盖的退化，这些方法仍然无法给出令人满意的结果。</li>
+</ul>
+</blockquote>
+<p>以上两条不同路线的方法其实都可以看作一种数据增强：原有的bicubic下采样只针对单一类型的数据分布，因此泛化能力有限，更难以应用到真实世界数据（数据分布未知）。区别仅在于，第一类方法直接将显示的退化参数（模糊核、噪声）输入网络，因此无需核估计；而第二类方法则是通过网络得到显示的退化参数，再进行数据增强，训练超分网络。因此对于模型未覆盖的退化，这些方法仍然无法给出令人满意的结果。</p>
+<p>盲图像超分的目的是为了提高退化模型未知的图片的超分效果，退化类型多种多样，因此可以很自然地把盲图像超分的目标理解为提高模型的泛化性能，而提高模型的泛化性能最好的方法就是数据增强。不管有意还是无意，多数的盲图像超分方法都走上了这条路。例如BSRGAN对不同的退化类型进行随机置换，这一方法显然在通用数据增强方法中也有类似。</p>
+<h6 id="√-1-1-2-Single-Image-Modeling-with-Internal-Statistics"><a href="#√-1-1-2-Single-Image-Modeling-with-Internal-Statistics" class="headerlink" title="[√] 1.1.2 - Single Image Modeling with Internal Statistics"></a>[√] 1.1.2 - Single Image Modeling with Internal Statistics</h6><hr>
+<p>这类方法同样需要对退化过程显式建模，但不再需要大量的额外数据来训练模型，而是利用单张图片的内部统计信息进行建模，可以分为基于patch相似性的方法和基于自监督学习的方法。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>这种方法，不同于从数据集中大量图像中拟合退化方式。而是通过对单张图像内部的统计信息进行建模，从而拟合数据的退化方式。</li>
+</ul>
+</blockquote>
+<p><strong>[√] 1）基于patch相似性的方法</strong></p>
+<p>单幅图像的patch倾向于在该图像内重复出现。许多自然图像的内部统计数据已被量化，并被证明比外部统计数据具有更强的预测能力。在此基础上，KernelGAN假设由最优k生成的LR图像的下采样版本应该与原始LR图像共享相同的patch分布，基于该假设KernelGAN将单个图像中的patch递归最大化解释为数据分布学习问题。训练结束后，通过生成器中的所有卷积滤波器可以显式地得到核估计，因此这类方法同样属于显示建模。</p>
+<p><strong>[√] 代表论文：</strong></p>
+<p>Blind Super-Resolution Kernel Estimation using an Internal-GAN（KernelGAN）</p>
+<p>Flow-based Kernel Prior with Application to Blind Super-Resolution（FKP）</p>
+<p><strong>[√] 2）基于自监督学习的方法</strong></p>
+<p>基于patch的相似性，自监督学习（self-supervision）也可以应用于超分模型。在训练阶段，ZSSR使用单个低分辨率输入y生成的HR-LR对网络进行训练，其中y被视为HR，通过模糊核降采样生成更低分辨率的LR图像，进而训练一个用于特定图像的CNN，实现在没有任何预训练的情况下对每个输入LR进行超分辨率处理。</p>
+<p><strong>[√] 代表论文：</strong></p>
+<p>“Zero-Shot” Super-Resolution using Deep Internal Learning（ZSSR）</p>
+<p>Zero-Shot Image Super-Resolution with Depth Guided Internal Degradation Learning（DGDML-SR）</p>
+<p><strong>[√] 3）小结</strong></p>
+<p>这类方法的局限性在于基本假设很容易无法满足，尤其是对于内容多样得到自然图像。因此很难采用先验信息进行超分重建。</p>
+<h4 id="√-1-2-隐式建模（Implicit-Modelling）"><a href="#√-1-2-隐式建模（Implicit-Modelling）" class="headerlink" title="[√] 1.2 - 隐式建模（Implicit Modelling）"></a>[√] 1.2 - 隐式建模（Implicit Modelling）</h4><hr>
+<p>隐式建模方法和显示建模有较大的差别，它不依赖于任何显式参数，而是利用额外的数据通过数据分布隐式的学习潜在超分模型，现有方法往往采用GAN框架探索数据分布，代表性方法有CinCGAN、FSSR，具体如下图所示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301081555475.png" srcset="/img/loading.gif" lazyload alt="image-20230106230802672"></p>
+<p><strong>[√] 代表论文：</strong></p>
+<p>Unsupervised image super-resolution using cycle-in-cycle generative adversarial networks（CinCGAN）</p>
+<p>To learn image superresolution, use a gan to learn how to do image degradation first（Degradation GAN）</p>
+<p>Frequency Separation for Real-World Super-Resolution（FSSR）</p>
+<p>Guided frequency separation network for real-world super-resolution（FS-SRGAN）</p>
+<p>Unsupervised real-world image supe,r resolution via domain-distance aware training（DASR）</p>
+<p>Unpaired Image Super-Resolution using Pseudo-Supervision（Pseudo-Supervision）</p>
+<h2 id="√-二、其他进展"><a href="#√-二、其他进展" class="headerlink" title="[√] 二、其他进展"></a>[√] 二、其他进展</h2><hr>
+<p>除了模型层面的修改，盲图像超分辨率的另一个改进方向是针对数据集进行的，即获取&#x2F;生成尽可能贴合真实数据的训练对。主要方法是用特定的摄像机拍，摄然后进行矫正。目前相关的数据集主要有RealSR、DRealSR以及D2cRealSR。但是捕获的数据仅局限于与特定相机相关的退化，由于不同成像系统之间的复杂变化，因此仍然不能很好地推广到其他真实图像，覆盖所有场景。与合成数据相比，建立这样的数据集是耗时且昂贵的，所以这些真实数据集主要作为研究真实环境下盲图像超分辨率的重要基准。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-chain-item">文章学习</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>007 - 文章阅读笔记：图像超分辨率：盲超分总结 - 知乎 - 桃川京夏</div>
+      <div>http://example.com/posts/2904148576/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年1月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/1827352068/" title="008 - 文章阅读笔记：图像超分辨率学习总结 - 知乎 - 桃川京夏">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">008 - 文章阅读笔记：图像超分辨率学习总结 - 知乎 - 桃川京夏</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/2409935524/" title="006 - 文章阅读笔记：图像超分辨率技术-简介 - 知乎 - 三维视觉与SLAM - deimo">
+                        <span class="hidden-mobile">006 - 文章阅读笔记：图像超分辨率技术-简介 - 知乎 - 三维视觉与SLAM - deimo</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,1310 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="通过实验对比不同的优化策略对模型的影响 [√] 第7章 - 网络优化与正则化  alec收获&#x2F;总结：  神经网络的损失函数是一个非凸函数，找到全局最优解通常比较困难。 深度神经网络的参数非常多，训练数据也比较大，因此也无法使用计算代价很高的二阶优化方法，而一阶优化方法的训练效率通常比较低。 深度神经网络存在梯度消失或爆炸问题，导致基于梯度的优化方法经常失效。 目前，神经网络变得流行除了本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="7 - 网络优化与正则化 - 书籍1">
+<meta property="og:url" content="http://example.com/posts/867345559/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="通过实验对比不同的优化策略对模型的影响 [√] 第7章 - 网络优化与正则化  alec收获&#x2F;总结：  神经网络的损失函数是一个非凸函数，找到全局最优解通常比较困难。 深度神经网络的参数非常多，训练数据也比较大，因此也无法使用计算代价很高的二阶优化方法，而一阶优化方法的训练效率通常比较低。 深度神经网络存在梯度消失或爆炸问题，导致基于梯度的优化方法经常失效。 目前，神经网络变得流行除了本">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312464.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312465.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312466.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312467.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312468.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312469.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312472.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312473.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312474.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312475.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312476.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312477.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312478.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312479.png">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312480.png">
+<meta property="article:published_time" content="2022-12-25T09:58:16.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.391Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312464.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>7 - 网络优化与正则化 - 书籍1 - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">7 - 网络优化与正则化 - 书籍1</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-12-25 17:58" pubdate>
+          2022年12月25日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          30k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          249 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">7 - 网络优化与正则化 - 书籍1</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <p>通过实验对比不同的优化策略对模型的影响</p>
+<h1 id="√-第7章-网络优化与正则化"><a href="#√-第7章-网络优化与正则化" class="headerlink" title="[√] 第7章 - 网络优化与正则化"></a>[√] 第7章 - 网络优化与正则化</h1><hr>
+<blockquote>
+<p>alec收获&#x2F;总结：</p>
+<ul>
+<li>神经网络的损失函数是一个非凸函数，找到全局最优解通常比较困难。</li>
+<li>深度神经网络的参数非常多，训练数据也比较大，因此也无法使用计算代价很高的二阶优化方法，而一阶优化方法的训练效率通常比较低。</li>
+<li>深度神经网络存在梯度消失或爆炸问题，导致基于梯度的优化方法经常失效。</li>
+<li>目前，神经网络变得流行除了本身模型能力强之外，还有一个重要的原因是研究者从大量的实践中总结了一些经验方法，在神经网络的表示能力、复杂度、学习效率和泛化能力之间找到了比较好的平衡。</li>
+</ul>
+</blockquote>
+<p>本章主要介绍神经网络的参数学习中常用的优化和正则化方法。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312464.png" srcset="/img/loading.gif" lazyload alt="image-20221223165014564"></p>
+<p>本章内容主要包含两部分：</p>
+<ul>
+<li>网络优化：通过案例和可视化对优化算法、参数初始化、逐层规范化等网络优化算法进行分析和对比，展示它们的效果，通过代码详细展示这些算法的实现过程。</li>
+<li>网络正则化：通过案例和可视化对$\ell_{1}$和$\ell_{2}$正则化、权重衰减、暂退法等网络正则化方法进行分析和对比，展示它们的效果。</li>
+</ul>
+<p><strong>提醒</strong></p>
+<p>在本书中，对《神经网络与深度学习》中一些术语的翻译进行修正。Normalization翻译为规范化、Dropout翻译为暂退法。</p>
+<h2 id="√-7-1-小批量梯度下降法"><a href="#√-7-1-小批量梯度下降法" class="headerlink" title="[√] 7.1 小批量梯度下降法"></a>[√] 7.1 小批量梯度下降法</h2><hr>
+<blockquote>
+<p>alec收获&#x2F;总结：</p>
+<ul>
+<li>目前，深度神经网络的优化方法主要是通过梯度下降法来寻找一组可以最小化结构风险的参数。</li>
+<li>在具体实现中，梯度下降法可以分为批量梯度下降、随机梯度下降和小批量梯度下降(Mini-Batch Gradient Descent)三种方式。</li>
+<li>它们的区别在于批大小（Batch Size）不同，这三种梯度下降法分别针对全部样本、单个随机样本和小批量随机样本进行梯度计算。</li>
+<li>根据不同的数据量和参数量，可以选择不同的实现形式。</li>
+<li>（随机梯度下降指的是单个随机样本，小批量梯度下降指的是小批量随机样本）</li>
+<li>((批量梯度下降是在整个数据集上进行一次反向传播，随机梯度下降是每次在一张图像是反传传播，小批量梯度下降是每次在一个min-batch的图像上进行传播传播梯度下降))</li>
+</ul>
+</blockquote>
+<p> 下面我们以小批量梯度下降法为主进行介绍。</p>
+<p>令$f(x; \theta)$表示一个神经网络模型，$\theta$为模型参数，$\mathcal{L}(\cdot)$为可微分的损失函数，$\nabla_\theta \mathcal{L}(y, f(x; \theta))&#x3D;\frac{\partial \mathcal{L}(y, f(x; \theta))}{\partial \theta}$为损失函数关于参数$\theta$的偏导数。在使用小批量梯度下降法进行优化时，每次选取$K$个训练样本$\mathcal{S}<em>t &#x3D; {(x^{(k)}, y^{(k)})}^K</em>{k&#x3D;1}$。第$t$次迭代时参数$\theta$的梯度为</p>
+<p>$$<br>\mathbf g_t &#x3D; \frac{1}{K}\sum_{(x, y) \in \mathcal{S}<em>t} \nabla</em>{\theta} \mathcal{L}(y, f(x; \theta_{t-1})),<br>$$</p>
+<p>其中$\mathcal{L}(\cdot)$为可微分的损失函数，$K$为批大小。</p>
+<p>使用梯度下降来更新参数，<br>$$<br>\theta_t \leftarrow \theta_{t-1} - \alpha \mathbf g_t,<br>$$</p>
+<p>其中$\alpha &gt; 0$为学习率。</p>
+<p>从上面公式可以看出，影响神经网络优化的主要超参有三个：</p>
+<ol>
+<li>批大小$K$</li>
+<li>学习率$\alpha$</li>
+<li>梯度计算$\mathbf g_t$</li>
+</ol>
+<p>不同优化算法主要从这三个方面进行改进。下面我们通过动手实践来更好地理解不同的网络优化方法。</p>
+<blockquote>
+<p>alec收获&#x2F;总结：</p>
+<ul>
+<li>影响神经网络优化的超参数主要有三个，分别是：批量大小、学习率、梯度</li>
+<li>不同的优化算法主要从这三个方面进行改进</li>
+</ul>
+</blockquote>
+<h2 id="√-7-2-批大小的调整实验"><a href="#√-7-2-批大小的调整实验" class="headerlink" title="[√] 7.2 批大小的调整实验"></a>[√] 7.2 批大小的调整实验</h2><hr>
+<blockquote>
+<p>alec收获&#x2F;总结：</p>
+<ul>
+<li>在训练深度神经网络时，训练数据的规模通常都比较大。如果在梯度下降时每次迭代都要计算整个训练数据上的梯度，这就需要比较多的计算资源。另外，大规模训练集中的数据通常会非常冗余，也没有必要在整个训练集上计算梯度。因此，在训练深度神经网络时，经常使用小批量梯度下降法。</li>
+</ul>
+</blockquote>
+<p>为了观察不同批大小对模型收敛速度的影响，我们使用经典的LeNet网络进行图像分类，调用paddle.vision.datasets.MNIST函数读取MNIST数据集，并将数据进行规范化预处理。代码实现如下：</p>
+<blockquote>
+<p>alec收获&#x2F;总结：</p>
+<ul>
+<li><p>paddle.unsqueeze(<em>x</em>, <em>axis</em>, <em>name&#x3D;None</em>)，方法讲解</p>
+<ul>
+<li><p>扩充输入数据的维度：向输入 Tensor 的 Shape 中一个或多个位置（axis）插入尺寸为 1 的维度。</p>
+</li>
+<li><p>代码示例：</p>
+</li>
+<li><pre><code class="python">  import paddle
+  
+  x = paddle.rand([5, 10])
+  print(x.shape)  # [5, 10]
+  
+  out1 = paddle.unsqueeze(x, axis=0)
+  print(out1.shape)  # [1, 5, 10]
+  
+  out2 = paddle.unsqueeze(x, axis=[0, 2])
+  print(out2.shape)  # [1, 5, 1, 10]
+  
+  axis = paddle.to_tensor([0, 1, 2])
+  out3 = paddle.unsqueeze(x, axis=axis)
+  print(out3.shape)  # [1, 1, 1, 5, 10]
+  <figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs maxima"><br>```python<br>import paddle<br><br># 将图像值规范化到<span class="hljs-number">0</span>~<span class="hljs-number">1</span>之间<br>def <span class="hljs-built_in">transform</span>(<span class="hljs-built_in">image</span>):<br>   <span class="hljs-built_in">image</span> = paddle.to_tensor(<span class="hljs-built_in">image</span> / <span class="hljs-number">255</span>, dtype=&#x27;float32&#x27;)<br>   <span class="hljs-built_in">image</span> = paddle.unsqueeze(<span class="hljs-built_in">image</span>, axis=<span class="hljs-number">0</span>)#数据扩充一维，便于多张图像组装成<span class="hljs-built_in">batch</span><br>   <span class="hljs-built_in">return</span> <span class="hljs-built_in">image</span><br></code></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">运行时长: <span class="hljs-number">2</span>秒<span class="hljs-number">187</span>毫秒<br>结束时间: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">23</span> <span class="hljs-number">17</span>:<span class="hljs-number">12</span>:<span class="hljs-number">27</span><br></code></pre></td></tr></table></figure>
+
+<p>方便起见，本节使用第4.5.4节构建的RunnerV3类进行模型训练，并使用paddle.vision.models.LeNet快速构建LeNet网络，使用paddle.io.DataLoader根据批大小对数据进行划分，使用交叉熵损失函数及标准的随机梯度下降优化器paddle.optimizer.SGD。RunnerV3类会保存每轮迭代和每个回合的损失值，可以方便地观察批大小对模型收敛速度的影响。</p>
+<blockquote>
+<p>alec收获&#x2F;总结：</p>
+<ul>
+<li>本实验要观察批大小对模型收敛速度的影响。</li>
+<li>通常情况下，批大小与学习率大小成正比。选择批大小为16、32、64、128、256的情况进行训练。相应地，学习率大小被设置为0.01、0.02、0.04、0.08、0.16。代码实现如下：（批翻倍，那么学习率也翻倍）</li>
+<li>批很小，比如一次只学习一张图像，那么这个时候学习率肯定要设置非常小，因此如果在这一张图像上，学习的很快，那么这个数据是不可靠的，学习曲线会震荡的非常严重，频繁的跳过最优点，无法收敛。如果批量大的话，那么这个学习到的梯度是相对可靠的，这个时候学习率要大一点；如果学习率很小的话，那么就会学习的很慢，可能导致无法走出局部最优点。所以，批的大小和学习率的大小要成正比。</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> paddle.io <span class="hljs-keyword">as</span> io<br><span class="hljs-keyword">import</span> paddle.optimizer <span class="hljs-keyword">as</span> optimizer<br><span class="hljs-keyword">import</span> paddle.nn.functional <span class="hljs-keyword">as</span> F<br><br><span class="hljs-keyword">from</span> nndl <span class="hljs-keyword">import</span> RunnerV3<br><span class="hljs-keyword">from</span> paddle.vision.models <span class="hljs-keyword">import</span> LeNet<br><span class="hljs-keyword">from</span> paddle.vision.datasets <span class="hljs-keyword">import</span> MNIST<br><br><span class="hljs-comment"># 固定随机种子</span><br>paddle.seed(<span class="hljs-number">0</span>)<br><br><span class="hljs-comment"># 准备数据</span><br><span class="hljs-comment"># 确保从paddle.vision.datasets.MNIST中加载的图像数据是np.ndarray类型</span><br>paddle.vision.image.set_image_backend(<span class="hljs-string">&#x27;cv2&#x27;</span>)<br>train_dataset = MNIST(mode=<span class="hljs-string">&#x27;train&#x27;</span>, transform=transform)<br><span class="hljs-comment"># 迭代器加载数据集</span><br><span class="hljs-comment"># 为保证每次输出结果相同，没有设置shuffle=True，真实模型训练场景需要开启</span><br>train_loader1 = io.DataLoader(train_dataset, batch_size=<span class="hljs-number">16</span>)<br><br><span class="hljs-comment"># 定义网络</span><br>model1 = LeNet()<br><span class="hljs-comment"># 定义优化器，使用随机梯度下降（SGD）优化器</span><br>opt1 = optimizer.SGD(learning_rate=<span class="hljs-number">0.01</span>, parameters=model1.parameters())<br><span class="hljs-comment"># 定义损失函数</span><br>loss_fn = F.cross_entropy<br><span class="hljs-comment"># 定义runner类</span><br>runner1 = RunnerV3(model1, opt1, loss_fn, <span class="hljs-literal">None</span>)<br>runner1.train(train_loader1, num_epochs=<span class="hljs-number">30</span>, log_steps=<span class="hljs-number">0</span>)<br><br>model2 = LeNet()<br>train_loader2 = io.DataLoader(train_dataset, batch_size=<span class="hljs-number">32</span>)<br>opt2 = optimizer.SGD(learning_rate=<span class="hljs-number">0.02</span>, parameters=model2.parameters())<br>runner2 = RunnerV3(model2, opt2, loss_fn, <span class="hljs-literal">None</span>)<br>runner2.train(train_loader2, num_epochs=<span class="hljs-number">30</span>, log_steps=<span class="hljs-number">0</span>)<br><br>model3 = LeNet()<br>train_loader3 = io.DataLoader(train_dataset, batch_size=<span class="hljs-number">64</span>)<br>opt3 = optimizer.SGD(learning_rate=<span class="hljs-number">0.04</span>, parameters=model3.parameters())<br>runner3 = RunnerV3(model3, opt3, loss_fn, <span class="hljs-literal">None</span>)<br>runner3.train(train_loader3, num_epochs=<span class="hljs-number">30</span>, log_steps=<span class="hljs-number">0</span>)<br><br>model4 = LeNet()<br>train_loader4 = io.DataLoader(train_dataset, batch_size=<span class="hljs-number">128</span>)<br>opt4 = optimizer.SGD(learning_rate=<span class="hljs-number">0.08</span>, parameters=model4.parameters())<br>runner4 = RunnerV3(model4, opt4, loss_fn, <span class="hljs-literal">None</span>)<br>runner4.train(train_loader4, num_epochs=<span class="hljs-number">30</span>, log_steps=<span class="hljs-number">0</span>)<br><br>model5 = LeNet()<br>train_loader5 = io.DataLoader(train_dataset, batch_size=<span class="hljs-number">256</span>)<br>opt5 = optimizer.SGD(learning_rate=<span class="hljs-number">0.16</span>, parameters=model5.parameters())<br>runner5 = RunnerV3(model5, opt5, loss_fn, <span class="hljs-literal">None</span>)<br>runner5.train(train_loader5, num_epochs=<span class="hljs-number">30</span>, log_steps=<span class="hljs-number">0</span>)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">运行时长: <span class="hljs-number">25</span>分钟<span class="hljs-number">47</span>秒<span class="hljs-number">673</span>毫秒<br>结束时间: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">23</span> <span class="hljs-number">17</span>:<span class="hljs-number">54</span>:<span class="hljs-number">39</span><br></code></pre></td></tr></table></figure>
+
+<p>可视化损失函数的变化趋势。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br>%matplotlib inline<br><br><span class="hljs-comment"># 绘制每个回合的损失</span><br>plt.plot(runner1.train_epoch_losses, label=<span class="hljs-string">&#x27;batch size: 16, lr: 0.01&#x27;</span>, c=<span class="hljs-string">&#x27;#9c9d9f&#x27;</span>)<br>plt.plot(runner2.train_epoch_losses, label=<span class="hljs-string">&#x27;batch size: 32, lr: 0.02&#x27;</span>, c=<span class="hljs-string">&#x27;#f7d2e2&#x27;</span>)<br>plt.plot(runner3.train_epoch_losses, label=<span class="hljs-string">&#x27;batch size: 64, lr: 0.04&#x27;</span>, c=<span class="hljs-string">&#x27;#f19ec2&#x27;</span>)<br>plt.plot(runner4.train_epoch_losses, label=<span class="hljs-string">&#x27;batch size: 128, lr: 0.08&#x27;</span>, c=<span class="hljs-string">&#x27;#e86096&#x27;</span>, linestyle=<span class="hljs-string">&#x27;-.&#x27;</span>)<br>plt.plot(runner5.train_epoch_losses, label=<span class="hljs-string">&#x27;batch size: 256, lr: 0.16&#x27;</span>, c=<span class="hljs-string">&#x27;#000000&#x27;</span>, linestyle=<span class="hljs-string">&#x27;--&#x27;</span>)<br>plt.legend(fontsize=<span class="hljs-string">&#x27;x-large&#x27;</span>)<br>plt.title(<span class="hljs-string">&#x27;epoch loss with different bs and lr&#x27;</span>)<br>plt.savefig(<span class="hljs-string">&#x27;opt-mnist-loss.pdf&#x27;</span>)<br>plt.show()<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312465.png" srcset="/img/loading.gif" lazyload alt="image-20221223180753106"></p>
+<p>从输出结果看，如果按每个回合的损失来看，每批次样本数越小，下降效果越明显。适当小的批大小可以导致更快的收敛。</p>
+<blockquote>
+<p>alec收获&#x2F;总结：</p>
+<ul>
+<li>适当小的批大小，收敛的更快</li>
+</ul>
+</blockquote>
+<h2 id="√-7-3-不同优化算法的比较分析"><a href="#√-7-3-不同优化算法的比较分析" class="headerlink" title="[√] 7.3 不同优化算法的比较分析"></a>[√] 7.3 不同优化算法的比较分析</h2><hr>
+<blockquote>
+<p>alec收获&#x2F;总结：</p>
+<ul>
+<li>除了批大小对模型收敛速度的影响外，学习率和梯度估计也是影响神经网络优化的重要因素。</li>
+<li>神经网络优化中常用的优化方法也主要是如下两方面的改进，包括：<ul>
+<li>学习率调整：主要通过自适应地调整学习率使得优化更稳定。这类算法主要有AdaGrad、RMSprop、AdaDelta算法等。（自适应的调整学习率）</li>
+<li>梯度估计修正：主要通过修正每次迭代时估计的梯度方向来加快收敛速度。这类算法主要有动量法、Nesterov加速梯度方法等。（修正梯度方法加快收敛速度）</li>
+</ul>
+</li>
+<li>除上述方法外，本节还会介绍综合学习率调整和梯度估计修正的优化算法，如Adam算法。</li>
+<li>Adaptive，自适应，适应的，适合的</li>
+</ul>
+</blockquote>
+<h4 id="√-7-3-1-优化算法的实验设定"><a href="#√-7-3-1-优化算法的实验设定" class="headerlink" title="[√] 7.3.1 优化算法的实验设定"></a>[√] 7.3.1 优化算法的实验设定</h4><hr>
+<p>为了更好地对比不同的优化算法，我们准备两个实验：第一个是2D可视化实验。第二个是简单拟合实验。</p>
+<p>首先介绍下这两个实验的任务设定。</p>
+<h6 id="√-7-3-1-1-2D可视化实验"><a href="#√-7-3-1-1-2D可视化实验" class="headerlink" title="[√] 7.3.1.1 2D可视化实验"></a>[√] 7.3.1.1 2D可视化实验</h6><hr>
+<p>为了更好地展示不同优化算法的能力对比，我们选择一个二维空间中的凸函数，然后用不同的优化算法来寻找最优解，并可视化梯度下降过程的轨迹。</p>
+<p><strong>被优化函数</strong></p>
+<p>选择Sphere函数作为被优化函数，并对比它们的优化效果。Sphere函数的定义为<br>$$<br>\mathrm{sphere}( x) &#x3D; \sum_{d&#x3D;1}^{D} x_d^2 &#x3D;  x^2,<br>$$<br>其中$x\in\mathbb{R}^D$，$x^2$表示逐元素平方。Sphere函数有全局的最优点$ x^*&#x3D;0$。</p>
+<p>这里为了展示方便，我们使用二维的输入并略微修改Sphere函数，定义$\mathrm{sphere}(x) &#x3D;  w^\top  x^2$，并根据梯度下降公式计算对$ x$的偏导<br>$$<br>\frac{\partial \mathrm{sphere}(x)}{\partial x} &#x3D; 2 w \odot x,<br>$$<br>其中$\odot$表示逐元素积。</p>
+<p>将被优化函数实现为OptimizedFunction算子，其forward方法是Sphere函数的前向计算，backward方法则计算被优化函数对$x$的偏导。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> nndl.op <span class="hljs-keyword">import</span> Op<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">OptimizedFunction</span>(<span class="hljs-title class_ inherited__">Op</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, w</span>):<br>        <span class="hljs-built_in">super</span>(OptimizedFunction, self).__init__()<br>        self.w = w<br>        self.params = &#123;<span class="hljs-string">&#x27;x&#x27;</span>: <span class="hljs-number">0</span>&#125;<br>        self.grads = &#123;<span class="hljs-string">&#x27;x&#x27;</span>: <span class="hljs-number">0</span>&#125;<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x</span>):<br>        self.params[<span class="hljs-string">&#x27;x&#x27;</span>] = x<br>        <span class="hljs-keyword">return</span> paddle.matmul(self.w.T, paddle.square(self.params[<span class="hljs-string">&#x27;x&#x27;</span>]))<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">backward</span>(<span class="hljs-params">self</span>):<br>        self.grads[<span class="hljs-string">&#x27;x&#x27;</span>] = <span class="hljs-number">2</span> * paddle.multiply(self.w.T, self.params[<span class="hljs-string">&#x27;x&#x27;</span>])<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">运行时长: <span class="hljs-number">87</span>毫秒<br>结束时间: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">23</span> <span class="hljs-number">19</span>:<span class="hljs-number">40</span>:05<br></code></pre></td></tr></table></figure>
+
+<p><strong>小批量梯度下降优化器</strong> 复用3.1.4.3节定义的梯度下降优化器SimpleBatchGD。按照梯度下降的梯度更新公式$\theta_t \leftarrow \theta_{t-1} - \alpha \mathbf g_t$进行梯度更新。</p>
+<p><strong>训练函数</strong>  定义一个简易的训练函数，记录梯度下降过程中每轮的参数$ x$和损失。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">train_f</span>(<span class="hljs-params">model, optimizer, x_init, epoch</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    训练函数</span><br><span class="hljs-string">    输入：</span><br><span class="hljs-string">        - model：被优化函数 # model - 模型，其实就是一个待被优化的函数</span><br><span class="hljs-string">        - optimizer：优化器</span><br><span class="hljs-string">        - x_init：x初始值</span><br><span class="hljs-string">        - epoch：训练回合数</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    x = x_init<br>    all_x = []<br>    losses = []<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(epoch):<br>        all_x.append(x.numpy())<br>        loss = model(x)<br>        losses.append(loss)<br>        model.backward() <span class="hljs-comment"># 反向传播计算梯度</span><br>        optimizer.step() <span class="hljs-comment"># 通过梯度优化更新参数</span><br>        x = model.params[<span class="hljs-string">&#x27;x&#x27;</span>]<br>    <span class="hljs-keyword">return</span> paddle.to_tensor(all_x), losses<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">运行时长: <span class="hljs-number">5</span>毫秒<br>结束时间: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">23</span> <span class="hljs-number">19</span>:<span class="hljs-number">45</span>:<span class="hljs-number">27</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>可视化函数</strong> 定义一个Visualization类，用于绘制$ x$的更新轨迹。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Visualization</span>(<span class="hljs-title class_ inherited__">object</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        初始化可视化类</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-comment"># 只画出参数x1和x2在区间[-5, 5]的曲线部分</span><br>        x1 = np.arange(-<span class="hljs-number">5</span>, <span class="hljs-number">5</span>, <span class="hljs-number">0.1</span>)<br>        x2 = np.arange(-<span class="hljs-number">5</span>, <span class="hljs-number">5</span>, <span class="hljs-number">0.1</span>)<br>        x1, x2 = np.meshgrid(x1, x2)<br>        self.init_x = paddle.to_tensor([x1, x2])<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">plot_2d</span>(<span class="hljs-params">self, model, x, fig_name</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        可视化参数更新轨迹</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        fig, ax = plt.subplots(figsize=(<span class="hljs-number">10</span>, <span class="hljs-number">6</span>))<br>        cp = ax.contourf(self.init_x[<span class="hljs-number">0</span>], self.init_x[<span class="hljs-number">1</span>], model(self.init_x.transpose([<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>])), colors=[<span class="hljs-string">&#x27;#e4007f&#x27;</span>, <span class="hljs-string">&#x27;#f19ec2&#x27;</span>, <span class="hljs-string">&#x27;#e86096&#x27;</span>, <span class="hljs-string">&#x27;#eb7aaa&#x27;</span>, <span class="hljs-string">&#x27;#f6c8dc&#x27;</span>, <span class="hljs-string">&#x27;#f5f5f5&#x27;</span>, <span class="hljs-string">&#x27;#000000&#x27;</span>])<br>        c = ax.contour(self.init_x[<span class="hljs-number">0</span>], self.init_x[<span class="hljs-number">1</span>], model(self.init_x.transpose([<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>])), colors=<span class="hljs-string">&#x27;black&#x27;</span>)<br>        cbar = fig.colorbar(cp)<br>        ax.plot(x[:, <span class="hljs-number">0</span>], x[:, <span class="hljs-number">1</span>], <span class="hljs-string">&#x27;-o&#x27;</span>, color=<span class="hljs-string">&#x27;#000000&#x27;</span>)<br>        ax.plot(<span class="hljs-number">0</span>, <span class="hljs-string">&#x27;r*&#x27;</span>, markersize=<span class="hljs-number">18</span>, color=<span class="hljs-string">&#x27;#fefefe&#x27;</span>)<br><br>        ax.set_xlabel(<span class="hljs-string">&#x27;$x1$&#x27;</span>)<br>        ax.set_ylabel(<span class="hljs-string">&#x27;$x2$&#x27;</span>)<br><br>        ax.set_xlim((-<span class="hljs-number">2</span>, <span class="hljs-number">5</span>))<br>        ax.set_ylim((-<span class="hljs-number">2</span>, <span class="hljs-number">5</span>))<br>        plt.savefig(fig_name)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">运行时长: <span class="hljs-number">8</span>毫秒<br>结束时间: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">23</span> <span class="hljs-number">19</span>:<span class="hljs-number">55</span>:<span class="hljs-number">54</span><br></code></pre></td></tr></table></figure>
+
+<p>定义train_and_plot_f函数，调用train_f和Visualization，训练模型并可视化参数更新轨迹。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">train_and_plot_f</span>(<span class="hljs-params">model, optimizer, epoch, fig_name</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    训练模型并可视化参数更新轨迹</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-comment"># 设置x的初始值</span><br>    x_init = paddle.to_tensor([<span class="hljs-number">3</span>, <span class="hljs-number">4</span>], dtype=<span class="hljs-string">&#x27;float32&#x27;</span>)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;x1 initiate: &#123;&#125;, x2 initiate: &#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(x_init[<span class="hljs-number">0</span>].numpy(), x_init[<span class="hljs-number">1</span>].numpy()))<br>    x, losses = train_f(model, optimizer, x_init, epoch)<br>    losses = np.array(losses)<br><br>    <span class="hljs-comment"># 展示x1、x2的更新轨迹</span><br>    vis = Visualization()<br>    vis.plot_2d(model, x, fig_name)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">运行时长: <span class="hljs-number">4</span>毫秒<br>结束时间: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">23</span> <span class="hljs-number">19</span>:<span class="hljs-number">57</span>:<span class="hljs-number">51</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>模型训练与可视化</strong>  指定Sphere函数中$w$的值，实例化被优化函数，通过小批量梯度下降法更新参数，并可视化$ x$的更新轨迹。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> nndl.op <span class="hljs-keyword">import</span> SimpleBatchGD <span class="hljs-comment"># 小批量梯度下降优化算法</span><br><br><span class="hljs-comment"># 固定随机种子</span><br>paddle.seed(<span class="hljs-number">0</span>)<br>w = paddle.to_tensor([<span class="hljs-number">0.2</span>, <span class="hljs-number">2</span>])<br>model = OptimizedFunction(w)<br>opt = SimpleBatchGD(init_lr=<span class="hljs-number">0.2</span>, model=model)<br>train_and_plot_f(model, opt, epoch=<span class="hljs-number">20</span>, fig_name=<span class="hljs-string">&#x27;opti-vis-para.pdf&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs inform7">x1 initiate: <span class="hljs-comment">[3.]</span>, x2 initiate: <span class="hljs-comment">[4.]</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312466.png" srcset="/img/loading.gif" lazyload alt="image-20221223200147935"></p>
+<p>输出图中不同颜色代表$f(x_1, x_2)$的值，具体数值可以参考图右侧的对应表，比如深粉色区域代表$f(x_1, x_2)$在0～8之间，不同颜色间黑色的曲线是等值线，代表落在该线上的点对应的$f(x_1, x_2)$的值都相同。</p>
+<blockquote>
+<p>alec收获&#x2F;总结：</p>
+<ul>
+<li>梯度下降法，梯度下降的意思是，我们想要误差即损失最小，在损失函数的曲线中，假如损失函数是凸函数，那么最小的点就是梯度为0的点。因此我们想要最快的达到梯度为0的点，那么就需要沿着梯度的方向，不断的减去计算得来的梯度，沿着梯度减，让梯度尽快的下降为0。当梯度下降为0的时候，这个时候损失为0，那么此时的参数就是能够使得模型正确的代表数据的映射的关系的模型。</li>
+</ul>
+</blockquote>
+<h6 id="√-7-3-1-2-简单拟合实验"><a href="#√-7-3-1-2-简单拟合实验" class="headerlink" title="[√] 7.3.1.2 简单拟合实验"></a>[√] 7.3.1.2 简单拟合实验</h6><hr>
+<p>除了2D可视化实验外，我们还设计一个简单的拟合任务，然后对比不同的优化算法。</p>
+<p>这里我们随机生成一组数据作为数据样本，再构建一个简单的单层前馈神经网络，用于前向计算。</p>
+<h6 id="√-数据集构建"><a href="#√-数据集构建" class="headerlink" title="[√] 数据集构建"></a>[√] 数据集构建</h6><hr>
+<p>通过paddle.randn随机生成一些训练数据$X$，并根据一个预定义函数$y &#x3D; 0.5\times x_{1}+ 0.8\times x_{2} + 0.01\times noise$ 计算得到$ y$，再将$ X$和$ y$拼接起来得到训练样本。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 固定随机种子</span><br>paddle.seed(<span class="hljs-number">0</span>)<br><span class="hljs-comment"># 随机生成shape为（1000，2）的训练数据</span><br>X = paddle.randn([<span class="hljs-number">1000</span>, <span class="hljs-number">2</span>])<br>w = paddle.to_tensor([<span class="hljs-number">0.5</span>, <span class="hljs-number">0.8</span>]) <span class="hljs-comment"># 一维数据，只有一个中括号</span><br>w = paddle.unsqueeze(w, axis=<span class="hljs-number">1</span>) <span class="hljs-comment"># 二维数据</span><br>noise = <span class="hljs-number">0.01</span> * paddle.rand([<span class="hljs-number">1000</span>]) <span class="hljs-comment"># 一维数据</span><br>noise = paddle.unsqueeze(noise, axis=<span class="hljs-number">1</span>) <span class="hljs-comment"># 二维数据</span><br><span class="hljs-comment"># 计算y</span><br>y = paddle.matmul(X, w) + noise<br><span class="hljs-comment"># 打印X, y样本</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;X: &#x27;</span>, X[<span class="hljs-number">0</span>].numpy())<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;y: &#x27;</span>, y[<span class="hljs-number">0</span>].numpy())<br><br><span class="hljs-comment"># X，y组成训练样本数据</span><br>data = paddle.concat((X, y), axis=<span class="hljs-number">1</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;input data shape: &#x27;</span>, data.shape)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;data: &#x27;</span>, data[<span class="hljs-number">0</span>].numpy())<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">X:  [-<span class="hljs-number">4.080414</span>  -<span class="hljs-number">1.3719953</span>]<br>y:  [-<span class="hljs-number">3.136211</span>]<br><span class="hljs-built_in">input</span> data shape:  [<span class="hljs-number">1000</span>, <span class="hljs-number">3</span>]<br>data:  [-<span class="hljs-number">4.080414</span>  -<span class="hljs-number">1.3719953</span> -<span class="hljs-number">3.136211</span> ]<br></code></pre></td></tr></table></figure>
+
+<h6 id="√-模型构建"><a href="#√-模型构建" class="headerlink" title="[√] 模型构建"></a>[√] 模型构建</h6><hr>
+<p>定义单层前馈神经网络，$ X\in\mathbb{R}^{N \times D}$为网络输入, $ w \in \mathbb{R}^{D}$是网络的权重矩阵，$ b \in \mathbb{R}$为偏置。<br>$$<br>y &#x3D;X w + b \in \mathbb{R}^{K\times 1},<br>$$</p>
+<p>其中$K$代表一个批次中的样本数量，$D$为单层网络的输入特征维度。</p>
+<h6 id="√-损失函数"><a href="#√-损失函数" class="headerlink" title="[√] 损失函数"></a>[√] 损失函数</h6><hr>
+<p>使用均方误差作为训练时的损失函数，计算损失函数关于参数$ w$和$b$的偏导数。定义均方误差损失函数的计算方法为<br>$$<br>\mathcal{L} &#x3D; \frac{1}{2K}\sum_{k&#x3D;1}^K(y^{(k)} - z^{(k)})^2,<br>$$</p>
+<p>其中$ z^{(k)}$是网络对第$k$个样本的预测值。根据损失函数关于参数的偏导公式，得到$\mathcal{L}(\cdot)$对于参数$ w$和$b$的偏导数，<br>$$<br>\frac{\partial \mathcal{L}}{\partial w} &#x3D; \frac{1}{K}\sum_{k&#x3D;1}^Kx^{(k)}(z^{(k)} - y^{(k)}) &#x3D; \frac{1}{K}X^\top(z - y), \<br>    \frac{\partial \mathcal{L}}{\partial b} &#x3D; \frac{1}{K}\sum_{k&#x3D;1}^K(z^{(k)} - y^{(k)}) &#x3D; \frac{1}{K}\mathbf{1}^\top(z - y).<br>$$</p>
+<p>定义Linear算子，实现一个线性层的前向和反向计算。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Linear</span>(<span class="hljs-title class_ inherited__">Op</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, input_size, weight_init=paddle.standard_normal, bias_init=paddle.zeros</span>):<br>        <span class="hljs-built_in">super</span>(Linear, self).__init__()<br>        self.params = &#123;&#125;<br>        self.params[<span class="hljs-string">&#x27;W&#x27;</span>] = weight_init(shape=[input_size, <span class="hljs-number">1</span>])<br>        self.params[<span class="hljs-string">&#x27;b&#x27;</span>] = bias_init(shape=[<span class="hljs-number">1</span>])<br>        self.inputs = <span class="hljs-literal">None</span><br>        self.grads = &#123;&#125;<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, inputs</span>):<br>        self.inputs = inputs<br>        self.outputs = paddle.matmul(self.inputs, self.params[<span class="hljs-string">&#x27;W&#x27;</span>]) + self.params[<span class="hljs-string">&#x27;b&#x27;</span>]<br>        <span class="hljs-keyword">return</span> self.outputs<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">backward</span>(<span class="hljs-params">self, labels</span>):<br>        K = self.inputs.shape[<span class="hljs-number">0</span>]<br>        self.grads[<span class="hljs-string">&#x27;W&#x27;</span>] = <span class="hljs-number">1.</span> /K * paddle.matmul(self.inputs.T, (self.outputs - labels))<br>        self.grads[<span class="hljs-string">&#x27;b&#x27;</span>] = <span class="hljs-number">1.</span> /K * paddle.<span class="hljs-built_in">sum</span>(self.outputs - labels, axis=<span class="hljs-number">0</span>)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">运行时长: <span class="hljs-number">7</span>毫秒<br>结束时间: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">23</span> <span class="hljs-number">20</span>:<span class="hljs-number">32</span>:<span class="hljs-number">32</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>笔记</strong></p>
+<p>这里backward函数中实现的梯度并不是forward函数对应的梯度，而是最终损失关于参数的梯度．由于这里的梯度是手动计算的，所以直接给出了最终的梯度。</p>
+<h6 id="√-训练函数"><a href="#√-训练函数" class="headerlink" title="[√] 训练函数"></a>[√] 训练函数</h6><hr>
+<p>在准备好样本数据和网络以后，复用优化器SimpleBatchGD类，使用小批量梯度下降来进行简单的拟合实验。</p>
+<p>这里我们重新定义模型训练train函数。主要以下两点原因：</p>
+<ul>
+<li>在一般的随机梯度下降中要在每回合迭代开始之前随机打乱训练数据的顺序，再按批大小进行分组。这里为了保证每次运行结果一致以便更好地对比不同的优化算法，这里不再随机打乱数据。</li>
+<li>与RunnerV2中的训练函数相比，这里使用小批量梯度下降。而与RunnerV3中的训练函数相比，又通过继承优化器基类Optimizer实现不同的优化器。</li>
+</ul>
+<p>模型训练train函数的代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">train</span>(<span class="hljs-params">data, num_epochs, batch_size, model, calculate_loss, optimizer, verbose=<span class="hljs-literal">False</span></span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    训练神经网络</span><br><span class="hljs-string">    输入：</span><br><span class="hljs-string">        - data：训练样本</span><br><span class="hljs-string">        - num_epochs：训练回合数</span><br><span class="hljs-string">        - batch_size：批大小</span><br><span class="hljs-string">        - model：实例化的模型</span><br><span class="hljs-string">        - calculate_loss：损失函数</span><br><span class="hljs-string">        - optimizer：优化器</span><br><span class="hljs-string">        - verbose：日志显示，默认为False</span><br><span class="hljs-string">    输出：</span><br><span class="hljs-string">        - iter_loss：每一次迭代的损失值</span><br><span class="hljs-string">        - epoch_loss：每个回合的平均损失值</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-comment"># 记录每个回合损失的变化</span><br>    epoch_loss = []<br>    <span class="hljs-comment"># 记录每次迭代损失的变化</span><br>    iter_loss = []<br>    N = <span class="hljs-built_in">len</span>(data)<br>    <span class="hljs-keyword">for</span> epoch_id <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(num_epochs):<br>        <span class="hljs-comment"># np.random.shuffle(data) #不再随机打乱数据</span><br>        <span class="hljs-comment"># 将训练数据进行拆分，每个mini_batch包含batch_size条的数据</span><br>        mini_batches = [data[i:i+batch_size] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, N, batch_size)]<br>        <span class="hljs-keyword">for</span> iter_id, mini_batch <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(mini_batches):<br>            <span class="hljs-comment"># data中前两个分量为X</span><br>            inputs = mini_batch[:, :-<span class="hljs-number">1</span>]<br>            <span class="hljs-comment"># data中最后一个分量为y</span><br>            labels = mini_batch[:, -<span class="hljs-number">1</span>:]<br>            <span class="hljs-comment"># 前向计算</span><br>            outputs = model(inputs)<br>            <span class="hljs-comment"># 计算损失</span><br>            loss = calculate_loss(outputs, labels).numpy()[<span class="hljs-number">0</span>]<br>            <span class="hljs-comment"># 计算梯度 # 此处计算的梯度，优化器能看到</span><br>            model.backward(labels)<br>            <span class="hljs-comment"># 梯度更新</span><br>            optimizer.step()<br>            iter_loss.append(loss)<br>        <span class="hljs-comment"># verbose = True 则打印当前回合的损失</span><br>        <span class="hljs-keyword">if</span> verbose:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;Epoch &#123;:3d&#125;, loss = &#123;:.4f&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(epoch_id, np.mean(iter_loss)))<br>        epoch_loss.append(np.mean(iter_loss))<br>    <span class="hljs-keyword">return</span> iter_loss, epoch_loss<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">运行时长: <span class="hljs-number">7</span>毫秒<br>结束时间: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">23</span> <span class="hljs-number">20</span>:<span class="hljs-number">39</span>:<span class="hljs-number">36</span><br></code></pre></td></tr></table></figure>
+
+<h6 id="√-优化过程可视化"><a href="#√-优化过程可视化" class="headerlink" title="[√] 优化过程可视化"></a>[√] 优化过程可视化</h6><hr>
+<p> 定义plot_loss函数，用于绘制损失函数变化趋势。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">plot_loss</span>(<span class="hljs-params">iter_loss, epoch_loss, fig_name</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    可视化损失函数的变化趋势</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    plt.figure(figsize=(<span class="hljs-number">10</span>, <span class="hljs-number">4</span>))<br>    ax1 = plt.subplot(<span class="hljs-number">121</span>)<br>    ax1.plot(iter_loss, color=<span class="hljs-string">&#x27;#e4007f&#x27;</span>)<br>    plt.title(<span class="hljs-string">&#x27;iteration loss&#x27;</span>)<br>    ax2 = plt.subplot(<span class="hljs-number">122</span>)<br>    ax2.plot(epoch_loss, color=<span class="hljs-string">&#x27;#f19ec2&#x27;</span>)<br>    plt.title(<span class="hljs-string">&#x27;epoch loss&#x27;</span>)<br>    plt.savefig(fig_name)<br>    plt.show()<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">运行时长: <span class="hljs-number">5</span>毫秒<br>结束时间: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">23</span> <span class="hljs-number">20</span>:<span class="hljs-number">42</span>:06<br></code></pre></td></tr></table></figure>
+
+<p>对于使用不同优化器的模型训练，保存每一个回合损失的更新情况，并绘制出损失函数的变化趋势，以此验证模型是否收敛。定义train_and_plot函数，调用train和plot_loss函数，训练并展示每个回合和每次迭代(Iteration)的损失变化情况。在模型训练时，使用paddle.nn.MSELoss()计算均方误差。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> paddle.nn <span class="hljs-keyword">as</span> nn<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">train_and_plot</span>(<span class="hljs-params">optimizer, fig_name</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    训练网络并画出损失函数的变化趋势</span><br><span class="hljs-string">    输入：</span><br><span class="hljs-string">        - optimizer：优化器</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-comment"># 定义均方差损失</span><br>    mse = nn.MSELoss()<br>    iter_loss, epoch_loss = train(data, num_epochs=<span class="hljs-number">30</span>, batch_size=<span class="hljs-number">64</span>, model=model, calculate_loss=mse, optimizer=optimizer)<br>    plot_loss(iter_loss, epoch_loss, fig_name)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">运行时长: <span class="hljs-number">4</span>毫秒<br>结束时间: <span class="hljs-number">2022</span>-<span class="hljs-number">12</span>-<span class="hljs-number">23</span> <span class="hljs-number">20</span>:<span class="hljs-number">43</span>:04<br></code></pre></td></tr></table></figure>
+
+<p>训练网络并可视化损失函数的变化趋势。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 固定随机种子</span><br>paddle.seed(<span class="hljs-number">0</span>)<br><span class="hljs-comment"># 定义网络结构</span><br>model = Linear(<span class="hljs-number">2</span>)<br><span class="hljs-comment"># 定义优化器</span><br>opt = SimpleBatchGD(init_lr=<span class="hljs-number">0.01</span>, model=model) <span class="hljs-comment"># 将model传给优化器，是因为模型反向传播计算完梯度后，优化器需要给模型优化更新参数</span><br>train_and_plot(opt, <span class="hljs-string">&#x27;opti-loss.pdf&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312467.png" srcset="/img/loading.gif" lazyload alt="image-20221223204530573"></p>
+<p>从输出结果看，loss在不断减小，模型逐渐收敛。</p>
+<p><strong>提醒</strong><br>在本小节中，我们定义了两个实验：2D可视化实验和简单拟合实验。这两个实验会在本节介绍的所有优化算法中反复使用，以便进行对比。</p>
+<h6 id="√-与Paddle-API对比，验证正确性"><a href="#√-与Paddle-API对比，验证正确性" class="headerlink" title="[√] 与Paddle API对比，验证正确性"></a>[√] 与Paddle API对比，验证正确性</h6><hr>
+<p>分别实例化自定义SimpleBatchGD优化器和调用paddle.optimizer.SGD API, 验证自定义优化器的正确性。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python">paddle.seed(<span class="hljs-number">0</span>)<br><br>x = data[<span class="hljs-number">0</span>, :-<span class="hljs-number">1</span>].unsqueeze(<span class="hljs-number">0</span>)<br>y = data[<span class="hljs-number">0</span>, -<span class="hljs-number">1</span>].unsqueeze(<span class="hljs-number">0</span>)<br><br>model1 = Linear(<span class="hljs-number">2</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;model1 parameter W: &#x27;</span>, model1.params[<span class="hljs-string">&#x27;W&#x27;</span>].numpy())<br>opt1 = SimpleBatchGD(init_lr=<span class="hljs-number">0.01</span>, model=model1)<br>output1 = model1(x)<br><br>model2 = nn.Linear(<span class="hljs-number">2</span>, <span class="hljs-number">1</span>, paddle.nn.initializer.Assign(model1.params[<span class="hljs-string">&#x27;W&#x27;</span>]))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;model2 parameter W: &#x27;</span>, model2.state_dict()[<span class="hljs-string">&#x27;weight&#x27;</span>].numpy())<br>output2 = model2(x)<br><br>model1.backward(y) <span class="hljs-comment"># 计算梯度</span><br>opt1.step() <span class="hljs-comment"># 更新参数</span><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;model1 parameter W after train step: &#x27;</span>, model1.params[<span class="hljs-string">&#x27;W&#x27;</span>].numpy())<br><br>opt2 = optimizer.SGD(learning_rate=<span class="hljs-number">0.01</span>, parameters=model2.parameters())<br>loss = paddle.nn.functional.mse_loss(output2, y) / <span class="hljs-number">2</span><br>loss.backward()<br>opt2.step()<br>opt2.clear_grad()<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;model2 parameter W after train step: &#x27;</span>, model2.state_dict()[<span class="hljs-string">&#x27;weight&#x27;</span>].numpy())<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">model1 parameter W:  [[-<span class="hljs-number">4.080414</span> ]<br> [-<span class="hljs-number">1.3719953</span>]]<br>model2 parameter W:  [[-<span class="hljs-number">4.080414</span> ]<br> [-<span class="hljs-number">1.3719953</span>]]<br>model1 parameter W after train step:  [[-<span class="hljs-number">3.196255</span> ]<br> [-<span class="hljs-number">1.0747064</span>]]<br>model2 parameter W after train step:  [[-<span class="hljs-number">3.196255</span> ]<br> [-<span class="hljs-number">1.0747064</span>]]<br></code></pre></td></tr></table></figure>
+
+<p>从输出结果看，在一次梯度更新后，两个模型的参数值保持一致，证明优化器实现正确。</p>
+<h4 id="√-7-3-2-学习率调整-AdaGrad-amp-amp-RMSprop"><a href="#√-7-3-2-学习率调整-AdaGrad-amp-amp-RMSprop" class="headerlink" title="[√] 7.3.2 学习率调整(AdaGrad &amp;&amp; RMSprop)"></a>[√] 7.3.2 学习率调整(AdaGrad &amp;&amp; RMSprop)</h4><hr>
+<blockquote>
+<p>alec收获&#x2F;总结：</p>
+<ul>
+<li>学习率是神经网络优化时的重要超参数。在梯度下降法中，学习率α的取值非常关键，如果取值过大就不会收敛，如果过小则收敛速度太慢。</li>
+<li>取值过大，反复震荡，不会收敛；取值过小，收敛的很慢，还可能局部最优。</li>
+</ul>
+</blockquote>
+<p>学习率是神经网络优化时的重要超参数。在梯度下降法中，学习率$\alpha$的取值非常关键，如果取值过大就不会收敛，如果过小则收敛速度太慢。</p>
+<blockquote>
+<p>常用的学习率调整方法包括如下几种方法：</p>
+<ul>
+<li>学习率衰减：如分段常数衰减（Piecewise Constant Decay）、余弦衰减（Cosine Decay）等；</li>
+<li>学习率预热：如逐渐预热(Gradual Warmup) 等；</li>
+<li>周期性学习率调整：如循环学习率等；</li>
+<li>自适应调整学习率的方法：如AdaGrad、RMSprop、AdaDelta等。自适应学习率方法可以针对每个参数设置不同的学习率。</li>
+</ul>
+</blockquote>
+<h6 id="√-7-3-2-1-AdaGrad算法"><a href="#√-7-3-2-1-AdaGrad算法" class="headerlink" title="[√] 7.3.2.1 AdaGrad算法"></a>[√] 7.3.2.1 AdaGrad算法</h6><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>AdaGrad算法（Adaptive Gradient Algorithm，自适应梯度算法)是借鉴 ℓ2 正则化的思想</li>
+</ul>
+</blockquote>
+<p>AdaGrad算法（Adaptive Gradient Algorithm，自适应梯度算法)是借鉴 $\ell_2$ 正则化的思想，每次迭代时自适应地调整每个参数的学习率。在第$t$次迭代时，先计算每个参数梯度平方的累计值。<br>$$<br>G_t &#x3D; \sum^t_{\tau&#x3D;1} \mathbf g_{\tau} \odot \mathbf g_{\tau},<br>$$<br>其中$\odot$为按元素乘积，$\mathbf g_{\tau} \in \mathbb R^{\mid \theta \mid}$是第$\tau$次迭代时的梯度。</p>
+<p>在AdaGrad梯度优化算法中，计算的梯度为：<br>$$<br>\Delta \theta_t &#x3D; - \frac{\alpha}{\sqrt{G_t + \epsilon}} \odot \mathbf g_{t},<br>$$</p>
+<p>其中$\alpha$是初始的学习率，$\epsilon$是为了保持数值稳定性而设置的非常小的常数，一般取值$e^{−7}$到$e^{−10}$。此外，这里的开平方、除、加运算都是按元素进行的操作。</p>
+<blockquote>
+<p>alec：</p>
+<p>在AdaGrad梯度优化算法中，计算的梯度为：<br>$$<br>\Delta \theta_t &#x3D; - \frac{\alpha}{\sqrt{G_t + \epsilon}} \odot \mathbf g_{t},<br>$$</p>
+<p>即在基本的随机梯度下降算法的基础上，为学习率<code>α</code>添加了分母<code>根号下（G_t + e）</code>，其中e是为了稳定设置的数值，防止分母为0产生梯度爆炸；<code>G_t</code>则是该梯度对应的参数的梯度平方的累计值，随着梯度的累计，分母不断变大，则对应的，学习率总体不断变小，因此称为自适应的学习率调整算法。通过对应的梯度自身来调整对应学习率的大小。</p>
+</blockquote>
+<h6 id="√-构建优化器"><a href="#√-构建优化器" class="headerlink" title="[√] 构建优化器"></a>[√] 构建优化器</h6><hr>
+<p>定义Adagrad类，继承Optimizer类。定义step函数调用adagrad进行参数更新。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> nndl.op <span class="hljs-keyword">import</span> Optimizer<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Adagrad</span>(<span class="hljs-title class_ inherited__">Optimizer</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, init_lr, model, epsilon</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        Adagrad 优化器初始化</span><br><span class="hljs-string">        输入：</span><br><span class="hljs-string">            - init_lr： 初始学习率</span><br><span class="hljs-string">            - model：模型，model.params存储模型参数值</span><br><span class="hljs-string">            - epsilon：保持数值稳定性而设置的非常小的常数</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-built_in">super</span>(Adagrad, self).__init__(init_lr=init_lr, model=model)<br>        self.G = &#123;&#125;<br>        <span class="hljs-keyword">for</span> key <span class="hljs-keyword">in</span> self.model.params.keys():<br>            self.G[key] = <span class="hljs-number">0</span><br>        self.epsilon = epsilon<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">adagrad</span>(<span class="hljs-params">self, x, gradient_x, G, init_lr</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        adagrad算法更新参数，G为参数梯度平方的累计值。</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        G += gradient_x ** <span class="hljs-number">2</span> <span class="hljs-comment"># 参数的梯度的平方的累计值</span><br>        <span class="hljs-comment"># alec: 在初试学习率的基础上，随着G的累加，自适应的调整总体学习率的大小，学习率越来越小。</span><br>        x -= init_lr / paddle.sqrt(G + self.epsilon) * gradient_x<br>        <span class="hljs-keyword">return</span> x, G<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">step</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        参数更新</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-keyword">for</span> key <span class="hljs-keyword">in</span> self.model.params.keys():<br>            self.model.params[key], self.G[key] = self.adagrad(self.model.params[key], <span class="hljs-comment"># 被减数，权重参数值</span><br>                                                               self.model.grads[key],  <span class="hljs-comment"># 计算得到的梯度</span><br>                                                               self.G[key],  <span class="hljs-comment"># 梯度累加值</span><br>                                                               self.init_lr) <span class="hljs-comment"># 初始学习率   </span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h6 id="√-2D可视化实验"><a href="#√-2D可视化实验" class="headerlink" title="[√] 2D可视化实验"></a>[√] 2D可视化实验</h6><hr>
+<p>使用被优化函数展示Adagrad算法的参数更新轨迹。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 固定随机种子</span><br>paddle.seed(<span class="hljs-number">0</span>)<br>w = paddle.to_tensor([<span class="hljs-number">0.2</span>, <span class="hljs-number">2</span>])<br>model = OptimizedFunction(w)<br>opt = Adagrad(init_lr=<span class="hljs-number">0.5</span>, model=model, epsilon=<span class="hljs-number">1e-7</span>)<br>train_and_plot_f(model, opt, epoch=<span class="hljs-number">50</span>, fig_name=<span class="hljs-string">&#x27;opti-vis-para2.pdf&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312468.png" srcset="/img/loading.gif" lazyload alt="image-20221223220005109"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>能够看出，AdaGrad算法，前几个回合的梯度更新幅度较大，随着回合的增加，参数的更新幅度逐渐减小。</li>
+</ul>
+<hr>
+<ul>
+<li>AdaGrad算法的优点是，能够自适应的调整学习率，刚开始快一点，后面细致一点。</li>
+<li>缺点是，随着训练次数的迭代，梯度的平方的累计值非常大了，这个时候学习率很小，如果没有找到最优点，那么就很难找到最优点了。</li>
+</ul>
+</blockquote>
+<p>从输出结果看，AdaGrad算法在前几个回合更新时参数更新幅度较大，随着回合数增加，学习率逐渐缩小，参数更新幅度逐渐缩小。在AdaGrad算法中，如果某个参数的偏导数累积比较大，其学习率相对较小。相反，如果其偏导数累积较小，其学习率相对较大。但整体随着迭代次数的增加，学习率逐渐缩小。该算法的缺点是在经过一定次数的迭代依然没有找到最优点时，由于这时的学习率已经非常小，很难再继续找到最优点。</p>
+<h6 id="√-简单拟合实验"><a href="#√-简单拟合实验" class="headerlink" title="[√] 简单拟合实验"></a>[√] 简单拟合实验</h6><hr>
+<p>训练单层线性网络，验证损失是否收敛。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 固定随机种子</span><br>paddle.seed(<span class="hljs-number">0</span>)<br><span class="hljs-comment"># 定义网络结构</span><br>model = Linear(<span class="hljs-number">2</span>)<br><span class="hljs-comment"># 定义优化器</span><br>opt = Adagrad(init_lr=<span class="hljs-number">0.1</span>, model=model, epsilon=<span class="hljs-number">1e-7</span>)<br>train_and_plot(opt, <span class="hljs-string">&#x27;opti-loss2.pdf&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312469.png" srcset="/img/loading.gif" lazyload alt="image-20221223220354205"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>刚开始损失的波动是比较大的，后来损失的波动逐渐减小</li>
+</ul>
+</blockquote>
+<h6 id="√-7-3-2-2-RMSprop算法"><a href="#√-7-3-2-2-RMSprop算法" class="headerlink" title="[√] 7.3.2.2 RMSprop算法"></a>[√] 7.3.2.2 RMSprop算法</h6><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>RMSprop算法是一种自适应学习率的方法，可以在有些情况下避免AdaGrad算法中学习率不断单调下降以至于过早衰减的缺点。</li>
+<li>AdamGrad算法，学习率分母中根号下的内容是G+e，其中G是每个参数梯度的平方和</li>
+<li>RMS prop算法，学习率分母中根号下的内容是G+e，其中G是每个参数梯度de(平方的加权移动平均)<ul>
+<li><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312472.png" srcset="/img/loading.gif" lazyload alt="image-20221223223416992"></li>
+<li>其中 β 为衰减率，一般取值为0.9。</li>
+</ul>
+</li>
+<li>RMSprop算法和AdaGrad算法的区别在于RMSprop算法中G_t的计算由<code>累积方式</code>变成了<code>加权移动平均</code>,在迭代过程中，每个参数的学习率并不是呈衰减趋势，既可以变小也可以变大。</li>
+</ul>
+</blockquote>
+<p>RMSprop算法是一种自适应学习率的方法，可以在有些情况下避免AdaGrad算法中学习率不断单调下降以至于过早衰减的缺点。</p>
+<p>RMSprop算法首先计算每次迭代梯度平方$\mathbf g_{t}^{2}$的加权移动平均<br>$$<br>G_t &#x3D; \beta G_{t-1} + (1 - \beta) \mathbf g_t \odot \mathbf g_t,<br>$$<br>其中$\beta$为衰减率，一般取值为0.9。</p>
+<p>RMSprop算法的参数更新差值为：<br>$$<br>\Delta \theta_t &#x3D; - \frac{\alpha}{\sqrt{G_t + \epsilon}} \odot \mathbf g_t,<br>$$<br>其中$\alpha$是初始的学习率，比如0.001。RMSprop算法和AdaGrad算法的区别在于RMSprop算法中$G_t$的计算由累积方式变成了加权移动平均。在迭代过程中，每个参数的学习率并不是呈衰减趋势，既可以变小也可以变大。</p>
+<h6 id="√-构建优化器-1"><a href="#√-构建优化器-1" class="headerlink" title="[√] 构建优化器"></a>[√] 构建优化器</h6><hr>
+<p>定义RMSprop类，继承Optimizer类。定义step函数调用rmsprop更新参数。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">RMSprop</span>(<span class="hljs-title class_ inherited__">Optimizer</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, init_lr, model, beta, epsilon</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        RMSprop优化器初始化</span><br><span class="hljs-string">        输入：</span><br><span class="hljs-string">            - init_lr：初始学习率</span><br><span class="hljs-string">            - model：模型，model.params存储模型参数值</span><br><span class="hljs-string">            - beta：衰减率</span><br><span class="hljs-string">            - epsilon：保持数值稳定性而设置的常数</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-built_in">super</span>(RMSprop, self).__init__(init_lr=init_lr, model=model)<br>        self.G = &#123;&#125;<br>        <span class="hljs-keyword">for</span> key <span class="hljs-keyword">in</span> self.model.params.keys():<br>            self.G[key] = <span class="hljs-number">0</span><br>        self.beta = beta<br>        self.epsilon = epsilon<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">rmsprop</span>(<span class="hljs-params">self, x, gradient_x, G, init_lr</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        rmsprop算法更新参数，G为迭代梯度平方的加权移动平均</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        G = self.beta * G + (<span class="hljs-number">1</span> - self.beta) * gradient_x ** <span class="hljs-number">2</span><br>        x -= init_lr / paddle.sqrt(G + self.epsilon) * gradient_x<br>        <span class="hljs-keyword">return</span> x, G<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">step</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;参数更新&quot;&quot;&quot;</span><br>        <span class="hljs-keyword">for</span> key <span class="hljs-keyword">in</span> self.model.params.keys():<br>            self.model.params[key], self.G[key] = self.rmsprop(self.model.params[key], <br>                                                               self.model.grads[key],<br>                                                               self.G[key], <br>                                                               self.init_lr)<br></code></pre></td></tr></table></figure>
+
+
+
+<h6 id="√-2D可视化实验-1"><a href="#√-2D可视化实验-1" class="headerlink" title="[√] 2D可视化实验"></a>[√] 2D可视化实验</h6><hr>
+<p>使用被优化函数展示RMSprop算法的参数更新轨迹。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 固定随机种子</span><br>paddle.seed(<span class="hljs-number">0</span>)<br>w = paddle.to_tensor([<span class="hljs-number">0.2</span>, <span class="hljs-number">2</span>])<br>model = OptimizedFunction(w)<br>opt = RMSprop(init_lr=<span class="hljs-number">0.1</span>, model=model, beta=<span class="hljs-number">0.9</span>, epsilon=<span class="hljs-number">1e-7</span>)<br>train_and_plot_f(model, opt, epoch=<span class="hljs-number">50</span>, fig_name=<span class="hljs-string">&#x27;opti-vis-para3.pdf&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312473.png" srcset="/img/loading.gif" lazyload alt="image-20221223224148615"></p>
+<h6 id="√-简单拟合实验-1"><a href="#√-简单拟合实验-1" class="headerlink" title="[√] 简单拟合实验"></a>[√] 简单拟合实验</h6><hr>
+<p>训练单层线性网络，进行简单的拟合实验。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 固定随机种子</span><br>paddle.seed(<span class="hljs-number">0</span>)<br><span class="hljs-comment"># 定义网络结构</span><br>model = Linear(<span class="hljs-number">2</span>)<br><span class="hljs-comment"># 定义优化器</span><br>opt = RMSprop(init_lr=<span class="hljs-number">0.1</span>, model=model, beta=<span class="hljs-number">0.9</span>, epsilon=<span class="hljs-number">1e-7</span>)<br>train_and_plot(opt, <span class="hljs-string">&#x27;opti-loss3.pdf&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312474.png" srcset="/img/loading.gif" lazyload alt="image-20221224102145578"></p>
+<h4 id="√-7-3-3-梯度估计修正"><a href="#√-7-3-3-梯度估计修正" class="headerlink" title="[√] 7.3.3 梯度估计修正"></a>[√] 7.3.3 梯度估计修正</h4><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>除了调整学习率之外，还可以进行梯度估计修正。</li>
+<li>在小批量梯度下降法中，由于每次迭代的样本具有一定的随机性，因此每次迭代的梯度估计和整个训练集上的最优梯度并不一致。</li>
+<li>如果每次选取样本数量比较小，损失会呈振荡的方式下降。</li>
+<li>每次选取的样本数量少，则不确定性和代表性差，因此损失曲线会呈现震荡的方式下降。</li>
+<li>一种有效地缓解梯度估计随机性的方式是通过使用最近一段时间内的平均梯度来代替当前时刻的随机梯度来作为参数更新的方向，从而提高优化速度。（缓解思路是使用一段时间内的平均梯度代替当前梯度，作为参数更新的方向。）</li>
+</ul>
+</blockquote>
+<h6 id="√-7-3-3-1-动量法（Momentum算法）"><a href="#√-7-3-3-1-动量法（Momentum算法）" class="headerlink" title="[√] 7.3.3.1 动量法（Momentum算法）"></a>[√] 7.3.3.1 动量法（Momentum算法）</h6><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>动量法（Momentum Method）是用之前积累动量来替代真正的梯度。</li>
+<li>每次迭代的梯度可以看作加速度。</li>
+<li>通过调整学习率优化的思路是通过梯度的平方和和梯度平方和的加权移动平均作为分母来调整学习率；通过梯度优化的思路是将连续时间内梯度的加权移动平均值作为梯度来调整参数</li>
+</ul>
+<hr>
+<ul>
+<li>动量法（Momentum Method）是用之前积累动量来替代真正的梯度。每次迭代的梯度可以看作加速度。</li>
+<li>在第 t 次迭代时，计算负梯度的“加权移动平均”作为参数的更新方向</li>
+</ul>
+<p>$$<br>\Delta \theta_t &#x3D; \rho \Delta \theta_{t-1} - \alpha \mathbf g_t &#x3D; - \alpha \sum_{\tau&#x3D;1}^t\rho^{t - \tau} \mathbf g_{\tau},<br>$$<br>其中$\rho$为动量因子，通常设为0.9，$\alpha$为学习率。</p>
+<ul>
+<li>这样，每个参数的实际更新差值取决于最近一段时间内梯度的加权平均值。当某个参数在最近一段时间内的梯度方向不一致时，其真实的参数更新幅度变小。</li>
+<li>相反，当某个参数在最近一段时间内的梯度方向都一致时，其真实的参数更新幅度变大，起到加速作用。</li>
+<li>一般而言，在迭代初期，梯度方向都比较一致，动量法会起到加速作用，可以更快地到达最优点。在迭代后期，梯度方向会不一致，在收敛值附近振荡，动量法会起到减速作用，增加稳定性。（一开始加速，后来减速稳定）</li>
+<li>从某种角度来说，当前梯度叠加上部分的上次梯度，一定程度上可以近似看作二阶梯度。</li>
+</ul>
+</blockquote>
+<h6 id="√-构建优化器-2"><a href="#√-构建优化器-2" class="headerlink" title="[√] 构建优化器"></a>[√] 构建优化器</h6><hr>
+<p>定义Momentum类，继承Optimizer类。定义step函数调用momentum进行参数更新。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Momentum</span>(<span class="hljs-title class_ inherited__">Optimizer</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, init_lr, model, rho</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        Momentum优化器初始化</span><br><span class="hljs-string">        输入：</span><br><span class="hljs-string">            - init_lr：初始学习率</span><br><span class="hljs-string">            - model：模型，model.params存储模型参数值</span><br><span class="hljs-string">            - rho：动量因子</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-built_in">super</span>(Momentum, self).__init__(init_lr=init_lr, model=model)<br>        self.delta_x = &#123;&#125;<br>        <span class="hljs-keyword">for</span> key <span class="hljs-keyword">in</span> self.model.params.keys():<br>            self.delta_x[key] = <span class="hljs-number">0</span><br>        self.rho = rho<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">momentum</span>(<span class="hljs-params">self, x, gradient_x, delta_x, init_lr</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        momentum算法更新参数，delta_x为梯度的加权移动平均</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        delta_x = self.rho * delta_x - init_lr * gradient_x<br>        x += delta_x<br>        <span class="hljs-keyword">return</span> x, delta_x<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">step</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;参数更新&quot;&quot;&quot;</span><br>        <span class="hljs-keyword">for</span> key <span class="hljs-keyword">in</span> self.model.params.keys():<br>            self.model.params[key], self.delta_x[key] = self.momentum(self.model.params[key], <br>                                                                      self.model.grads[key], <br>                                                                      self.delta_x[key], <br>                                                                      self.init_lr) <br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h6 id="√-2D可视化实验-2"><a href="#√-2D可视化实验-2" class="headerlink" title="[√] 2D可视化实验"></a>[√] 2D可视化实验</h6><hr>
+<p>使用被优化函数展示Momentum算法的参数更新轨迹。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 固定随机种子</span><br>paddle.seed(<span class="hljs-number">0</span>)<br>w = paddle.to_tensor([<span class="hljs-number">0.2</span>, <span class="hljs-number">2</span>])<br>model = OptimizedFunction(w)<br>opt = Momentum(init_lr=<span class="hljs-number">0.01</span>, model=model, rho=<span class="hljs-number">0.9</span>)<br>train_and_plot_f(model, opt, epoch=<span class="hljs-number">50</span>, fig_name=<span class="hljs-string">&#x27;opti-vis-para4.pdf&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312475.png" srcset="/img/loading.gif" lazyload alt="image-20221224111636737"></p>
+<p>从输出结果看，在模型训练初期，梯度方向比较一致，参数更新幅度逐渐增大，起加速作用；在迭代后期，参数更新幅度减小，在收敛值附近振荡。</p>
+<h6 id="√-简单拟合实验-2"><a href="#√-简单拟合实验-2" class="headerlink" title="[√] 简单拟合实验"></a>[√] 简单拟合实验</h6><hr>
+<p>训练单层线性网络，进行简单的拟合实验。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 固定随机种子</span><br>paddle.seed(<span class="hljs-number">0</span>)<br><br><span class="hljs-comment"># 定义网络结构</span><br>model = Linear(<span class="hljs-number">2</span>)<br><span class="hljs-comment"># 定义优化器</span><br>opt = Momentum(init_lr=<span class="hljs-number">0.01</span>, model=model, rho=<span class="hljs-number">0.9</span>)<br>train_and_plot(opt, <span class="hljs-string">&#x27;opti-loss4.pdf&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312476.png" srcset="/img/loading.gif" lazyload alt="image-20221224111752771"></p>
+<h6 id="√-7-3-3-2-Adam算法"><a href="#√-7-3-3-2-Adam算法" class="headerlink" title="[√] 7.3.3.2 Adam算法"></a>[√] 7.3.3.2 Adam算法</h6><hr>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li><p>Adam算法（Adaptive Moment Estimation Algorithm，自适应矩估计算法）。</p>
+</li>
+<li><p>其中ada指的是Adaptive，即调整学习率的角度；m指的是moentum，动量，即调整梯度的角度。</p>
+</li>
+<li><p>可以看作动量法和RMSprop算法的结合，不但使用动量作为参数更新方向，而且可以自适应调整学习率。</p>
+</li>
+<li><p>adam算法对两部分做了修改，分别是学习率和梯度。</p>
+</li>
+<li><p>Adam算法一方面计算梯度平方$\mathbf g_t^2$的加权移动平均（和RMSprop算法类似），另一方面计算梯度$\mathbf g_t$的加权移动平均（和动量法类似）。</p>
+</li>
+<li><p>（1）计算梯度平方的加权移动平均用于学习率控制：<br>  $$<br>  G_t &#x3D; \beta_2 G_{t-1} + (1 - \beta_2)\mathbf g_t \odot \mathbf g_t,<br>  $$</p>
+</li>
+<li><p>（2）计算梯度的加权移动平均，用于梯度方向稳定：<br>  $$<br>  M_t &#x3D; \beta_1 M_{t-1} + (1 - \beta_1)\mathbf g_t,  \<br>  $$</p>
+</li>
+<li><p>其中$\beta_1$和$\beta_2$分别为两个移动平均的衰减率，通常取值为$\beta_1 &#x3D; 0.9, \beta_2 &#x3D; 0.99$。我们可以把$M_t$和$G_t$分别看作梯度的均值(一阶矩)和未减去均值的方差(二阶矩)。</p>
+</li>
+</ul>
+<hr>
+<p>假设$M_0 &#x3D; 0, G_0 &#x3D; 0$，那么在迭代初期$M_t$和$G_t$的值会比真实的均值和方差要小。特别是当$\beta_1$和$\beta_2$都接近于1时，偏差会很大。因此，需要对偏差进行修正。<br>$$<br>\hat M_t &#x3D; \frac{M_t}{1 - \beta^t_1},  \<br>\hat G_t &#x3D; \frac{G_t}{1 - \beta^t_2}。<br>$$</p>
+<p>Adam算法的参数更新差值为<br>$$<br>\Delta \theta_t &#x3D; - \frac{\alpha}{\sqrt{\hat G_t + \epsilon}}\hat M_t,<br>$$<br>其中学习率$\alpha$通常设为0.001，并且也可以进行衰减，比如$a_t &#x3D; \frac{a_0}{\sqrt{t}}$。</p>
+<p>其中学习率和梯度部分都是可以变化的，学习率部分分母中的G是当前梯度的平方的加权移动平均，梯度部分中的M是当前梯度的加权移动平均。</p>
+<p>其中α通常设为0.001，梯度部分的当前梯度的加权移动平均的衰减率β1通常为0.9，学习率部分的当前梯度的平方的加权移动平均的衰减率β2通常为0.99</p>
+<p>为了修正一开始的时候的偏差，需要将M和G变为M_hat和G_hat，随着T的增加，M_hat和G_hat慢慢地就变成M和G了</p>
+</blockquote>
+<h6 id="√-构建优化器-3"><a href="#√-构建优化器-3" class="headerlink" title="[√] 构建优化器"></a>[√] 构建优化器</h6><hr>
+<p>定义Adam类，继承Optimizer类。定义step函数调用adam函数更新参数。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Adam</span>(<span class="hljs-title class_ inherited__">Optimizer</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, init_lr, model, beta1, beta2, epsilon</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        Adam优化器初始化</span><br><span class="hljs-string">        输入：</span><br><span class="hljs-string">            - init_lr：初始学习率</span><br><span class="hljs-string">            - model：模型，model.params存储模型参数值</span><br><span class="hljs-string">            - beta1, beta2：移动平均的衰减率</span><br><span class="hljs-string">            - epsilon：保持数值稳定性而设置的常数</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        <span class="hljs-built_in">super</span>(Adam, self).__init__(init_lr=init_lr, model=model)<br>        self.beta1 = beta1<br>        self.beta2 = beta2<br>        self.epsilon = epsilon<br>        self.M, self.G = &#123;&#125;, &#123;&#125;<br>        <span class="hljs-keyword">for</span> key <span class="hljs-keyword">in</span> self.model.params.keys():<br>            self.M[key] = <span class="hljs-number">0</span><br>            self.G[key] = <span class="hljs-number">0</span><br>        self.t = <span class="hljs-number">1</span><br><br>    <span class="hljs-comment"># alec：gradient_x是当前批次新计算的梯度，x是要被更新的参数，t是迭代次数</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">adam</span>(<span class="hljs-params">self, x, gradient_x, G, M, t, init_lr</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        adam算法更新参数</span><br><span class="hljs-string">        输入：</span><br><span class="hljs-string">            - x：参数</span><br><span class="hljs-string">            - G：梯度平方的加权移动平均</span><br><span class="hljs-string">            - M：梯度的加权移动平均</span><br><span class="hljs-string">            - t：迭代次数</span><br><span class="hljs-string">            - init_lr：初始学习率</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        M = self.beta1 * M + (<span class="hljs-number">1</span> - self.beta1) * gradient_x<br>        G = self.beta2 * G + (<span class="hljs-number">1</span> - self.beta2) * gradient_x ** <span class="hljs-number">2</span><br>        M_hat = M / (<span class="hljs-number">1</span> - self.beta1 ** t)<br>        G_hat = G / (<span class="hljs-number">1</span> - self.beta2 ** t)<br>        t += <span class="hljs-number">1</span><br>        x -= init_lr / paddle.sqrt(G_hat + self.epsilon) * M_hat<br>        <span class="hljs-keyword">return</span> x, G, M, t<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">step</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;参数更新&quot;&quot;&quot;</span><br>        <span class="hljs-keyword">for</span> key <span class="hljs-keyword">in</span> self.model.params.keys():<br>            self.model.params[key], self.G[key], self.M[key], self.t = self.adam(self.model.params[key], <br>                                                                                 self.model.grads[key],<br>                                                                                 self.G[key], <br>                                                                                 self.M[key],<br>                                                                                 self.t, <br>                                                                                 self.init_lr)<br><br><br>                                                                                 <br></code></pre></td></tr></table></figure>
+
+<h6 id="√-2D可视化实验-3"><a href="#√-2D可视化实验-3" class="headerlink" title="[√] 2D可视化实验"></a>[√] 2D可视化实验</h6><hr>
+<p>使用被优化函数展示Adam算法的参数更新轨迹。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 固定随机种子</span><br>paddle.seed(<span class="hljs-number">0</span>)<br>w = paddle.to_tensor([<span class="hljs-number">0.2</span>, <span class="hljs-number">2</span>])<br>model = OptimizedFunction(w)<br>opt = Adam(init_lr=<span class="hljs-number">0.2</span>, model=model, beta1=<span class="hljs-number">0.9</span>, beta2=<span class="hljs-number">0.99</span>, epsilon=<span class="hljs-number">1e-7</span>)<br>train_and_plot_f(model, opt, epoch=<span class="hljs-number">20</span>, fig_name=<span class="hljs-string">&#x27;opti-vis-para5.pdf&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312477.png" srcset="/img/loading.gif" lazyload alt="image-20221224120121140"></p>
+<p>从输出结果看，Adam算法可以自适应调整学习率，参数更新更加平稳。</p>
+<h6 id="√-简单拟合实验-3"><a href="#√-简单拟合实验-3" class="headerlink" title="[√] 简单拟合实验"></a>[√] 简单拟合实验</h6><hr>
+<p>训练单层线性网络，进行简单的拟合实验。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 固定随机种子</span><br>paddle.seed(<span class="hljs-number">0</span>)<br><span class="hljs-comment"># 定义网络结构</span><br>model = Linear(<span class="hljs-number">2</span>)<br><span class="hljs-comment"># 定义优化器</span><br>opt = Adam(init_lr=<span class="hljs-number">0.1</span>, model=model, beta1=<span class="hljs-number">0.9</span>, beta2=<span class="hljs-number">0.99</span>, epsilon=<span class="hljs-number">1e-7</span>)<br>train_and_plot(opt, <span class="hljs-string">&#x27;opti-loss5.pdf&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312478.png" srcset="/img/loading.gif" lazyload alt="image-20221224120200596"></p>
+<h4 id="√-7-3-4-不同优化器的3D可视化对比"><a href="#√-7-3-4-不同优化器的3D可视化对比" class="headerlink" title="[√] 7.3.4 不同优化器的3D可视化对比"></a>[√] 7.3.4 不同优化器的3D可视化对比</h4><hr>
+<h6 id="√-7-3-4-1-构建一个三维空间中的被优化函数"><a href="#√-7-3-4-1-构建一个三维空间中的被优化函数" class="headerlink" title="[√] 7.3.4.1 构建一个三维空间中的被优化函数"></a>[√] 7.3.4.1 构建一个三维空间中的被优化函数</h6><hr>
+<p>定义OptimizedFunction3D算子，表示被优化函数$f(x) &#x3D;  x[0]^2 +  x[1]^2 +  x[1]^3 +  x[0]* x[1]$，其中$ x[0]$, $ x[1]$代表两个参数。该函数在(0,0)处存在鞍点，即一个既不是极大值点也不是极小值点的临界点。希望训练过程中，优化算法可以使参数离开鞍点，向模型最优解收敛。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">OptimizedFunction3D</span>(<span class="hljs-title class_ inherited__">Op</span>):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-built_in">super</span>(OptimizedFunction3D, self).__init__()<br>        self.params = &#123;<span class="hljs-string">&#x27;x&#x27;</span>: <span class="hljs-number">0</span>&#125;<br>        self.grads = &#123;<span class="hljs-string">&#x27;x&#x27;</span>: <span class="hljs-number">0</span>&#125;<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x</span>):<br>        self.params[<span class="hljs-string">&#x27;x&#x27;</span>] = x<br>        <span class="hljs-keyword">return</span> x[<span class="hljs-number">0</span>] ** <span class="hljs-number">2</span> + x[<span class="hljs-number">1</span>] ** <span class="hljs-number">2</span> + x[<span class="hljs-number">1</span>] ** <span class="hljs-number">3</span> + x[<span class="hljs-number">0</span>]*x[<span class="hljs-number">1</span>]<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">backward</span>(<span class="hljs-params">self</span>):<br>        x = self.params[<span class="hljs-string">&#x27;x&#x27;</span>]<br>        gradient1 = <span class="hljs-number">2</span> * x[<span class="hljs-number">0</span>] + x[<span class="hljs-number">1</span>]<br>        gradient2 = <span class="hljs-number">2</span> * x[<span class="hljs-number">1</span>] + <span class="hljs-number">3</span> * x[<span class="hljs-number">1</span>] ** <span class="hljs-number">2</span> + x[<span class="hljs-number">0</span>]<br>        self.grads[<span class="hljs-string">&#x27;x&#x27;</span>] = paddle.concat([gradient1, gradient2])<br></code></pre></td></tr></table></figure>
+
+<p>对于相同的被优化函数，分别使用不同的优化器进行参数更新，并保存不同优化器下参数更新的值，用于可视化。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 构建5个模型，分别配备不同的优化器</span><br>model1 = OptimizedFunction3D()<br>opt_gd = SimpleBatchGD(init_lr=<span class="hljs-number">0.01</span>, model=model1)<br><br>model2 = OptimizedFunction3D()<br>opt_adagrad = Adagrad(init_lr=<span class="hljs-number">0.5</span>, model=model2, epsilon=<span class="hljs-number">1e-7</span>)<br><br>model3 = OptimizedFunction3D()<br>opt_rmsprop = RMSprop(init_lr=<span class="hljs-number">0.1</span>, model=model3, beta=<span class="hljs-number">0.9</span>, epsilon=<span class="hljs-number">1e-7</span>)<br><br>model4 = OptimizedFunction3D()<br>opt_momentum = Momentum(init_lr=<span class="hljs-number">0.01</span>, model=model4, rho=<span class="hljs-number">0.9</span>)<br><br>model5 = OptimizedFunction3D()<br>opt_adam = Adam(init_lr=<span class="hljs-number">0.1</span>, model=model5, beta1=<span class="hljs-number">0.9</span>, beta2=<span class="hljs-number">0.99</span>, epsilon=<span class="hljs-number">1e-7</span>)<br><br>models = [model1, model2, model3, model4, model5]<br>opts = [opt_gd, opt_adagrad, opt_rmsprop, opt_momentum, opt_adam]<br><br>x_all_opts = []<br>z_all_opts = []<br>x_init = paddle.to_tensor([<span class="hljs-number">2</span>, <span class="hljs-number">3</span>], dtype=<span class="hljs-string">&#x27;float32&#x27;</span>)<br><span class="hljs-comment"># 使用不同优化器训练</span><br><span class="hljs-keyword">for</span> model, opt <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(models, opts):<br>    x_one_opt, z_one_opt = train_f(model, opt, x_init, <span class="hljs-number">150</span>)<br>    <span class="hljs-comment"># 保存参数值</span><br>    x_all_opts.append(x_one_opt.numpy())<br>    z_all_opts.append(np.squeeze(z_one_opt))<br></code></pre></td></tr></table></figure>
+
+<p>定义Visualization3D函数，用于可视化三维的参数更新轨迹。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> matplotlib <span class="hljs-keyword">import</span> animation<br><span class="hljs-keyword">from</span> itertools <span class="hljs-keyword">import</span> zip_longest<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Visualization3D</span>(animation.FuncAnimation):<br>    <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">    绘制动态图像，可视化参数更新轨迹</span><br><span class="hljs-string">    &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, *xy_values, z_values, labels=[], colors=[], fig, ax, interval=<span class="hljs-number">60</span>, blit=<span class="hljs-literal">True</span>, **kwargs</span>):<br>        <span class="hljs-string">&quot;&quot;&quot;</span><br><span class="hljs-string">        初始化3d可视化类</span><br><span class="hljs-string">        输入：</span><br><span class="hljs-string">            xy_values：三维中x,y维度的值</span><br><span class="hljs-string">            z_values：三维中z维度的值</span><br><span class="hljs-string">            labels：每个参数更新轨迹的标签</span><br><span class="hljs-string">            colors：每个轨迹的颜色</span><br><span class="hljs-string">            interval：帧之间的延迟（以毫秒为单位）</span><br><span class="hljs-string">            blit：是否优化绘图</span><br><span class="hljs-string">        &quot;&quot;&quot;</span><br>        self.fig = fig<br>        self.ax = ax<br>        self.xy_values = xy_values<br>        self.z_values = z_values<br>        frames = <span class="hljs-built_in">max</span>(xy_value.shape[<span class="hljs-number">0</span>] <span class="hljs-keyword">for</span> xy_value <span class="hljs-keyword">in</span> xy_values)<br>        self.lines = [ax.plot([], [], [], label=label, color=color, lw=<span class="hljs-number">2</span>)[<span class="hljs-number">0</span>]<br>                      <span class="hljs-keyword">for</span> _, label, color <span class="hljs-keyword">in</span> zip_longest(xy_values, labels, colors)]<br>        <span class="hljs-built_in">super</span>(Visualization3D, self).__init__(fig, self.animate, init_func=self.init_animation, frames=frames, interval=interval, blit=blit, **kwargs)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">init_animation</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-comment"># 数值初始化</span><br>        <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> self.lines:<br>            line.set_data([], [])<br>            line.set_3d_properties([])<br>        <span class="hljs-keyword">return</span> self.lines<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">animate</span>(<span class="hljs-params">self, i</span>):<br>        <span class="hljs-comment"># 将x,y,z三个数据传入，绘制三维图像</span><br>        <span class="hljs-keyword">for</span> line, xy_value, z_value <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(self.lines, self.xy_values, self.z_values):<br>            line.set_data(xy_value[:i, <span class="hljs-number">0</span>], xy_value[:i, <span class="hljs-number">1</span>])<br>            line.set_3d_properties(z_value[:i])<br>        <span class="hljs-keyword">return</span> self.lines<br></code></pre></td></tr></table></figure>
+
+<p>绘制出被优化函数的三维图像。代码实现如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> mpl_toolkits.mplot3d <span class="hljs-keyword">import</span> Axes3D<br><br><span class="hljs-comment"># 使用numpy.meshgrid生成x1,x2矩阵，矩阵的每一行为[-3, 3]，以0.1为间隔的数值</span><br>x1 = np.arange(-<span class="hljs-number">3</span>, <span class="hljs-number">3</span>, <span class="hljs-number">0.1</span>)<br>x2 = np.arange(-<span class="hljs-number">3</span>, <span class="hljs-number">3</span>, <span class="hljs-number">0.1</span>)<br>x1, x2 = np.meshgrid(x1, x2)<br>init_x = paddle.to_tensor([x1, x2])<br>model = OptimizedFunction3D()<br><br><span class="hljs-comment"># 绘制f_3d函数的三维图像</span><br>fig = plt.figure()<br>ax = plt.axes(projection=<span class="hljs-string">&#x27;3d&#x27;</span>)<br>ax.plot_surface(init_x[<span class="hljs-number">0</span>], init_x[<span class="hljs-number">1</span>], model(init_x), color=<span class="hljs-string">&#x27;#f19ec2&#x27;</span>)<br>ax.set_xlabel(<span class="hljs-string">&#x27;x1&#x27;</span>)<br>ax.set_ylabel(<span class="hljs-string">&#x27;x2&#x27;</span>)<br>ax.set_zlabel(<span class="hljs-string">&#x27;f(x1,x2)&#x27;</span>)<br>plt.savefig(<span class="hljs-string">&#x27;opti-f-3d.pdf&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312479.png" srcset="/img/loading.gif" lazyload alt="image-20221224121914517"></p>
+<p>可视化不同优化器情况下参数变化轨迹。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> IPython.display <span class="hljs-keyword">import</span> HTML<br><br>labels = [<span class="hljs-string">&#x27;SGD&#x27;</span>, <span class="hljs-string">&#x27;AdaGrad&#x27;</span>, <span class="hljs-string">&#x27;RMSprop&#x27;</span>, <span class="hljs-string">&#x27;Momentum&#x27;</span>, <span class="hljs-string">&#x27;Adam&#x27;</span>]<br>colors = [<span class="hljs-string">&#x27;#9c9d9f&#x27;</span>, <span class="hljs-string">&#x27;#f7d2e2&#x27;</span>, <span class="hljs-string">&#x27;#f19ec2&#x27;</span>, <span class="hljs-string">&#x27;#e86096&#x27;</span>, <span class="hljs-string">&#x27;#000000&#x27;</span>]<br><br>anim = Visualization3D(*x_all_opts, z_values=z_all_opts, labels=labels, colors=colors, fig=fig, ax=ax)<br>ax.legend(loc=<span class="hljs-string">&#x27;upper left&#x27;</span>)<br>HTML(anim.to_html5_video())<br></code></pre></td></tr></table></figure>
+
+<img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212252312480.png" srcset="/img/loading.gif" lazyload alt="image-20221224122650985" style="zoom:50%;" />
+
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>希望训练过程中，优化算法可以使参数离开鞍点，向模型最优解收敛。</li>
+<li>鞍点就是一个局部最优点，但是不是最小的点。</li>
+</ul>
+</blockquote>
+<p>从输出结果看，对于我们构建的函数，有些优化器如Momentum在参数更新时成功逃离鞍点，其他优化器在本次实验中收敛到鞍点处没有成功逃离。但这并不证明Momentum优化器是最好的优化器，在模型训练时使用哪种优化器，还要结合具体的场景和数据具体分析。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AE%9E%E8%B7%B5%E5%AD%A6%E4%B9%A0/" class="category-chain-item">实践学习</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AE%9E%E8%B7%B5%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%EF%BC%9A%E6%A1%88%E4%BE%8B%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E9%A3%9E%E6%A1%A8-%E9%82%B1%E9%94%A1%E9%B9%8F/" class="category-chain-item">神经网络与深度学习：案例与实践 - 飞桨 - 邱锡鹏</a>
+  
+  
+
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>7 - 网络优化与正则化 - 书籍1</div>
+      <div>http://example.com/posts/867345559/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年12月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/2864444717/" title="7 - 网络优化与正则化 - 书籍2">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">7 - 网络优化与正则化 - 书籍2</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/2180589992/" title="第3章 - 线性分类">
+                        <span class="hidden-mobile">第3章 - 线性分类</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

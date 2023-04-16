@@ -1,0 +1,995 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="原文链接： 一层卷积能做啥？BOE告诉你：一层卷积可以做超分！（edge SR: SuperResolution For The Masses） - 公众号：AIWalker - Happy  2021-09-25 20:00   本文为端侧超分提出了一个极具价值的参考点 本文的几点贡献： 提出了几种一层架构以弥补经典与深度学习上采样之间的空白； 在1185中深度学习架构中进行了穷举搜索，可参考">
+<meta property="og:type" content="article">
+<meta property="og:title" content="049 - 文章阅读笔记：一层卷积能做啥？BOE告诉你：一层卷积可以做超分！ - 公众号：AIWalker - Happy">
+<meta property="og:url" content="http://example.com/posts/576445217/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="原文链接： 一层卷积能做啥？BOE告诉你：一层卷积可以做超分！（edge SR: SuperResolution For The Masses） - 公众号：AIWalker - Happy  2021-09-25 20:00   本文为端侧超分提出了一个极具价值的参考点 本文的几点贡献： 提出了几种一层架构以弥补经典与深度学习上采样之间的空白； 在1185中深度学习架构中进行了穷举搜索，可参考">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301271650853.jpg">
+<meta property="article:published_time" content="2023-01-26T10:04:44.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.438Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="超分辨率重建">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301271650853.jpg">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>049 - 文章阅读笔记：一层卷积能做啥？BOE告诉你：一层卷积可以做超分！ - 公众号：AIWalker - Happy - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">049 - 文章阅读笔记：一层卷积能做啥？BOE告诉你：一层卷积可以做超分！ - 公众号：AIWalker - Happy</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-26 18:04" pubdate>
+          2023年1月26日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          44 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">049 - 文章阅读笔记：一层卷积能做啥？BOE告诉你：一层卷积可以做超分！ - 公众号：AIWalker - Happy</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>原文链接：</p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651686083&idx=1&sn=3643a88171a53cbf4ad9fba7460136c1&scene=21#wechat_redirect">一层卷积能做啥？BOE告诉你：一层卷积可以做超分！（edge SR: SuperResolution For The Masses） - 公众号：AIWalker - Happy</a></p>
+<p> 2021-09-25 20:00</p>
+<hr>
+<ul>
+<li>本文为端侧超分提出了一个极具价值的参考点</li>
+<li>本文的几点贡献：<ul>
+<li>提出了几种一层架构以弥补经典与深度学习上采样之间的空白；</li>
+<li>在1185中深度学习架构中进行了穷举搜索，可参考上图，不同的架构具有不同的性能-速度均衡。</li>
+<li>对一层自注意力架构进行了可解释分析，对自注意力机制提供了一种新的解释。</li>
+</ul>
+</li>
+<li>上述结果可能会带来以下影响：<ul>
+<li>图像超分系统有可能大量应用到端侧设备；</li>
+<li>对小网络的内部学习机制有更好的理解；</li>
+<li>对未来应用于研究了一个更好的性能-耗时均衡参考。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h2 id="√-文章信息"><a href="#√-文章信息" class="headerlink" title="[√] 文章信息"></a>[√] 文章信息</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301271650852.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>arXiv: <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2108.10335.pdf">https://arxiv.org/pdf/2108.10335.pdf</a></p>
+<p>本文是京东方团队关于端侧超分的深度思考，<strong>以端侧设备超分为切入点，对经典上采样与深度学习超分之间的“空白”地带进行思考，提出了一类“一层”超分架构</strong>（脑洞真的太大了），并对所提方案与其他轻量型超分方案以及bicubic从不同角度进行了对比，同时也为未来端侧超分算法的设计提供了一个极具价值的参考点。</p>
+<h2 id="√-摘要"><a href="#√-摘要" class="headerlink" title="[√] 摘要"></a>[√] 摘要</h2><hr>
+<p>经典的图像缩放(比如bicubic)可以视作一个卷积层+一个上采样滤波器，它在所有显示设备与图像处理软件中是普遍存在的。</p>
+<p>在过去的十年里，深度学习技术已被成功应用到图像超分任务上，它们往往由多个卷积与大量滤波器构成。深度学习方法已成功占据了图像上采样任务的质量基准。<strong>深度学习方法能否在端侧设备（比如显示屏、平板电脑以及笔记本电脑）上取代经典上采样技术吗</strong> ？一方面，随着能高效运行深度学习任务的硬件的迅速发展，AI芯片发展趋势呈现出了非常好的前景；另一方面，只有少数SR架构能够在端侧设备上实时处理非常小尺寸图像。</p>
+<p>我们对该问题的可能方案进行了探索以期弥补经典上采样与轻量深度学习超分之间的空白。作为从经典到深度学习上采样之间的过渡，我们提出了edge-SR(eSR)：一层架构，它采用可解释机制进行图像上采样。当然，一层架构无法达到与深度学习方法的性能，但是，对于高速度需求来说，eSR具有更好的图像质量-推理速度均衡。弥补经典与深度学习上采样之间的空白对于大量采用该技术非常重要。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301271650853.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>本文贡献包含以下几点：</p>
+<ul>
+<li>提出了几种一层架构以弥补经典与深度学习上采样之间的空白；</li>
+<li>在1185中深度学习架构中进行了穷举搜索，可参考上图，不同的架构具有不同的性能-速度均衡。</li>
+<li>对一层自注意力架构进行了可解释分析，对自注意力机制提供了一种新的解释。</li>
+</ul>
+<p>上述结果可能会带来以下影响：</p>
+<ul>
+<li>图像超分系统有可能大量应用到端侧设备；</li>
+<li>对小网络的内部学习机制有更好的理解；</li>
+<li>对未来应用于研究了一个更好的性能-耗时均衡参考。</li>
+</ul>
+<h2 id="√-用于边缘设备的超分辨率"><a href="#√-用于边缘设备的超分辨率" class="headerlink" title="[√] 用于边缘设备的超分辨率"></a>[√] 用于边缘设备的超分辨率</h2><hr>
+<h4 id="√-Classical"><a href="#√-Classical" class="headerlink" title="[√] Classical"></a>[√] Classical</h4><hr>
+<p>图像上采样与下采样指的是LR与HR之间的转换。最简单的下采样有pooling、downsample。downsample一半是在水平和垂直方向进行均匀的像素丢弃，这种处理会导致高频信息丢失，导致Alisaing问题。为解决该问题，经典的线性下采样首先采用anti-aliasing低通滤波器移除高频，然后再下采样。现有深度学习框架中采用stride convolution实现。线性上采样则与之相反，下图给出了实现可视化图，即<strong>先上采样后滤波</strong> 。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301271650854.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>由于引入过多零，造成大量的资源浪费，上图中的定义实现非常低效。本文提出了一种高效实现，见上图下部分，即先滤波再pixelshuffle。注：作者采用标准bicubi插值滤波器系数进行验证，两者具有完全相同的结果。</p>
+<h4 id="√-Maxout"><a href="#√-Maxout" class="headerlink" title="[√] Maxout"></a>[√] Maxout</h4><hr>
+<p>本文提出的首个一层网络为edge-SR Maximum(eSR-MAX)，见下图。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301271650855.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>本文提出的第一个一层网络：图像上采样网络，edge-SR Maximum(eSR-MAX)</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">edgeSR_MAX</span>(nn.Module):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, C, k, s</span>):<br>        <span class="hljs-built_in">super</span>().__init__()<br>        self.pixel_shuffle = nn.PixelShuffle(s)<br>        self.<span class="hljs-built_in">filter</span> = nn.Conv2d(<span class="hljs-number">1</span>,s*s*C,k,<span class="hljs-number">1</span>,(k-<span class="hljs-number">1</span>)//<span class="hljs-number">2</span>,bias=<span class="hljs-literal">False</span>)<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x</span>):<br>        <span class="hljs-keyword">return</span> self.pixel_shuffle(self.<span class="hljs-built_in">filter</span>(x)).<span class="hljs-built_in">max</span>(dim=<span class="hljs-number">1</span>, keepdim=<span class="hljs-literal">True</span>)[<span class="hljs-number">0</span>]<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="√-Self-Attention"><a href="#√-Self-Attention" class="headerlink" title="[√] Self-Attention"></a>[√] Self-Attention</h4><hr>
+<p>本文提出的第二个一层网络为edge-SR Template Matching(eSR-TM)。下图给出了该方案的解释示意图，它利用了模板匹配的思想。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>interpretation，解释、诠释</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301271650856.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">edgeSR_TM</span>(nn.Module):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, C, k, s</span>):<br>         <span class="hljs-built_in">super</span>().__init__()<br>         self.pixel_shuffle = nn.PixelShuffle(s)<br>         self.softmax = nn.Softmax(dim=<span class="hljs-number">1</span>)<br>         self.<span class="hljs-built_in">filter</span> = nn.Conv2d(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>*s*s*C,k,<span class="hljs-number">1</span>,(k-<span class="hljs-number">1</span>)//<span class="hljs-number">2</span>,bias=<span class="hljs-literal">False</span>)<br>     <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x</span>):<br>         filtered = self.pixel_shuffle(self.<span class="hljs-built_in">filter</span>(x)<br>         B,C,H,W  = filtered.shape<br>         filtered = filtered.view(B,<span class="hljs-number">2</span>,C,H,W)<br>         upscaling= filtered[:,<span class="hljs-number">0</span>]<br>         matching = filtered[:,<span class="hljs-number">1</span>]<br>         <span class="hljs-keyword">return</span> torch.<span class="hljs-built_in">sum</span>(upscaling * self.softmax(matching), dim=<span class="hljs-number">1</span>, keepdim=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>自己和自己相乘计算注意力</li>
+</ul>
+</blockquote>
+<h4 id="√-Transformer"><a href="#√-Transformer" class="headerlink" title="[√] Transformer"></a>[√] Transformer</h4><hr>
+<p>本文提出的第三种方案是edge-SR TRansformer(eSR-TR)，见下图，它采用了Transformer的自注意力机制，某种程度上时eSR-TM的简化。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301271650857.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">edgeSR_TR</span>(nn.Module):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, C, k, s</span>):<br>         self.pixel_shuffle = nn.PixelShuffle(s)<br>         self.softmax = nn.Softmax(dim=<span class="hljs-number">1</span>)<br>         self.<span class="hljs-built_in">filter</span> = nn.Conv2d(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>*s*s*C,k,<span class="hljs-number">1</span>,(k-<span class="hljs-number">1</span>)//<span class="hljs-number">2</span>,bias=<span class="hljs-literal">False</span>)<br>     <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x</span>):<br>         filtered = self.pixel_shuffle(self.<span class="hljs-built_in">filter</span>(x))<br>         B,C,H,W  = filtered.shape<br>         filtered = filtered.view(B,<span class="hljs-number">3</span>,C,H,W)<br>         value = filtered[:,<span class="hljs-number">0</span>]<br>         query = filtered[:,<span class="hljs-number">1</span>]<br>         key   = filtered[:,<span class="hljs-number">2</span>]<br>         <span class="hljs-keyword">return</span> torch.<span class="hljs-built_in">sum</span>(value*self.softmax(query*key),dim=<span class="hljs-number">1</span>,keepdim=<span class="hljs-literal">True</span>) <br></code></pre></td></tr></table></figure>
+
+<h4 id="√-edge-SR-CNN"><a href="#√-edge-SR-CNN" class="headerlink" title="[√] edge-SR CNN"></a>[√] edge-SR CNN</h4><hr>
+<p>此外本文还提出了edge-SR CNN(eSR-CNN)，见上图c。下图给出了所提几种方案的算法实现。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301271650858.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">edgeSR_CNN</span>(nn.Module):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, C, D, S, s</span>):<br>        <span class="hljs-built_in">super</span>().__init__()<br>        self.softmax = nn.Softmax(dim=<span class="hljs-number">1</span>)<br>        <span class="hljs-keyword">if</span> D == <span class="hljs-number">0</span>:<br>            self.<span class="hljs-built_in">filter</span> = nn.Sequential(<br>                        nn.Conv2d(D, S, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>),<br>                        nn.Tanh(),<br>                        nn.Conv2d(S，<span class="hljs-number">2</span>*s*s*C,<span class="hljs-number">3</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,bias=<span class="hljs-literal">False</span>),<br>                        nn.PixelShuffle(s))<br>        <span class="hljs-keyword">else</span>:<br>            self.<span class="hljs-built_in">filter</span> = nn.Sequential(<br>                        nn.Conv2d(<span class="hljs-number">1</span>, D, <span class="hljs-number">5</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>),<br>                        nn.Tanh(),<br>                        nn.Conv2d(D, S, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>),<br>                        nn.Tanh(),<br>                        nn.Conv2d(S,<span class="hljs-number">2</span>*s*s*C,<span class="hljs-number">3</span>,<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,bias=<span class="hljs-literal">False</span>),<br>                        nn.PixelShuffle(s))<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, <span class="hljs-built_in">input</span></span>):<br>        filtered = self.<span class="hljs-built_in">filter</span>(<span class="hljs-built_in">input</span>)<br>        B, C, H, W = filtered.shape<br>        filtered = filtered.view(B, <span class="hljs-number">2</span>, C, H, W)<br>        upscaling = filtered[:, <span class="hljs-number">0</span>]<br>        matching = filtered[:, <span class="hljs-number">1</span>]<br>        <span class="hljs-keyword">return</span> torch.<span class="hljs-built_in">sum</span>(upscaling * self.softmax(matching), dim=<span class="hljs-number">1</span>, keepdim=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="√-Deep-Learning"><a href="#√-Deep-Learning" class="headerlink" title="[√] Deep-Learning"></a>[√] Deep-Learning</h4><hr>
+<p>作为对标，本文以FSRCNN、ESPCN为候选，结构见下图。两者的区别有两点：激活函数、上采样方式。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301271650859.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>FSRCNN和ESPCN的区别：激活函数和上采样方式<ul>
+<li>激活函数：FSRCNN是PReLU，ESPCN是Tanh</li>
+<li>上采样方式：FSRCNN是反卷积、ESPCN是亚像素卷积</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>transposed convolution &#x3D; 转置卷积 &#x3D; 反卷积</li>
+<li>也就是插空再卷积，提高图像的分辨率</li>
+<li>给输入进行补零，放大输入，然后再卷积，这样就能得到大的输出</li>
+</ul>
+</blockquote>
+<h2 id="√-实验"><a href="#√-实验" class="headerlink" title="[√] 实验"></a>[√] 实验</h2><hr>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301271650860.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上图所构建的1185超分模型池，训练数据采用General100与T91进行，模型的输入为1通道灰度图像。整个训练过程花费了两个月时间@Tesla M40GPUX7。为测试最终模型，主要考虑了两种推理设备：</p>
+<ul>
+<li>Nvidia Jetson AGX Xavier：Nvidia公司的嵌入式GPU设备，功耗30Watt；</li>
+<li>Raspberry Pi 400：树莓派CPU处理器，功耗15Watt。</li>
+</ul>
+<p>测试过程中，每个模型的输出为14个Full-HD图像，测试集源自DIV2K。推理过程采用FP16推理。图像质量评价则采用了Set5、Set14、BSDS100、Urban100以及Manga109等基准数据集。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301271650861.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上图对比了不同方案的性能-速度，以bicubic作为基准，从中可以看拿到：</p>
+<ul>
+<li>在端侧GPU设备上，所提edge-SR成功弥补了经典上采样与深度学习超分之间的空白，同时具有比bicubic上采样更好的速度-质量均衡；</li>
+<li>在树莓派CPU设备上，edge-SR弥补了x2与x3倍率下的空白，但x4任务上bicubic上采样具有更佳的性能。</li>
+<li>深度学习方案更擅长于提升图像质量，如ESPCN在高质量范围具有最快速度；</li>
+<li>eSR-CNN并未提升ESPCN质量，但提升了其速度；</li>
+<li>eSR-MAX具有最快速度，但质量不稳定；</li>
+<li>eSR-TM与eSR-TR在中等速度-质量方面具有最佳性能。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301271650862.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上表给出了不同方案的性能，可以看到：<strong>eSR方案取得了最佳速度、最低功耗</strong> ，同时具有比bicubic上采样更好的图像质量。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301271650863.jpg" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p>上述两个图对eSR-TM与eSR-TR进行了可视化解释，从中可以看到：</p>
+<ul>
+<li>对于eSR-TM而言，不同滤波器处理不同频率带；尽管滤波器不平滑，但具有一定程度的方向辨别能力；</li>
+<li>对于eSR-TR而言，matching与上采样滤波器同样不平滑，但有一定的方向性。</li>
+</ul>
+<h2 id="√-个人反思"><a href="#√-个人反思" class="headerlink" title="[√] 个人反思"></a>[√] 个人反思</h2><hr>
+<p>视频类low-level算法想落地到端侧，尤其是要求<strong>高分辨率+实时推理</strong> 时，难度真的非常大，谁做谁知道。性能好的模型，速度完全跟不上；但是要速度快吧，性能又不突出，<strong>视频low-level算法真的适合用AI吗</strong> ？</p>
+<p>京东方的研究员脑洞实在太大了，不去关注性能，转而去关注bicubic插值与深度学习超分方案在性能-速度均衡之间的那块“空白区域”，进而提出了“脑洞”更大的一层超分模型！一层能干啥？在看到该文之前，真是想都不敢想。</p>
+<p>就算是一层模型，京东方的研究员也是玩出了花样，又是Maxout，又是模板匹配、又是Transformer，真是大写的🐂！</p>
+<p>比较可惜的是这篇文章并未开源，虽然复现很简单，但作为“拿来主义”的我，有训练好的谁还去重新训练呢，对吧…</p>
+<h2 id="√-推荐阅读"><a href="#√-推荐阅读" class="headerlink" title="[√] 推荐阅读"></a>[√] 推荐阅读</h2><hr>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651684871&idx=1&sn=372665b85e3ed9ea90c7c5a67a17ac61&scene=21#wechat_redirect">HINet | 性能炸裂，旷视科技提出适用于low-level问题的Half Instance Normalization</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651683040&idx=1&sn=239836014fe7ce34d8f5073ad935755e&scene=21#wechat_redirect">NBNet|图像降噪新思路，旷视科技&amp;快手科技联合提出子空间注意力模块用于图像降噪</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651684261&idx=1&sn=d6be9afe7ab91a157f2aa1fb3286030a&scene=21#wechat_redirect">CVPR20201|港理工&amp;达摩院张磊团队提出支持实时4K超高分辨率Image2Image的拉普拉斯金字塔变换网络</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651682108&idx=1&sn=a29346042bf42730a48901bac00ef317&scene=21#wechat_redirect">图像增强领域大突破！以1.66ms的速度处理4K图像，港理工提出图像自适应的3DLUT</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651683889&idx=1&sn=a602e3cdb44ea2901dd506630b5e3b70&scene=21#wechat_redirect">真正实用的退化模型：ETH开源业内首个广义盲图像超分退化模型，性能效果绝佳</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzIyMjIxNDk3OA==&mid=2651686061&idx=1&sn=3b2ca0b46d95a1d393449b8db8161581&scene=21#wechat_redirect">ICCV2021 FBCNN: 超灵活且强度可控的盲压缩伪影移除新思路</a></li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-chain-item">文章学习</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>
+      
+        <a href="/tags/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/">#超分辨率重建</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>049 - 文章阅读笔记：一层卷积能做啥？BOE告诉你：一层卷积可以做超分！ - 公众号：AIWalker - Happy</div>
+      <div>http://example.com/posts/576445217/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年1月26日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/119130642/" title="050 - 文章阅读笔记：最新！基于深度学习的盲图像超分技术一览 - 极市平台 - Happy">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">050 - 文章阅读笔记：最新！基于深度学习的盲图像超分技术一览 - 极市平台 - Happy</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/3593526722/" title="048-文章阅读笔记：CVPR2022-Restormer:刷新多个low-level任务指标-公众号：AIWalker-Happy">
+                        <span class="hidden-mobile">048-文章阅读笔记：CVPR2022-Restormer:刷新多个low-level任务指标-公众号：AIWalker-Happy</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>

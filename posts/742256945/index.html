@@ -1,0 +1,947 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/photo.png">
+  <link rel="icon" href="/img/photo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Shuai Zhao">
+  <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
+  
+    <meta name="description" content="转载自： 【论文阅读】CVPR2021|超分辨率重建相关论文整理与阅读（持续更新） - CSDN - 一的千分之一（√） 于 2021-03-11 17:44:59 发布  本文主要对CVPR2021中超分辨率重建相关论文进行整理与阅读。 [√] CVPR2021 Super-resolution papers [√] 1.ClassSR: A General Framework to Acce">
+<meta property="og:type" content="article">
+<meta property="og:title" content="021 - 文章阅读笔记：【论文阅读】CVPR2021|超分辨率重建相关论文整理与阅读（持续更新） - CSDN - 一的千分之一">
+<meta property="og:url" content="http://example.com/posts/742256945/index.html">
+<meta property="og:site_name" content="要走起来，你才知道方向。">
+<meta property="og:description" content="转载自： 【论文阅读】CVPR2021|超分辨率重建相关论文整理与阅读（持续更新） - CSDN - 一的千分之一（√） 于 2021-03-11 17:44:59 发布  本文主要对CVPR2021中超分辨率重建相关论文进行整理与阅读。 [√] CVPR2021 Super-resolution papers [√] 1.ClassSR: A General Framework to Acce">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301131936266.png">
+<meta property="article:published_time" content="2023-01-11T11:20:14.000Z">
+<meta property="article:modified_time" content="2023-04-16T05:01:26.420Z">
+<meta property="article:author" content="Shuai Zhao">
+<meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="超分辨率重建">
+<meta property="article:tag" content="CNN">
+<meta property="article:tag" content="CVPR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301131936266.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>021 - 文章阅读笔记：【论文阅读】CVPR2021|超分辨率重建相关论文整理与阅读（持续更新） - CSDN - 一的千分之一 - 要走起来，你才知道方向。</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/alec_diy/css/alec_custom.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  <div>
+	<div class='real_mask' style="
+		background-color: rgba(0,0,0,0.3);
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		z-index: -777;
+	"></div>
+	<div id="banner_video_insert">
+	</div>	
+	<div id='vvd_banner_img'>
+	</div>
+</div>
+<div id="banner"></div>
+	<script type="text/javascript">
+	  /*窗口监视*/
+	  var originalTitle = document.title;
+	  window.onblur = function(){document.title = "往事随风"};
+	  window.onfocus = function(){document.title = originalTitle};
+	</script>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 80vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Alec</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/playlist/">
+                <i class="iconfont icon-music"></i>
+                <span>音乐</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle">021 - 文章阅读笔记：【论文阅读】CVPR2021|超分辨率重建相关论文整理与阅读（持续更新） - CSDN - 一的千分之一</span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Shuai Zhao
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-11 19:20" pubdate>
+          2023年1月11日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          31 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+	<script type="text/javascript" src="/vvd_js/jquery.js"></script>
+
+	<div class="banner" id='banner' >
+
+		<div class="full-bg-img" >
+
+			
+				<script>
+					var ua = navigator.userAgent;
+					var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
+						isIphone = !ipad && ua.match(/(iPhone\sOS)\s([\d_]+)/),
+						isAndroid = ua.match(/(Android)\s+([\d.]+)/),
+						isMobile = isIphone || isAndroid;
+
+					function set_video_attr(id){
+
+						var height = document.body.clientHeight
+						var width = document.body.clientWidth
+						var video_item = document.getElementById(id);
+
+						if (height / width < 0.56){
+							video_item.setAttribute('width', '100%');
+							video_item.setAttribute('height', 'auto');
+						} else {
+							video_item.setAttribute('height', '100%');
+							video_item.setAttribute('width', 'auto');
+						}
+					}
+
+
+
+					$.getJSON('/vvd_js/video_url.json', function(data){
+						if (true){
+							var video_list_length = data.length
+							var seed = Math.random()
+							index = Math.floor(seed * video_list_length)
+							
+							video_url = data[index][0]
+							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
+							
+							banner_obj = document.getElementById("banner")
+							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
+
+							vvd_banner_obj = document.getElementById("vvd_banner_img")
+
+							vvd_banner_content = "<img id='banner_img_item' src='" + pre_show_image_url + "' style='height: 100%; position: fixed; z-index: -999'>"
+							vvd_banner_obj.innerHTML = vvd_banner_content
+							set_video_attr('banner_img_item')
+
+							if (!isMobile) {
+								video_html_res = "<video id='video_item' style='position: fixed; z-index: -888;'  muted='muted' src=" + video_url + " autoplay='autoplay' loop='loop'></video>"
+								document.getElementById("banner_video_insert").innerHTML = video_html_res;
+								set_video_attr('video_item')
+							}
+						}
+					});
+
+					if (!isMobile){
+						window.onresize = function(){
+							set_video_attr('video_item')
+							}
+						}
+				</script>
+			
+			</div>
+		</div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">021 - 文章阅读笔记：【论文阅读】CVPR2021|超分辨率重建相关论文整理与阅读（持续更新） - CSDN - 一的千分之一</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 小时前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <blockquote>
+<p>转载自：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/yideqianfenzhiyi/article/details/114675699?spm=1001.2101.3001.6650.2&utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-2-114675699-blog-84288591.pc_relevant_recovery_v2&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~Rate-2-114675699-blog-84288591.pc_relevant_recovery_v2&utm_relevant_index=3">【论文阅读】CVPR2021|超分辨率重建相关论文整理与阅读（持续更新） - CSDN - 一的千分之一（√）</a></p>
+<p>于 2021-03-11 17:44:59 发布</p>
+</blockquote>
+<p>本文主要对CVPR2021中超分辨率重建相关论文进行整理与阅读。</p>
+<h2 id="√-CVPR2021-Super-resolution-papers"><a href="#√-CVPR2021-Super-resolution-papers" class="headerlink" title="[√] CVPR2021 Super-resolution papers"></a>[√] CVPR2021 Super-resolution papers</h2><hr>
+<h4 id="√-1-ClassSR-A-General-Framework-to-Accelerate-Super-Resolution-Networks-by-Data-Characteristic"><a href="#√-1-ClassSR-A-General-Framework-to-Accelerate-Super-Resolution-Networks-by-Data-Characteristic" class="headerlink" title="[√] 1.ClassSR: A General Framework to Accelerate Super-Resolution Networks by Data Characteristic"></a>[√] 1.ClassSR: A General Framework to Accelerate Super-Resolution Networks by Data Characteristic</h4><hr>
+<p>论文标题：ClassSR：通过数据特征加速超分辨率网络的通用框架</p>
+<p>论文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2103.04039">https://arxiv.org/abs/2103.04039</a></p>
+<p>论文代码：<a target="_blank" rel="noopener" href="https://github.com/Xiangtaokong/ClassSR">https://github.com/Xiangtaokong/ClassSR</a></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301132007850.png" srcset="/img/loading.gif" lazyload alt="image-20230111192827695"></p>
+<p>本文idea巨简单，根据LR图像块重建的难易程度进行分类，难的用深的模型，容易的用小模型，用来进行加速。之前其实就有类似的思想。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301132007851.png" srcset="/img/loading.gif" lazyload alt="image-20230111193326182"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>评价：图像的不同区域，超分重建的难度是不一样的。对于简单的区域（低频），使用浅一些的网络进行超分。对于复杂的区域，使用深层的网络进行超分。相比于统一全都使用深层的网络，这样能够节省计算量、提高计算效率。</li>
+</ul>
+</blockquote>
+<h4 id="√-2-SMSR：Learning-Sparse-Masks-for-Efficient-Image-Super-Resolution"><a href="#√-2-SMSR：Learning-Sparse-Masks-for-Efficient-Image-Super-Resolution" class="headerlink" title="[√] 2.SMSR：Learning Sparse Masks for Efficient Image Super-Resolution"></a>[√] 2.SMSR：Learning Sparse Masks for Efficient Image Super-Resolution</h4><hr>
+<p>论文标题：学习稀疏掩模以实现高效的图像超分辨率</p>
+<p>论文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2006.09603">https://arxiv.org/abs/2006.09603</a></p>
+<p>论文代码：<a target="_blank" rel="noopener" href="https://github.com/LongguangWang/SMSR">https://github.com/LongguangWang/SMSR</a></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301132007852.png" srcset="/img/loading.gif" lazyload alt="image-20230111193637859"></p>
+<p>该文也是从计算资源的问题来进行思考的，平滑的区域应该赋予更少的计算资源。为了本文会生成一些sparse mask，来重新分配网络的计算资源。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301132007853.png" srcset="/img/loading.gif" lazyload alt="image-20230111200003891"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>本文设计了一个稀疏掩模，通过稀疏掩模来针对不同的区域进行对应的计算。平滑、简单的区域，则赋予少一些计算资源。</li>
+</ul>
+</blockquote>
+<h4 id="√-3-Learning-Continuous-Image-Representation-with-Local-Implicit-Image-Function"><a href="#√-3-Learning-Continuous-Image-Representation-with-Local-Implicit-Image-Function" class="headerlink" title="[√] 3.Learning Continuous Image Representation with Local Implicit Image Function"></a>[√] 3.Learning Continuous Image Representation with Local Implicit Image Function</h4><hr>
+<p>论文标题：使用局部隐式图像函数学习连续图像表示</p>
+<p>论文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2012.09161">https://arxiv.org/abs/2012.09161</a></p>
+<p>论文代码：<a target="_blank" rel="noopener" href="https://github.com/yinboc/liif">https://github.com/yinboc/liif</a></p>
+<p>主页：<a target="_blank" rel="noopener" href="https://yinboc.github.io/liif/">https://yinboc.github.io/liif/</a></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301132007854.png" srcset="/img/loading.gif" lazyload alt="image-20230111201841488"></p>
+<p>人们通过视觉观察的世界是连续的，但是机器去“识别”图像是以2D矩阵的方式，离散地存储、处理图像像素。对此，本文旨在探索图像的一种连续的表达。近期，implicit function在3D重建大为流行，受此启发，本文提出Local Implicit Image Function (LIIF) 来实现对图像的连续性表达。LIIF是以图像坐标和周围的深度特征作为输入，预测该坐标位置所对应的RGB像素值。因为坐标是连续的，所以LIIF可以以任意分辨率进行表示。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301132007855.png" srcset="/img/loading.gif" lazyload alt="image-20230111202029569"></p>
+<p>这个论文采用了最近大火的implicit neural representation。</p>
+<h4 id="√-4-Interpreting-Super-Resolution-Networks-with-Local-Attribution-Maps"><a href="#√-4-Interpreting-Super-Resolution-Networks-with-Local-Attribution-Maps" class="headerlink" title="[√] 4.Interpreting Super-Resolution Networks with Local Attribution Maps"></a>[√] 4.Interpreting Super-Resolution Networks with Local Attribution Maps</h4><hr>
+<p>论文标题：使用局部归因图解释超分辨率网络</p>
+<p>论文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2011.11036">https://arxiv.org/abs/2011.11036</a></p>
+<p>论文代码：<a target="_blank" rel="noopener" href="https://colab.research.google.com/drive/1ZodQ8CRCfHw0y6BweG9zB3YrK_lYWcDk?usp=sharing">https://colab.research.google.com/drive/1ZodQ8CRCfHw0y6BweG9zB3YrK_lYWcDk?usp=sharing</a></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301132007856.png" srcset="/img/loading.gif" lazyload alt="image-20230111202303458"></p>
+<p>这是一个很有趣的论文，做超分辨网络的可解释性，旨在寻找对SR结果有重要影响的输入图像的像素，之前SR领域有人关注可解释相关的问题。具体地，本文提出了局部归因图（Local Attribution Map, LAM）来分析超分辨网络，同时基于LAM分析得到比较容易理解的现象，如具有规则条纹或网格的纹理更容易被SR网络捕捉到，而复杂的语义则难以被利用。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301132007857.png" srcset="/img/loading.gif" lazyload alt="image-20230111202447886"></p>
+<p>相关ref: <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/363139999">https://zhuanlan.zhihu.com/p/363139999</a></p>
+<h4 id="√-5-GLEAN-Generative-Latent-Bank-for-Large-Factor-Image-Super-Resolution"><a href="#√-5-GLEAN-Generative-Latent-Bank-for-Large-Factor-Image-Super-Resolution" class="headerlink" title="[√] 5.GLEAN: Generative Latent Bank for Large-Factor Image Super-Resolution"></a>[√] 5.GLEAN: Generative Latent Bank for Large-Factor Image Super-Resolution</h4><hr>
+<p>论文标题：用于大因子图像超分辨率的生成潜在库、</p>
+<p>论文链接：<a target="_blank" rel="noopener" href="https://ckkelvinchan.github.io/papers/glean.pdf">https://ckkelvinchan.github.io/papers/glean.pdf</a></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301132007858.png" srcset="/img/loading.gif" lazyload alt="image-20230111202741344"></p>
+<p>本文主要采用GAN inversion-based方法来实现大尺度的图像超分辨。但之前GAN inversion方法，如PULSE，需要在测试阶段进行image-specific的优化，而本文提出的GLEAN方法则只需要一次前向计算。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301132007859.png" srcset="/img/loading.gif" lazyload alt="image-20230111203150683"></p>
+<h4 id="√-6-Unsupervised-Degradation-Representation-Learning-for-Blind-Super-Resolution"><a href="#√-6-Unsupervised-Degradation-Representation-Learning-for-Blind-Super-Resolution" class="headerlink" title="[√] 6.Unsupervised Degradation Representation Learning for Blind Super-Resolution"></a>[√] 6.Unsupervised Degradation Representation Learning for Blind Super-Resolution</h4><hr>
+<p>论文标题：盲超分辨率的无监督退化表示学习</p>
+<p>论文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2104.00416">https://arxiv.org/abs/2104.00416</a></p>
+<p>论文代码：<a target="_blank" rel="noopener" href="https://github.com/LongguangWang/DASR">https://github.com/LongguangWang/DASR</a></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301132007860.png" srcset="/img/loading.gif" lazyload alt="image-20230111210652271"></p>
+<p>针对盲超分辨(blind super-resolution)问题，本文提出了一种非监督退化表示学习的方法来处理退化模型未知的情况。具体而言，本文利用近期在表示学习中大火的对比学习（contrastive learning），来学习不同图片的退化表示，这里假设的是在同一张图片内退化方式是相同的（退化表示相接近），但不同的图片之间是有区别的（退化表示相远离）。接着，本文提出Degradation-Aware SR（DASR）模型，将学习到的退化表示融入到超分辨模型中，以更有效地完成未知退化方式的图像重建。</p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>本文使用对比学习来学习不同图像的退化表示。认为同一张图片中的退化方式是相同的，不同的图片之间的退化方式是有区别的。</li>
+<li>然后利用本文提出的DASR模型，将学习到的退化表示融入到超分模型中。</li>
+</ul>
+</blockquote>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301132007862.png" srcset="/img/loading.gif" lazyload alt="image-20230113193327509"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301132007863.png" srcset="/img/loading.gif" lazyload alt="image-20230113193623355"></p>
+<h4 id="√-7-Cross-MPI-Cross-scale-Stereo-for-Image-Super-Resolution-using-Multiplane-Images"><a href="#√-7-Cross-MPI-Cross-scale-Stereo-for-Image-Super-Resolution-using-Multiplane-Images" class="headerlink" title="[√] 7.Cross-MPI: Cross-scale Stereo for Image Super-Resolution using Multiplane Images"></a>[√] 7.Cross-MPI: Cross-scale Stereo for Image Super-Resolution using Multiplane Images</h4><hr>
+<p>论文标题：使用多平面图像实现图像超分辨率的跨尺度立体</p>
+<p>论文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2011.14631">https://arxiv.org/abs/2011.14631</a></p>
+<p>论文代码：<a target="_blank" rel="noopener" href="http://www.liuyebin.com/crossMPI/crossMPI.html">http://www.liuyebin.com/crossMPI/crossMPI.html</a></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301132007864.png" srcset="/img/loading.gif" lazyload alt="image-20230113194434935"></p>
+<blockquote>
+<p>alec：</p>
+<ul>
+<li>本文提出的方法属于基于参考的超分</li>
+<li>本文主要是利用multiplane image （MPI,多平面图像），提出plane-aware attention-based MPI mechanism，并利用参考图像进行多尺度引导。本文在实验部分都是针对放大倍数x8进行的。</li>
+</ul>
+</blockquote>
+<p>本文提出的方法属于 reference-based super-resolution (RefSR)。RefSR方法最开始被用来解决跨尺度重建问题，其中数据为hybrid multiscale imaging camera systems所得到的不同分辨率的。相比于常规数据驱动的SISR方法，RefSR能更好地应用放大倍数很大的情况（如x8），因为有参考图像的信息。而本文主要是利用multiplane image （MPI,多平面图像），提出plane-aware attention-based MPI mechanism，并利用参考图像进行多尺度引导。本文在实验部分都是针对放大倍数x8进行的。</p>
+<p>（关于MPI的介绍，可参考 <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40723205/article/details/114455424%EF%BC%89">https://blog.csdn.net/qq_40723205/article/details/114455424）</a></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301132007865.png" srcset="/img/loading.gif" lazyload alt="image-20230113195243492"></p>
+<h4 id="√-8-MASA-SR-Matching-Acceleration-and-Spatial-Adaptation-for-Reference-Based-Image-Super-Resolution"><a href="#√-8-MASA-SR-Matching-Acceleration-and-Spatial-Adaptation-for-Reference-Based-Image-Super-Resolution" class="headerlink" title="[√] 8.MASA-SR: Matching Acceleration and Spatial Adaptation for Reference-Based Image Super-Resolution"></a>[√] 8.MASA-SR: Matching Acceleration and Spatial Adaptation for Reference-Based Image Super-Resolution</h4><hr>
+<p>论文标题：基于参考的图像超分辨率的匹配加速度和空间自适应</p>
+<p>论文链接：<a target="_blank" rel="noopener" href="https://jiaya.me/papers/masasr_cvpr21.pdf">https://jiaya.me/papers/masasr_cvpr21.pdf</a></p>
+<p>论文代码：<a target="_blank" rel="noopener" href="https://github.com/Jia-Research-Lab/MASA-SR">https://github.com/Jia-Research-Lab/MASA-SR</a></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301132007866.png" srcset="/img/loading.gif" lazyload alt="image-20230113195415743"></p>
+<p>本文提出一种名为MASA-SR的RefSR方法。MASA-SR方法主要有两个核心：1）是Match &amp; Extraction Module(MEM), 该模块通过coarse-to-fine的方式寻找到Ref图像和LR图像之间的匹配关系；2）是Spatial Adaption Module (SAM), 该模块用来处理Ref图像到LR图像的特征变换，并适合处理两个图像之间存在color和luminance分布存在比较大的差异的时候。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301132007867.png" srcset="/img/loading.gif" lazyload alt="image-20230113195547186"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202301132007868.png" srcset="/img/loading.gif" lazyload alt="image-20230113195905357"></p>
+<h2 id="√-Reference"><a href="#√-Reference" class="headerlink" title="[√] Reference"></a>[√] Reference</h2><hr>
+<p>[1] github: <a target="_blank" rel="noopener" href="https://github.com/Kobaayyy/Awesome-CVPR2021-CVPR2020-Low-Level-Vision/blob/master/CVPR2021.md#1.%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87">Awesome-CVPR2021-CVPR2020-Low-Level-Vision</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-chain-item">文章学习</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>
+      
+        <a href="/tags/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/">#超分辨率重建</a>
+      
+        <a href="/tags/CNN/">#CNN</a>
+      
+        <a href="/tags/CVPR/">#CVPR</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>021 - 文章阅读笔记：【论文阅读】CVPR2021|超分辨率重建相关论文整理与阅读（持续更新） - CSDN - 一的千分之一</div>
+      <div>http://example.com/posts/742256945/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Shuai Zhao</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年1月11日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/posts/2621004498/" title="022 - 文章阅读笔记：【图像超分辨率重建】——RCAN论文精读笔记 - CSDN - 图像超分辨率重建论文精读 - Zency_SUN">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">022 - 文章阅读笔记：【图像超分辨率重建】——RCAN论文精读笔记 - CSDN - 图像超分辨率重建论文精读 - Zency_SUN</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/posts/2627212261/" title="020 - 文章阅读笔记：目前主流的attention方法都有哪些？ - 知乎">
+                        <span class="hidden-mobile">020 - 文章阅读笔记：目前主流的attention方法都有哪些？ - 知乎</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css"> <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script> <script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script> <div id="player" class="aplayer aplayer-withlist aplayer-fixed" data-id="7729098320" data-server="netease" data-type="playlist" data-lrctype="0" data-order="random" data-fixed="true" data-listfolded="true" data-theme="#2D8CF0"></div> 
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner" style="font-size: 0.85rem">
+  <div class="alec_diy_footer">
+  <!-- color:#d9dbdc -->
+    
+      <div class="footer-content">
+         <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Fluid</span></a> <i class="iconfont icon-love"></i> <a href="https://https://alec-97.github.io/" target="_blank" rel="nofollow noopener"><span style="color: #d9dbdc;">Alec</span></a>
+<div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/vvd_js/duration.js"></script> </div>
+
+      </div>
+    
+
+    
+      <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+    
+
+    
+      <div class="footer-content">
+        <a target="_blank" rel="noopener" href="https://developer.hitokoto.cn/" id="hitokoto_text"><span style="color: #d9dbdc;"  id="hitokoto"></span></a> <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script> 
+      </div>
+    
+
+    
+
+    
+
+  </div>  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/alec_diy/mouse_click/love.js"></script>
+<script src="/alec_diy/live2d-widget/autoload.js"></script>
+<script src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+
+
+
+
+</body>
+</html>
