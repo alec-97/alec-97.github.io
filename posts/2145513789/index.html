@@ -30,8 +30,8 @@
 <meta property="article:published_time" content="2022-11-10T05:30:09.000Z">
 <meta property="article:modified_time" content="2023-04-16T05:40:30.818Z">
 <meta property="article:author" content="Shuai Zhao">
-<meta property="article:tag" content="面试">
 <meta property="article:tag" content="复盘">
+<meta property="article:tag" content="面试">
 <meta property="article:tag" content="农业银行研发中心">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202211101430487.png">
@@ -387,14 +387,7 @@
 		</div>
     </div>
 
-	<script src="https://utteranc.es/client.js"
-        repo="alec-97 / alec-97.github.io"
-        issue-term="pathname"
-        label="Comment"
-        theme="photon-dark"
-        crossorigin="anonymous"
-        async>
-	</script>
+
 
   </header>
 
@@ -654,9 +647,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E9%9D%A2%E8%AF%95/">#面试</a>
-      
         <a href="/tags/%E5%A4%8D%E7%9B%98/">#复盘</a>
+      
+        <a href="/tags/%E9%9D%A2%E8%AF%95/">#面试</a>
       
         <a href="/tags/%E5%86%9C%E4%B8%9A%E9%93%B6%E8%A1%8C%E7%A0%94%E5%8F%91%E4%B8%AD%E5%BF%83/">#农业银行研发中心</a>
       
@@ -741,6 +734,32 @@
   
     <article id="comments" lazyload>
       
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'alec-97/alec-97.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'Comment');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
 
     </article>
   

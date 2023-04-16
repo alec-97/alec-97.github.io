@@ -384,14 +384,7 @@
 		</div>
     </div>
 
-	<script src="https://utteranc.es/client.js"
-        repo="alec-97 / alec-97.github.io"
-        issue-term="pathname"
-        label="Comment"
-        theme="photon-dark"
-        crossorigin="anonymous"
-        async>
-	</script>
+
 
   </header>
 
@@ -545,9 +538,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/3564283204/" title="8 - fluid添加音乐页面和音乐播放器">
+                      <a href="/posts/295724089/" title="7 - fluid主题添加关于页面">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">8 - fluid添加音乐页面和音乐播放器</span>
+                        <span class="hidden-mobile">7 - fluid主题添加关于页面</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -555,8 +548,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/266288220/" title="055 - 文章阅读笔记：【DASR】盲超分两大流派集成大者！- 微信公众号 - AIWalker">
-                        <span class="hidden-mobile">055 - 文章阅读笔记：【DASR】盲超分两大流派集成大者！- 微信公众号 - AIWalker</span>
+                      <a href="/posts/3564283204/" title="8 - fluid添加音乐页面和音乐播放器">
+                        <span class="hidden-mobile">8 - fluid添加音乐页面和音乐播放器</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -571,6 +564,32 @@
   
     <article id="comments" lazyload>
       
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'alec-97/alec-97.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'Comment');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
 
     </article>
   

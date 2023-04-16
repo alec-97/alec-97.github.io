@@ -382,14 +382,7 @@
 		</div>
     </div>
 
-	<script src="https://utteranc.es/client.js"
-        repo="alec-97 / alec-97.github.io"
-        issue-term="pathname"
-        label="Comment"
-        theme="photon-dark"
-        crossorigin="anonymous"
-        async>
-	</script>
+
 
   </header>
 
@@ -515,9 +508,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/posts/101675316/" title="文章阅读笔记：【2019 IKC】IKC Blind Super-Resolution With Iterative Kernel Correction">
+                      <a href="/posts/3085432397/" title="3 - hexo自动为文章添加分类插件">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">文章阅读笔记：【2019 IKC】IKC Blind Super-Resolution With Iterative Kernel Correction</span>
+                        <span class="hidden-mobile">3 - hexo自动为文章添加分类插件</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -525,8 +518,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/posts/1312067499/" title="0 - hexo博客搭建记录">
-                        <span class="hidden-mobile">0 - hexo博客搭建记录</span>
+                      <a href="/posts/2899485557/" title="5 - hexo给文章添加阅读密码(password=123)">
+                        <span class="hidden-mobile">5 - hexo给文章添加阅读密码(password=123)</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -541,6 +534,32 @@
   
     <article id="comments" lazyload>
       
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      var light = 'github-light';
+      var dark = 'github-dark';
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema === 'dark') {
+        schema = dark;
+      } else {
+        schema = light;
+      }
+      window.UtterancesThemeLight = light;
+      window.UtterancesThemeDark = dark;
+      var s = document.createElement('script');
+      s.setAttribute('src', 'https://utteranc.es/client.js');
+      s.setAttribute('repo', 'alec-97/alec-97.github.io');
+      s.setAttribute('issue-term', 'pathname');
+      
+      s.setAttribute('label', 'Comment');
+      
+      s.setAttribute('theme', schema);
+      s.setAttribute('crossorigin', 'anonymous');
+      document.getElementById('comments').appendChild(s);
+    })
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
 
     </article>
   
