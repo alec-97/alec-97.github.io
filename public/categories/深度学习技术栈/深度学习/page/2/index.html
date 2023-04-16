@@ -70,7 +70,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":5,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -277,6 +277,8 @@
 						}
 					}
 
+
+
 					$.getJSON('/vvd_js/video_url.json', function(data){
 						if (true){
 							var video_list_length = data.length
@@ -285,6 +287,11 @@
 							
 							video_url = data[index][0]
 							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
 							
 							banner_obj = document.getElementById("banner")
 							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
@@ -327,7 +334,7 @@
                 
 
 <div class="list-group">
-  <p class="h4">共计 17 篇文章</p>
+  <p class="h4">共计 33 篇文章</p>
   <hr>
   
   
@@ -335,45 +342,63 @@
       
       <p class="h5">2022</p>
     
-    <a href="/posts/3952900717/" class="list-group-item list-group-item-action">
-      <time>12-25</time>
-      <div class="list-group-item-title">第5章 - 卷积神经网络实践：ResNet18图像分类</div>
+    <a href="/posts/1405476561/" class="list-group-item list-group-item-action">
+      <time>12-29</time>
+      <div class="list-group-item-title">8 - 注意力机制</div>
     </a>
   
     
-    <a href="/posts/1254558254/" class="list-group-item list-group-item-action">
-      <time>12-25</time>
-      <div class="list-group-item-title">第5章 - 卷积神经网络 - 书籍</div>
+    <a href="/posts/3380835339/" class="list-group-item list-group-item-action">
+      <time>12-27</time>
+      <div class="list-group-item-title">7 - 网络优化与正则化 - 视频</div>
     </a>
   
     
-    <a href="/posts/1943031638/" class="list-group-item list-group-item-action">
+    <a href="/posts/1207574521/" class="list-group-item list-group-item-action">
       <time>12-25</time>
-      <div class="list-group-item-title">第4章 - 前馈神经网络 - 视频</div>
+      <div class="list-group-item-title">7 - 网络优化与正则化</div>
     </a>
   
     
-    <a href="/posts/75512103/" class="list-group-item list-group-item-action">
+    <a href="/posts/3720136123/" class="list-group-item list-group-item-action">
       <time>12-25</time>
-      <div class="list-group-item-title">第4章 - 前馈神经网络 - 书籍</div>
+      <div class="list-group-item-title">7 - 网络优化与正则化 - 书籍3</div>
     </a>
   
     
-    <a href="/posts/2180589992/" class="list-group-item list-group-item-action">
+    <a href="/posts/2864444717/" class="list-group-item list-group-item-action">
       <time>12-25</time>
-      <div class="list-group-item-title">第3章 - 线性分类</div>
+      <div class="list-group-item-title">7 - 网络优化与正则化 - 书籍2</div>
     </a>
   
     
-    <a href="/posts/2499540575/" class="list-group-item list-group-item-action">
+    <a href="/posts/867345559/" class="list-group-item list-group-item-action">
       <time>12-25</time>
-      <div class="list-group-item-title">第2章 - 机器学习概述</div>
+      <div class="list-group-item-title">7 - 网络优化与正则化 - 书籍1</div>
     </a>
   
     
-    <a href="/posts/2304768005/" class="list-group-item list-group-item-action">
+    <a href="/posts/2701885837/" class="list-group-item list-group-item-action">
       <time>12-25</time>
-      <div class="list-group-item-title">第1章 - 实践基础1</div>
+      <div class="list-group-item-title">6 - 循环神经网络</div>
+    </a>
+  
+    
+    <a href="/posts/2118395793/" class="list-group-item list-group-item-action">
+      <time>12-25</time>
+      <div class="list-group-item-title">5 - 卷积神经网络</div>
+    </a>
+  
+    
+    <a href="/posts/2713595903/" class="list-group-item list-group-item-action">
+      <time>12-25</time>
+      <div class="list-group-item-title">4 - 前馈神经网络</div>
+    </a>
+  
+    
+    <a href="/posts/292348030/" class="list-group-item list-group-item-action">
+      <time>12-25</time>
+      <div class="list-group-item-title">3 - 线性分类</div>
     </a>
   
 </div>
@@ -381,7 +406,7 @@
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <a class="extend prev" rel="prev" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">1</a><span class="page-number current">2</span>
+      <a class="extend prev" rel="prev" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"><i class="iconfont icon-arrowleft"></i></a><a class="page-number" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">1</a><span class="page-number current">2</span><a class="page-number" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/page/3/">3</a><a class="page-number" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/page/4/">4</a><a class="extend next" rel="next" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/page/3/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 

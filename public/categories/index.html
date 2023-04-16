@@ -70,7 +70,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":5,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -277,6 +277,8 @@
 						}
 					}
 
+
+
 					$.getJSON('/vvd_js/video_url.json', function(data){
 						if (true){
 							var video_list_length = data.length
@@ -285,6 +287,11 @@
 							
 							video_url = data[index][0]
 							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
 							
 							banner_obj = document.getElementById("banner")
 							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
@@ -490,19 +497,19 @@
     
       
       
-        <a href="/posts/3366410150/" title="Java缓冲流如何提高读写性能"
+        <a href="/posts/975683122/" title="Java使用FileWriter类向文件写入内容"
            class="list-group-item list-group-item-action
            ">
-          <span class="category-post">Java缓冲流如何提高读写性能</span>
+          <span class="category-post">Java使用FileWriter类向文件写入内容</span>
         </a>
       
     
       
       
-        <a href="/posts/975683122/" title="Java使用FileWriter类向文件写入内容"
+        <a href="/posts/3366410150/" title="Java缓冲流如何提高读写性能"
            class="list-group-item list-group-item-action
            ">
-          <span class="category-post">Java使用FileWriter类向文件写入内容</span>
+          <span class="category-post">Java缓冲流如何提高读写性能</span>
         </a>
       
     
@@ -814,7 +821,7 @@
       
         <a href="/categories/%E5%B7%A5%E5%85%B7%E7%AC%94%E8%AE%B0/" class="category-count col-2 col-md-1 col-xm-1">
           <i class="iconfont icon-articles"></i>
-          <span>17</span>
+          <span>19</span>
         </a>
       
       <div class="category-collapse collapse " id="collapse-103ffad436b32f4072c9863ec3d61c75"
@@ -846,7 +853,7 @@
       
         <a href="/categories/%E5%B7%A5%E5%85%B7%E7%AC%94%E8%AE%B0/hexo/" class="category-count col-2 col-md-1 col-xm-1">
           <i class="iconfont icon-articles"></i>
-          <span>15</span>
+          <span>17</span>
         </a>
       
       <div class="category-collapse collapse " id="collapse-ecf1af8bbe2a3020d96fe7ea971a03ad"
@@ -860,28 +867,10 @@
     
       
       
-        <a href="/posts/915427997/" title="4 - hexo为文章添加随机封面"
+        <a href="/posts/1312067499/" title="0 - hexo博客搭建记录"
            class="list-group-item list-group-item-action
            ">
-          <span class="category-post">4 - hexo为文章添加随机封面</span>
-        </a>
-      
-    
-      
-      
-        <a href="/posts/3085432397/" title="3 - hexo自动为文章添加分类插件"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">3 - hexo自动为文章添加分类插件</span>
-        </a>
-      
-    
-      
-      
-        <a href="/posts/1841524034/" title="2 - hexo使用随机编号生成文章永久链接"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">2 - hexo使用随机编号生成文章永久链接</span>
+          <span class="category-post">0 - hexo博客搭建记录</span>
         </a>
       
     
@@ -896,10 +885,37 @@
     
       
       
-        <a href="/posts/1312067499/" title="0 - hexo博客搭建记录"
+        <a href="/posts/1841524034/" title="2 - hexo使用随机编号生成文章永久链接"
            class="list-group-item list-group-item-action
            ">
-          <span class="category-post">0 - hexo博客搭建记录</span>
+          <span class="category-post">2 - hexo使用随机编号生成文章永久链接</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/3085432397/" title="3 - hexo自动为文章添加分类插件"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">3 - hexo自动为文章添加分类插件</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/915427997/" title="4 - hexo为文章添加随机封面"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">4 - hexo为文章添加随机封面</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2899485557/" title="5 - hexo给文章添加阅读密码(password=123)"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">5 - hexo给文章添加阅读密码(password=123)</span>
         </a>
       
     
@@ -923,7 +939,7 @@
       
         <a href="/categories/%E5%B7%A5%E5%85%B7%E7%AC%94%E8%AE%B0/hexo/%E4%B8%BB%E9%A2%98/" class="category-count col-2 col-md-1 col-xm-1">
           <i class="iconfont icon-articles"></i>
-          <span>10</span>
+          <span>11</span>
         </a>
       
       <div class="category-collapse collapse " id="collapse-9970ad07468267e2f309f1467c75bb80"
@@ -955,7 +971,7 @@
       
         <a href="/categories/%E5%B7%A5%E5%85%B7%E7%AC%94%E8%AE%B0/hexo/%E4%B8%BB%E9%A2%98/fluid/" class="category-count col-2 col-md-1 col-xm-1">
           <i class="iconfont icon-articles"></i>
-          <span>10</span>
+          <span>11</span>
         </a>
       
       <div class="category-collapse collapse " id="collapse-5cfea13ba1397f696bea7b2ff62c0188"
@@ -968,73 +984,10 @@
     
       
       
-        <a href="/posts/2499736958/" title="9 - fluid添加看板娘"
+        <a href="/posts/4083129976/" title="1 - fluid主题无侵入式方式添加视频背景"
            class="list-group-item list-group-item-action
            ">
-          <span class="category-post">9 - fluid添加看板娘</span>
-        </a>
-      
-    
-      
-      
-        <a href="/posts/3564283204/" title="8 - fluid添加音乐页面和音乐播放器"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">8 - fluid添加音乐页面和音乐播放器</span>
-        </a>
-      
-    
-      
-      
-        <a href="/posts/295724089/" title="7 - fluid主题添加关于页面"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">7 - fluid主题添加关于页面</span>
-        </a>
-      
-    
-      
-      
-        <a href="/posts/3644508848/" title="6 - fluid主题无侵入式方式添加页面焦点监控文字"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">6 - fluid主题无侵入式方式添加页面焦点监控文字</span>
-        </a>
-      
-    
-      
-      
-        <a href="/posts/135347359/" title="5 - fluid无需代码改动的基本+美化设置"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">5 - fluid无需代码改动的基本+美化设置</span>
-        </a>
-      
-    
-      
-      
-        <a href="/posts/2108047675/" title="4 - fluid页脚增加网站运行时间"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">4 - fluid页脚增加网站运行时间</span>
-        </a>
-      
-    
-      
-      
-        <a href="/posts/2526870413/" title="3 - fluid主题自定义CSS样式：debug footer字体颜色问题"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">3 - fluid主题自定义CSS样式：debug footer字体颜色问题</span>
-        </a>
-      
-    
-      
-      
-        <a href="/posts/151223124/" title="2 - fluid主题添加&#39;一言&#39;"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">2 - fluid主题添加&#39;一言&#39;</span>
+          <span class="category-post">1 - fluid主题无侵入式方式添加视频背景</span>
         </a>
       
     
@@ -1049,10 +1002,82 @@
     
       
       
-        <a href="/posts/4083129976/" title="1 - fluid主题无侵入式方式添加视频背景"
+        <a href="/posts/151223124/" title="2 - fluid主题添加&#39;一言&#39;"
            class="list-group-item list-group-item-action
            ">
-          <span class="category-post">1 - fluid主题无侵入式方式添加视频背景</span>
+          <span class="category-post">2 - fluid主题添加&#39;一言&#39;</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2526870413/" title="3 - fluid主题自定义CSS样式：debug footer字体颜色问题"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">3 - fluid主题自定义CSS样式：debug footer字体颜色问题</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2108047675/" title="4 - fluid页脚增加网站运行时间"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">4 - fluid页脚增加网站运行时间</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/135347359/" title="5 - fluid无需代码改动的基本+美化设置"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">5 - fluid无需代码改动的基本+美化设置</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/3644508848/" title="6 - fluid主题无侵入式方式添加页面焦点监控文字"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">6 - fluid主题无侵入式方式添加页面焦点监控文字</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/295724089/" title="7 - fluid主题添加关于页面"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">7 - fluid主题添加关于页面</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/3564283204/" title="8 - fluid添加音乐页面和音乐播放器"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">8 - fluid添加音乐页面和音乐播放器</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2499736958/" title="9 - fluid添加看板娘"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">9 - fluid添加看板娘</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/4079693730/" title="11 - fluid添加github chart"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">11 - fluid添加github chart</span>
         </a>
       
     
@@ -1391,6 +1416,279 @@
     
     <div class="category row nomargin-x">
       <a class="category-item collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="文章笔记"
+        id="heading-e1363bd52f6280aac909dda1df733ffe" role="tab" data-toggle="collapse" href="#collapse-e1363bd52f6280aac909dda1df733ffe"
+        aria-expanded="false"
+      >
+        文章笔记
+        <span class="list-group-count"></span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+        <a href="/categories/%E6%96%87%E7%AB%A0%E7%AC%94%E8%AE%B0/" class="category-count col-2 col-md-1 col-xm-1">
+          <i class="iconfont icon-articles"></i>
+          <span>8</span>
+        </a>
+      
+      <div class="category-collapse collapse " id="collapse-e1363bd52f6280aac909dda1df733ffe"
+           role="tabpanel" aria-labelledby="heading-e1363bd52f6280aac909dda1df733ffe">
+        
+        
+          
+          
+  <div class="category-post-list">
+    
+    
+  </div>
+
+          
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="Inbox"
+        id="heading-3882d32c66e7e768145ecd8f104b0c08" role="tab" data-toggle="collapse" href="#collapse-3882d32c66e7e768145ecd8f104b0c08"
+        aria-expanded="false"
+      >
+        Inbox
+        <span class="list-group-count"></span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+        <a href="/categories/%E6%96%87%E7%AB%A0%E7%AC%94%E8%AE%B0/Inbox/" class="category-count col-2 col-md-1 col-xm-1">
+          <i class="iconfont icon-articles"></i>
+          <span>4</span>
+        </a>
+      
+      <div class="category-collapse collapse " id="collapse-3882d32c66e7e768145ecd8f104b0c08"
+           role="tabpanel" aria-labelledby="heading-3882d32c66e7e768145ecd8f104b0c08">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/posts/2477708368/" title="001 - 文章阅读笔记：我的文科转码之路：入门新领域的思路与方法 - 少数派 - pseudoyu"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">001 - 文章阅读笔记：我的文科转码之路：入门新领域的思路与方法 - 少数派 - pseudoyu</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/3634174699/" title="002 - 文章阅读笔记：不买可以先收藏 13：混动车型值得买吗？ - 少数派 - James_Tu"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">002 - 文章阅读笔记：不买可以先收藏 13：混动车型值得买吗？ - 少数派 - James_Tu</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/53889087/" title="003 - 文章阅读笔记：特斯拉Model 3和Model Y有什么区别？如何选择？ - 知乎 - 阿混"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">003 - 文章阅读笔记：特斯拉Model 3和Model Y有什么区别？如何选择？ - 知乎 - 阿混</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/255740200/" title="2023年2月9日 - 文章阅读笔记：【理想L8 Pro】8 天 6 人 4000 公里后，这是我对理想 L8 Pro 的购买建议 - 少数派 - 老麦"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">2023年2月9日 - 文章阅读笔记：【理想L8 Pro】8 天 6 人 4000 公里后，这是我对理想 L8 Pro 的购买建议 - 少数派 - 老麦</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="健康"
+        id="heading-fbc026c9fb552701f8db2b0df2aa9114" role="tab" data-toggle="collapse" href="#collapse-fbc026c9fb552701f8db2b0df2aa9114"
+        aria-expanded="false"
+      >
+        健康
+        <span class="list-group-count"></span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+        <a href="/categories/%E6%96%87%E7%AB%A0%E7%AC%94%E8%AE%B0/%E5%81%A5%E5%BA%B7/" class="category-count col-2 col-md-1 col-xm-1">
+          <i class="iconfont icon-articles"></i>
+          <span>1</span>
+        </a>
+      
+      <div class="category-collapse collapse " id="collapse-fbc026c9fb552701f8db2b0df2aa9114"
+           role="tabpanel" aria-labelledby="heading-fbc026c9fb552701f8db2b0df2aa9114">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/posts/4028329922/" title="001 - 文章阅读笔记：什么都可以以后再说，体检为什么不可以？ - 少数派 - 少数派编辑部"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">001 - 文章阅读笔记：什么都可以以后再说，体检为什么不可以？ - 少数派 - 少数派编辑部</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="烟火气"
+        id="heading-85cf2f5b43a1aa3a260571473dfd604a" role="tab" data-toggle="collapse" href="#collapse-85cf2f5b43a1aa3a260571473dfd604a"
+        aria-expanded="false"
+      >
+        烟火气
+        <span class="list-group-count"></span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+        <a href="/categories/%E6%96%87%E7%AB%A0%E7%AC%94%E8%AE%B0/%E7%83%9F%E7%81%AB%E6%B0%94/" class="category-count col-2 col-md-1 col-xm-1">
+          <i class="iconfont icon-articles"></i>
+          <span>1</span>
+        </a>
+      
+      <div class="category-collapse collapse " id="collapse-85cf2f5b43a1aa3a260571473dfd604a"
+           role="tabpanel" aria-labelledby="heading-85cf2f5b43a1aa3a260571473dfd604a">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/posts/2556929060/" title="001 - 文章阅读笔记：食过境迁：当一个年轻人决定吃顿好的 - 少数派 - 拐子狼"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">001 - 文章阅读笔记：食过境迁：当一个年轻人决定吃顿好的 - 少数派 - 拐子狼</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="设备"
+        id="heading-f55f17362872c3cc83e6199e618c93d2" role="tab" data-toggle="collapse" href="#collapse-f55f17362872c3cc83e6199e618c93d2"
+        aria-expanded="false"
+      >
+        设备
+        <span class="list-group-count"></span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+        <a href="/categories/%E6%96%87%E7%AB%A0%E7%AC%94%E8%AE%B0/%E8%AE%BE%E5%A4%87/" class="category-count col-2 col-md-1 col-xm-1">
+          <i class="iconfont icon-articles"></i>
+          <span>1</span>
+        </a>
+      
+      <div class="category-collapse collapse " id="collapse-f55f17362872c3cc83e6199e618c93d2"
+           role="tabpanel" aria-labelledby="heading-f55f17362872c3cc83e6199e618c93d2">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/posts/2876934789/" title="001 - 文章阅读笔记：最便宜，也是入门 Mac 的最好选择：新款 Mac mini 体验 - 少数派 - waychane"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">001 - 文章阅读笔记：最便宜，也是入门 Mac 的最好选择：新款 Mac mini 体验 - 少数派 - waychane</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="远方"
+        id="heading-e955869ae50539c789abb0f4d2bbe3db" role="tab" data-toggle="collapse" href="#collapse-e955869ae50539c789abb0f4d2bbe3db"
+        aria-expanded="false"
+      >
+        远方
+        <span class="list-group-count"></span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+        <a href="/categories/%E6%96%87%E7%AB%A0%E7%AC%94%E8%AE%B0/%E8%BF%9C%E6%96%B9/" class="category-count col-2 col-md-1 col-xm-1">
+          <i class="iconfont icon-articles"></i>
+          <span>1</span>
+        </a>
+      
+      <div class="category-collapse collapse " id="collapse-e955869ae50539c789abb0f4d2bbe3db"
+           role="tabpanel" aria-labelledby="heading-e955869ae50539c789abb0f4d2bbe3db">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/posts/2111110253/" title="001 - 文章阅读笔记：城市收藏夹 · 青海：大美的不止是美景"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">001 - 文章阅读笔记：城市收藏夹 · 青海：大美的不止是美景</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category row nomargin-x">
+      <a class="category-item collapsed
           list-group-item category-item-action col-10 col-md-11 col-xm-11" title="方法论"
         id="heading-0fdf24e96e500a5a5659132b8f9223b7" role="tab" data-toggle="collapse" href="#collapse-0fdf24e96e500a5a5659132b8f9223b7"
         aria-expanded="false"
@@ -1511,19 +1809,19 @@
     
       
       
-        <a href="/posts/4181991940/" title="敏捷开发 - 敏捷软件开发理论及流程"
+        <a href="/posts/843030040/" title="DevOps笔记"
            class="list-group-item list-group-item-action
            ">
-          <span class="category-post">敏捷开发 - 敏捷软件开发理论及流程</span>
+          <span class="category-post">DevOps笔记</span>
         </a>
       
     
       
       
-        <a href="/posts/843030040/" title="DevOps笔记"
+        <a href="/posts/4181991940/" title="敏捷开发 - 敏捷软件开发理论及流程"
            class="list-group-item list-group-item-action
            ">
-          <span class="category-post">DevOps笔记</span>
+          <span class="category-post">敏捷开发 - 敏捷软件开发理论及流程</span>
         </a>
       
     
@@ -1762,19 +2060,19 @@
     
       
       
-        <a href="/posts/1896225260/" title="2022年11月11日牛客测试题题目整理"
+        <a href="/posts/2145513789/" title="2022年11月10日牛客测试题题目整理"
            class="list-group-item list-group-item-action
            ">
-          <span class="category-post">2022年11月11日牛客测试题题目整理</span>
+          <span class="category-post">2022年11月10日牛客测试题题目整理</span>
         </a>
       
     
       
       
-        <a href="/posts/2145513789/" title="2022年11月10日牛客测试题题目整理"
+        <a href="/posts/1896225260/" title="2022年11月11日牛客测试题题目整理"
            class="list-group-item list-group-item-action
            ">
-          <span class="category-post">2022年11月10日牛客测试题题目整理</span>
+          <span class="category-post">2022年11月11日牛客测试题题目整理</span>
         </a>
       
     
@@ -1804,7 +2102,7 @@
       
         <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-count col-2 col-md-1 col-xm-1">
           <i class="iconfont icon-articles"></i>
-          <span>17</span>
+          <span>120</span>
         </a>
       
       <div class="category-collapse collapse " id="collapse-2c3f95ac08f28a075b719da5f3968411"
@@ -1825,22 +2123,22 @@
     
     <div class="category-sub row nomargin-x">
       <a class="category-subitem collapsed
-          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="深度学习"
-        id="heading-8c5f70f85d5a691a5f1dc7be5473736b" role="tab" data-toggle="collapse" href="#collapse-8c5f70f85d5a691a5f1dc7be5473736b"
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="Python基础"
+        id="heading-588fe6e45fdc1b65d88f23fef50d7d4d" role="tab" data-toggle="collapse" href="#collapse-588fe6e45fdc1b65d88f23fef50d7d4d"
         aria-expanded="false"
       >
-        深度学习
+        Python基础
         <span class="list-group-count"></span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
-        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-count col-2 col-md-1 col-xm-1">
+        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/Python%E5%9F%BA%E7%A1%80/" class="category-count col-2 col-md-1 col-xm-1">
           <i class="iconfont icon-articles"></i>
-          <span>17</span>
+          <span>1</span>
         </a>
       
-      <div class="category-collapse collapse " id="collapse-8c5f70f85d5a691a5f1dc7be5473736b"
-           role="tabpanel" aria-labelledby="heading-8c5f70f85d5a691a5f1dc7be5473736b">
+      <div class="category-collapse collapse " id="collapse-588fe6e45fdc1b65d88f23fef50d7d4d"
+           role="tabpanel" aria-labelledby="heading-588fe6e45fdc1b65d88f23fef50d7d4d">
         
         
           
@@ -1857,22 +2155,68 @@
     
     <div class="category-sub row nomargin-x">
       <a class="category-subitem collapsed
-          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="分支导航"
-        id="heading-8b91663d3be6457b709d674d2df080fd" role="tab" data-toggle="collapse" href="#collapse-8b91663d3be6457b709d674d2df080fd"
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="零碎学习"
+        id="heading-4875e37a3f1f56ef6f42f0cea76b035f" role="tab" data-toggle="collapse" href="#collapse-4875e37a3f1f56ef6f42f0cea76b035f"
         aria-expanded="false"
       >
-        分支导航
+        零碎学习
         <span class="list-group-count"></span>
         <i class="iconfont icon-arrowright"></i>
       </a>
       
-        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/" class="category-count col-2 col-md-1 col-xm-1">
+        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/Python%E5%9F%BA%E7%A1%80/%E9%9B%B6%E7%A2%8E%E5%AD%A6%E4%B9%A0/" class="category-count col-2 col-md-1 col-xm-1">
           <i class="iconfont icon-articles"></i>
-          <span>17</span>
+          <span>1</span>
         </a>
       
-      <div class="category-collapse collapse " id="collapse-8b91663d3be6457b709d674d2df080fd"
-           role="tabpanel" aria-labelledby="heading-8b91663d3be6457b709d674d2df080fd">
+      <div class="category-collapse collapse " id="collapse-4875e37a3f1f56ef6f42f0cea76b035f"
+           role="tabpanel" aria-labelledby="heading-4875e37a3f1f56ef6f42f0cea76b035f">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/posts/1137730746/" title="在python中import和from import的区别"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">在python中import和from import的区别</span>
+        </a>
+      
+    
+  </div>
+
+        
+      </div>
+    </div>
+  
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="深度学习"
+        id="heading-8c5f70f85d5a691a5f1dc7be5473736b" role="tab" data-toggle="collapse" href="#collapse-8c5f70f85d5a691a5f1dc7be5473736b"
+        aria-expanded="false"
+      >
+        深度学习
+        <span class="list-group-count"></span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-count col-2 col-md-1 col-xm-1">
+          <i class="iconfont icon-articles"></i>
+          <span>33</span>
+        </a>
+      
+      <div class="category-collapse collapse " id="collapse-8c5f70f85d5a691a5f1dc7be5473736b"
+           role="tabpanel" aria-labelledby="heading-8c5f70f85d5a691a5f1dc7be5473736b">
         
         
           
@@ -1898,9 +2242,9 @@
         <i class="iconfont icon-arrowright"></i>
       </a>
       
-        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E5%AE%9E%E8%B7%B5%E5%AD%A6%E4%B9%A0/" class="category-count col-2 col-md-1 col-xm-1">
+        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AE%9E%E8%B7%B5%E5%AD%A6%E4%B9%A0/" class="category-count col-2 col-md-1 col-xm-1">
           <i class="iconfont icon-articles"></i>
-          <span>11</span>
+          <span>15</span>
         </a>
       
       <div class="category-collapse collapse " id="collapse-6730c92d439b7d4d23aba5a866d79a15"
@@ -1930,9 +2274,9 @@
         <i class="iconfont icon-arrowright"></i>
       </a>
       
-        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E5%AE%9E%E8%B7%B5%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%EF%BC%9A%E6%A1%88%E4%BE%8B%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E9%A3%9E%E6%A1%A8-%E9%82%B1%E9%94%A1%E9%B9%8F/" class="category-count col-2 col-md-1 col-xm-1">
+        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%AE%9E%E8%B7%B5%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%EF%BC%9A%E6%A1%88%E4%BE%8B%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E9%A3%9E%E6%A1%A8-%E9%82%B1%E9%94%A1%E9%B9%8F/" class="category-count col-2 col-md-1 col-xm-1">
           <i class="iconfont icon-articles"></i>
-          <span>11</span>
+          <span>15</span>
         </a>
       
       <div class="category-collapse collapse " id="collapse-350e318ac362eba4c60d7985f011cf3f"
@@ -1945,82 +2289,10 @@
     
       
       
-        <a href="/posts/1557301731/" title="6 - 循环神经网络 - 视频"
+        <a href="/posts/2304768005/" title="第1章 - 实践基础1"
            class="list-group-item list-group-item-action
            ">
-          <span class="category-post">6 - 循环神经网络 - 视频</span>
-        </a>
-      
-    
-      
-      
-        <a href="/posts/1748706165/" title="6 - 循环神经网络 - 实践：基于双向LSTM模型完成文本分类任务"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">6 - 循环神经网络 - 实践：基于双向LSTM模型完成文本分类任务</span>
-        </a>
-      
-    
-      
-      
-        <a href="/posts/1133786115/" title="第6章 - 循环神经网络 - 书籍"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">第6章 - 循环神经网络 - 书籍</span>
-        </a>
-      
-    
-      
-      
-        <a href="/posts/1033337951/" title="第5章 - 卷积神经网络 - 视频"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">第5章 - 卷积神经网络 - 视频</span>
-        </a>
-      
-    
-      
-      
-        <a href="/posts/3952900717/" title="第5章 - 卷积神经网络实践：ResNet18图像分类"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">第5章 - 卷积神经网络实践：ResNet18图像分类</span>
-        </a>
-      
-    
-      
-      
-        <a href="/posts/1254558254/" title="第5章 - 卷积神经网络 - 书籍"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">第5章 - 卷积神经网络 - 书籍</span>
-        </a>
-      
-    
-      
-      
-        <a href="/posts/1943031638/" title="第4章 - 前馈神经网络 - 视频"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">第4章 - 前馈神经网络 - 视频</span>
-        </a>
-      
-    
-      
-      
-        <a href="/posts/75512103/" title="第4章 - 前馈神经网络 - 书籍"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">第4章 - 前馈神经网络 - 书籍</span>
-        </a>
-      
-    
-      
-      
-        <a href="/posts/2180589992/" title="第3章 - 线性分类"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">第3章 - 线性分类</span>
+          <span class="category-post">第1章 - 实践基础1</span>
         </a>
       
     
@@ -2035,16 +2307,250 @@
     
       
       
-        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E5%AE%9E%E8%B7%B5%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%EF%BC%9A%E6%A1%88%E4%BE%8B%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E9%A3%9E%E6%A1%A8-%E9%82%B1%E9%94%A1%E9%B9%8F/" class="list-group-item list-group-item-action">
-          <span class="category-post">More...</span>
+        <a href="/posts/2180589992/" title="第3章 - 线性分类"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">第3章 - 线性分类</span>
         </a>
-        
+      
+    
+      
+      
+        <a href="/posts/75512103/" title="第4章 - 前馈神经网络 - 书籍"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">第4章 - 前馈神经网络 - 书籍</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/1943031638/" title="第4章 - 前馈神经网络 - 视频"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">第4章 - 前馈神经网络 - 视频</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/1254558254/" title="第5章 - 卷积神经网络 - 书籍"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">第5章 - 卷积神经网络 - 书籍</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/3952900717/" title="第5章 - 卷积神经网络实践：ResNet18图像分类"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">第5章 - 卷积神经网络实践：ResNet18图像分类</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/1033337951/" title="第5章 - 卷积神经网络 - 视频"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">第5章 - 卷积神经网络 - 视频</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/1133786115/" title="第6章 - 循环神经网络 - 书籍"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">第6章 - 循环神经网络 - 书籍</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/1748706165/" title="6 - 循环神经网络 - 实践：基于双向LSTM模型完成文本分类任务"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">6 - 循环神经网络 - 实践：基于双向LSTM模型完成文本分类任务</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/1557301731/" title="6 - 循环神经网络 - 视频"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">6 - 循环神经网络 - 视频</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/867345559/" title="7 - 网络优化与正则化 - 书籍1"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">7 - 网络优化与正则化 - 书籍1</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2864444717/" title="7 - 网络优化与正则化 - 书籍2"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">7 - 网络优化与正则化 - 书籍2</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/3720136123/" title="7 - 网络优化与正则化 - 书籍3"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">7 - 网络优化与正则化 - 书籍3</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/3380835339/" title="7 - 网络优化与正则化 - 视频"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">7 - 网络优化与正则化 - 视频</span>
+        </a>
+      
+    
   </div>
 
         
       </div>
     </div>
   
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="文章学习"
+        id="heading-32d530fd9a29595648d3bd02883babe2" role="tab" data-toggle="collapse" href="#collapse-32d530fd9a29595648d3bd02883babe2"
+        aria-expanded="false"
+      >
+        文章学习
+        <span class="list-group-count"></span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-count col-2 col-md-1 col-xm-1">
+          <i class="iconfont icon-articles"></i>
+          <span>10</span>
+        </a>
+      
+      <div class="category-collapse collapse " id="collapse-32d530fd9a29595648d3bd02883babe2"
+           role="tabpanel" aria-labelledby="heading-32d530fd9a29595648d3bd02883babe2">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/posts/125018155/" title="001 - 文章阅读笔记：深度可分离卷积（Depthwise seperable convolution） - CSDN - 深度学习 - 冰雪棋书"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">001 - 文章阅读笔记：深度可分离卷积（Depthwise seperable convolution） - CSDN - 深度学习 - 冰雪棋书</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/681746266/" title="002 - 文章阅读笔记：总结部分注意力机制 - CSDN - 向上取整 - 专栏：计算机视觉"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">002 - 文章阅读笔记：总结部分注意力机制 - CSDN - 向上取整 - 专栏：计算机视觉</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2714358425/" title="003 - 文章阅读笔记：位置注意力和通道注意力"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">003 - 文章阅读笔记：位置注意力和通道注意力</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2649439206/" title="004 - 文章阅读笔记：深度学习(8)CNN中的通道注意力机制（SEnet、ECAnet），附Tensorflow完整代码 - CSDN - 立Sir"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">004 - 文章阅读笔记：深度学习(8)CNN中的通道注意力机制（SEnet、ECAnet），附Tensorflow完整代码 - CSDN - 立Sir</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/1720399859/" title="005 - 文章阅读笔记：L2范数归一化"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">005 - 文章阅读笔记：L2范数归一化</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/3199740775/" title="006 - 文章阅读笔记：向量的内积和外积"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">006 - 文章阅读笔记：向量的内积和外积</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2723894386/" title="007 - 文章阅读笔记：学习Transformer：自注意力与多头自注意力的原理及实现 - CSDN - 此人姓于名叫罩百灵"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">007 - 文章阅读笔记：学习Transformer：自注意力与多头自注意力的原理及实现 - CSDN - 此人姓于名叫罩百灵</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/564730285/" title="008 - 文章阅读笔记：混合密度网络：也许你需要的是一颗骰子 - 知乎 - esang"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">008 - 文章阅读笔记：混合密度网络：也许你需要的是一颗骰子 - 知乎 - esang</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/696444063/" title="009 - 文章阅读笔记：混合密度网络（MDN）进行多元回归详解和代码示例 - 数据派THU（清华大学数据软件团队官方微信公众号）"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">009 - 文章阅读笔记：混合密度网络（MDN）进行多元回归详解和代码示例 - 数据派THU（清华大学数据软件团队官方微信公众号）</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/1408352037/" title="010 - 文章阅读笔记：当神经网络撞上薛定谔：混合密度网络入门 - 知乎 - 代码律动"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">010 - 文章阅读笔记：当神经网络撞上薛定谔：混合密度网络入门 - 知乎 - 代码律动</span>
+        </a>
+      
+    
+  </div>
+
         
       </div>
     </div>
@@ -2063,9 +2569,9 @@
         <i class="iconfont icon-arrowright"></i>
       </a>
       
-        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/" class="category-count col-2 col-md-1 col-xm-1">
+        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/" class="category-count col-2 col-md-1 col-xm-1">
           <i class="iconfont icon-articles"></i>
-          <span>6</span>
+          <span>8</span>
         </a>
       
       <div class="category-collapse collapse " id="collapse-715332a1fde57d7e8bd2a5a7d345ff06"
@@ -2095,9 +2601,9 @@
         <i class="iconfont icon-arrowright"></i>
       </a>
       
-        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E9%A3%9E%E6%A1%A8-%E5%A4%8D%E6%97%A6%E5%A4%A7%E5%AD%A6-%E9%82%B1%E9%94%A1%E9%B9%8F%EF%BC%88NNDL%E8%92%B2%E5%85%AC%E8%8B%B1%E4%B9%A6%EF%BC%89/" class="category-count col-2 col-md-1 col-xm-1">
+        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E9%A3%9E%E6%A1%A8-%E5%A4%8D%E6%97%A6%E5%A4%A7%E5%AD%A6-%E9%82%B1%E9%94%A1%E9%B9%8F%EF%BC%88NNDL%E8%92%B2%E5%85%AC%E8%8B%B1%E4%B9%A6%EF%BC%89/" class="category-count col-2 col-md-1 col-xm-1">
           <i class="iconfont icon-articles"></i>
-          <span>6</span>
+          <span>8</span>
         </a>
       
       <div class="category-collapse collapse " id="collapse-8196dd451155691123e36853010ad817"
@@ -2127,9 +2633,9 @@
         <i class="iconfont icon-arrowright"></i>
       </a>
       
-        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E9%A3%9E%E6%A1%A8-%E5%A4%8D%E6%97%A6%E5%A4%A7%E5%AD%A6-%E9%82%B1%E9%94%A1%E9%B9%8F%EF%BC%88NNDL%E8%92%B2%E5%85%AC%E8%8B%B1%E4%B9%A6%EF%BC%89/%E7%AC%94%E8%AE%B0/" class="category-count col-2 col-md-1 col-xm-1">
+        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E9%A3%9E%E6%A1%A8-%E5%A4%8D%E6%97%A6%E5%A4%A7%E5%AD%A6-%E9%82%B1%E9%94%A1%E9%B9%8F%EF%BC%88NNDL%E8%92%B2%E5%85%AC%E8%8B%B1%E4%B9%A6%EF%BC%89/%E7%AC%94%E8%AE%B0/" class="category-count col-2 col-md-1 col-xm-1">
           <i class="iconfont icon-articles"></i>
-          <span>6</span>
+          <span>8</span>
         </a>
       
       <div class="category-collapse collapse " id="collapse-7051dc52c184c205e39aa54b4664ae9b"
@@ -2142,37 +2648,10 @@
     
       
       
-        <a href="/posts/2701885837/" title="6 - 循环神经网络"
+        <a href="/posts/2249908027/" title="1 - 课节1 绪论"
            class="list-group-item list-group-item-action
            ">
-          <span class="category-post">6 - 循环神经网络</span>
-        </a>
-      
-    
-      
-      
-        <a href="/posts/2118395793/" title="5 - 卷积神经网络"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">5 - 卷积神经网络</span>
-        </a>
-      
-    
-      
-      
-        <a href="/posts/2713595903/" title="4 - 前馈神经网络"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">4 - 前馈神经网络</span>
-        </a>
-      
-    
-      
-      
-        <a href="/posts/292348030/" title="3 - 线性分类"
-           class="list-group-item list-group-item-action
-           ">
-          <span class="category-post">3 - 线性分类</span>
+          <span class="category-post">1 - 课节1 绪论</span>
         </a>
       
     
@@ -2187,10 +2666,55 @@
     
       
       
-        <a href="/posts/2249908027/" title="1 - 课节1 绪论"
+        <a href="/posts/292348030/" title="3 - 线性分类"
            class="list-group-item list-group-item-action
            ">
-          <span class="category-post">1 - 课节1 绪论</span>
+          <span class="category-post">3 - 线性分类</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2713595903/" title="4 - 前馈神经网络"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">4 - 前馈神经网络</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2118395793/" title="5 - 卷积神经网络"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">5 - 卷积神经网络</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2701885837/" title="6 - 循环神经网络"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">6 - 循环神经网络</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/1207574521/" title="7 - 网络优化与正则化"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">7 - 网络优化与正则化</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/1405476561/" title="8 - 注意力机制"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">8 - 注意力机制</span>
         </a>
       
     
@@ -2208,6 +2732,731 @@
       </div>
     </div>
   
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="超分辨率重建"
+        id="heading-524c75dd3984d9dab9fb787ebe41f386" role="tab" data-toggle="collapse" href="#collapse-524c75dd3984d9dab9fb787ebe41f386"
+        aria-expanded="false"
+      >
+        超分辨率重建
+        <span class="list-group-count"></span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-count col-2 col-md-1 col-xm-1">
+          <i class="iconfont icon-articles"></i>
+          <span>86</span>
+        </a>
+      
+      <div class="category-collapse collapse " id="collapse-524c75dd3984d9dab9fb787ebe41f386"
+           role="tabpanel" aria-labelledby="heading-524c75dd3984d9dab9fb787ebe41f386">
+        
+        
+          
+          
+  <div class="category-post-list">
+    
+    
+  </div>
+
+          
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="文章学习"
+        id="heading-32d530fd9a29595648d3bd02883babe2" role="tab" data-toggle="collapse" href="#collapse-32d530fd9a29595648d3bd02883babe2"
+        aria-expanded="false"
+      >
+        文章学习
+        <span class="list-group-count"></span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="category-count col-2 col-md-1 col-xm-1">
+          <i class="iconfont icon-articles"></i>
+          <span>67</span>
+        </a>
+      
+      <div class="category-collapse collapse " id="collapse-32d530fd9a29595648d3bd02883babe2"
+           role="tabpanel" aria-labelledby="heading-32d530fd9a29595648d3bd02883babe2">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/posts/5053570/" title="001 - 文章阅读笔记：图像超分辨率重建算法，让模糊图像变清晰(附数据和代码)"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">001 - 文章阅读笔记：图像超分辨率重建算法，让模糊图像变清晰(附数据和代码)</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/1145042711/" title="002 - 文章阅读笔记：单幅图像超分辨率重建(图像超分) - 腾讯云开发者社区 - 全栈程序员站长"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">002 - 文章阅读笔记：单幅图像超分辨率重建(图像超分) - 腾讯云开发者社区 - 全栈程序员站长</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/3511478344/" title="003 - 文章阅读笔记：用超分辨率扛把子算法 ESRGAN，训练图像增强模型 - 腾讯云开发者社区 - HyperAI超神经"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">003 - 文章阅读笔记：用超分辨率扛把子算法 ESRGAN，训练图像增强模型 - 腾讯云开发者社区 - HyperAI超神经</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2121647263/" title="004 - 文章阅读笔记：超分辨率  综述！使用深度学习来实现图像超分辨率 - 腾讯云开发者社区 - AI算法修炼营"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">004 - 文章阅读笔记：超分辨率  综述！使用深度学习来实现图像超分辨率 - 腾讯云开发者社区 - AI算法修炼营</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/873487138/" title="005 - 文章阅读笔记：综述  基于深度学习的人脸超分辨率：全面调研 - 知乎 - CVer计算机视觉"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">005 - 文章阅读笔记：综述  基于深度学习的人脸超分辨率：全面调研 - 知乎 - CVer计算机视觉</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2409935524/" title="006 - 文章阅读笔记：图像超分辨率技术-简介 - 知乎 - 三维视觉与SLAM - deimo"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">006 - 文章阅读笔记：图像超分辨率技术-简介 - 知乎 - 三维视觉与SLAM - deimo</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2904148576/" title="007 - 文章阅读笔记：图像超分辨率：盲超分总结 - 知乎 - 桃川京夏"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">007 - 文章阅读笔记：图像超分辨率：盲超分总结 - 知乎 - 桃川京夏</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/1827352068/" title="008 - 文章阅读笔记：图像超分辨率学习总结 - 知乎 - 桃川京夏"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">008 - 文章阅读笔记：图像超分辨率学习总结 - 知乎 - 桃川京夏</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/242274264/" title="009 - 文章阅读笔记：图像超分辨率：IPT学习笔记 - 知乎 - 桃川京夏"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">009 - 文章阅读笔记：图像超分辨率：IPT学习笔记 - 知乎 - 桃川京夏</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/1841680122/" title="010 - 文章阅读笔记：图像超分辨率：SwinIR学习笔记 - 知乎 - 桃川京夏"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">010 - 文章阅读笔记：图像超分辨率：SwinIR学习笔记 - 知乎 - 桃川京夏</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/1569671959/" title="011 - 文章阅读笔记：图像处理：超分辨率浅谈 - 知乎 - 心流永恒"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">011 - 文章阅读笔记：图像处理：超分辨率浅谈 - 知乎 - 心流永恒</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2255348493/" title="012 - 文章阅读笔记：基于深度学习的超分辨率图像技术一览 - 知乎 - 深度学习在计算机视觉的应用 - 黄浴"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">012 - 文章阅读笔记：基于深度学习的超分辨率图像技术一览 - 知乎 - 深度学习在计算机视觉的应用 - 黄浴</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/3092918009/" title="013 - 文章阅读笔记：BSRGAN | 一种针对真实图像退化的盲图像超分模型 - 博客园 - 程序员-图哥"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">013 - 文章阅读笔记：BSRGAN | 一种针对真实图像退化的盲图像超分模型 - 博客园 - 程序员-图哥</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/3282765313/" title="014 - 文章阅读笔记：图像超分辨率-Super Resolution(A2N) - 知乎 - 计算机视觉 - Renn"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">014 - 文章阅读笔记：图像超分辨率-Super Resolution(A2N) - 知乎 - 计算机视觉 - Renn</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/653120721/" title="015 - 文章阅读笔记：从图像超分辨率快速入门pytorch - CSDN - gaishi_hero"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">015 - 文章阅读笔记：从图像超分辨率快速入门pytorch - CSDN - gaishi_hero</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2350063716/" title="016 - 文章阅读笔记：一文带你入门超分辨率网络 - CSDN - 只会写bug的菜鸡"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">016 - 文章阅读笔记：一文带你入门超分辨率网络 - CSDN - 只会写bug的菜鸡</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2445466582/" title="017 - 文章阅读笔记：从SRCNN到EDSR，总结深度学习端到端超分辨率方法发展历程 - CSDN - aBlueMouse"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">017 - 文章阅读笔记：从SRCNN到EDSR，总结深度学习端到端超分辨率方法发展历程 - CSDN - aBlueMouse</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/120860454/" title="018 - 文章阅读笔记：深度学习端到端超分辨率方法发展历程（二） - CSDN - aBlueMouse"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">018 - 文章阅读笔记：深度学习端到端超分辨率方法发展历程（二） - CSDN - aBlueMouse</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2353765967/" title="019 - 文章阅读笔记：【论文阅读】深入理解Attention机制 - CSDN - 论文阅读 - 一的千分之一"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">019 - 文章阅读笔记：【论文阅读】深入理解Attention机制 - CSDN - 论文阅读 - 一的千分之一</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2627212261/" title="020 - 文章阅读笔记：目前主流的attention方法都有哪些？ - 知乎"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">020 - 文章阅读笔记：目前主流的attention方法都有哪些？ - 知乎</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/742256945/" title="021 - 文章阅读笔记：【论文阅读】CVPR2021|超分辨率重建相关论文整理与阅读（持续更新） - CSDN - 一的千分之一"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">021 - 文章阅读笔记：【论文阅读】CVPR2021|超分辨率重建相关论文整理与阅读（持续更新） - CSDN - 一的千分之一</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2621004498/" title="022 - 文章阅读笔记：【图像超分辨率重建】——RCAN论文精读笔记 - CSDN - 图像超分辨率重建论文精读 - Zency_SUN"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">022 - 文章阅读笔记：【图像超分辨率重建】——RCAN论文精读笔记 - CSDN - 图像超分辨率重建论文精读 - Zency_SUN</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/4151398511/" title="023 - 文章阅读笔记：基于深度学习的图像超分辨率——综述 - CSDN - 图像超分辨率重建论文精读 - Zency_SUN"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">023 - 文章阅读笔记：基于深度学习的图像超分辨率——综述 - CSDN - 图像超分辨率重建论文精读 - Zency_SUN</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/3439710883/" title="024 - 文章阅读笔记：【图像超分辨率重建】——EDSR论文精读笔记 - CSDN - 图像超分辨率重建论文精读 - Zency_SUN"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">024 - 文章阅读笔记：【图像超分辨率重建】——EDSR论文精读笔记 - CSDN - 图像超分辨率重建论文精读 - Zency_SUN</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/4274636105/" title="025 - 文章阅读笔记：【图像超分辨率重建】——EnhanceNet论文精读笔记 - CSDN - 图像超分辨率重建论文精读 - Zency_SUN"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">025 - 文章阅读笔记：【图像超分辨率重建】——EnhanceNet论文精读笔记 - CSDN - 图像超分辨率重建论文精读 - Zency_SUN</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/47759422/" title="026 - 文章阅读笔记：【图像超分辨率重建】——“SISR 中的Edge-Based 损失函数”论文精读 - CSDN - 图像超分辨率重建论文精读 - Zency_SUN"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">026 - 文章阅读笔记：【图像超分辨率重建】——“SISR 中的Edge-Based 损失函数”论文精读 - CSDN - 图像超分辨率重建论文精读 - Zency_SUN</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/3072813515/" title="027 - 文章阅读笔记：【论文精读】——使用卷积神经网络进行纹理合成（Texture Synthesis Using Convolutional Neural Networks）"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">027 - 文章阅读笔记：【论文精读】——使用卷积神经网络进行纹理合成（Texture Synthesis Using Convolutional Neural Networks）</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/251285534/" title="028 - 文章阅读笔记：【图像超分辨率重建】——SRGAN/SRResNet论文精读笔记"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">028 - 文章阅读笔记：【图像超分辨率重建】——SRGAN/SRResNet论文精读笔记</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2820849598/" title="029 - 文章阅读笔记：【图像超分辨率重建】——HAN论文精读笔记"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">029 - 文章阅读笔记：【图像超分辨率重建】——HAN论文精读笔记</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2408449553/" title="030 - 文章阅读笔记：【图像超分辨率重建】——SAN论文精读笔记"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">030 - 文章阅读笔记：【图像超分辨率重建】——SAN论文精读笔记</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2681808609/" title="031 - 文章阅读笔记：【图像超分辨率重建】——HAT论文精读笔记 - CSDN - Zency_SUN"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">031 - 文章阅读笔记：【图像超分辨率重建】——HAT论文精读笔记 - CSDN - Zency_SUN</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/1774407765/" title="032 - 文章阅读笔记：【图像超分辨率重建】——SwinIR论文精读笔记 - CSDN - Zency_SUN"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">032 - 文章阅读笔记：【图像超分辨率重建】——SwinIR论文精读笔记 - CSDN - Zency_SUN</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2859212987/" title="033 - 文章阅读笔记：【HAT】 Activating More Pixels in Image Super-Resolution Transformer - CSDN - 专栏：超分辨率 - hbw136"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">033 - 文章阅读笔记：【HAT】 Activating More Pixels in Image Super-Resolution Transformer - CSDN - 专栏：超分辨率 - hbw136</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2087287916/" title="034 - 文章阅读笔记：【ENLCA】AAAI2022Efficient Non-Local Contrastive Attention for Image Super-Resolution - CSDN - 专栏：超分辨率 - hbw136"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">034 - 文章阅读笔记：【ENLCA】AAAI2022Efficient Non-Local Contrastive Attention for Image Super-Resolution - CSDN - 专栏：超分辨率 - hbw136</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/3751091181/" title="035 - 文章阅读笔记：[NTIRE 2022][LFN]Residual Local Feature Network for Efficient Super-Resolution - CSDN - 专栏：超分辨率 - hbw136"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">035 - 文章阅读笔记：[NTIRE 2022][LFN]Residual Local Feature Network for Efficient Super-Resolution - CSDN - 专栏：超分辨率 - hbw136</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/4087855987/" title="036 - 文章阅读笔记：Cross-SRN:Structure-Preserving Super-Resolution Network with Cross Convolution - CSDN - 专栏：超分辨率 - hbw136"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">036 - 文章阅读笔记：Cross-SRN:Structure-Preserving Super-Resolution Network with Cross Convolution - CSDN - 专栏：超分辨率 - hbw136</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/1477020044/" title="037 - 文章阅读笔记：RepSR：通过结构重新参数化和批量归一化来训练高效的VGG式超分辨率网络（探究sr中的bn） - CSDN - hbw136"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">037 - 文章阅读笔记：RepSR：通过结构重新参数化和批量归一化来训练高效的VGG式超分辨率网络（探究sr中的bn） - CSDN - hbw136</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2104405647/" title="038 - 文章阅读笔记：(CVPR 2022 阅读笔记)Residual Local Feature Network for Efficient Super-Resolution - CSDN - 专栏：单图像超分辨 - 南妮儿"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">038 - 文章阅读笔记：(CVPR 2022 阅读笔记)Residual Local Feature Network for Efficient Super-Resolution - CSDN - 专栏：单图像超分辨 - 南妮儿</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/1919514304/" title="039 - 文章阅读笔记：AIM2020-ESR 冠军方案解读：引入注意力模块 ESA，实现高效轻量的超分网络（附代码实现） - 极市平台 - ExtremeMart"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">039 - 文章阅读笔记：AIM2020-ESR 冠军方案解读：引入注意力模块 ESA，实现高效轻量的超分网络（附代码实现） - 极市平台 - ExtremeMart</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/386882073/" title="040 - 文章阅读笔记：ACNet|增强局部显著特征，哈工大左旺孟老师团队提出非对称卷积用于图像超分 - AIWalker"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">040 - 文章阅读笔记：ACNet|增强局部显著特征，哈工大左旺孟老师团队提出非对称卷积用于图像超分 - AIWalker</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2130194975/" title="041 - 文章阅读笔记：VapSR | 手把手教你改进PAN，董超团队提出超大感受野注意力超分方案，已开源！ - 2022-10-24 08:00 - AIWalker"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">041 - 文章阅读笔记：VapSR | 手把手教你改进PAN，董超团队提出超大感受野注意力超分方案，已开源！ - 2022-10-24 08:00 - AIWalker</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/3775272473/" title="042 - 文章阅读笔记：ECCV2020 Workshop-PAN-270k参数量SISR网络 | Efficient Image Super-Resolution Using Pixel Attention - CSDN - chenzy_hust"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">042 - 文章阅读笔记：ECCV2020 Workshop-PAN-270k参数量SISR网络 | Efficient Image Super-Resolution Using Pixel Attention - CSDN - chenzy_hust</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2846006872/" title="043 - 文章阅读笔记：组卷积"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">043 - 文章阅读笔记：组卷积</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/1043541079/" title="044 - 文章阅读笔记：NAFNet：图像去噪，去模糊新SOTA！荣获NTIRE 2022 超分辨率冠军方案！ - CSDN - 华为云开发者联盟"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">044 - 文章阅读笔记：NAFNet：图像去噪，去模糊新SOTA！荣获NTIRE 2022 超分辨率冠军方案！ - CSDN - 华为云开发者联盟</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/3434417572/" title="045 - 文章阅读笔记：XPixel团队提出混合注意力机制HAT：Transformer超分性能大涨1dB - Aminer - 数据派THU"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">045 - 文章阅读笔记：XPixel团队提出混合注意力机制HAT：Transformer超分性能大涨1dB - Aminer - 数据派THU</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/612110586/" title="046 - 文章阅读笔记：EDT：超越SwinIR，Transformer再一次占领low-level三大任务"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">046 - 文章阅读笔记：EDT：超越SwinIR，Transformer再一次占领low-level三大任务</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/3058039066/" title="047 - 文章阅读笔记：学习盲图像超分辨率的退化分布 - CSDN - geriezmann"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">047 - 文章阅读笔记：学习盲图像超分辨率的退化分布 - CSDN - geriezmann</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/3593526722/" title="048-文章阅读笔记：CVPR2022-Restormer:刷新多个low-level任务指标-公众号：AIWalker-Happy"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">048-文章阅读笔记：CVPR2022-Restormer:刷新多个low-level任务指标-公众号：AIWalker-Happy</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/576445217/" title="049 - 文章阅读笔记：一层卷积能做啥？BOE告诉你：一层卷积可以做超分！ - 公众号：AIWalker - Happy"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">049 - 文章阅读笔记：一层卷积能做啥？BOE告诉你：一层卷积可以做超分！ - 公众号：AIWalker - Happy</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/119130642/" title="050 - 文章阅读笔记：最新！基于深度学习的盲图像超分技术一览 - 极市平台 - Happy"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">050 - 文章阅读笔记：最新！基于深度学习的盲图像超分技术一览 - 极市平台 - Happy</span>
+        </a>
+      
+    
+      
+      
+        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E6%96%87%E7%AB%A0%E5%AD%A6%E4%B9%A0/" class="list-group-item list-group-item-action">
+          <span class="category-post">More...</span>
+        </a>
+        
+  </div>
+
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="盲超分"
+        id="heading-a56316a7761d3f56bcdf0603623186dd" role="tab" data-toggle="collapse" href="#collapse-a56316a7761d3f56bcdf0603623186dd"
+        aria-expanded="false"
+      >
+        盲超分
+        <span class="list-group-count"></span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+        <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E7%9B%B2%E8%B6%85%E5%88%86/" class="category-count col-2 col-md-1 col-xm-1">
+          <i class="iconfont icon-articles"></i>
+          <span>19</span>
+        </a>
+      
+      <div class="category-collapse collapse " id="collapse-a56316a7761d3f56bcdf0603623186dd"
+           role="tabpanel" aria-labelledby="heading-a56316a7761d3f56bcdf0603623186dd">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/posts/1927094832/" title="文章阅读笔记：【2018-SRMD】论文笔记：2018 SRMD 在超分辨网络中融入模糊核和噪声水平 - 知乎 - 名字越长越开心"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">文章阅读笔记：【2018-SRMD】论文笔记：2018 SRMD 在超分辨网络中融入模糊核和噪声水平 - 知乎 - 名字越长越开心</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/101675316/" title="文章阅读笔记：【2019 IKC】IKC Blind Super-Resolution With Iterative Kernel Correction"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">文章阅读笔记：【2019 IKC】IKC Blind Super-Resolution With Iterative Kernel Correction</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/1988067180/" title="文章阅读笔记：【2019 FSSR】Frequency Separation for Real-World Super-Resolution"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">文章阅读笔记：【2019 FSSR】Frequency Separation for Real-World Super-Resolution</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/904285378/" title="文章阅读笔记：【2020 FS-SRGAN】Guided frequency separation network for real-world super-resolution"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">文章阅读笔记：【2020 FS-SRGAN】Guided frequency separation network for real-world super-resolution</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/3260258894/" title="文章阅读笔记：【2020 RealSR】Real-World Super-Resolution via Kernel Estimation and Noise Injection"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">文章阅读笔记：【2020 RealSR】Real-World Super-Resolution via Kernel Estimation and Noise Injection</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/776757306/" title="文章阅读笔记：【2019 DPSR】Deep Plug-and-Play Super-Resolution for Arbitrary Blur Kernels"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">文章阅读笔记：【2019 DPSR】Deep Plug-and-Play Super-Resolution for Arbitrary Blur Kernels</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/973653310/" title="文章阅读笔记：【2020 USRnet】Deep Unfolding Network for Image Super-Resolution"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">文章阅读笔记：【2020 USRnet】Deep Unfolding Network for Image Super-Resolution</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/360577049/" title="文章阅读笔记：【2021 DPIR】Plug-and-Play Image Restoration with Deep Denoiser Prior"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">文章阅读笔记：【2021 DPIR】Plug-and-Play Image Restoration with Deep Denoiser Prior</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/997647599/" title="文章阅读笔记：【2021 MANet】Mutual Affine Network for Spatially Variant Kernel Estimationin Blind Image Super-Resolution"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">文章阅读笔记：【2021 MANet】Mutual Affine Network for Spatially Variant Kernel Estimationin Blind Image Super-Resolution</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2340942422/" title="文章阅读笔记：【2020 DAN_v1】Unfolding the Alternating Optimization for Blind Super Resolution"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">文章阅读笔记：【2020 DAN_v1】Unfolding the Alternating Optimization for Blind Super Resolution</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2887697496/" title="文章阅读笔记：【2021 Real-ESRGAN】Training Real-World Blind Super-Resolution with Pure Synthetic Data"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">文章阅读笔记：【2021 Real-ESRGAN】Training Real-World Blind Super-Resolution with Pure Synthetic Data</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/3532120799/" title="文章阅读笔记：【2021 FAIG】Finding Discriminative Filters for Specific Degradations in Blind Super-Resolution"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">文章阅读笔记：【2021 FAIG】Finding Discriminative Filters for Specific Degradations in Blind Super-Resolution</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/988061073/" title="文章阅读笔记：【2022 DASR】Efficient and Degradation-Adaptive Network for Real-World Image Super-Resolution"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">文章阅读笔记：【2022 DASR】Efficient and Degradation-Adaptive Network for Real-World Image Super-Resolution</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/1100471768/" title="文章阅读笔记：【2021 DANv2】End-to-end Alternating Optimization for Blind Super Resolution"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">文章阅读笔记：【2021 DANv2】End-to-end Alternating Optimization for Blind Super Resolution</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2574956691/" title="文章阅读笔记：【2020 Pseudo-SR】Pseudo-Supervision：Unpaired Image Super-Resolution using Pseud"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">文章阅读笔记：【2020 Pseudo-SR】Pseudo-Supervision：Unpaired Image Super-Resolution using Pseud</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/1625480038/" title="文章阅读笔记：【2021 DASR】基于域间距离感知的非监督真实世界图像超分辨率算法"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">文章阅读笔记：【2021 DASR】基于域间距离感知的非监督真实世界图像超分辨率算法</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/2617692934/" title="文章阅读笔记：【2022 PDM】Learning the Degradation Distribution for Blind Image Super-Resolution"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">文章阅读笔记：【2022 PDM】Learning the Degradation Distribution for Blind Image Super-Resolution</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/973933338/" title="文章阅读笔记：【2021 USR_DA】Unsupervised Real-World Super-Resolution：A Domain Adaptation Perspective"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">文章阅读笔记：【2021 USR_DA】Unsupervised Real-World Super-Resolution：A Domain Adaptation Perspective</span>
+        </a>
+      
+    
+      
+      
+        <a href="/posts/3079960614/" title="文章阅读笔记：【2021 DRL-DASR】Unsupervised Degradation Representation Learning for Blind Super-Resolution"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">文章阅读笔记：【2021 DRL-DASR】Unsupervised Degradation Representation Learning for Blind Super-Resolution</span>
+        </a>
+      
+    
+  </div>
+
         
       </div>
     </div>
@@ -2236,7 +3485,7 @@
       
         <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" class="category-count col-2 col-md-1 col-xm-1">
           <i class="iconfont icon-articles"></i>
-          <span>2</span>
+          <span>3</span>
         </a>
       
       <div class="category-collapse collapse " id="collapse-5a596b42154341fee9d0bdf28baa6524"
@@ -2313,19 +3562,19 @@
     
       
       
-        <a href="/posts/441628142/" title="OS中的零拷贝"
+        <a href="/posts/2169254623/" title="OS中的阻塞与非阻塞IO、同步与异步IO"
            class="list-group-item list-group-item-action
            ">
-          <span class="category-post">OS中的零拷贝</span>
+          <span class="category-post">OS中的阻塞与非阻塞IO、同步与异步IO</span>
         </a>
       
     
       
       
-        <a href="/posts/2169254623/" title="OS中的阻塞与非阻塞IO、同步与异步IO"
+        <a href="/posts/441628142/" title="OS中的零拷贝"
            class="list-group-item list-group-item-action
            ">
-          <span class="category-post">OS中的阻塞与非阻塞IO、同步与异步IO</span>
+          <span class="category-post">OS中的零拷贝</span>
         </a>
       
     
@@ -2335,6 +3584,48 @@
       </div>
     </div>
   
+        
+      </div>
+    </div>
+  
+    
+    
+    
+    <div class="category-sub row nomargin-x">
+      <a class="category-subitem collapsed
+          list-group-item category-item-action col-10 col-md-11 col-xm-11" title="计算机网络"
+        id="heading-f75627e742c5ba6fab3c2f3c2abf02a0" role="tab" data-toggle="collapse" href="#collapse-f75627e742c5ba6fab3c2f3c2abf02a0"
+        aria-expanded="false"
+      >
+        计算机网络
+        <span class="list-group-count"></span>
+        <i class="iconfont icon-arrowright"></i>
+      </a>
+      
+        <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="category-count col-2 col-md-1 col-xm-1">
+          <i class="iconfont icon-articles"></i>
+          <span>1</span>
+        </a>
+      
+      <div class="category-collapse collapse " id="collapse-f75627e742c5ba6fab3c2f3c2abf02a0"
+           role="tabpanel" aria-labelledby="heading-f75627e742c5ba6fab3c2f3c2abf02a0">
+        
+        
+          
+  <div class="category-post-list">
+    
+    
+      
+      
+        <a href="/posts/4105997757/" title="什么是网关，网关的作用是什么？"
+           class="list-group-item list-group-item-action
+           ">
+          <span class="category-post">什么是网关，网关的作用是什么？</span>
+        </a>
+      
+    
+  </div>
+
         
       </div>
     </div>

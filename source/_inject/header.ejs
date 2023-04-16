@@ -33,6 +33,8 @@ var banner_mask_alpha = page.banner_mask_alpha || theme.index.banner_mask_alpha
 						}
 					}
 
+
+
 					$.getJSON('/vvd_js/video_url.json', function(data){
 						if (true){
 							var video_list_length = data.length
@@ -41,6 +43,11 @@ var banner_mask_alpha = page.banner_mask_alpha || theme.index.banner_mask_alpha
 							
 							video_url = data[index][0]
 							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
 							
 							banner_obj = document.getElementById("banner")
 							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"

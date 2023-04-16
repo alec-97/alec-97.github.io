@@ -70,7 +70,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":5,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -277,6 +277,8 @@
 						}
 					}
 
+
+
 					$.getJSON('/vvd_js/video_url.json', function(data){
 						if (true){
 							var video_list_length = data.length
@@ -285,6 +287,11 @@
 							
 							video_url = data[index][0]
 							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
 							
 							banner_obj = document.getElementById("banner")
 							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
@@ -327,71 +334,71 @@
                 
 
 <div class="list-group">
-  <p class="h4">共计 17 篇文章</p>
+  <p class="h4">共计 33 篇文章</p>
   <hr>
   
   
     
       
-      <p class="h5">2022</p>
+      <p class="h5">2023</p>
     
-    <a href="/posts/2701885837/" class="list-group-item list-group-item-action">
-      <time>12-25</time>
-      <div class="list-group-item-title">6 - 循环神经网络</div>
+    <a href="/posts/1408352037/" class="list-group-item list-group-item-action">
+      <time>02-07</time>
+      <div class="list-group-item-title">010 - 文章阅读笔记：当神经网络撞上薛定谔：混合密度网络入门 - 知乎 - 代码律动</div>
     </a>
   
     
-    <a href="/posts/2118395793/" class="list-group-item list-group-item-action">
-      <time>12-25</time>
-      <div class="list-group-item-title">5 - 卷积神经网络</div>
+    <a href="/posts/696444063/" class="list-group-item list-group-item-action">
+      <time>02-07</time>
+      <div class="list-group-item-title">009 - 文章阅读笔记：混合密度网络（MDN）进行多元回归详解和代码示例 - 数据派THU（清华大学数据软件团队官方微信公众号）</div>
     </a>
   
     
-    <a href="/posts/2713595903/" class="list-group-item list-group-item-action">
-      <time>12-25</time>
-      <div class="list-group-item-title">4 - 前馈神经网络</div>
+    <a href="/posts/564730285/" class="list-group-item list-group-item-action">
+      <time>02-05</time>
+      <div class="list-group-item-title">008 - 文章阅读笔记：混合密度网络：也许你需要的是一颗骰子 - 知乎 - esang</div>
     </a>
   
     
-    <a href="/posts/292348030/" class="list-group-item list-group-item-action">
-      <time>12-25</time>
-      <div class="list-group-item-title">3 - 线性分类</div>
+    <a href="/posts/2723894386/" class="list-group-item list-group-item-action">
+      <time>02-03</time>
+      <div class="list-group-item-title">007 - 文章阅读笔记：学习Transformer：自注意力与多头自注意力的原理及实现 - CSDN - 此人姓于名叫罩百灵</div>
     </a>
   
     
-    <a href="/posts/3917031307/" class="list-group-item list-group-item-action">
-      <time>12-25</time>
-      <div class="list-group-item-title">2 - 机器学习</div>
+    <a href="/posts/3199740775/" class="list-group-item list-group-item-action">
+      <time>01-29</time>
+      <div class="list-group-item-title">006 - 文章阅读笔记：向量的内积和外积</div>
     </a>
   
     
-    <a href="/posts/2249908027/" class="list-group-item list-group-item-action">
-      <time>12-25</time>
-      <div class="list-group-item-title">1 - 课节1 绪论</div>
+    <a href="/posts/1720399859/" class="list-group-item list-group-item-action">
+      <time>01-29</time>
+      <div class="list-group-item-title">005 - 文章阅读笔记：L2范数归一化</div>
     </a>
   
     
-    <a href="/posts/1557301731/" class="list-group-item list-group-item-action">
-      <time>12-25</time>
-      <div class="list-group-item-title">6 - 循环神经网络 - 视频</div>
+    <a href="/posts/2649439206/" class="list-group-item list-group-item-action">
+      <time>01-27</time>
+      <div class="list-group-item-title">004 - 文章阅读笔记：深度学习(8)CNN中的通道注意力机制（SEnet、ECAnet），附Tensorflow完整代码 - CSDN - 立Sir</div>
     </a>
   
     
-    <a href="/posts/1748706165/" class="list-group-item list-group-item-action">
-      <time>12-25</time>
-      <div class="list-group-item-title">6 - 循环神经网络 - 实践：基于双向LSTM模型完成文本分类任务</div>
+    <a href="/posts/2714358425/" class="list-group-item list-group-item-action">
+      <time>01-20</time>
+      <div class="list-group-item-title">003 - 文章阅读笔记：位置注意力和通道注意力</div>
     </a>
   
     
-    <a href="/posts/1133786115/" class="list-group-item list-group-item-action">
-      <time>12-25</time>
-      <div class="list-group-item-title">第6章 - 循环神经网络 - 书籍</div>
+    <a href="/posts/681746266/" class="list-group-item list-group-item-action">
+      <time>01-20</time>
+      <div class="list-group-item-title">002 - 文章阅读笔记：总结部分注意力机制 - CSDN - 向上取整 - 专栏：计算机视觉</div>
     </a>
   
     
-    <a href="/posts/1033337951/" class="list-group-item list-group-item-action">
-      <time>12-25</time>
-      <div class="list-group-item-title">第5章 - 卷积神经网络 - 视频</div>
+    <a href="/posts/125018155/" class="list-group-item list-group-item-action">
+      <time>01-20</time>
+      <div class="list-group-item-title">001 - 文章阅读笔记：深度可分离卷积（Depthwise seperable convolution） - CSDN - 深度学习 - 冰雪棋书</div>
     </a>
   
 </div>
@@ -399,7 +406,7 @@
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/page/2/#board">2</a><a class="extend next" rel="next" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+      <span class="page-number current">1</span><a class="page-number" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/page/2/">2</a><a class="page-number" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/page/3/">3</a><a class="page-number" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/page/4/">4</a><a class="extend next" rel="next" href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/page/2/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 

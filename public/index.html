@@ -70,7 +70,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":5,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -277,6 +277,8 @@
 						}
 					}
 
+
+
 					$.getJSON('/vvd_js/video_url.json', function(data){
 						if (true){
 							var video_list_length = data.length
@@ -285,6 +287,11 @@
 							
 							video_url = data[index][0]
 							pre_show_image_url = data[index][1]
+
+							// alec insert, 弹出当前是哪个视频
+							// var info = index+"/"+video_list_length
+							// alert(info)
+
 							
 							banner_obj = document.getElementById("banner")
 							banner_obj.style.cssText = "background: url('" + pre_show_image_url + "') no-repeat; background-size: cover;"
@@ -331,23 +338,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/posts/3315347902/" target="_self">
-          <img src="https://img.xjh.me/random_img.php?type=bg&amp;ctype=nature&amp;return=302" srcset="/img/loading.gif" lazyload alt="常见的消息队列有哪些">
+        <a href="/posts/4105997757/" target="_self">
+          <img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202304141717568.png" srcset="/img/loading.gif" lazyload alt="什么是网关，网关的作用是什么？">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/posts/3315347902/" target="_self">
-          常见的消息队列有哪些
+        <a href="/posts/4105997757/" target="_self">
+          什么是网关，网关的作用是什么？
         </a>
       </h1>
 
       
-      <a class="index-excerpt " href="/posts/3315347902/" target="_self">
+      <a class="index-excerpt " href="/posts/4105997757/" target="_self">
         <div>
-          参考：   常见的消息队列有哪些？ - JavaGuide（√）  KafkaKafka 是 LinkedIn 开源的一个分布式流式处理平台，已经成为 Apache 顶级项目，早期被用来用于处理海量的日志，后面才慢慢发展成了一款功能全面的高性能消息队列。 Kafka 是一个分布式系统，由通过高性能 TCP 网络协议进行通信的服务器和客户端组成，可以部署在在本地和云环境中的裸机硬件、虚拟机和容
+          原文链接： （1）【√】什么是网关，网关的作用是什么？ - CSDN - huangyimo（link） 于 2018-09-28 17:26:23 发布 （2）【√】网关是什么意思？3分钟了解网关的作用 - 黑马程序员（link） 更新时间:2021-11-30 ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。
         </div>
       </a>
 
@@ -355,98 +362,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-25 15:16" pubdate>
-              2022-12-25
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3 d-flex align-items-center">
-            <i class="iconfont icon-category"></i>
-            
-
-<span class="category-chains">
-  
-  
-    
-      <span class="category-chain">
-        
-  <a href="/categories/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84/" class="category-chain-item">软件架构</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" class="category-chain-item">消息队列</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/%E7%AC%94%E8%AE%B0/inbox/" class="category-chain-item">inbox</a>
-  
-  
-
-  
-
-  
-
-  
-
-      </span>
-    
-  
-</span>
-
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">#消息队列</a>
-            
-              <a href="/tags/%E6%9E%B6%E6%9E%84/">#架构</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/posts/441628142/" target="_self">
-          <img src="https://img.xjh.me/random_img.php?type=bg&amp;ctype=nature&amp;return=302" srcset="/img/loading.gif" lazyload alt="OS中的零拷贝">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/posts/441628142/" target="_self">
-          OS中的零拷贝
-        </a>
-      </h1>
-
-      
-      <a class="index-excerpt " href="/posts/441628142/" target="_self">
-        <div>
-          &#x3D;&#x3D;传统的I&#x2F;O的方式：&#x3D;&#x3D; 数据的读取和写入需要从内核空间和用户空间之间来回的复制，而内核空间的数据则是通过操作系统的I&#x2F;O从磁盘读取。这个过程需要发生多次的上下文切换和数据拷贝。   &#x3D;&#x3D;传统I&#x2F;O方式的弊端：&#x3D;&#x3D; 发生多次的上下文切换和内存拷贝，导致IO性能低。 4次上下文切换和4次
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-25 15:16" pubdate>
-              2022-12-25
+            <time datetime="2023-04-14 17:16" pubdate>
+              2023-04-14
             </time>
           </div>
         
@@ -466,12 +383,88 @@
   
     <span>></span>
     
-  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="category-chain-item">操作系统</a>
+  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="category-chain-item">计算机网络</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/p2p/">#p2p</a>
+            
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">#计算机网络</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/posts/1137730746/" target="_self">
+          <img src="https://img.xjh.me/random_img.php?type=bg&amp;ctype=nature&amp;return=302" srcset="/img/loading.gif" lazyload alt="在python中import和from import的区别">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/posts/1137730746/" target="_self">
+          在python中import和from import的区别
+        </a>
+      </h1>
+
+      
+      <a class="index-excerpt " href="/posts/1137730746/" target="_self">
+        <div>
+          在Python中，import和from import语句用于导入模块或模块中的特定函数或变量。它们之间的区别如下： import moduleimport语句用于导入整个模块，然后您可以使用模块中的所有函数和变量。例如，以下代码将导入整个math模块： 12import math  然后，您可以使用math模块中的所有函数和变量，例如： 12x = math.sqrt(16)print(x)
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2023-04-02 23:37" pubdate>
+              2023-04-02
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3 d-flex align-items-center">
+            <i class="iconfont icon-category"></i>
+            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
   
   
     <span>></span>
     
-  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/inbox/" class="category-chain-item">inbox</a>
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/Python%E5%9F%BA%E7%A1%80/" class="category-chain-item">Python基础</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/Python%E5%9F%BA%E7%A1%80/%E9%9B%B6%E7%A2%8E%E5%AD%A6%E4%B9%A0/" class="category-chain-item">零碎学习</a>
   
   
 
@@ -490,7 +483,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">#操作系统基础知识</a>
+              <a href="/tags/python/">#python</a>
+            
+              <a href="/tags/%E9%9A%8F%E6%89%8B%E8%AE%B0/">#随手记</a>
             
           </div>
         
@@ -502,23 +497,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/posts/2169254623/" target="_self">
-          <img src="https://img.xjh.me/random_img.php?type=bg&amp;ctype=nature&amp;return=302" srcset="/img/loading.gif" lazyload alt="OS中的阻塞与非阻塞IO、同步与异步IO">
+        <a href="/posts/3079960614/" target="_self">
+          <img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302272159312.jpg" srcset="/img/loading.gif" lazyload alt="文章阅读笔记：【2021 DRL-DASR】Unsupervised Degradation Representation Learning for Blind Super-Resolution">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/posts/2169254623/" target="_self">
-          OS中的阻塞与非阻塞IO、同步与异步IO
+        <a href="/posts/3079960614/" target="_self">
+          文章阅读笔记：【2021 DRL-DASR】Unsupervised Degradation Representation Learning for Blind Super-Resolution
         </a>
       </h1>
 
       
-      <a class="index-excerpt " href="/posts/2169254623/" target="_self">
+      <a class="index-excerpt " href="/posts/3079960614/" target="_self">
         <div>
-          前言  IO 指的是用户态的进程，需要操作系统帮助其进行数据的读入和写出。 以 IN 为例，可以分为两个步骤：从磁盘、网络等地方将数据放到内核空间（准备内核数据）、数据从内核空间拷贝到用户空间（内核空间的数据拷贝到用户空间）。     阻塞 I&#x2F;O  阻塞 I&#x2F;O 阻塞等待的是两个过程：准备内核数据 和 内核数据拷贝到用户空间。 用户进程需要数据的时候，调用 read()
+          原文链接： （1）【√】每日五分钟一读# Image Super-Resolution - 知乎 - Andy（link） 发布于 2021-04-08 20:16 （2）【√】Unsupervised Degradation Representation Learning for Blind Super-Resolution（基于无监督退化表示学习的盲超分辨率处理） - CSDN - Clou
         </div>
       </a>
 
@@ -526,8 +521,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-25 15:16" pubdate>
-              2022-12-25
+            <time datetime="2023-02-27 21:23" pubdate>
+              2023-02-27
             </time>
           </div>
         
@@ -542,17 +537,17 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/" class="category-chain-item">计算机基础</a>
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/" class="category-chain-item">深度学习技术栈</a>
   
   
     <span>></span>
     
-  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="category-chain-item">操作系统</a>
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
   
   
     <span>></span>
     
-  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/inbox/" class="category-chain-item">inbox</a>
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E7%9B%B2%E8%B6%85%E5%88%86/" class="category-chain-item">盲超分</a>
   
   
 
@@ -571,7 +566,19 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">#操作系统基础知识</a>
+              <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">#深度学习</a>
+            
+              <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">#图像处理</a>
+            
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">#计算机视觉</a>
+            
+              <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">#人工智能</a>
+            
+              <a href="/tags/%E7%9B%B2%E8%B6%85%E5%88%86/">#盲超分</a>
+            
+              <a href="/tags/%E6%97%A0%E7%9B%91%E7%9D%A3/">#无监督</a>
+            
+              <a href="/tags/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/">#卷积神经网络</a>
             
           </div>
         
@@ -583,23 +590,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/posts/2701885837/" target="_self">
-          <img src="https://img.xjh.me/random_img.php?type=bg&amp;ctype=nature&amp;return=302" srcset="/img/loading.gif" lazyload alt="6 - 循环神经网络">
+        <a href="/posts/973933338/" target="_self">
+          <img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302272044875.jpg" srcset="/img/loading.gif" lazyload alt="文章阅读笔记：【2021 USR_DA】Unsupervised Real-World Super-Resolution：A Domain Adaptation Perspective">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/posts/2701885837/" target="_self">
-          6 - 循环神经网络
+        <a href="/posts/973933338/" target="_self">
+          文章阅读笔记：【2021 USR_DA】Unsupervised Real-World Super-Resolution：A Domain Adaptation Perspective
         </a>
       </h1>
 
       
-      <a class="index-excerpt " href="/posts/2701885837/" target="_self">
+      <a class="index-excerpt " href="/posts/973933338/" target="_self">
         <div>
-          [√] 6.0 - 循环神经网络  alec： 循环神经网络的变种版本：GRU和LSTM 前馈神经网络和卷积神经网络，信息是单向传播的 循环神经网络中，信息是带有环路的  [√] 6.1 - 给神经网络增加记忆能力 [√] 前馈网络  alec： 前馈神经网络总体上是无法处理可变大小的输入的（卷积神经网络中也有全连接层） 序列数据通常来讲是变长的，因为无法通过前馈神经网路来处理     需要想办法
+          Welcome to my blog, enter password to read.
         </div>
       </a>
 
@@ -607,8 +614,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-25 15:16" pubdate>
-              2022-12-25
+            <time datetime="2023-02-27 19:11" pubdate>
+              2023-02-27
             </time>
           </div>
         
@@ -628,34 +635,13 @@
   
     <span>></span>
     
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
   
   
     <span>></span>
     
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/" class="category-chain-item">分支导航</a>
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E7%9B%B2%E8%B6%85%E5%88%86/" class="category-chain-item">盲超分</a>
   
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/" class="category-chain-item">视频学习</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E9%A3%9E%E6%A1%A8-%E5%A4%8D%E6%97%A6%E5%A4%A7%E5%AD%A6-%E9%82%B1%E9%94%A1%E9%B9%8F%EF%BC%88NNDL%E8%92%B2%E5%85%AC%E8%8B%B1%E4%B9%A6%EF%BC%89/" class="category-chain-item">神经网络与深度学习 - 飞桨 - 复旦大学 - 邱锡鹏（NNDL蒲公英书）</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E9%A3%9E%E6%A1%A8-%E5%A4%8D%E6%97%A6%E5%A4%A7%E5%AD%A6-%E9%82%B1%E9%94%A1%E9%B9%8F%EF%BC%88NNDL%E8%92%B2%E5%85%AC%E8%8B%B1%E4%B9%A6%EF%BC%89/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
-  
-  
-
-  
-
-  
-
   
 
   
@@ -670,6 +656,13 @@
           </div>
         
         
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%9B%B2%E8%B6%85%E5%88%86/">#盲超分</a>
+            
+          </div>
+        
       </div>
     </article>
   </div>
@@ -678,23 +671,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/posts/2118395793/" target="_self">
-          <img src="https://img.xjh.me/random_img.php?type=bg&amp;ctype=nature&amp;return=302" srcset="/img/loading.gif" lazyload alt="5 - 卷积神经网络">
+        <a href="/posts/2617692934/" target="_self">
+          <img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302271653361.png" srcset="/img/loading.gif" lazyload alt="文章阅读笔记：【2022 PDM】Learning the Degradation Distribution for Blind Image Super-Resolution">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/posts/2118395793/" target="_self">
-          5 - 卷积神经网络
+        <a href="/posts/2617692934/" target="_self">
+          文章阅读笔记：【2022 PDM】Learning the Degradation Distribution for Blind Image Super-Resolution
         </a>
       </h1>
 
       
-      <a class="index-excerpt " href="/posts/2118395793/" target="_self">
+      <a class="index-excerpt " href="/posts/2617692934/" target="_self">
         <div>
-          [√] 5 - 课节5：卷积神经网络 [√] 5.0 - 卷积神经网络概述 卷积神经网络的信息也是单向传递的  [√] 全连接前馈神经网络   alec： 全连接很难提取图像上局部不变的特性 图像上的一些特征是平移、旋转、缩放等不变的   [√] 卷积神经网络   [√] 本章内容   [√] 5.1 - 卷积  ——&gt;[√] 卷积    alec： 卷积输出的长度为：N-K+1，N为数据长
+          Welcome to my blog, enter password to read.
         </div>
       </a>
 
@@ -702,8 +695,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-25 15:16" pubdate>
-              2022-12-25
+            <time datetime="2023-02-27 13:57" pubdate>
+              2023-02-27
             </time>
           </div>
         
@@ -723,34 +716,13 @@
   
     <span>></span>
     
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
   
   
     <span>></span>
     
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/" class="category-chain-item">分支导航</a>
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E7%9B%B2%E8%B6%85%E5%88%86/" class="category-chain-item">盲超分</a>
   
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/" class="category-chain-item">视频学习</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E9%A3%9E%E6%A1%A8-%E5%A4%8D%E6%97%A6%E5%A4%A7%E5%AD%A6-%E9%82%B1%E9%94%A1%E9%B9%8F%EF%BC%88NNDL%E8%92%B2%E5%85%AC%E8%8B%B1%E4%B9%A6%EF%BC%89/" class="category-chain-item">神经网络与深度学习 - 飞桨 - 复旦大学 - 邱锡鹏（NNDL蒲公英书）</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E9%A3%9E%E6%A1%A8-%E5%A4%8D%E6%97%A6%E5%A4%A7%E5%AD%A6-%E9%82%B1%E9%94%A1%E9%B9%8F%EF%BC%88NNDL%E8%92%B2%E5%85%AC%E8%8B%B1%E4%B9%A6%EF%BC%89/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
-  
-  
-
-  
-
-  
-
   
 
   
@@ -765,6 +737,13 @@
           </div>
         
         
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%9B%B2%E8%B6%85%E5%88%86/">#盲超分</a>
+            
+          </div>
+        
       </div>
     </article>
   </div>
@@ -773,23 +752,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/posts/2713595903/" target="_self">
-          <img src="https://img.xjh.me/random_img.php?type=bg&amp;ctype=nature&amp;return=302" srcset="/img/loading.gif" lazyload alt="4 - 前馈神经网络">
+        <a href="/posts/1625480038/" target="_self">
+          <img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302262240643.png" srcset="/img/loading.gif" lazyload alt="文章阅读笔记：【2021 DASR】基于域间距离感知的非监督真实世界图像超分辨率算法">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/posts/2713595903/" target="_self">
-          4 - 前馈神经网络
+        <a href="/posts/1625480038/" target="_self">
+          文章阅读笔记：【2021 DASR】基于域间距离感知的非监督真实世界图像超分辨率算法
         </a>
       </h1>
 
       
-      <a class="index-excerpt " href="/posts/2713595903/" target="_self">
+      <a class="index-excerpt " href="/posts/1625480038/" target="_self">
         <div>
-          [√] 4 - 课节4：前馈神经网络[√] 4.0 - 前馈神经网络概述本节讲非线性的分类器，这个分类器主要就是神经网络。今天讲的第一种神经网络是前馈神经网络。   [√] 4.1 - 神经元   偏置b的作用是：调节阈值，即达到什么程度就兴奋。 这个人工神经元可以看做是一个简单的线性模型。 这个神经元可以看做两部分，前半部分看做是收集信息，后半部分看做是一个非线性函数，用来将收集的信息映射到一个
+          Welcome to my blog, enter password to read.
         </div>
       </a>
 
@@ -797,8 +776,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-25 15:16" pubdate>
-              2022-12-25
+            <time datetime="2023-02-26 17:47" pubdate>
+              2023-02-26
             </time>
           </div>
         
@@ -818,34 +797,13 @@
   
     <span>></span>
     
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
   
   
     <span>></span>
     
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/" class="category-chain-item">分支导航</a>
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E7%9B%B2%E8%B6%85%E5%88%86/" class="category-chain-item">盲超分</a>
   
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/" class="category-chain-item">视频学习</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E9%A3%9E%E6%A1%A8-%E5%A4%8D%E6%97%A6%E5%A4%A7%E5%AD%A6-%E9%82%B1%E9%94%A1%E9%B9%8F%EF%BC%88NNDL%E8%92%B2%E5%85%AC%E8%8B%B1%E4%B9%A6%EF%BC%89/" class="category-chain-item">神经网络与深度学习 - 飞桨 - 复旦大学 - 邱锡鹏（NNDL蒲公英书）</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E9%A3%9E%E6%A1%A8-%E5%A4%8D%E6%97%A6%E5%A4%A7%E5%AD%A6-%E9%82%B1%E9%94%A1%E9%B9%8F%EF%BC%88NNDL%E8%92%B2%E5%85%AC%E8%8B%B1%E4%B9%A6%EF%BC%89/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
-  
-  
-
-  
-
-  
-
   
 
   
@@ -860,6 +818,13 @@
           </div>
         
         
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%9B%B2%E8%B6%85%E5%88%86/">#盲超分</a>
+            
+          </div>
+        
       </div>
     </article>
   </div>
@@ -868,23 +833,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/posts/292348030/" target="_self">
-          <img src="https://img.xjh.me/random_img.php?type=bg&amp;ctype=nature&amp;return=302" srcset="/img/loading.gif" lazyload alt="3 - 线性分类">
+        <a href="/posts/2574956691/" target="_self">
+          <img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302261638826.png" srcset="/img/loading.gif" lazyload alt="文章阅读笔记：【2020 Pseudo-SR】Pseudo-Supervision：Unpaired Image Super-Resolution using Pseud">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/posts/292348030/" target="_self">
-          3 - 线性分类
+        <a href="/posts/2574956691/" target="_self">
+          文章阅读笔记：【2020 Pseudo-SR】Pseudo-Supervision：Unpaired Image Super-Resolution using Pseud
         </a>
       </h1>
 
       
-      <a class="index-excerpt " href="/posts/292348030/" target="_self">
+      <a class="index-excerpt " href="/posts/2574956691/" target="_self">
         <div>
-          3 - 课节3: 线性分类3.0 - 线性模型概述   3.1 - 分类问题示例        这种方式的缺点在于将文本的语序信息丢掉了  3.2 - 线性分类模型    分类问题因为y不可导，因此要寻找更优的损失函数 3.3 - 交叉熵与对数似然    交叉熵   交叉熵可以用来衡量两个分布的差异。如果两个分布越近，那么蕴含的信息越少，交叉熵越小。  KL散度    3.4 - 具体的线性分类模
+          Welcome to my blog, enter password to read.
         </div>
       </a>
 
@@ -892,8 +857,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-25 15:16" pubdate>
-              2022-12-25
+            <time datetime="2023-02-26 14:47" pubdate>
+              2023-02-26
             </time>
           </div>
         
@@ -913,34 +878,13 @@
   
     <span>></span>
     
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
   
   
     <span>></span>
     
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/" class="category-chain-item">分支导航</a>
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E7%9B%B2%E8%B6%85%E5%88%86/" class="category-chain-item">盲超分</a>
   
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/" class="category-chain-item">视频学习</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E9%A3%9E%E6%A1%A8-%E5%A4%8D%E6%97%A6%E5%A4%A7%E5%AD%A6-%E9%82%B1%E9%94%A1%E9%B9%8F%EF%BC%88NNDL%E8%92%B2%E5%85%AC%E8%8B%B1%E4%B9%A6%EF%BC%89/" class="category-chain-item">神经网络与深度学习 - 飞桨 - 复旦大学 - 邱锡鹏（NNDL蒲公英书）</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E9%A3%9E%E6%A1%A8-%E5%A4%8D%E6%97%A6%E5%A4%A7%E5%AD%A6-%E9%82%B1%E9%94%A1%E9%B9%8F%EF%BC%88NNDL%E8%92%B2%E5%85%AC%E8%8B%B1%E4%B9%A6%EF%BC%89/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
-  
-  
-
-  
-
-  
-
   
 
   
@@ -955,6 +899,15 @@
           </div>
         
         
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%9B%B2%E8%B6%85%E5%88%86/">#盲超分</a>
+            
+              <a href="/tags/%E6%97%A0%E7%9B%91%E7%9D%A3/">#无监督</a>
+            
+          </div>
+        
       </div>
     </article>
   </div>
@@ -963,23 +916,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/posts/3917031307/" target="_self">
-          <img src="https://img.xjh.me/random_img.php?type=bg&amp;ctype=nature&amp;return=302" srcset="/img/loading.gif" lazyload alt="2 - 机器学习">
+        <a href="/posts/1100471768/" target="_self">
+          <img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302252354841.jpg" srcset="/img/loading.gif" lazyload alt="文章阅读笔记：【2021 DANv2】End-to-end Alternating Optimization for Blind Super Resolution">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/posts/3917031307/" target="_self">
-          2 - 机器学习
+        <a href="/posts/1100471768/" target="_self">
+          文章阅读笔记：【2021 DANv2】End-to-end Alternating Optimization for Blind Super Resolution
         </a>
       </h1>
 
       
-      <a class="index-excerpt " href="/posts/3917031307/" target="_self">
+      <a class="index-excerpt " href="/posts/1100471768/" target="_self">
         <div>
-          2 - 课节2: 机器学习2.0 - 机器学习概述  2.1 - 关于概率的一些基本概念             2.2 - 机器学习定义      2.3 - 机器学习类型 输出是连续的，这类问题称为回归问题。    最终的结果是离散的，为分类问题  检测框内有没有人脸，二分类问题   聚类问题是无监督学习问题  强化学习：尝试各种可能性，不断试错，看哪种可能性对最终的结果帮助最大，然后做出选择
+          原文链接： （1）【√】每日五分钟一读# Blind Super Resolution - 知乎 - Andy（link） 发布于 2021-05-18 11:03 ps：本文为依据个人日常阅读习惯，在原文的基础上记录阅读进度、记录个人想法和收获所写，关于原文一切内容的著作权全部归原作者所有。  [√] 文章信息 论文标题：【2021 DANv2】End-to-end Alternating O
         </div>
       </a>
 
@@ -987,8 +940,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-25 15:16" pubdate>
-              2022-12-25
+            <time datetime="2023-02-25 22:51" pubdate>
+              2023-02-25
             </time>
           </div>
         
@@ -1008,34 +961,13 @@
   
     <span>></span>
     
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
   
   
     <span>></span>
     
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/" class="category-chain-item">分支导航</a>
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E7%9B%B2%E8%B6%85%E5%88%86/" class="category-chain-item">盲超分</a>
   
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/" class="category-chain-item">视频学习</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E9%A3%9E%E6%A1%A8-%E5%A4%8D%E6%97%A6%E5%A4%A7%E5%AD%A6-%E9%82%B1%E9%94%A1%E9%B9%8F%EF%BC%88NNDL%E8%92%B2%E5%85%AC%E8%8B%B1%E4%B9%A6%EF%BC%89/" class="category-chain-item">神经网络与深度学习 - 飞桨 - 复旦大学 - 邱锡鹏（NNDL蒲公英书）</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E9%A3%9E%E6%A1%A8-%E5%A4%8D%E6%97%A6%E5%A4%A7%E5%AD%A6-%E9%82%B1%E9%94%A1%E9%B9%8F%EF%BC%88NNDL%E8%92%B2%E5%85%AC%E8%8B%B1%E4%B9%A6%EF%BC%89/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
-  
-  
-
-  
-
-  
-
   
 
   
@@ -1050,6 +982,13 @@
           </div>
         
         
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%9B%B2%E8%B6%85%E5%88%86/">#盲超分</a>
+            
+          </div>
+        
       </div>
     </article>
   </div>
@@ -1058,23 +997,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/posts/2249908027/" target="_self">
-          <img src="https://img.xjh.me/random_img.php?type=bg&amp;ctype=nature&amp;return=302" srcset="/img/loading.gif" lazyload alt="1 - 课节1 绪论">
+        <a href="/posts/988061073/" target="_self">
+          <img src="https://img.xjh.me/random_img.php?type=bg&amp;ctype=nature&amp;return=302" srcset="/img/loading.gif" lazyload alt="文章阅读笔记：【2022 DASR】Efficient and Degradation-Adaptive Network for Real-World Image Super-Resolution">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/posts/2249908027/" target="_self">
-          1 - 课节1 绪论
+        <a href="/posts/988061073/" target="_self">
+          文章阅读笔记：【2022 DASR】Efficient and Degradation-Adaptive Network for Real-World Image Super-Resolution
         </a>
       </h1>
 
       
-      <a class="index-excerpt " href="/posts/2249908027/" target="_self">
+      <a class="index-excerpt " href="/posts/988061073/" target="_self">
         <div>
-          1 - 课节1: 绪论1.0 - 绪论         1.1 - 人工智能    1.2 - 如何开发人工智能系统   1.3 - 表示学习          特征提取含有人工的过程，不能保证学习到的特征一定能帮助于分类 表示学习是将输入和输出直接串联到一起，希望学到的这种表示(特征)是对后面的这种分类是直接有帮助的，希望这种表示能够蕴含高层的语义特征。表示学习的难点在于没有明确的目标。它所有的
+          Welcome to my blog, enter password to read.
         </div>
       </a>
 
@@ -1082,8 +1021,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-25 15:16" pubdate>
-              2022-12-25
+            <time datetime="2023-02-25 20:04" pubdate>
+              2023-02-25
             </time>
           </div>
         
@@ -1103,34 +1042,13 @@
   
     <span>></span>
     
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
   
   
     <span>></span>
     
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/" class="category-chain-item">分支导航</a>
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E7%9B%B2%E8%B6%85%E5%88%86/" class="category-chain-item">盲超分</a>
   
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/" class="category-chain-item">视频学习</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E9%A3%9E%E6%A1%A8-%E5%A4%8D%E6%97%A6%E5%A4%A7%E5%AD%A6-%E9%82%B1%E9%94%A1%E9%B9%8F%EF%BC%88NNDL%E8%92%B2%E5%85%AC%E8%8B%B1%E4%B9%A6%EF%BC%89/" class="category-chain-item">神经网络与深度学习 - 飞桨 - 复旦大学 - 邱锡鹏（NNDL蒲公英书）</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E8%A7%86%E9%A2%91%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0-%E9%A3%9E%E6%A1%A8-%E5%A4%8D%E6%97%A6%E5%A4%A7%E5%AD%A6-%E9%82%B1%E9%94%A1%E9%B9%8F%EF%BC%88NNDL%E8%92%B2%E5%85%AC%E8%8B%B1%E4%B9%A6%EF%BC%89/%E7%AC%94%E8%AE%B0/" class="category-chain-item">笔记</a>
-  
-  
-
-  
-
-  
-
   
 
   
@@ -1145,6 +1063,13 @@
           </div>
         
         
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%9B%B2%E8%B6%85%E5%88%86/">#盲超分</a>
+            
+          </div>
+        
       </div>
     </article>
   </div>
@@ -1153,23 +1078,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/posts/1557301731/" target="_self">
-          <img src="https://img.xjh.me/random_img.php?type=bg&amp;ctype=nature&amp;return=302" srcset="/img/loading.gif" lazyload alt="6 - 循环神经网络 - 视频">
+        <a href="/posts/3532120799/" target="_self">
+          <img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202302251749924.png" srcset="/img/loading.gif" lazyload alt="文章阅读笔记：【2021 FAIG】Finding Discriminative Filters for Specific Degradations in Blind Super-Resolution">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h1 class="index-header">
         
-        <a href="/posts/1557301731/" target="_self">
-          6 - 循环神经网络 - 视频
+        <a href="/posts/3532120799/" target="_self">
+          文章阅读笔记：【2021 FAIG】Finding Discriminative Filters for Specific Degradations in Blind Super-Resolution
         </a>
       </h1>
 
       
-      <a class="index-excerpt " href="/posts/1557301731/" target="_self">
+      <a class="index-excerpt " href="/posts/3532120799/" target="_self">
         <div>
-          [√] 6.1 - 循环神经网络及应用模式 [√] 循环神经网络和前馈神经网络  alec：  NLP:one-hot向量维度1w+、embedding维度128+ ↑：将单词转成在计算机中的表示形式：编码为one-hot向量或者embedding编码 循环神经网络的显著特点： 时间步上的连接 权重共享      [√] 循环神经网络(RNN)  [√] RNN常见的应用模式 [√] 序列到类别
+          Welcome to my blog, enter password to read.
         </div>
       </a>
 
@@ -1177,8 +1102,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2022-12-25 15:16" pubdate>
-              2022-12-25
+            <time datetime="2023-02-25 17:01" pubdate>
+              2023-02-25
             </time>
           </div>
         
@@ -1198,27 +1123,13 @@
   
     <span>></span>
     
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度学习</a>
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/" class="category-chain-item">超分辨率重建</a>
   
   
     <span>></span>
     
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/" class="category-chain-item">分支导航</a>
+  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E8%B6%85%E5%88%86%E8%BE%A8%E7%8E%87%E9%87%8D%E5%BB%BA/%E7%9B%B2%E8%B6%85%E5%88%86/" class="category-chain-item">盲超分</a>
   
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E5%AE%9E%E8%B7%B5%E5%AD%A6%E4%B9%A0/" class="category-chain-item">实践学习</a>
-  
-  
-    <span>></span>
-    
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E6%8A%80%E6%9C%AF%E6%A0%88/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/%E5%88%86%E6%94%AF%E5%AF%BC%E8%88%AA/%E5%AE%9E%E8%B7%B5%E5%AD%A6%E4%B9%A0/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%EF%BC%9A%E6%A1%88%E4%BE%8B%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E9%A3%9E%E6%A1%A8-%E9%82%B1%E9%94%A1%E9%B9%8F/" class="category-chain-item">神经网络与深度学习：案例与实践 - 飞桨 - 邱锡鹏</a>
-  
-  
-
-  
-
   
 
   
@@ -1232,6 +1143,17 @@
 
           </div>
         
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%9B%B2%E8%B6%85%E5%88%86/">#盲超分</a>
+            
+              <a href="/tags/%E8%AE%BA%E6%96%87/">#论文</a>
+            
+              <a href="/tags/NeurIPS/">#NeurIPS</a>
+            
+          </div>
         
       </div>
     </article>
@@ -1241,7 +1163,7 @@
 
   <nav aria-label="navigation">
     <span class="pagination" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/#board">5</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/2/"><i class="iconfont icon-arrowright"></i></a>
     </span>
   </nav>
 
