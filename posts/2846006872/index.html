@@ -21,7 +21,7 @@
     <meta name="description" content="原文链接： 组卷积（group convolution） - CSDN - 专栏：深度学习 - 草帽-路飞 卷积中的分组卷积 - CSDN - 专栏：深度学习 - 草帽-路飞 于 2020-05-23 23:15:25 发布  说明分组卷积之前我们用一张图来体会一下一般的卷积操作。  一般的卷积会对输入数据的整体一起做卷积操作，即输入数据：H1×W1×C1；而卷积核大小为h1×w1，通道 为C1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="043 - 文章阅读笔记：组卷积">
-<meta property="og:url" content="http://example.com/posts/2846006872/index.html">
+<meta property="og:url" content="https://alec-97.github.io/posts/2846006872/index.html">
 <meta property="og:site_name" content="要走起来，你才知道方向。">
 <meta property="og:description" content="原文链接： 组卷积（group convolution） - CSDN - 专栏：深度学习 - 草帽-路飞 卷积中的分组卷积 - CSDN - 专栏：深度学习 - 草帽-路飞 于 2020-05-23 23:15:25 发布  说明分组卷积之前我们用一张图来体会一下一般的卷积操作。  一般的卷积会对输入数据的整体一起做卷积操作，即输入数据：H1×W1×C1；而卷积核大小为h1×w1，通道 为C1">
 <meta property="og:locale" content="zh_CN">
@@ -81,7 +81,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"alec-97.github.io","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":80,"cursorChar":"_","loop":false,"scope":["home"]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":"->"},"progressbar":{"enable":true,"height_px":3,"color":"#00FF7F","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -384,6 +384,16 @@
 			</div>
 		</div>
     </div>
+
+	<script src="https://utteranc.es/client.js"
+		repo="alec-97 / alec-97.github.io"
+		issue-term="pathname"
+		label="Comment"
+		theme="photon-dark"
+		crossorigin="anonymous"
+		async>
+	</script>
+
   </header>
 
   <main>
@@ -509,7 +519,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>043 - 文章阅读笔记：组卷积</div>
-      <div>http://example.com/posts/2846006872/</div>
+      <div>https://alec-97.github.io/posts/2846006872/</div>
     </div>
     <div class="license-meta">
       
