@@ -18,20 +18,18 @@
   <meta name="author" content="Shuai Zhao">
   <meta name="keywords" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
   
-    <meta name="description" content="（1） 下载 张书樵大神的项目，解压到本地博客目录的 themes&#x2F;fluid&#x2F;source&#x2F;alec_diy&#x2F; 下，修改文件夹名为 live2d-widget，修改项目中的 autoload.js 文件，如下将： 1const live2d_path &#x3D; &amp;#x27;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;stevenjoezhang&#x2F;live2d-widget&#x2F;&amp;#x27;">
+    <meta name="description" content="参考：link  （1） 下载 张书樵大神的项目，解压到本地博客目录的 themes&#x2F;fluid&#x2F;source&#x2F;alec_diy&#x2F; 下，修改文件夹名为 live2d-widget （2）在主题配置文件的custom_js和custom_css中加入： 12345678custom_js:  # live2d的js文件（2）  - &#x2F;alec_diy&#x2F;live2d-widget&#x2F;autoloa">
 <meta property="og:type" content="article">
 <meta property="og:title" content="9 - fluid添加看板娘">
 <meta property="og:url" content="https://alec-97.github.io/posts/2499736958/index.html">
 <meta property="og:site_name" content="要走起来，你才知道方向。">
-<meta property="og:description" content="（1） 下载 张书樵大神的项目，解压到本地博客目录的 themes&#x2F;fluid&#x2F;source&#x2F;alec_diy&#x2F; 下，修改文件夹名为 live2d-widget，修改项目中的 autoload.js 文件，如下将： 1const live2d_path &#x3D; &amp;#x27;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;stevenjoezhang&#x2F;live2d-widget&#x2F;&amp;#x27;">
+<meta property="og:description" content="参考：link  （1） 下载 张书樵大神的项目，解压到本地博客目录的 themes&#x2F;fluid&#x2F;source&#x2F;alec_diy&#x2F; 下，修改文件夹名为 live2d-widget （2）在主题配置文件的custom_js和custom_css中加入： 12345678custom_js:  # live2d的js文件（2）  - &#x2F;alec_diy&#x2F;live2d-widget&#x2F;autoloa">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212251419659.png">
 <meta property="article:published_time" content="2023-02-05T04:19:03.000Z">
-<meta property="article:modified_time" content="2023-04-16T05:42:46.165Z">
+<meta property="article:modified_time" content="2023-04-20T15:59:24.055Z">
 <meta property="article:author" content="Shuai Zhao">
 <meta property="article:tag" content="人工智能, 深度学习, 软件开发, 个人博客, 所思所想">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212251419659.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -268,7 +266,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          621 字
+          2.4k 字
         
       </span>
     
@@ -279,7 +277,7 @@
         
         
         
-          6 分钟
+          21 分钟
         
       </span>
     
@@ -409,7 +407,7 @@
               <p class="note note-info">
                 
                   
-                    本文最后更新于：1 小时前
+                    本文最后更新于：6 天前
                   
                 
               </p>
@@ -417,23 +415,86 @@
             
               <div class="markdown-body">
                 
-                <p>（1）</p>
-<p>下载 <a target="_blank" rel="noopener" href="https://github.com/stevenjoezhang/live2d-widget">张书樵大神的项目</a>，解压到本地博客目录的 <code>themes/fluid/source/alec_diy/</code> 下，修改文件夹名为 <code>live2d-widget</code>，修改项目中的 <code>autoload.js</code> 文件，如下将：</p>
+                <blockquote>
+<p>  参考：<a target="_blank" rel="noopener" href="https://yzs020220.github.io/posts/41158/">link</a></p>
+</blockquote>
+<p>（1）</p>
+<p>下载 <a target="_blank" rel="noopener" href="https://github.com/stevenjoezhang/live2d-widget">张书樵大神的项目</a>，解压到本地博客目录的 <code>themes/fluid/source/alec_diy/</code> 下，修改文件夹名为 <code>live2d-widget</code></p>
+<p>（2）在主题配置文件的<code>custom_js</code>和<code>custom_css</code>中加入：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">custom_js:</span><br>  <span class="hljs-comment"># live2d的js文件（2）</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">/alec_diy/live2d-widget/autoload.js</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js</span><br><br><span class="hljs-attr">custom_css:</span><br>  <span class="hljs-comment"># live2d的css文件（1）</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css</span><br></code></pre></td></tr></table></figure>
+
+<p>也可以将上面两个依赖文件下载到本地然后再引入</p>
+<p>（3）</p>
+<p>修改项目中的 <code>autoload.js</code> 文件，如下将：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> live2d_path = <span class="hljs-string">&#x27;https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/&#x27;</span><br></code></pre></td></tr></table></figure>
 
 <p>改为</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> live2d_path = <span class="hljs-string">&#x27;/alec_diy/live2d-widget/&#x27;</span><br></code></pre></td></tr></table></figure>
 
-<p>（2）在主题配置文件的<code>custom_js</code>和<code>custom_css</code>中加入：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">custom_js:</span><br>  <span class="hljs-comment"># live2d的js文件（2）</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">/alec_diy/live2d-widget/autoload.js</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js</span><br><br><span class="hljs-attr">custom_css:</span><br>  <span class="hljs-comment"># live2d的css文件（1）</span><br>  <span class="hljs-bullet">-</span> <span class="hljs-string">//cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css</span><br></code></pre></td></tr></table></figure>
 
-<p>也可以将上面两个依赖文件下载到本地然后再引入</p>
-<p>（3）在主题配置文件中,新增如下内容：</p>
+
+
+
+<p>（4）</p>
+<blockquote>
+<p>  这里指定的是看板娘API的库</p>
+</blockquote>
+<p>继续修改项目中的 <code>autoload.js</code> 文件，如下将：</p>
+<p>在initWidget中，注释掉apiPath(原api地址已不可用)并修改cdnPath，原作者的cdn地址不能换装，可以用<a target="_blank" rel="noopener" href="https://akilar.top/posts/5b8f515f/">Live2d Widget | Akilarの糖果屋</a>中的cdn地址(可换装且模型比较多，我也是在此基础上改的，<a target="_blank" rel="noopener" href="https://github.com/yzs020220/live2d_api">我的live2d_api</a>)</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 三个cdnPath选一个，分别是原作者，Akilar站长，我的</span><br><span class="hljs-attr">cdnPath</span>: <span class="hljs-string">&quot;https://fastly.jsdelivr.net/gh/fghrsh/live2d_api/&quot;</span><br><span class="hljs-attr">cdnPath</span>: <span class="hljs-string">&quot;https://npm.elemecdn.com/akilar-live2dapi@latest/&quot;</span><br><span class="hljs-attr">cdnPath</span>: <span class="hljs-string">&quot;https://gcore.jsdelivr.net/npm/yzs-live2d_src@1.1.0/&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>或者使用本地的地址，将live2d_api放在博客的原网站下(反正免费的CDN加速在国内基本上不得行，基本上需要梯子，所以直接在网站内访问的速度也可以，如果有条件用gitee也可以直接用gitee，不过注意在tips下删掉一些句子)，具体操作见下文</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-attr">cdnPath</span>: <span class="hljs-string">&quot;/live2d_api/&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>这里将看板娘api改为本文的话，需要下载对应的文件，做法为：</p>
+<blockquote>
+<p>  （1）fork并克隆仓库到本地</p>
+<ul>
+<li>先把live2d_api fork到自己的仓库里，可以fork我的也可以fork <a target="_blank" rel="noopener" href="https://github.com/Akilarlxh/live2d_api">Akilarlxh&#x2F;live2d_api</a></li>
+<li>将自己的仓库git clone下来</li>
+</ul>
+<blockquote>
+<p>  以下操作都在本地的live2d_api文件夹中进行操作</p>
+</blockquote>
+<p>  （2）删除模型</p>
+<ul>
+<li>在model_list.json中删除对应的models名称，messages对应的是更换看板娘时看板娘会说的话(跟models的顺序对应)</li>
+<li>在model文件夹中删除对应名称的文件夹</li>
+</ul>
+<p>  （3）增加模型</p>
+<ul>
+<li>由于live2d_widget仅支持Cubism2.1，虽然issues上有<a target="_blank" rel="noopener" href="https://github.com/stevenjoezhang/live2d-widget/pull/82">兼容目前所有live2d格式的issues</a>，但我目前没有尝试过(比较麻烦，暂时不想加新的模型，就这样吧)</li>
+<li>如果只使用Cubism2.1，我个人推荐去看看<a target="_blank" rel="noopener" href="https://github.com/xiazeyu/live2d-widget-models">xiazeyu&#x2F;live2d-widget-models</a>和<a target="_blank" rel="noopener" href="https://github.com/xiaoski/live2d_models_collection">xiaoski&#x2F;live2d_models_collection</a>，收录的不少而且都是可用的，在网上找的话Cubism2.1的模型已经不多了</li>
+<li>在将上面两个项目中通过git clone或npm install后，把对应的模型文件夹拉到model文件夹下</li>
+<li>修改模型文件夹中的那个指定各个文件路径的json文件为<code>index.json</code>，一般这个文件叫<code>name.model.json</code>，一般来说修改到这个步骤的模型文件就已经可用了</li>
+<li>在model_list.json文件中的models中添加对应的文件夹名字并添加对应的messages即可</li>
+</ul>
+<p>  （4）修改模型的大小与位置</p>
+<ul>
+<li>由于一般拿到的模型可能大小不对，所以也给出了模型的位置及大小的方法</li>
+<li>打开需要修改的模型的文件夹中的<code>name.model.json</code>文件，添加或修改layout部分</li>
+</ul>
+  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-attr">&quot;layout&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>        <span class="hljs-attr">&quot;center_x&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">0</span><span class="hljs-punctuation">,</span> <span class="hljs-comment">// 模型中心对应的横坐标，默认为0</span><br>        <span class="hljs-attr">&quot;center_y&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">-0.2</span><span class="hljs-punctuation">,</span> <span class="hljs-comment">// 模型中心对应的纵坐标，默认为0</span><br>        <span class="hljs-attr">&quot;width&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1.5</span> <span class="hljs-comment">// 模型的大小，默认为2</span><br>    <span class="hljs-punctuation">&#125;</span><span class="hljs-punctuation">,</span><br></code></pre></td></tr></table></figure>
+
+<p>  调整到自己需要的比例还挺麻烦的，上面的参数是<a target="_blank" rel="noopener" href="https://github.com/xiaoski/live2d_models_collection">xiaoski&#x2F;live2d_models_collection</a>中我调整康娜缩放及位置的参数，应该其他的模型也基本可用(我没试过)</p>
+</blockquote>
+<p>（5）在主题配置文件中,新增如下内容：</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">live2d: enable:</span> <span class="hljs-literal">true</span><br></code></pre></td></tr></table></figure>
 
-<p>（4）想修改看板娘大小、位置、格式、文本内容等，可查看并修改 <code>waifu-tips.js</code> 、 <code>waifu-tips.json</code> 和 <code>waifu.css</code></p>
-<p>（5）效果展示：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Alec-97/alec-s-images-cloud/img/202212251419659.png" srcset="/img/loading.gif" lazyload alt="image-20221225141923800"></p>
+
+
+
+
+<p>（6）想修改看板娘大小、位置、格式、文本内容等，可查看并修改 <code>waifu-tips.js</code> 、 <code>waifu-tips.json</code> 和 <code>waifu.css</code></p>
+<p>如果被挡住的话是因为在插件的z-index默认为-1(修改为999就是最顶层，值越大所在的图层就越高)，在waifu.css文件中修改即可，调整插件大小也是在这个文件中，修改对应部分的width和height即可</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs css"><span class="hljs-selector-id">#waifu</span> &#123;<br>    <span class="hljs-attribute">z-index</span>: <span class="hljs-number">999</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<p>（7）效果展示：</p>
+<p>![image-20221225141923800](D:\坚果云\Alec - backup files\typora pictures\202212251419659.png)</p>
 
                 
               </div>
